@@ -12,8 +12,9 @@
             <field name="arch" type="xml">
                 <form string="Actuació">
                     <header>
-                        <!--
-                        <button string="Confirm" name="action_budget_confirm" states="draft" type="object" class="oe_highlight"/>-->
+                        <button string="Importar membres" name="action_membres_import"
+                                context="{'actuacio': id}"
+                                type="object" class="oe_highlight"/>
                         <field name="estat" widget="statusbar" statusbar_visible="preparat,fet"/>
                     </header>
                     <sheet>
@@ -44,12 +45,12 @@
                         <notebook>
                             <page name="muixerangues" string="Muixerangues">
                                 <group name="muixerangues" string="Muixerangues">
-                                    <field name="muixerangues_ids" nolabel="1"/>
+                                    <field name="muixeranga_ids" nolabel="1"/>
                                 </group>
                             </page>
                             <page name="membres" string="Membres">
                                 <group name="membres" string="Membres">
-                                    <field name="membres_ids" nolabel="1"/>
+                                    <field name="membre_ids" nolabel="1"/>
                                 </group>
                             </page>
                         </notebook>

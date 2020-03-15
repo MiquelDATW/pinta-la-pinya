@@ -8,7 +8,7 @@ from odoo.exceptions import ValidationError
 
 class PinyaActuacio(models.Model):
     _name = "pinya.actuacio"
-    _description = "Actuació"
+    _description = "Actuació o Assaig muixeranguer"
     _order = "id desc"
     _inherit = ['mail.thread']
 
@@ -28,15 +28,26 @@ class PinyaActuacio(models.Model):
         ('fet', 'Fet')
     ], string='Estat', required=True, default='draft')
 
-    membres_ids = fields.Many2many('pinya.membre', string="Membres")
-    muixerangues_ids = fields.One2many('pinya.muixeranga', 'actuacio_id', string="Muixerangues")
+    membre_ids = fields.Many2many('pinya.membre', string="Membres")
+    muixeranga_ids = fields.One2many('pinya.muixeranga', 'actuacio_id', string="Muixerangues")
     membres_count = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
 
     @api.multi
-    @api.depends('membres_ids')
+    @api.depends('membre_ids')
     def _compute_membres_count(self):
         for actuacio in self:
-            membres = actuacio.membres_ids
+            membres = actuacio.membre_ids
             actuacio.membres_count = len(membres)
 
-
+    def action_membres_import(self):
+        view_form_id = self.env.ref('pinta_la_pinya.pinya_import_wizard_form_view').id
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': "Importar membres per a l'actuació",
+            'target': 'new',
+            'res_model': 'pinya.import.wizard',
+            'context': {}
+        }
+        return action

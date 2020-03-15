@@ -11,6 +11,12 @@
             <field name="model">pinya.muixeranga</field>
             <field name="arch" type="xml">
                 <form string="Muixerangues">
+                    <header>
+                        <!--
+                        <button string="Confirm" name="action_budget_confirm" states="draft" type="object" class="oe_highlight"/>-->
+                        <field name="estat" widget="statusbar" statusbar_visible="desca,intent,fail"
+                               attrs="{'invisible': [('plantilla', '=', True)]}"/>
+                    </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button name="toggle_active" type="object" groups="base.group_user"
@@ -26,32 +32,21 @@
                                 <field name="name" placeholder="Nom de la figura" required="True"/>
                             </h1>
                         </div>
+                        <group>
+                            <group name="principal">
+                                <field name="pisos"/>
+                                <field name="tipus"/>
+                                <field name="plantilla"/>
+                                <field name="actuacio_id"/>
+                            </group>
+                            <group name="count" string="Membres">
+                                <field name="tronc_count"/>
+                                <field name="pinya_count"/>
+                                <field name="membres_count"/>
+                            </group>
+                            <field name="notes" placeholder="Altra informació..." colspan="4"/>
+                        </group>
                         <notebook>
-                            <page name="informacio" string="Informació">
-                                <group>
-                                    <group name="principal" string="Informació Principal">
-                                        <field name="pisos"/>
-                                        <field name="tipus"/>
-                                        <field name="plantilla"/>
-                                        <field name="actuacio_id"/>
-                                    </group>
-                                    <group name="count" string="Membres">
-                                        <field name="tronc_count"/>
-                                        <field name="pinya_count"/>
-                                        <field name="membres_count"/>
-                                    </group>
-                                    <group name="altra" string="Altra Informació">
-                                        <field name="mestra_id"/>
-                                        <field name="passadora_id"
-                                               attrs="{'invisible': [('tipus', '=', 'aixecat')]}"/>
-                                        <field name="estiradora_id"
-                                               attrs="{'invisible': [('tipus', '!=', 'aixecat')]}"/>
-                                        <field name="resp_xicalla_ids" string="Resp. xicalla"
-                                               widget="many2many_tags"/>
-                                    </group>
-                                </group>
-                                <field name="notes" placeholder="Altra informació..." colspan="4"/>
-                            </page>
                             <page name="tronc" string="Tronc">
                                 <group name="tronc" string="Tronc">
                                     <field name="tronc_ids" nolabel="1"/>
@@ -62,10 +57,24 @@
                                     <field name="pinya_ids" nolabel="1"/>
                                 </group>
                             </page>
+                            <page name="altra" string="Altra Informació"
+                                  attrs="{'invisible': [('plantilla', '=', True)]}">
+                                <group>
+                                    <group name="altra" string="Altra Informació">
+                                        <field name="mestra_id"/>
+                                        <field name="passadora_id"
+                                               attrs="{'invisible': [('tipus', '=', 'aixecat')]}"/>
+                                        <field name="estiradora_id"
+                                               attrs="{'invisible': [('tipus', '!=', 'aixecat')]}"/>
+                                        <field name="resp_xicalla_ids" string="Resp. xicalla"
+                                               widget="many2many_tags"/>
+                                    </group>
+                                </group>
+                            </page>
                             <page name="membres" string="Membres"
                                   attrs="{'invisible': [('plantilla', '=', True)]}">
                                 <group name="membres" string="Membres">
-                                    <field name="membres_ids" nolabel="1"/>
+                                    <field name="membre_ids" nolabel="1"/>
                                 </group>
                             </page>
                         </notebook>
@@ -85,6 +94,7 @@
                 <tree string="Muixerangues">
                     <field name="name"/>
                     <field name="actuacio_id"/>
+                    <field name="estat"/>
                     <field name="tipus"/>
                     <field name="pisos"/>
                     <field name="tronc_count"/>

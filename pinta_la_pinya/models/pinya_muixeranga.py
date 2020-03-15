@@ -19,15 +19,14 @@ class PinyaMuixeranga(models.Model):
 
     tipus = fields.Selection([
         ('normal', 'Normal'),
-        ('desplega', 'Desplagada'),
+        ('desplega', 'Desplegada'),
         ('aixecat', 'Aixecat')
     ], string='Tipus', required=True, default='normal')
 
-    pisos = fields.Integer('Pisos')
-    tronc_ids = fields.One2many('pinya.tronc', 'muixeranga_id', string="Tronc")
-    pinya_ids = fields.One2many('pinya.pinya', 'muixeranga_id', string="Pinya")
+    pisos = fields.Integer('Pisos', required=True)
+    tronc_ids = fields.One2many('pinya.tronc', 'muixeranga_id', string="Tronc", copy=True)
+    pinya_ids = fields.One2many('pinya.pinya', 'muixeranga_id', string="Pinya", copy=True)
 
-    membres_ids = fields.Many2many('pinya.membre', string="Membres")
     mestra_id = fields.Many2one('pinya.membre', string="Mestra")
     passadora_id = fields.Many2one('pinya.membre', string="Passadora")
     estiradora_id = fields.Many2one('pinya.membre', string="Estiradora")
@@ -37,10 +36,16 @@ class PinyaMuixeranga(models.Model):
     tronc_count = fields.Integer(compute='_compute_membres_count', string='Persones tronc', store=True)
 
     actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio")
+    membre_ids = fields.Many2many('pinya.membre', string="Membres", related="actuacio_id.membre_ids")
 
-    image = fields.Binary(
-        "Photo", attachment=True,
-        help="This field holds the image used as photo for the employee, limited to 1024x1024px.")
+    estat = fields.Selection([
+        ('draft', 'Esborrany'),
+        ('desca', 'Descarregat'),
+        ('intent', 'Intent'),
+        ('fail', 'Caigut')
+    ], string='Estat', required=True, default='draft')
+
+    image = fields.Binary("Image", attachment=True, help="Limitat a 1024x1024px.")
 
     @api.multi
     @api.depends('tronc_ids', 'tronc_ids.persones', 'pinya_ids', 'pinya_ids.persones', 'pinya_ids.rengles')

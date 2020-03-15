@@ -8,15 +8,22 @@ from odoo.exceptions import ValidationError
 
 class PinyaPinya(models.Model):
     _name = "pinya.pinya"
-    _description = "Pinya"
+    _description = "Pinya d'una muixeranga"
     _order = "cordo asc"
 
     plantilla = fields.Boolean('Plantilla', related="muixeranga_id.plantilla")
 
     cordo = fields.Integer(string="Cordó", index=True, required=True)
-    rengles = fields.Integer(string="Regles", required=True)
+    rengles = fields.Integer(string="Rengles", required=True)
 
-    persones = fields.Integer('Persones per rengle')
+    persones = fields.Integer(compute='_compute_membres_count', string='Persones per rengle', store=True)
     muixeranga_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
-    membres_ids = fields.Many2many('pinya.membre', string="Membres")
+    posicio_ids = fields.One2many('pinya.pinya.posicio', 'pinya_id', string="Posicions de pinya", copy=True)
+    membre_ids = fields.Many2many('pinya.membre', string="Membres")
 
+    @api.multi
+    @api.depends('posicio_ids')
+    def _compute_membres_count(self):
+        for pinya in self:
+            posicio = pinya.posicio_ids
+            pinya.persones = len(posicio)

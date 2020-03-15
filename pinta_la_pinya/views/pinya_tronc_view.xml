@@ -5,7 +5,6 @@
 -->
 <odoo>
     <data>
-
         <record id="view_tronc_form" model="ir.ui.view">
             <field name="name">pinya.tronc.form</field>
             <field name="model">pinya.tronc</field>
@@ -16,14 +15,19 @@
                         </div>
                         <div class="oe_title">
                         </div>
-                        <group>
+                        <group name="tronc">
+                            <field name="muixeranga_id" invisible="1"/>
+                            <field name="plantilla" invisible="1"/>
                             <field name="pis"/>
                             <field name="tipus"/>
                             <field name="persones"/>
-                            <field name="muixeranga_id"/>
-                            <field name="plantilla" invisible="0"/>
-                            <field name="membres_ids"
+                            <field name="present_ids" readonly="1"
                                    attrs="{'invisible': [('plantilla', '=', True)]}"/>
+                            <field name="membre_ids" readonly="1"
+                                   attrs="{'invisible': [('plantilla', '=', True)]}"/>
+                        </group>
+                        <group name="posicio" string="Posicions">
+                            <field name="posicio_ids" nolabel="1"/>
                         </group>
                     </sheet>
                 </form>
@@ -38,11 +42,10 @@
                     <field name="pis"/>
                     <field name="tipus"/>
                     <field name="persones"/>
-                    <field name="muixeranga_id"/>
-                    <field name="membres_ids"/>
+                    <field name="posicio_ids" widget="many2many_tags"/>
+                    <field name="membre_ids"/>
                 </tree>
             </field>
         </record>
-
     </data>
 </odoo>

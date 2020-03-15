@@ -19,30 +19,55 @@
                                     options='{"terminology": "archive"}'/>
                             </button>
                         </div>
-                        <!--<field name="image" widget='image' class="oe_avatar" options='{"preview_image":"image_medium"}'/>-->
+                        <field name="image" widget='image' class="oe_avatar"/>
                         <div class="oe_title">
                             <label for="name" class="oe_edit_only"/>
                             <h1>
-                                <field name="name" placeholder="Employee's Name" required="True"/>
+                                <field name="name" placeholder="Nom del muixeranguer/a" required="True"/>
                             </h1>
                         </div>
-                        <!--<field name="category_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="e.g. Part Time" groups="hr.group_hr_user"/>-->
+                        <group>
+                            <group name="dades">
+                                <field name="employee_id"/>
+                                <field name="date"/>
+                            </group>
+                        </group>
+                        <field name="notes" placeholder="Altra informació..." colspan="4"/>
                         <notebook>
-                            <page name="public" string="Work Information">
-                                <group>
-                                    <group string="Contact Information">
-                                        <field name="employee_id"/>
-                                    </group>
-                                    <group string="Position">
-                                        <field name="date"/>
-                                    </group>
+                            <page name="posicio" string="Posicions">
+                                <group name="posicio" string="Posicions">
+                                    <field name="posicio_ids" nolabel="1"/>
                                 </group>
-                                <field name="notes" placeholder="Other Information ..." colspan="4"/>
                             </page>
-                            <page name="hr_settings" string="HR Settings" groups="hr.group_hr_user">
-                                <group>
-                                    <group string='Status' name="active_group">
-                                    </group>
+                            <page name="valoracio" string="Valoracions">
+                                <group name="valoracio" string="Valoracions">
+                                    <!--<field name="valoracio_ids" nolabel="1"/>-->
+                                </group>
+                            </page>
+                            <page name="tronc" string="Troncs">
+                                <group name="tronc" string="Troncs">
+                                    <field name="tronc_ids" nolabel="1">
+                                        <tree string="Posició">
+                                            <field name="data"/>
+                                            <field name="pis"/>
+                                            <field name="posicio_id"/>
+                                            <field name="muixeranga_id"/>
+                                            <field name="actuacio_id"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="pinya" string="Pinyes">
+                                <group name="pinya" string="Pinyes">
+                                    <field name="pinya_ids" nolabel="1">
+                                        <tree string="Posició">
+                                            <field name="data"/>
+                                            <field name="cordo"/>
+                                            <field name="posicio_id"/>
+                                            <field name="muixeranga_id"/>
+                                            <field name="actuacio_id"/>
+                                        </tree>
+                                    </field>
                                 </group>
                             </page>
                         </notebook>

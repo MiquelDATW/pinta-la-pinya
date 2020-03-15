@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+        <record id="view_pinya_posicio_form" model="ir.ui.view">
+            <field name="name">pinya.pinya.posicio.form</field>
+            <field name="model">pinya.pinya.posicio</field>
+            <field name="arch" type="xml">
+                <form string="Posició">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group name="posicio">
+                            <field name="pinya_id" invisible="1"/>
+                            <field name="plantilla" invisible="1"/>
+                            <field name="cordo"/>
+                            <field name="rengle"/>
+                            <field name="posicio_id"/>
+                            <field name="membre_id"
+                                   domain="[('posicio_ids', '=', posicio_id)]"
+                                   attrs="{'invisible': [('plantilla', '=', True)]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_pinya_posicio_tree" model="ir.ui.view">
+            <field name="name">pinya.pinya.posicio.tree</field>
+            <field name="model">pinya.pinya.posicio</field>
+            <field name="arch" type="xml">
+                <tree string="Posició">
+                    <field name="cordo"/>
+                    <field name="rengle"/>
+                    <field name="posicio_id"/>
+                    <field name="membre_id"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

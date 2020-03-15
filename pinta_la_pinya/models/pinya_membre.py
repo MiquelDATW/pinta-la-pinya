@@ -8,7 +8,7 @@ from odoo.exceptions import ValidationError
 
 class PinyaMembre(models.Model):
     _name = "pinya.membre"
-    _description = "Membre"
+    _description = "Membre d'una muixeranga"
     _order = "id desc"
     _inherit = ['mail.thread']
 
@@ -16,4 +16,11 @@ class PinyaMembre(models.Model):
     date = fields.Date(string="Data")
     notes = fields.Text(string="Altra informació")
     active = fields.Boolean(string="Actiu", default=True)
-    employee_id = fields.Many2one(string="Empleat", comodel_name="hr.employee")
+    employee_id = fields.Many2one(string="Persona", comodel_name="hr.employee")
+
+    posicio_ids = fields.Many2many('pinya.posicio', string="Posició")
+    pinya_ids = fields.Many2many("pinya.pinya.posicio", string="Pinya")
+    tronc_ids = fields.Many2many("pinya.tronc.posicio", string="Tronc")
+
+    image = fields.Binary("Image", attachment=True, related="employee_id.image",
+                          help="Limitat a 1024x1024px.")
