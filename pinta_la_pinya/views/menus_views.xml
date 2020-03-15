@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+        <!-- Top menu item -->
+        <menuitem
+            id="menu_pinya_root"
+            name="Pinta la Pinya"
+            groups="base.group_user"
+            web_icon="pinta_la_pinya,static/description/icon.png"
+            sequence="70"/>
+
+        <record id="action_pinta_la_pinya_actuacions" model="ir.actions.act_window">
+            <field name="name">Actuacions</field>
+            <field name="res_model">pinya.actuacio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('tipus', '=', 'actuacio')]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Feu clic per afegir una nova actuació.
+              </p><p>
+                Amb una vista ràpida a la pantalla d'actuacions podrà trobar fàcilment
+                tota la informació que necessite sobre cada actuació: data, lloc,
+                categoria, número de figures, etc...
+              </p>
+            </field>
+        </record>
+
+        <record id="action_pinta_la_pinya_assajos" model="ir.actions.act_window">
+            <field name="name">Assajos</field>
+            <field name="res_model">pinya.actuacio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('tipus', '=', 'assaig')]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Feu clic per afegir un nou assaig.
+              </p><p>
+                Amb una vista ràpida a la pantalla d'assajos podrà trobar fàcilment
+                tota la informació que necessite sobre cada assaig: data, lloc,
+                categoria, número de figures, etc...
+              </p>
+            </field>
+        </record>
+
+        <record id="action_pinta_la_pinya_muixeranga" model="ir.actions.act_window">
+            <field name="name">Muixerangues</field>
+            <field name="res_model">pinya.muixeranga</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('plantilla', '=', False)]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="view_muixeranga_tree"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Feu clic per afegir una nova muixeranga.
+              </p><p>
+                Amb una vista ràpida a la pantalla de muixerangues podrà trobar fàcilment
+                tota la informació que necessite sobre cada muixeranga.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_pinta_la_pinya_repertori" model="ir.actions.act_window">
+            <field name="name">Repertori</field>
+            <field name="res_model">pinya.muixeranga</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('plantilla', '=', True)]</field>
+            <field name="context">{'plantilla': True}</field>
+            <!--<field name="view_id" eval="ref('pinta_la_pinya.view_repertori_tree')"/>-->
+            <field name="view_id" eval="view_repertori_tree"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Feu clic per afegir una nova figura al repertori.
+              </p><p>
+                Amb una vista ràpida a la pantalla del repertori podrà trobar fàcilment
+                tota la informació que necessite sobre cada figura del repertori.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_pinta_la_pinya_membres" model="ir.actions.act_window">
+            <field name="name">Membres</field>
+            <field name="res_model">pinya.membre</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Feu clic per afegir un nou muixeranguer.
+              </p><p>
+                Amb una vista ràpida a la pantalla de muixeranguers podrà trobar fàcilment
+                tota la informació que necessite sobre cada membre.
+              </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="menu_pinta_la_pinya"
+            name="Pinta la Pinya"
+            parent="menu_pinya_root"
+            sequence="1"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_actuacions"
+            action="action_pinta_la_pinya_actuacions"
+            parent="menu_pinta_la_pinya"
+            sequence="10"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_assajos"
+            action="action_pinta_la_pinya_assajos"
+            parent="menu_pinta_la_pinya"
+            sequence="20"/>
+
+        <menuitem
+            id="menu_pinta_la_muixeranga"
+            name="Muixeranga"
+            parent="menu_pinya_root"
+            sequence="2"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_muixeranga"
+            action="action_pinta_la_pinya_muixeranga"
+            parent="menu_pinta_la_muixeranga"
+            sequence="10"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_repertori"
+            action="action_pinta_la_pinya_repertori"
+            parent="menu_pinta_la_muixeranga"
+            sequence="20"/>
+
+        <menuitem
+            id="menu_pinta_la_membre"
+            name="Membres"
+            parent="menu_pinya_root"
+            sequence="3"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_membres"
+            action="action_pinta_la_pinya_membres"
+            parent="menu_pinta_la_membre"
+            sequence="10"/>
+    </data>
+</odoo>
