@@ -16,15 +16,11 @@
                         <div class="oe_title">
                         </div>
                         <group name="tronc">
-                            <field name="muixeranga_id" invisible="1"/>
-                            <field name="plantilla" invisible="1"/>
+                            <field name="muixeranga_id" invisible="0"/>
+                            <field name="plantilla" invisible="0"/>
                             <field name="pis"/>
                             <field name="tipus"/>
                             <field name="persones"/>
-                            <field name="present_ids" readonly="1"
-                                   attrs="{'invisible': [('plantilla', '=', True)]}"/>
-                            <field name="membre_ids" readonly="1"
-                                   attrs="{'invisible': [('plantilla', '=', True)]}"/>
                         </group>
                         <group name="posicio" string="Posicions">
                             <field name="posicio_ids" nolabel="1"/>
@@ -43,7 +39,48 @@
                     <field name="tipus"/>
                     <field name="persones"/>
                     <field name="posicio_ids" widget="many2many_tags"/>
-                    <field name="membre_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_tronc_line_form" model="ir.ui.view">
+            <field name="name">pinya.tronc.line.form</field>
+            <field name="model">pinya.tronc.line</field>
+            <field name="arch" type="xml">
+                <form string="Posició">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group name="posicio">
+                            <field name="tronc_id" invisible="0"/>
+                            <field name="plantilla" invisible="0"/>
+                            <field name="pis"/>
+                            <field name="posicio_id"/>
+                            <field name="muixeranga_id"/>
+                            <field name="actuacio_id"/>
+                            <field name="data"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_tronc_line_tree" model="ir.ui.view">
+            <field name="name">pinya.tronc.line.tree</field>
+            <field name="model">pinya.tronc.line</field>
+            <field name="arch" type="xml">
+                <tree string="Posició">
+                    <field name="pis"/>
+                    <field name="posicio_id"/>
+                    <field name="tronc_id"/>
+                    <field name="muixeranga_id"/>
+                    <field name="actuacio_id"/>
+                    <field name="data"/>
                 </tree>
             </field>
         </record>

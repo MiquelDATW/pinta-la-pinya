@@ -27,6 +27,9 @@ class PinyaMuixeranga(models.Model):
     tronc_ids = fields.One2many('pinya.tronc', 'muixeranga_id', string="Tronc", copy=True)
     pinya_ids = fields.One2many('pinya.pinya', 'muixeranga_id', string="Pinya", copy=True)
 
+    tronc_line_ids = fields.One2many('pinya.muixeranga.line', 'muixeranga_id', string="Tronc", copy=True)
+    pinya_line_ids = fields.One2many('pinya.muixeranga.line', 'muixeranga_id', string="Pinya", copy=True)
+
     mestra_id = fields.Many2one('pinya.membre', string="Mestra")
     passadora_id = fields.Many2one('pinya.membre', string="Passadora")
     estiradora_id = fields.Many2one('pinya.membre', string="Estiradora")
@@ -58,3 +61,27 @@ class PinyaMuixeranga(models.Model):
             muix.tronc_count = t
             muix.pinya_count = p
             muix.membres_count = t + p
+
+
+class PinyaMuixerangaLine(models.Model):
+    _name = "pinya.muixeranga.line"
+    _description = "Línea de muixeranga"
+    _order = "name asc"
+
+    name = fields.Char(string="Nom", index=True, required=True, translate=True)
+    active = fields.Boolean(string="Actiu", default=True)
+
+    posicio_id = fields.Many2one(string="Posició", comodel_name="pinya.posicio")
+    membre_id = fields.Many2one(string="Membre", comodel_name="pinya.membre")
+    muixeranga_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
+
+    tipus = fields.Selection([
+        ('pinya', 'Pinya'),
+        ('tronc', 'Tronc')
+    ], string='Tipus', required=True)
+
+    pis = fields.Integer(string="Pis")
+    cordo = fields.Integer(string="Cordó")
+    rengle = fields.Integer(string="Rengle")
+
+

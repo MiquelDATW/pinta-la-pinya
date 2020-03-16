@@ -19,8 +19,8 @@ class PinyaMembre(models.Model):
     employee_id = fields.Many2one(string="Persona", comodel_name="hr.employee")
 
     posicio_ids = fields.Many2many('pinya.posicio', string="Posició")
-    pinya_ids = fields.Many2many("pinya.pinya.posicio", string="Pinya")
-    tronc_ids = fields.Many2many("pinya.tronc.posicio", string="Tronc")
+    pinya_ids = fields.Many2many("pinya.pinya.line", string="Pinya")
+    tronc_ids = fields.Many2many("pinya.tronc.line", string="Tronc")
 
     image = fields.Binary("Image", attachment=True, related="employee_id.image",
                           help="Limitat a 1024x1024px.")
