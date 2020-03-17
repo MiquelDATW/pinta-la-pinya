@@ -25,6 +25,7 @@
         "views/pinya_posicio_view.xml",
         "views/pinya_tronc_view.xml",
         "wizard/pinya_import_wizard_view.xml",
+        "wizard/pinya_muixeranga_wizard_view.xml",
         "views/menus_views.xml",
     ],
 }

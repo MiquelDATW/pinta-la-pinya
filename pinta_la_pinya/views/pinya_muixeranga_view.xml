@@ -145,10 +145,13 @@
                             <field name="name" readonly="0"/>
                             <field name="posicio_id"/>
                             <field name="membre_id"/>
-                            <field name="muixeranga_id"/>
+                            <field name="muixeranga_tronc_id"/>
+                            <field name="muixeranga_pinya_id"/>
                             <field name="tipus"/>
+                            <!--
                             <field name="pis"/>
-                            <field name="cordo"/>
+                            <field name="cordo"/>-->
+                            <field name="name"/>
                             <field name="rengle"/>
                         </group>
                     </sheet>
@@ -163,10 +166,13 @@
                 <tree string="Línea de muixeranga">
                     <field name="posicio_id"/>
                     <field name="membre_id"/>
-                    <field name="muixeranga_id"/>
+                    <field name="muixeranga_tronc_id"/>
+                    <field name="muixeranga_pinya_id"/>
                     <field name="tipus"/>
+                    <!--
                     <field name="pis"/>
-                    <field name="cordo"/>
+                    <field name="cordo"/>-->
+                    <field name="name"/>
                     <field name="rengle"/>
                 </tree>
             </field>

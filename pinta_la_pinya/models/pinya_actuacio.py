@@ -51,3 +51,17 @@ class PinyaActuacio(models.Model):
             'context': {}
         }
         return action
+
+    def pinya_muixeranga_wizard(self):
+        view_form_id = self.env.ref('pinta_la_pinya.pinya_muixeranga_wizard_form_view').id
+        tipus = self.tipus.replace("actuacio", "actuació")
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': "Afegir figures a l'{}".format(tipus),
+            'target': 'new',
+            'res_model': 'pinya.muixeranga.wizard',
+            'context': {}
+        }
+        return action

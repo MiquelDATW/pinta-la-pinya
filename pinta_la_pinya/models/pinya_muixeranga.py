@@ -27,8 +27,8 @@ class PinyaMuixeranga(models.Model):
     tronc_ids = fields.One2many('pinya.tronc', 'muixeranga_id', string="Tronc", copy=True)
     pinya_ids = fields.One2many('pinya.pinya', 'muixeranga_id', string="Pinya", copy=True)
 
-    tronc_line_ids = fields.One2many('pinya.muixeranga.line', 'muixeranga_id', string="Tronc", copy=True)
-    pinya_line_ids = fields.One2many('pinya.muixeranga.line', 'muixeranga_id', string="Pinya", copy=True)
+    tronc_line_ids = fields.One2many('pinya.muixeranga.line', 'muixeranga_tronc_id', string="Tronc", copy=True)
+    pinya_line_ids = fields.One2many('pinya.muixeranga.line', 'muixeranga_pinya_id', string="Pinya", copy=True)
 
     mestra_id = fields.Many2one('pinya.membre', string="Mestra")
     passadora_id = fields.Many2one('pinya.membre', string="Passadora")
@@ -62,26 +62,63 @@ class PinyaMuixeranga(models.Model):
             muix.pinya_count = p
             muix.membres_count = t + p
 
+    def crear_muixeranga(self, actuacio):
+        obj = self.env['pinya.muixeranga.line']
+        vals = {}
+        vals['actuacio_id'] = actuacio
+        vals['tronc_ids'] = [(6, 0, False)]
+        vals['pinya_ids'] = [(6, 0, False)]
+        tronc = self.tronc_ids
+        for aux in tronc.mapped('posicio_ids'):
+            line_vals = {}
+            line_vals['name'] = aux.pis
+            line_vals['pis'] = aux.pis
+            line_vals['tipus'] = 'tronc'
+            line_vals['muixeranga_tronc_id'] = aux.muixeranga_id.id
+            line_vals['posicio_id'] = aux.posicio_id.id
+            obj.create(line_vals)
+
+        pinya = self.pinya_ids
+        rengles = list(set(pinya.mapped('rengles')))
+        if not bool(rengles) or len(rengles) != 1:
+            error_msg = "Error❗"
+            raise ValidationError(error_msg)
+        rengles = rengles[0]
+        for i in range(rengles):
+            for aux in pinya.mapped('posicio_ids'):
+                line_vals = {}
+                line_vals['name'] = aux.cordo
+                line_vals['cordo'] = aux.cordo
+                line_vals['rengle'] = i+1
+                line_vals['tipus'] = 'pinya'
+                line_vals['muixeranga_pinya_id'] = aux.muixeranga_id.id
+                line_vals['posicio_id'] = aux.posicio_id.id
+                obj.create(line_vals)
+
+        res = self.write(vals)
+        return res
+
 
 class PinyaMuixerangaLine(models.Model):
     _name = "pinya.muixeranga.line"
     _description = "Línea de muixeranga"
-    _order = "name asc"
+    _order = "name asc, rengle asc"
 
-    name = fields.Char(string="Nom", index=True, required=True, translate=True)
+    name = fields.Char(string="Pis/Cordó", index=True, required=True, translate=True)
+    # pis = fields.Integer(string="Pis")
+    # cordo = fields.Integer(string="Cordó")
+    rengle = fields.Integer(string="Rengle")
     active = fields.Boolean(string="Actiu", default=True)
 
     posicio_id = fields.Many2one(string="Posició", comodel_name="pinya.posicio")
     membre_id = fields.Many2one(string="Membre", comodel_name="pinya.membre")
-    muixeranga_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
+    muixeranga_tronc_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
+    muixeranga_pinya_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
 
     tipus = fields.Selection([
         ('pinya', 'Pinya'),
         ('tronc', 'Tronc')
     ], string='Tipus', required=True)
 
-    pis = fields.Integer(string="Pis")
-    cordo = fields.Integer(string="Cordó")
-    rengle = fields.Integer(string="Rengle")
 
 
