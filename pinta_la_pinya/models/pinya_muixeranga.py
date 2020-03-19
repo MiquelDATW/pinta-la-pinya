@@ -30,16 +30,16 @@ class PinyaMuixeranga(models.Model):
     tronc_line_ids = fields.One2many('pinya.muixeranga.line', 'muixeranga_tronc_id', string="Tronc", copy=True)
     pinya_line_ids = fields.One2many('pinya.muixeranga.line', 'muixeranga_pinya_id', string="Pinya", copy=True)
 
-    mestra_id = fields.Many2one('pinya.membre', string="Mestra")
-    passadora_id = fields.Many2one('pinya.membre', string="Passadora")
-    estiradora_id = fields.Many2one('pinya.membre', string="Estiradora")
-    resp_xicalla_ids = fields.Many2many('pinya.membre', string="Responsable de xicalla")
+    mestra_id = fields.Many2one('hr.employee', string="Mestra")
+    passadora_id = fields.Many2one('hr.employee', string="Passadora")
+    estiradora_id = fields.Many2one('hr.employee', string="Estiradora")
+    resp_xicalla_ids = fields.Many2many('hr.employee', string="Responsable de xicalla")
     membres_count = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
     pinya_count = fields.Integer(compute='_compute_membres_count', string='Persones pinya', store=True)
     tronc_count = fields.Integer(compute='_compute_membres_count', string='Persones tronc', store=True)
 
     actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio")
-    membre_ids = fields.Many2many('pinya.membre', string="Membres", related="actuacio_id.membre_ids")
+    membre_ids = fields.Many2many('hr.employee', string="Membres", related="actuacio_id.membre_ids")
 
     estat = fields.Selection([
         ('draft', 'Esborrany'),
@@ -71,7 +71,7 @@ class PinyaMuixeranga(models.Model):
         tronc = self.tronc_ids
         for aux in tronc.mapped('posicio_ids'):
             line_vals = {}
-            line_vals['name'] = aux.pis
+            line_vals['name'] = str(aux.pis)
             line_vals['pis'] = aux.pis
             line_vals['tipus'] = 'tronc'
             line_vals['muixeranga_tronc_id'] = aux.muixeranga_id.id
@@ -87,7 +87,7 @@ class PinyaMuixeranga(models.Model):
         for i in range(rengles):
             for aux in pinya.mapped('posicio_ids'):
                 line_vals = {}
-                line_vals['name'] = aux.cordo
+                line_vals['name'] = str(aux.cordo)
                 line_vals['cordo'] = aux.cordo
                 line_vals['rengle'] = i+1
                 line_vals['tipus'] = 'pinya'
@@ -105,13 +105,13 @@ class PinyaMuixerangaLine(models.Model):
     _order = "name asc, rengle asc"
 
     name = fields.Char(string="Pis/Cordó", index=True, required=True, translate=True)
-    # pis = fields.Integer(string="Pis")
-    # cordo = fields.Integer(string="Cordó")
+    pis = fields.Integer(string="Pis")
+    cordo = fields.Integer(string="Cordó")
     rengle = fields.Integer(string="Rengle")
     active = fields.Boolean(string="Actiu", default=True)
 
     posicio_id = fields.Many2one(string="Posició", comodel_name="pinya.posicio")
-    membre_id = fields.Many2one(string="Membre", comodel_name="pinya.membre")
+    membre_id = fields.Many2one(string="Membre", comodel_name="hr.employee")
     muixeranga_tronc_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
     muixeranga_pinya_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
 

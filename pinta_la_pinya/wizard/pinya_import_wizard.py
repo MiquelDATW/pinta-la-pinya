@@ -47,8 +47,8 @@ class PinyaImportWizard(models.TransientModel):
         csv_file = io.TextIOWrapper(io.BytesIO(decoded_data), encoding='utf-8')
         csv_raw = csv.DictReader(csv_file, delimiter=',')
 
-        membre_obj = self.env['pinya.membre']
-        validos = self.env['pinya.membre']
+        membre_obj = self.env['hr.employee']
+        validos = self.env['hr.employee']
         for row in csv_raw:
             adult1 = row.get('Adult 1') or membre_obj
 

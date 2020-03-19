@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+        <record id="view_employee_membre_form" model="ir.ui.view">
+            <field name="name">hr.employee.membre.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="category_ids" position="after">
+                    <group>
+                        <field name="muixeranguera"/>
+                        <field name="data_inscripcio"/>
+                        <field name="altres_noms"/>
+                        <field name="notes" string="Altra informació" placeholder="Altra informació..."/>
+                    </group>
+                </field>
+                <page name="public" position="before">
+                    <page name="tronc" string="Troncs">
+                       <group name="tronc">
+                            <field name="tronc_ids" nolabel="1">
+                                <tree string="Posició">
+                                    <field name="data"/>
+                                    <field name="pis"/>
+                                    <field name="posicio_id"/>
+                                    <field name="muixeranga_id"/>
+                                    <field name="actuacio_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                    <page name="pinya" string="Pinyes">
+                        <group name="pinya">
+                            <field name="pinya_ids" nolabel="1">
+                                <tree string="Posició">
+                                    <field name="data"/>
+                                    <field name="cordo"/>
+                                    <field name="posicio_id"/>
+                                    <field name="muixeranga_id"/>
+                                    <field name="actuacio_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                    <page name="habilitats" string="Habilitats">
+                        <group name="habilitats">
+                            <field name="employee_skill_ids" nolabel="1">
+                                <tree>
+                                    <field name="skill_id"/>
+                                    <field name="level" widget="priority"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record id="view_employee_skill_form" model="ir.ui.view">
+            <field name="name">hr.employee.skill.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_skill.view_employee_skill_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[last()]" position="replace"/>
+            </field>
+        </record>
+
+        <record id="view_employee_membre_tree" model="ir.ui.view">
+            <field name="name">hr.employee.membre.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                    <tree string="Employees" decoration-bf="message_needaction==True">
+                        <field name="name"/>
+                        <field name="data_inscripcio"/>
+                        <field name="employee_skill_ids" widget="many2many_tags"/>
+                        <field name="pinya_ids" widget="many2many_tags"/>
+                        <field name="tronc_ids" widget="many2many_tags"/>
+                        <field name="message_needaction" invisible="1"/>
+                    </tree>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -35,17 +35,16 @@
                                 <field name="name" placeholder="Employee's Name" required="True"/>
                             </h1>
                         </div>
-                        <group>
-                            <group name="actuacio">
-                                <field name="zip_id"
-                                    context="{'show_address': 1}"
-                                    options='{"always_reload": True, "highlight_first_line": True}'/>
-                                <field name="data"/>
-                                <field name="tipus"/>
-                                <field name="membres_count"/>
-                            </group>
+                        <group name="actuacio">
+                            <field name="zip_id"
+                                context="{'show_address': 1}"
+                                options='{"always_reload": True, "highlight_first_line": True}'/>
+                            <field name="data"/>
+                            <field name="tipus"/>
+                            <field name="membres_count"/>
+                            <field name="muixerangues_count"/>
+                            <field name="notes" placeholder="Altra informació..."/>
                         </group>
-                        <field name="notes" placeholder="Altra informació..." colspan="4"/>
                         <notebook>
                             <page name="muixerangues" string="Muixerangues">
                                 <group name="muixerangues" string="Muixerangues">
@@ -77,6 +76,7 @@
                     <field name="zip_id"/>
                     <field name="tipus"/>
                     <field name="membres_count"/>
+                    <field name="muixerangues_count"/>
                 </tree>
             </field>
         </record>

@@ -77,7 +77,6 @@
             <field name="view_mode">tree,form</field>
             <field name="domain">[('plantilla', '=', True)]</field>
             <field name="context">{'plantilla': True}</field>
-            <!--<field name="view_id" eval="ref('pinta_la_pinya.view_repertori_tree')"/>-->
             <field name="view_id" eval="view_repertori_tree"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -91,10 +90,10 @@
 
         <record id="action_pinta_la_pinya_membres" model="ir.actions.act_window">
             <field name="name">Membres</field>
-            <field name="res_model">pinya.membre</field>
+            <field name="res_model">hr.employee</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[]</field>
+            <field name="domain">[('muixeranguera', '=', True)]</field>
             <field name="context">{}</field>
             <field name="view_id" eval="False"/>
             <field name="help" type="html">
@@ -123,6 +122,13 @@
                 tota la informació que necessite sobre cada posició.
               </p>
             </field>
+        </record>
+
+        <record id="action_pinta_la_pinya_skill" model="ir.actions.act_window">
+            <field name="name">Skills</field>
+            <field name="res_model">hr.skill</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
         </record>
 
         <menuitem
@@ -185,5 +191,12 @@
             action="action_pinta_la_pinya_posicio"
             parent="menu_pinta_la_configuracio"
             sequence="10"/>
+
+        <menuitem
+                name="Skills"
+                id="menu_pinta_la_pinya_skill"
+                action="action_pinta_la_pinya_skill"
+                parent="menu_pinta_la_configuracio"
+                sequence="20"/>
     </data>
 </odoo>

@@ -28,9 +28,10 @@ class PinyaActuacio(models.Model):
         ('fet', 'Fet')
     ], string='Estat', required=True, default='draft')
 
-    membre_ids = fields.Many2many('pinya.membre', string="Membres")
+    membre_ids = fields.Many2many('hr.employee', string="Membres")
     muixeranga_ids = fields.One2many('pinya.muixeranga', 'actuacio_id', string="Muixerangues")
     membres_count = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
+    muixerangues_count = fields.Integer(compute='_compute_muixerangues_count', string='Total figures', store=True)
 
     @api.multi
     @api.depends('membre_ids')
@@ -38,6 +39,13 @@ class PinyaActuacio(models.Model):
         for actuacio in self:
             membres = actuacio.membre_ids
             actuacio.membres_count = len(membres)
+
+    @api.multi
+    @api.depends('muixeranga_ids')
+    def _compute_muixerangues_count(self):
+        for actuacio in self:
+            muixeranga = actuacio.muixeranga_ids
+            actuacio.muixerangues_count = len(muixeranga)
 
     def action_membres_import(self):
         view_form_id = self.env.ref('pinta_la_pinya.pinya_import_wizard_form_view').id

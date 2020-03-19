@@ -14,12 +14,13 @@
     'application': True,
     "depends": [
         "hr",
+        "hr_skill",
         "base_location",
     ],
     "data": [
         # 'security/ir.model.access.csv',
+        "views/hr_employee_view.xml",
         "views/pinya_actuacio_view.xml",
-        "views/pinya_membre_view.xml",
         "views/pinya_muixeranga_view.xml",
         "views/pinya_pinya_view.xml",
         "views/pinya_posicio_view.xml",

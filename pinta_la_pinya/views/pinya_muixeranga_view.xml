@@ -73,12 +73,31 @@
                             </page>
                             <page name="tronc" string="Tronc">
                                 <group name="tronc" string="Tronc">
-                                    <field name="tronc_line_ids" nolabel="1"/>
+                                    <field name="tronc_line_ids" nolabel="1">
+                                        <tree editable="bottom" string="Línea de muixeranga">
+                                            <field name="name" invisible="1"/>
+                                            <field name="pis"/>
+                                            <field name="posicio_id"/>
+                                            <field name="membre_id"/>
+                                            <field name="muixeranga_tronc_id"/>
+                                            <field name="tipus"/>
+                                        </tree>
+                                    </field>
                                 </group>
                             </page>
                             <page name="pinya" string="Pinya">
                                 <group name="pinya" string="Pinya">
-                                    <field name="pinya_line_ids" nolabel="1"/>
+                                    <field name="pinya_line_ids" nolabel="1">
+                                        <tree editable="bottom" string="Línea de muixeranga">
+                                            <field name="name" invisible="1"/>
+                                            <field name="cordo"/>
+                                            <field name="rengle"/>
+                                            <field name="posicio_id"/>
+                                            <field name="membre_id"/>
+                                            <field name="muixeranga_pinya_id"/>
+                                            <field name="tipus"/>
+                                        </tree>
+                                    </field>
                                 </group>
                             </page>
                             <page name="membres" string="Membres"
@@ -142,17 +161,15 @@
                             </h1>
                         </div>
                         <group name="muixeranga_line">
-                            <field name="name" readonly="0"/>
+                            <field name="name" invisible="1"/>
+                            <field name="pis" readonly="1"/>
+                            <field name="cordo" readonly="1"/>
+                            <field name="rengle" readonly="1"/>
                             <field name="posicio_id"/>
                             <field name="membre_id"/>
                             <field name="muixeranga_tronc_id"/>
                             <field name="muixeranga_pinya_id"/>
                             <field name="tipus"/>
-                            <!--
-                            <field name="pis"/>
-                            <field name="cordo"/>-->
-                            <field name="name"/>
-                            <field name="rengle"/>
                         </group>
                     </sheet>
                 </form>
@@ -164,16 +181,15 @@
             <field name="model">pinya.muixeranga.line</field>
             <field name="arch" type="xml">
                 <tree string="Línea de muixeranga">
+                    <field name="name" invisible="1"/>
+                    <field name="pis"/>
+                    <field name="cordo"/>
+                    <field name="rengle"/>
                     <field name="posicio_id"/>
                     <field name="membre_id"/>
                     <field name="muixeranga_tronc_id"/>
                     <field name="muixeranga_pinya_id"/>
                     <field name="tipus"/>
-                    <!--
-                    <field name="pis"/>
-                    <field name="cordo"/>-->
-                    <field name="name"/>
-                    <field name="rengle"/>
                 </tree>
             </field>
         </record>
