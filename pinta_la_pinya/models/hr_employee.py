@@ -17,6 +17,16 @@ class HrEmployee(models.Model):
     tronc_ids = fields.Many2many("pinya.tronc.line", string="Tronc")
 
 
+class HrSkill(models.Model):
+    _inherit = 'hr.skill'
+    _order = 'name'
+
+    tipus = fields.Selection([
+        ('pinya', 'Pinya'),
+        ('tronc', 'Tronc')
+    ], string='Tipus', default="pinya", required=True)
+
+
 class HrEmployeeSkill(models.Model):
     _inherit = 'hr.employee.skill'
 

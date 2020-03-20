@@ -15,15 +15,12 @@ class PinyaMuixeranga(models.Model):
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
     active = fields.Boolean(string="Actiu", default=True)
     plantilla = fields.Boolean(string="Plantilla", default=False)
+    plantilla_id = fields.Many2one("pinya.plantilla", string="Plantilla")
     notes = fields.Text(string="Altra informació")
 
-    tipus = fields.Selection([
-        ('normal', 'Normal'),
-        ('desplega', 'Desplegada'),
-        ('aixecat', 'Aixecat')
-    ], string='Tipus', required=True, default='normal')
+    tipus = fields.Selection(related="plantilla_id.tipus", string='Tipus', required=True)
+    pisos = fields.Selection(related="plantilla_id.pisos", string='Pisos', required=True)
 
-    pisos = fields.Integer('Pisos', required=True)
     tronc_ids = fields.One2many('pinya.tronc', 'muixeranga_id', string="Tronc", copy=True)
     pinya_ids = fields.One2many('pinya.pinya', 'muixeranga_id', string="Pinya", copy=True)
 

@@ -16,6 +16,7 @@
         "hr",
         "hr_skill",
         "base_location",
+        "pinya_complements",
     ],
     "data": [
         # 'security/ir.model.access.csv',
@@ -23,6 +24,7 @@
         "views/pinya_actuacio_view.xml",
         "views/pinya_muixeranga_view.xml",
         "views/pinya_pinya_view.xml",
+        "views/pinya_plantilla_view.xml",
         "views/pinya_posicio_view.xml",
         "views/pinya_tronc_view.xml",
         "wizard/pinya_import_wizard_view.xml",

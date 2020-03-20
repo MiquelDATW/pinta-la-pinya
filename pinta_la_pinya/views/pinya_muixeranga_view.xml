@@ -37,6 +37,7 @@
                                 <field name="pisos"/>
                                 <field name="tipus"/>
                                 <field name="plantilla"/>
+                                <field name="plantilla_id"/>
                                 <field name="actuacio_id"/>
                             </group>
                             <group name="count" string="Membres">

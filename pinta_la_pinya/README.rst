@@ -10,7 +10,9 @@ Installation
 ============
 
 * hr
+* hr_skill
 * base_location
+* pinya_complements
 
 Configuration
 =============

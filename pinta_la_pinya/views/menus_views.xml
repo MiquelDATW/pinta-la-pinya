@@ -88,6 +88,24 @@
             </field>
         </record>
 
+        <record id="action_pinta_la_pinya_plantilla" model="ir.actions.act_window">
+            <field name="name">Plantilla</field>
+            <field name="res_model">pinya.plantilla</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'plantilla': True}</field>
+            <field name="view_id" eval="view_plantilla_tree"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Feu clic per afegir una nova plantilla al repertori.
+              </p><p>
+                Amb una vista ràpida a la pantalla de la plantilla podrà trobar fàcilment
+                tota la informació que necessite sobre cada figura de la plantilla.
+              </p>
+            </field>
+        </record>
+
         <record id="action_pinta_la_pinya_membres" model="ir.actions.act_window">
             <field name="name">Membres</field>
             <field name="res_model">hr.employee</field>
@@ -125,7 +143,7 @@
         </record>
 
         <record id="action_pinta_la_pinya_skill" model="ir.actions.act_window">
-            <field name="name">Skills</field>
+            <field name="name">Posicions</field>
             <field name="res_model">hr.skill</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -168,6 +186,12 @@
             sequence="20"/>
 
         <menuitem
+            id="menu_pinta_la_pinya_plantilla"
+            action="action_pinta_la_pinya_plantilla"
+            parent="menu_pinta_la_muixeranga"
+            sequence="30"/>
+
+        <menuitem
             id="menu_pinta_la_membre"
             name="Membres"
             parent="menu_pinya_root"
@@ -178,7 +202,6 @@
             action="action_pinta_la_pinya_membres"
             parent="menu_pinta_la_membre"
             sequence="10"/>
-
 
         <menuitem
             id="menu_pinta_la_configuracio"
@@ -193,10 +216,9 @@
             sequence="10"/>
 
         <menuitem
-                name="Skills"
-                id="menu_pinta_la_pinya_skill"
-                action="action_pinta_la_pinya_skill"
-                parent="menu_pinta_la_configuracio"
-                sequence="20"/>
+            id="menu_pinta_la_pinya_skill"
+            action="action_pinta_la_pinya_skill"
+            parent="menu_pinta_la_configuracio"
+            sequence="20"/>
     </data>
 </odoo>
