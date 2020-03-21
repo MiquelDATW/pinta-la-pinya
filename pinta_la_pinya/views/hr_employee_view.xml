@@ -92,7 +92,7 @@
             <field name="model">hr.skill</field>
             <field name="inherit_id" ref="hr_skill.view_hr_skill_tree"/>
             <field name="arch" type="xml">
-                <field name="description" position="before">
+                <field name="display_name" position="before">
                     <field name="tipus"/>
                 </field>
             </field>

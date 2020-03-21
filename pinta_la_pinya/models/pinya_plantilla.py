@@ -29,8 +29,23 @@ class PinyaPlantilla(models.Model):
     ], string='Pisos', required=True)
 
     plantilla_line_ids = fields.One2many('pinya.plantilla.line', 'plantilla_id', string="Plantilla")
+    membres_count = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
+    pinya_count = fields.Integer(compute='_compute_membres_count', string='Persones pinya', store=True)
+    tronc_count = fields.Integer(compute='_compute_membres_count', string='Persones tronc', store=True)
 
     image = fields.Binary("Image", attachment=True, help="Limitat a 1024x1024px.")
+
+    @api.multi
+    @api.depends('plantilla_line_ids', 'plantilla_line_ids.posicions_qty', 'plantilla_line_ids.rengles')
+    def _compute_membres_count(self):
+        for plantilla in self:
+            tronc = plantilla.plantilla_line_ids.filtered(lambda x: x.tipus == 'tronc')
+            pinya = plantilla.plantilla_line_ids.filtered(lambda x: x.tipus == 'pinya')
+            t = sum(t.posicions_qty for t in tronc)
+            p = sum(p.posicions_qty * p.rengles for p in pinya)
+            plantilla.tronc_count = t
+            plantilla.pinya_count = p
+            plantilla.membres_count = t + p
 
     def crear_muixeranga(self, actuacio):
         obj = self.env['pinya.muixeranga.line']
@@ -80,8 +95,8 @@ class PinyaPlantillaLine(models.Model):
     ], string="Pis/Cordó")
     rengles = fields.Integer(string="Rengles de pinya")
 
-    # posicio_ids = fields.One2many("pinya.plantilla.skill", "line_id", string="Posicions")
-    posicio_ids = fields.Char(string="Posicions")
+    posicio_ids = fields.Many2many("pinya.plantilla.skill", string="Posicions")
+    posicions_qty = fields.Integer(string="Total pis/rengle", compute="_compute_posicions_qty", store=True)
     plantilla_id = fields.Many2one(string="Plantilla", comodel_name="pinya.plantilla")
 
     tipus = fields.Selection([
@@ -89,22 +104,23 @@ class PinyaPlantillaLine(models.Model):
         ('tronc', 'Tronc')
     ], string='Tipus', required=True)
 
+    @api.multi
+    @api.depends('posicio_ids', 'posicio_ids.quantity')
+    def _compute_posicions_qty(self):
+        for line in self:
+            posicions = line.posicio_ids
+            line.posicions_qty = sum(posicions.mapped('quantity'))
 
-# class PinyaPlantillaSkill(models.Model):
-#     _name = "pinya.plantilla.skill"
-#     _description = "Posicions de línea de plantilla"
-#     _order = "name asc"
-#
-#     name = fields.Char(string="Nom", index=True, translate=True)
-#
-#     line_id = fields.Many2one(string="Línea", comodel_name="pinya.plantilla.line")
-#     posicio_id = fields.Many2one(string="Posicions", comodel_name="hr.skill")
-#     tipus = fields.Selection(related="line_id.tipus", string='Tipus', required=True)
-#
-#     @api.onchange('posicio_id')
-#     def _onchange_posicio_id(self):
-#         if self.posicio_id:
-#             self.name = self.posicio_id.name
-#         else:
-#             self.name = "Pinya"
-#         return True
+
+class PinyaPlantillaSkill(models.Model):
+    _name = "pinya.plantilla.skill"
+    _description = "Posicions de línea de plantilla"
+    _order = "tipus desc, posicio_id asc, quantity asc"
+
+    name = fields.Char(string="Nom", related="posicio_id.name", index=True)
+    posicio_id = fields.Many2one(string="Posicions", comodel_name="hr.skill", required=True)
+    quantity = fields.Integer(string="Quantitat", default=1)
+    tipus = fields.Selection([
+        ('pinya', 'Pinya'),
+        ('tronc', 'Tronc')
+    ], string='Tipus', required=True)

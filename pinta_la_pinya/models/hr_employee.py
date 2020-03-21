@@ -19,7 +19,7 @@ class HrEmployee(models.Model):
 
 class HrSkill(models.Model):
     _inherit = 'hr.skill'
-    _order = 'name'
+    _order = 'tipus desc, name asc'
 
     tipus = fields.Selection([
         ('pinya', 'Pinya'),
@@ -29,6 +29,7 @@ class HrSkill(models.Model):
 
 class HrEmployeeSkill(models.Model):
     _inherit = 'hr.employee.skill'
+    _order = 'name asc'
 
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
 
