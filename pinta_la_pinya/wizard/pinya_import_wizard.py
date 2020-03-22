@@ -49,11 +49,31 @@ class PinyaImportWizard(models.TransientModel):
 
         membre_obj = self.env['hr.employee']
         validos = self.env['hr.employee']
+        error_msg = ""
         for row in csv_raw:
             adult1 = row.get('Adult 1') or membre_obj
 
-            if adult1:
-                adult = membre_obj.search([('name', 'ilike', adult1)])
-                if adult:
-                    validos |= adult
+            if not bool(adult1):
+                continue
+
+            adult = membre_obj.search([('name', 'ilike', adult1)])
+            if bool(adult) and len(adult) == 1:
+                validos |= adult
+            elif bool(adult) and len(adult) > 1:
+                if bool(error_msg):
+                    error_msg += "\n"
+                else:
+                    error_msg += "Error❗\n"
+                error_names = "'" + "', '".join(adult.mapped('name')) + "'"
+                error_msg += "Hi ha més d'una persona amb nom semblant a '{}':\n {}❗".format(adult1, error_names)
+            else:
+                if bool(error_msg):
+                    error_msg += "\n"
+                else:
+                    error_msg += "Error❗\n"
+                error_msg += "No hi ha cap persona amb el nom '{}'❗".format(adult1)
+
+        if bool(error_msg):
+            raise ValidationError(error_msg)
+
         return validos
