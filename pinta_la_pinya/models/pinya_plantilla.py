@@ -48,39 +48,53 @@ class PinyaPlantilla(models.Model):
             plantilla.membres_count = t + p
 
     def crear_muixeranga(self, actuacio):
-        obj = self.env['pinya.muixeranga.line']
+        obj = self.env['pinya.muixeranga']
+        obj_line = self.env['pinya.muixeranga.line']
         vals = {}
+        vals['name'] = self.name
+        vals['plantilla_id'] = self.id
         vals['actuacio_id'] = actuacio
-        vals['tronc_ids'] = [(6, 0, False)]
-        vals['pinya_ids'] = [(6, 0, False)]
-        tronc = self.tronc_ids
-        for aux in tronc.mapped('posicio_ids'):
-            line_vals = {}
-            line_vals['name'] = str(aux.pis)
-            line_vals['pis'] = aux.pis
-            line_vals['tipus'] = 'tronc'
-            line_vals['muixeranga_tronc_id'] = aux.muixeranga_id.id
-            line_vals['posicio_id'] = aux.posicio_id.id
-            obj.create(line_vals)
 
-        pinya = self.pinya_ids
+        new_line = self.env['pinya.muixeranga.line']
+        tronc = self.plantilla_line_ids.filtered(lambda x: x.tipus == 'tronc')
+
+        line_vals = {}
+        line_vals['tipus'] = 'tronc'
+        for aux in tronc:
+            posicions = aux.posicio_ids
+            line_vals['name'] = str(aux.name)
+            line_vals['pis'] = int(aux.name)
+            for pos in posicions:
+                qty = pos.quantity
+                line_vals['posicio_id'] = pos.posicio_id.id
+                for q in range(qty):
+                    new_line += obj_line.create(line_vals)
+
+        vals['tronc_line_ids'] = [(6, 0, new_line.ids)]
+
+        new_line = self.env['pinya.muixeranga.line']
+        pinya = self.plantilla_line_ids.filtered(lambda x: x.tipus == 'pinya')
         rengles = list(set(pinya.mapped('rengles')))
         if not bool(rengles) or len(rengles) != 1:
             error_msg = "Error❗"
             raise ValidationError(error_msg)
         rengles = rengles[0]
+        line_vals = {}
+        line_vals['tipus'] = 'pinya'
         for i in range(rengles):
-            for aux in pinya.mapped('posicio_ids'):
-                line_vals = {}
-                line_vals['name'] = str(aux.cordo)
-                line_vals['cordo'] = aux.cordo
-                line_vals['rengle'] = i+1
-                line_vals['tipus'] = 'pinya'
-                line_vals['muixeranga_pinya_id'] = aux.muixeranga_id.id
-                line_vals['posicio_id'] = aux.posicio_id.id
-                obj.create(line_vals)
+            line_vals['rengle'] = i+1
+            for aux in pinya:
+                posicions = aux.posicio_ids
+                line_vals['name'] = str(aux.name)
+                line_vals['cordo'] = int(aux.name)
+                for pos in posicions:
+                    qty = pos.quantity
+                    line_vals['posicio_id'] = pos.posicio_id.id
+                    for q in range(qty):
+                        new_line += obj_line.create(line_vals)
 
-        res = self.write(vals)
+        vals['pinya_line_ids'] = [(6, 0, new_line.ids)]
+        res = obj.create(vals)
         return res
 
 
@@ -90,6 +104,7 @@ class PinyaPlantillaLine(models.Model):
     _order = "tipus desc, name, rengles asc"
 
     name = fields.Selection([
+        ('-1', '-1'), ('0', '0'),
         ('1', '1'), ('2', '2'), ('3', '3'),
         ('4', '4'),  ('5', '5'),  ('6', '6'),
     ], string="Pis/Cordó")

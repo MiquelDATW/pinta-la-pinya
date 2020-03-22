@@ -21,13 +21,11 @@ class PinyaMuixerangaWizard(models.TransientModel):
         if not bool(actuacio):
             error_msg = "No hi ha cap assaig o actuació guardada❗"
             raise ValidationError(error_msg)
-        lines = self.lines.filtered(lambda x: x.muixeranga_id.id)
+        lines = self.lines.filtered(lambda x: x.plantilla_id.id)
         if not bool(lines):
             return False
         for line in lines:
-            new_muixeranga = line.muixeranga_id.copy()
-            new_muixeranga.plantilla = False
-            new_muixeranga.crear_muixeranga(actuacio)
+            new_muixeranga = line.plantilla_id.crear_muixeranga(actuacio)
         return True
 
 
@@ -35,4 +33,4 @@ class PinyaMuixerangaLineWizard(models.TransientModel):
     _name = 'pinya.muixeranga.line.wizard'
 
     wizard_id = fields.Many2one('pinya.muixeranga.wizard', string='Wizard')
-    muixeranga_id = fields.Many2one('pinya.muixeranga', string='Muixeranga')
+    plantilla_id = fields.Many2one('pinya.plantilla', string='Plantilla')

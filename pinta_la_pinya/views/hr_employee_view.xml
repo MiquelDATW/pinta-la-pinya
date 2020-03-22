@@ -20,32 +20,6 @@
                     </group>
                 </field>
                 <page name="public" position="before">
-                    <page name="tronc" string="Troncs">
-                       <group name="tronc">
-                            <field name="tronc_ids" nolabel="1">
-                                <tree string="Posició">
-                                    <field name="data"/>
-                                    <field name="pis"/>
-                                    <field name="posicio_id"/>
-                                    <field name="muixeranga_id"/>
-                                    <field name="actuacio_id"/>
-                                </tree>
-                            </field>
-                        </group>
-                    </page>
-                    <page name="pinya" string="Pinyes">
-                        <group name="pinya">
-                            <field name="pinya_ids" nolabel="1">
-                                <tree string="Posició">
-                                    <field name="data"/>
-                                    <field name="cordo"/>
-                                    <field name="posicio_id"/>
-                                    <field name="muixeranga_id"/>
-                                    <field name="actuacio_id"/>
-                                </tree>
-                            </field>
-                        </group>
-                    </page>
                     <page name="habilitats" string="Habilitats">
                         <group name="habilitats">
                             <field name="employee_skill_ids" nolabel="1">
@@ -54,6 +28,14 @@
                                     <field name="level" widget="priority"/>
                                 </tree>
                             </field>
+                        </group>
+                    </page>
+                    <page name="tronc" string="Troncs">
+                       <group name="tronc">
+                        </group>
+                    </page>
+                    <page name="pinya" string="Pinyes">
+                        <group name="pinya">
                         </group>
                     </page>
                 </page>
@@ -79,8 +61,9 @@
                         <field name="name"/>
                         <field name="data_inscripcio"/>
                         <field name="employee_skill_ids" widget="many2many_tags"/>
+                        <!--
                         <field name="pinya_ids" widget="many2many_tags"/>
-                        <field name="tronc_ids" widget="many2many_tags"/>
+                        <field name="tronc_ids" widget="many2many_tags"/>-->
                         <field name="message_needaction" invisible="1"/>
                     </tree>
                 </xpath>

@@ -14,8 +14,7 @@
                     <header>
                         <!--
                         <button string="Confirm" name="action_budget_confirm" states="draft" type="object" class="oe_highlight"/>-->
-                        <field name="estat" widget="statusbar" statusbar_visible="desca,intent,fail"
-                               attrs="{'readonly': [('plantilla', '=', True)]}"/>
+                        <field name="estat" widget="statusbar" statusbar_visible="desca,intent,fail"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -36,7 +35,6 @@
                             <group name="principal">
                                 <field name="pisos"/>
                                 <field name="tipus"/>
-                                <field name="plantilla"/>
                                 <field name="plantilla_id"/>
                                 <field name="actuacio_id"/>
                             </group>
@@ -50,32 +48,8 @@
                         <notebook>
                             <page name="tronc" string="Tronc">
                                 <group name="tronc" string="Tronc">
-                                    <field name="tronc_ids" nolabel="1"/>
-                                </group>
-                            </page>
-                            <page name="pinya" string="Pinya">
-                                <group name="pinya" string="Pinya">
-                                    <field name="pinya_ids" nolabel="1"/>
-                                </group>
-                            </page>
-                            <page name="altra" string="Altra Informació"
-                                  attrs="{'readonly': [('plantilla', '=', True)]}">
-                                <group>
-                                    <group name="altra" string="Altra Informació">
-                                        <field name="mestra_id"/>
-                                        <field name="passadora_id"
-                                               attrs="{'invisible': [('tipus', '=', 'aixecat')]}"/>
-                                        <field name="estiradora_id"
-                                               attrs="{'invisible': [('tipus', '!=', 'aixecat')]}"/>
-                                        <field name="resp_xicalla_ids" string="Resp. xicalla"
-                                               widget="many2many_tags"/>
-                                    </group>
-                                </group>
-                            </page>
-                            <page name="tronc" string="Tronc">
-                                <group name="tronc" string="Tronc">
                                     <field name="tronc_line_ids" nolabel="1">
-                                        <tree editable="bottom" string="Línea de muixeranga">
+                                        <tree string="Línea de muixeranga">
                                             <field name="name" invisible="1"/>
                                             <field name="pis"/>
                                             <field name="posicio_id"/>
@@ -89,7 +63,7 @@
                             <page name="pinya" string="Pinya">
                                 <group name="pinya" string="Pinya">
                                     <field name="pinya_line_ids" nolabel="1">
-                                        <tree editable="bottom" string="Línea de muixeranga">
+                                        <tree string="Línea de muixeranga">
                                             <field name="name" invisible="1"/>
                                             <field name="cordo"/>
                                             <field name="rengle"/>
@@ -101,8 +75,20 @@
                                     </field>
                                 </group>
                             </page>
-                            <page name="membres" string="Membres"
-                                  attrs="{'readonly': [('plantilla', '=', True)]}">
+                            <page name="altra" string="Altra Informació">
+                                <group>
+                                    <group name="altra" string="Altra Informació">
+                                        <field name="mestra_id"/>
+                                        <field name="passadora_id"
+                                               attrs="{'invisible': [('tipus', '=', 'aixecat')]}"/>
+                                        <field name="estiradora_id"
+                                               attrs="{'invisible': [('tipus', '!=', 'aixecat')]}"/>
+                                        <field name="resp_xicalla_ids" string="Resp. xicalla"
+                                               widget="many2many_tags"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="membres" string="Membres">
                                 <group name="membres" string="Membres">
                                     <field name="membre_ids" nolabel="1"/>
                                 </group>
@@ -127,21 +113,7 @@
                     <field name="estat"/>
                     <field name="tipus"/>
                     <field name="pisos"/>
-                    <field name="tronc_count"/>
-                    <field name="pinya_count"/>
-                    <field name="membres_count"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="view_repertori_tree" model="ir.ui.view">
-            <field name="name">pinya.repertori.tree</field>
-            <field name="model">pinya.muixeranga</field>
-            <field name="arch" type="xml">
-                <tree string="Muixerangues">
-                    <field name="name"/>
-                    <field name="tipus"/>
-                    <field name="pisos"/>
+                    <field name="cordons"/>
                     <field name="tronc_count"/>
                     <field name="pinya_count"/>
                     <field name="membres_count"/>

@@ -14,8 +14,8 @@
                         <group>
                             <field name="lines" nolabel="1">
                                 <tree editable="bottom">
-                                    <field name="muixeranga_id"
-                                           domain="[('plantilla', '=', True)]" options="{'no_create': True}"/>
+                                    <field name="plantilla_id"
+                                           options="{'no_create': True}"/>
                                 </tree>
                             </field>
                         </group>

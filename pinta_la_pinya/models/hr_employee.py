@@ -13,8 +13,6 @@ class HrEmployee(models.Model):
     altres_noms = fields.Char(string="Altres noms", help="Altres noms pels que es coneix la persona")
 
     muixeranguera = fields.Boolean(string="Muixeranguera", default=True)
-    pinya_ids = fields.Many2many("pinya.pinya.line", string="Pinya")
-    tronc_ids = fields.Many2many("pinya.tronc.line", string="Tronc")
 
 
 class HrSkill(models.Model):

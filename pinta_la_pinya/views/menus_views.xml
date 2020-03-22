@@ -20,7 +20,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('tipus', '=', 'actuacio')]</field>
-            <field name="context">{}</field>
+            <field name="context">{'tipus': 'actuacio'}</field>
             <field name="view_id" eval="False"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -39,7 +39,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('tipus', '=', 'assaig')]</field>
-            <field name="context">{}</field>
+            <field name="context">{'tipus': 'assaig'}</field>
             <field name="view_id" eval="False"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -57,7 +57,7 @@
             <field name="res_model">pinya.muixeranga</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('plantilla', '=', False)]</field>
+            <field name="domain">[]</field>
             <field name="context">{}</field>
             <field name="view_id" eval="view_muixeranga_tree"/>
             <field name="help" type="html">
@@ -70,35 +70,17 @@
             </field>
         </record>
 
-        <record id="action_pinta_la_pinya_repertori" model="ir.actions.act_window">
-            <field name="name">Repertori</field>
-            <field name="res_model">pinya.muixeranga</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain">[('plantilla', '=', True)]</field>
-            <field name="context">{'plantilla': True}</field>
-            <field name="view_id" eval="view_repertori_tree"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Feu clic per afegir una nova figura al repertori.
-              </p><p>
-                Amb una vista ràpida a la pantalla del repertori podrà trobar fàcilment
-                tota la informació que necessite sobre cada figura del repertori.
-              </p>
-            </field>
-        </record>
-
         <record id="action_pinta_la_pinya_plantilla" model="ir.actions.act_window">
             <field name="name">Plantilla</field>
             <field name="res_model">pinya.plantilla</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
-            <field name="context">{'plantilla': True}</field>
+            <field name="context">{}</field>
             <field name="view_id" eval="view_plantilla_tree"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
-                Feu clic per afegir una nova plantilla al repertori.
+                Feu clic per afegir una nova plantilla al repertori de figures.
               </p><p>
                 Amb una vista ràpida a la pantalla de la plantilla podrà trobar fàcilment
                 tota la informació que necessite sobre cada figura de la plantilla.
@@ -124,25 +106,7 @@
             </field>
         </record>
 
-        <record id="action_pinta_la_pinya_posicio" model="ir.actions.act_window">
-            <field name="name">Posició</field>
-            <field name="res_model">pinya.posicio</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain">[]</field>
-            <field name="context">{}</field>
-            <field name="view_id" eval="False"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Feu clic per afegir una nova posició.
-              </p><p>
-                Amb una vista ràpida a la pantalla de posicions podrà trobar fàcilment
-                tota la informació que necessite sobre cada posició.
-              </p>
-            </field>
-        </record>
-
-        <record id="action_pinta_la_pinya_skill" model="ir.actions.act_window">
+        <record id="action_pinta_la_pinya_posicions" model="ir.actions.act_window">
             <field name="name">Posicions</field>
             <field name="res_model">hr.skill</field>
             <field name="view_type">form</field>
@@ -180,16 +144,10 @@
             sequence="10"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_repertori"
-            action="action_pinta_la_pinya_repertori"
-            parent="menu_pinta_la_muixeranga"
-            sequence="20"/>
-
-        <menuitem
             id="menu_pinta_la_pinya_plantilla"
             action="action_pinta_la_pinya_plantilla"
             parent="menu_pinta_la_muixeranga"
-            sequence="30"/>
+            sequence="20"/>
 
         <menuitem
             id="menu_pinta_la_membre"
@@ -210,15 +168,9 @@
             sequence="100"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_posicio"
-            action="action_pinta_la_pinya_posicio"
+            id="menu_pinta_la_pinya_posicions"
+            action="action_pinta_la_pinya_posicions"
             parent="menu_pinta_la_configuracio"
             sequence="10"/>
-
-        <menuitem
-            id="menu_pinta_la_pinya_skill"
-            action="action_pinta_la_pinya_skill"
-            parent="menu_pinta_la_configuracio"
-            sequence="20"/>
     </data>
 </odoo>

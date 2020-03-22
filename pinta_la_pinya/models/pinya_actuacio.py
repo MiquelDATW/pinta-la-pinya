@@ -20,7 +20,7 @@ class PinyaActuacio(models.Model):
     tipus = fields.Selection([
             ('actuacio', 'Actuació'),
             ('assaig', 'Assaig')
-    ], string='Tipus', required=True, default='assaig')
+    ], string='Tipus', required=True)
 
     estat = fields.Selection([
         ('draft', 'Esborrany'),
@@ -46,6 +46,27 @@ class PinyaActuacio(models.Model):
         for actuacio in self:
             muixeranga = actuacio.muixeranga_ids
             actuacio.muixerangues_count = len(muixeranga)
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super(PinyaActuacio, self).default_get(fields_list)
+        tipus = self.env.context.get('tipus', False)
+        if bool(tipus):
+            res['tipus'] = tipus
+            if tipus == 'assaig':
+                res['name'] = tipus.capitalize()
+        return res
+
+    @api.onchange('data')
+    def onchange_data(self):
+        tipus = self.tipus
+        if tipus != 'assaig':
+            return False
+        data = self.data
+        if not bool(data):
+            return False
+        data_str = str(data).replace('-', '/')
+        self.name = tipus.capitalize() + ' ' + data_str
 
     def action_membres_import(self):
         view_form_id = self.env.ref('pinta_la_pinya.pinya_import_wizard_form_view').id
