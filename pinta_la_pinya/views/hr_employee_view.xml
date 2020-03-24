@@ -13,9 +13,30 @@
             <field name="arch" type="xml">
                 <field name="category_ids" position="after">
                     <group>
-                        <field name="muixeranguera"/>
-                        <field name="data_inscripcio"/>
-                        <field name="altres_noms"/>
+                        <group name="informacio">
+                            <field name="muixeranguera"/>
+                            <field name="data_inscripcio"/>
+                            <field name="mesos_inscrit"/>
+                            <field name="altres_noms"/>
+                        </group>
+                        <group name="mesures">
+                            <label for="alsada_cap" string="Alçada"/>
+                            <div>
+                                <field name="alsada_cap" nolabel="1" class="oe_inline"/> cm
+                            </div>
+                            <label for="alsada_muscle" string="Alçada del muscle"/>
+                            <div>
+                                <field name="alsada_muscle" nolabel="1" class="oe_inline"/> cm
+                            </div>
+                            <label for="alsada_bras" string="Alçada dels braços"/>
+                            <div>
+                                <field name="alsada_bras" nolabel="1" class="oe_inline"/> cm
+                            </div>
+                            <label for="pes" string="Pes"/>
+                            <div>
+                                <field name="pes" nolabel="1" class="oe_inline"/> kg
+                            </div>
+                        </group>
                         <field name="notes" string="Altra informació" placeholder="Altra informació..."/>
                     </group>
                 </field>
@@ -32,10 +53,29 @@
                     </page>
                     <page name="tronc" string="Troncs">
                        <group name="tronc">
+                            <field name="muixeranga_tronc_ids" nolabel="1">
+                                <tree string="Línea de muixeranga">
+                                    <field name="name" invisible="1"/>
+                                    <field name="muixeranga_tronc_id"/>
+                                    <field name="pis"/>
+                                    <field name="posicio_id"/>
+                                    <field name="tipus"/>
+                                </tree>
+                            </field>
                         </group>
                     </page>
                     <page name="pinya" string="Pinyes">
                         <group name="pinya">
+                            <field name="muixeranga_pinya_ids" nolabel="1">
+                                <tree string="Línea de muixeranga">
+                                    <field name="name" invisible="1"/>
+                                    <field name="muixeranga_pinya_id"/>
+                                    <field name="cordo"/>
+                                    <field name="rengle"/>
+                                    <field name="posicio_id"/>
+                                    <field name="tipus"/>
+                                </tree>
+                            </field>
                         </group>
                     </page>
                 </page>

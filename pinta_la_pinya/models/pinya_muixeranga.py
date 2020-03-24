@@ -74,9 +74,10 @@ class PinyaMuixerangaLine(models.Model):
     active = fields.Boolean(string="Actiu", default=True)
 
     posicio_id = fields.Many2one(string="Posició", comodel_name="hr.skill")
-    membre_id = fields.Many2one(string="Membre", comodel_name="hr.employee")
     muixeranga_tronc_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
     muixeranga_pinya_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
+    membre_tronc_id = fields.Many2one(string="Membre Tronc", comodel_name="hr.employee")
+    membre_pinya_id = fields.Many2one(string="Membre Pinya", comodel_name="hr.employee")
 
     tipus = fields.Selection([
         ('pinya', 'Pinya'),
