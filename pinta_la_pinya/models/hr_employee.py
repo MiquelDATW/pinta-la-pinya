@@ -21,8 +21,17 @@ class HrEmployee(models.Model):
     alsada_bras = fields.Integer(string="Alçada de les mans")
     pes = fields.Float(string="Pes", digits=(4, 1))
 
-    muixeranga_tronc_ids = fields.One2many("pinya.muixeranga.line", "membre_tronc_id", string="Muixeranga")
-    muixeranga_pinya_ids = fields.One2many("pinya.muixeranga.line", "membre_pinya_id", string="Muixeranga")
+    muixeranga_tronc_ids = fields.One2many("pinya.muixeranga.tronc", "membre_tronc_id", string="Muixeranga")
+    muixeranga_pinya_ids = fields.One2many("pinya.muixeranga.pinya", "membre_pinya_id", string="Muixeranga")
+
+    posicio_ids = fields.Many2many(string="Posicions", comodel_name="hr.skill", compute="_compute_posicions")
+
+    @api.multi
+    def _compute_posicions(self):
+        muixeranguers = self.filtered(lambda x: x.muixeranguera)
+        for muixeranguer in muixeranguers:
+            posicions = muixeranguer.employee_skill_ids.mapped('skill_id')
+            muixeranguer.posicio_ids = [(6, 0, posicions.ids)]
 
     @api.multi
     def _compute_mesos_inscrit(self):
@@ -51,6 +60,7 @@ class HrEmployeeSkill(models.Model):
     _order = 'name asc'
 
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
+    description = fields.Char(string="Descripció", related="skill_id.description")
 
     @api.model
     def create(self, vals):

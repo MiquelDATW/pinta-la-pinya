@@ -49,30 +49,36 @@ class PinyaPlantilla(models.Model):
 
     def crear_muixeranga(self, actuacio):
         obj = self.env['pinya.muixeranga']
-        obj_line = self.env['pinya.muixeranga.line']
+        obj_tronc = self.env['pinya.muixeranga.tronc']
+        obj_pinya = self.env['pinya.muixeranga.pinya']
+
+        ms = self.env['pinya.muixeranga'].search([('plantilla_id', '=', self.id)], order='create_date DESC')
+        len_ms = len(ms)
+        max_ms = int(ms[0].name.replace(self.name + ' #', ''))
+        max_len = max(len_ms, max_ms)
+        name = self.name + ' #' + str(max_len+1).zfill(4)
+
         vals = {}
-        vals['name'] = self.name
+        vals['name'] = name
         vals['plantilla_id'] = self.id
         vals['actuacio_id'] = actuacio
 
-        new_line = self.env['pinya.muixeranga.line']
+        new_line = self.env['pinya.muixeranga.tronc']
         tronc = self.plantilla_line_ids.filtered(lambda x: x.tipus == 'tronc')
 
         line_vals = {}
-        line_vals['tipus'] = 'tronc'
         for aux in tronc:
             posicions = aux.posicio_ids
             line_vals['name'] = str(aux.name)
-            line_vals['pis'] = int(aux.name)
             for pos in posicions:
                 qty = pos.quantity
                 line_vals['posicio_id'] = pos.posicio_id.id
                 for q in range(qty):
-                    new_line += obj_line.create(line_vals)
+                    new_line += obj_tronc.create(line_vals)
 
         vals['tronc_line_ids'] = [(6, 0, new_line.ids)]
 
-        new_line = self.env['pinya.muixeranga.line']
+        new_line = self.env['pinya.muixeranga.pinya']
         pinya = self.plantilla_line_ids.filtered(lambda x: x.tipus == 'pinya')
         rengles = list(set(pinya.mapped('rengles')))
         if not bool(rengles) or len(rengles) != 1:
@@ -80,18 +86,16 @@ class PinyaPlantilla(models.Model):
             raise ValidationError(error_msg)
         rengles = rengles[0]
         line_vals = {}
-        line_vals['tipus'] = 'pinya'
         for i in range(rengles):
-            line_vals['rengle'] = i+1
+            line_vals['rengle'] = str(i+1)
             for aux in pinya:
                 posicions = aux.posicio_ids
                 line_vals['name'] = str(aux.name)
-                line_vals['cordo'] = int(aux.name)
                 for pos in posicions:
                     qty = pos.quantity
                     line_vals['posicio_id'] = pos.posicio_id.id
                     for q in range(qty):
-                        new_line += obj_line.create(line_vals)
+                        new_line += obj_pinya.create(line_vals)
 
         vals['pinya_line_ids'] = [(6, 0, new_line.ids)]
         res = obj.create(vals)

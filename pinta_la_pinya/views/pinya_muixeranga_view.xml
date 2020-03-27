@@ -49,13 +49,15 @@
                             <page name="tronc" string="Tronc">
                                 <group name="tronc" string="Tronc">
                                     <field name="tronc_line_ids" nolabel="1">
-                                        <tree string="Línea de muixeranga">
-                                            <field name="name" invisible="1"/>
-                                            <field name="pis"/>
+                                        <tree editable="top" string="Tronc de muixeranga">
+                                            <field name="name"/>
                                             <field name="posicio_id"/>
-                                            <field name="muixeranga_tronc_id"/>
-                                            <field name="membre_tronc_id"/>
-                                            <field name="tipus"/>
+                                            <field name="membre_tronc_id"
+                                                   options="{'no_create_edit': True}"
+                                                   domain="[('muixeranguera', '=', True), ('id', 'in', disponible_ids)]"/>
+                                            <field name="muixeranga_tronc_id" invisible="1"/>
+                                            <field name="recomanats_ids" widget="many2many_tags"/>
+                                            <field name="disponible_ids" invisible="1"/>
                                         </tree>
                                     </field>
                                 </group>
@@ -63,14 +65,16 @@
                             <page name="pinya" string="Pinya">
                                 <group name="pinya" string="Pinya">
                                     <field name="pinya_line_ids" nolabel="1">
-                                        <tree string="Línea de muixeranga">
-                                            <field name="name" invisible="1"/>
-                                            <field name="cordo"/>
+                                        <tree editable="bottom" string="Pinya de muixeranga">
+                                            <field name="name"/>
                                             <field name="rengle"/>
                                             <field name="posicio_id"/>
-                                            <field name="muixeranga_pinya_id"/>
-                                            <field name="membre_pinya_id"/>
-                                            <field name="tipus"/>
+                                            <field name="membre_pinya_id"
+                                                   options="{'no_create_edit': True}"
+                                                   domain="[('muixeranguera', '=', True), ('id', 'in', disponible_ids)]"/>
+                                            <field name="muixeranga_pinya_id" invisible="1"/>
+                                            <field name="recomanats_ids" widget="many2many_tags"/>
+                                            <field name="disponible_ids" invisible="1"/>
                                         </tree>
                                     </field>
                                 </group>
@@ -91,6 +95,11 @@
                             <page name="membres" string="Membres">
                                 <group name="membres" string="Membres">
                                     <field name="membre_ids" nolabel="1"/>
+                                </group>
+                            </page>
+                            <page name="lliures" string="Lliures">
+                                <group name="lliures" string="Lliures">
+                                    <field name="lliure_ids" nolabel="1"/>
                                 </group>
                             </page>
                         </notebook>
@@ -121,6 +130,7 @@
             </field>
         </record>
 
+        <!--
         <record id="view_muixeranga_line_form" model="ir.ui.view">
             <field name="name">pinya.muixeranga.line.form</field>
             <field name="model">pinya.muixeranga.line</field>
@@ -167,6 +177,6 @@
                     <field name="tipus"/>
                 </tree>
             </field>
-        </record>
+        </record>-->
     </data>
 </odoo>

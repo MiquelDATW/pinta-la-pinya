@@ -46,20 +46,24 @@
                             <field name="employee_skill_ids" nolabel="1">
                                 <tree>
                                     <field name="skill_id"/>
+                                    <field name="description"/>
                                     <field name="level" widget="priority"/>
                                 </tree>
                             </field>
+                        </group>
+                        <group>
+                            <field name="posicio_ids" nolabel="1"/>
                         </group>
                     </page>
                     <page name="tronc" string="Troncs">
                        <group name="tronc">
                             <field name="muixeranga_tronc_ids" nolabel="1">
-                                <tree string="Línea de muixeranga">
-                                    <field name="name" invisible="1"/>
-                                    <field name="muixeranga_tronc_id"/>
-                                    <field name="pis"/>
+                                <tree string="Tronc de muixeranga">
+                                    <field name="name"/>
                                     <field name="posicio_id"/>
-                                    <field name="tipus"/>
+                                    <field name="muixeranga_tronc_id"/>
+                                    <field name="actuacio_id"/>
+                                    <field name="data"/>
                                 </tree>
                             </field>
                         </group>
@@ -67,13 +71,13 @@
                     <page name="pinya" string="Pinyes">
                         <group name="pinya">
                             <field name="muixeranga_pinya_ids" nolabel="1">
-                                <tree string="Línea de muixeranga">
-                                    <field name="name" invisible="1"/>
-                                    <field name="muixeranga_pinya_id"/>
-                                    <field name="cordo"/>
+                                <tree string="Pinya de muixeranga">
+                                    <field name="name"/>
                                     <field name="rengle"/>
                                     <field name="posicio_id"/>
-                                    <field name="tipus"/>
+                                    <field name="muixeranga_pinya_id"/>
+                                    <field name="actuacio_id"/>
+                                    <field name="data"/>
                                 </tree>
                             </field>
                         </group>
