@@ -48,13 +48,14 @@ class PinyaPlantilla(models.Model):
             plantilla.membres_count = t + p
 
     def crear_muixeranga(self, actuacio):
-        obj = self.env['pinya.muixeranga']
+        obj_actua = self.env['pinya.actuacio']
+        obj_muixe = self.env['pinya.muixeranga']
         obj_tronc = self.env['pinya.muixeranga.tronc']
         obj_pinya = self.env['pinya.muixeranga.pinya']
 
-        ms = self.env['pinya.muixeranga'].search([('plantilla_id', '=', self.id)], order='create_date DESC')
+        ms = obj_muixe.search([('plantilla_id', '=', self.id)], order='create_date DESC')
         len_ms = len(ms)
-        max_ms = int(ms[0].name.replace(self.name + ' #', ''))
+        max_ms = int(ms[0].name.replace(self.name + ' #', '')) if bool(ms) else 0
         max_len = max(len_ms, max_ms)
         name = self.name + ' #' + str(max_len+1).zfill(4)
 
@@ -67,6 +68,8 @@ class PinyaPlantilla(models.Model):
         tronc = self.plantilla_line_ids.filtered(lambda x: x.tipus == 'tronc')
 
         line_vals = {}
+        line_vals['actuacio_id'] = actuacio
+        line_vals['data'] = obj_actua.browse(actuacio).data
         for aux in tronc:
             posicions = aux.posicio_ids
             line_vals['name'] = str(aux.name)
@@ -85,7 +88,10 @@ class PinyaPlantilla(models.Model):
             error_msg = "Error❗"
             raise ValidationError(error_msg)
         rengles = rengles[0]
+
         line_vals = {}
+        line_vals['actuacio_id'] = actuacio
+        line_vals['data'] = obj_actua.browse(actuacio).data
         for i in range(rengles):
             line_vals['rengle'] = str(i+1)
             for aux in pinya:
@@ -98,7 +104,7 @@ class PinyaPlantilla(models.Model):
                         new_line += obj_pinya.create(line_vals)
 
         vals['pinya_line_ids'] = [(6, 0, new_line.ids)]
-        res = obj.create(vals)
+        res = obj_muixe.create(vals)
         return res
 
 

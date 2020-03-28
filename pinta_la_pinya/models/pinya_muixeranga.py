@@ -75,7 +75,7 @@ class PinyaMuixeranga(models.Model):
 class PinyaMuixerangaPinya(models.Model):
     _name = "pinya.muixeranga.pinya"
     _description = "Pinya de muixeranga"
-    _order = "name, rengle, posicio_id asc"
+    _order = "data, muixeranga_pinya_id, name, rengle, posicio_id asc"
 
     name = fields.Char(string="Cordó", index=True, required=True, translate=True)
     rengle = fields.Char(string="Rengle")
@@ -85,8 +85,8 @@ class PinyaMuixerangaPinya(models.Model):
     muixeranga_pinya_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
     membre_pinya_id = fields.Many2one(string="Membre Pinya", comodel_name="hr.employee")
 
-    actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio", related="muixeranga_pinya_id.actuacio_id")
-    data = fields.Date(string="Data", related="actuacio_id.data")
+    actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio", readonly=True)
+    data = fields.Date(string="Data", readonly=True)
 
     disponible_ids = fields.Many2many(string="Disponibles", comodel_name="hr.employee", compute="_compute_disponible")
     recomanats_ids = fields.Many2many(string="Recomanats", comodel_name="hr.employee", compute="_compute_disponible")
@@ -99,20 +99,33 @@ class PinyaMuixerangaPinya(models.Model):
     @api.depends('muixeranga_pinya_id.lliure_ids')
     def _compute_disponible(self):
         max_all = 6
-        muixs = self.mapped('muixeranga_pinya_id').lliure_ids
+        pinya = self.mapped('muixeranga_pinya_id')
+        if len(pinya) > 1:
+            return False
+        muixers = pinya.lliure_ids
         for pinya in self:
-            p1 = muixs.filtered(lambda x: pinya.posicio_id.id in x.posicio_ids.ids)
+            p1 = muixers.filtered(lambda x: pinya.posicio_id.id in x.posicio_ids.ids)
             p2 = p1.sorted(lambda x: x.employee_skill_ids.filtered(lambda x: x.skill_id.id == pinya.posicio_id.id).level,
                           reverse=True)
             p3 = p2[0:max_all] if len(p2) > max_all else p2
             pinya.recomanats_ids = [(6, 0, p3.ids)]
             pinya.disponible_ids = [(6, 0, p2.ids)]
 
+    @api.model
+    def create(self, vals):
+        muixeranga = vals.get('muixeranga_pinya_id', False)
+        if muixeranga:
+            actuacio = self.env['pinya.muixeranga'].browse(muixeranga).actuacio_id
+            vals['data'] = actuacio.data
+            vals['actuacio_id'] = actuacio.id
+        res = super(PinyaMuixerangaPinya, self).create(vals)
+        return res
+
 
 class PinyaMuixerangaTronc(models.Model):
     _name = "pinya.muixeranga.tronc"
     _description = "Tronc de muixeranga"
-    _order = "name, posicio_id asc"
+    _order = "data, muixeranga_tronc_id, name, posicio_id asc"
 
     name = fields.Char(string="Pis", index=True, required=True, translate=True)
     active = fields.Boolean(string="Actiu", default=True)
@@ -121,8 +134,8 @@ class PinyaMuixerangaTronc(models.Model):
     muixeranga_tronc_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
     membre_tronc_id = fields.Many2one(string="Membre Tronc", comodel_name="hr.employee")
 
-    actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio", related="muixeranga_tronc_id.actuacio_id")
-    data = fields.Date(string="Data", related="actuacio_id.data")
+    actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio", readonly=True)
+    data = fields.Date(string="Data", readonly=True)
 
     disponible_ids = fields.Many2many(string="Disponibles", comodel_name="hr.employee", compute="_compute_disponible")
     recomanats_ids = fields.Many2many(string="Recomanats", comodel_name="hr.employee", compute="_compute_disponible")
@@ -130,9 +143,12 @@ class PinyaMuixerangaTronc(models.Model):
     @api.multi
     def _compute_disponible(self):
         max_all = 6
-        muixs = self.mapped('muixeranga_tronc_id').lliure_ids
+        tronc = self.mapped('muixeranga_tronc_id')
+        if len(tronc) > 1:
+            return False
+        muixers = tronc.lliure_ids
         for tronc in self:
-            t1 = muixs.filtered(lambda x: tronc.posicio_id.id in x.posicio_ids.ids)
+            t1 = muixers.filtered(lambda x: tronc.posicio_id.id in x.posicio_ids.ids)
             t2 = t1.sorted(lambda x: x.employee_skill_ids.filtered(lambda x: x.skill_id.id == tronc.posicio_id.id).level,
                           reverse=True)
             t3 = t2[0:max_all] if len(t2) > max_all else t2
@@ -152,3 +168,13 @@ class PinyaMuixerangaTronc(models.Model):
         #     t3 = t2[0:max_all] if len(t2) > max_all else t2
         #     tronc.recomanats_ids = [(6, 0, t3.ids)]
         #     tronc.disponible_ids = [(6, 0, t2.ids)]
+
+    @api.model
+    def create(self, vals):
+        muixeranga = vals.get('muixeranga_tronc_id', False)
+        if muixeranga:
+            actuacio = self.env['pinya.muixeranga'].browse(muixeranga).actuacio_id
+            vals['data'] = actuacio.data
+            vals['actuacio_id'] = actuacio.id
+        res = super(PinyaMuixerangaTronc, self).create(vals)
+        return res

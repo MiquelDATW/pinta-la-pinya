@@ -113,6 +113,26 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <record id="action_pinta_la_pinya_muixeranga_pinya" model="ir.actions.act_window">
+            <field name="name">Pinya de Muixeranga</field>
+            <field name="res_model">pinya.muixeranga.pinya</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+        </record>
+
+        <record id="action_pinta_la_pinya_muixeranga_tronc" model="ir.actions.act_window">
+            <field name="name">Tronc de Muixeranga</field>
+            <field name="res_model">pinya.muixeranga.tronc</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+        </record>
+
         <menuitem
             id="menu_pinta_la_pinya"
             name="Pinta la Pinya"
@@ -172,5 +192,23 @@
             action="action_pinta_la_pinya_posicions"
             parent="menu_pinta_la_configuracio"
             sequence="10"/>
+
+        <menuitem
+            id="menu_pinta_la_tecnica"
+            name="Tècnica"
+            parent="menu_pinya_root"
+            sequence="4"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_muixeranga_pinya"
+            action="action_pinta_la_pinya_muixeranga_pinya"
+            parent="menu_pinta_la_tecnica"
+            sequence="10"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_muixeranga_tronc"
+            action="action_pinta_la_pinya_muixeranga_tronc"
+            parent="menu_pinta_la_tecnica"
+            sequence="20"/>
     </data>
 </odoo>
