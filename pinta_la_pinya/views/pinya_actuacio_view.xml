@@ -25,7 +25,7 @@
                                     string="Afegir muixerangues"/>
                             <button class="oe_stat_button" type="object"
                                     context="{'actuacio_id': id}"
-                                    name="pinya_muixeranga_wizard" icon="fas fa-calculator"
+                                    name="calcular_muixeranga" icon="fas fa-calculator"
                                     string="Calcular muixerangues"/>
                             <button name="toggle_active" type="object" groups="base.group_user"
                                     class="oe_stat_button" icon="fa-archive">

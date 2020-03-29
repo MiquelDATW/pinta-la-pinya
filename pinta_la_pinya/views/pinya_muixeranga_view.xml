@@ -19,8 +19,14 @@
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_stat_button" type="object"
-                                    name="pinya_muixeranga_wizard" icon="fas fa-calculator"
+                                    name="calcular_muixeranga" icon="fas fa-calculator"
                                     string="Calcular muixeranga"/>
+                            <button class="oe_stat_button" type="object"
+                                    name="tronc_muixeranga" icon="fas fa-cog"
+                                    string="Tronc"/>
+                            <button class="oe_stat_button" type="object"
+                                    name="pinya_muixeranga" icon="fas fa-users"
+                                    string="Pinya"/>
                             <button name="toggle_active" type="object" groups="base.group_user"
                                     class="oe_stat_button" icon="fa-archive">
                                 <field name="active" widget="boolean_button"
@@ -50,37 +56,60 @@
                         </group>
                         <notebook>
                             <page name="tronc" string="Tronc">
-                                <group name="tronc" string="Tronc">
-                                    <field name="tronc_line_ids" nolabel="1">
-                                        <tree editable="top" string="Tronc de muixeranga">
-                                            <field name="name"/>
-                                            <field name="posicio_id"/>
-                                            <field name="membre_tronc_id"
-                                                   options="{'no_create_edit': True}"
-                                                   domain="[('muixeranguera', '=', True), ('id', 'in', disponible_ids)]"/>
-                                            <field name="muixeranga_tronc_id" invisible="1"/>
-                                            <field name="recomanats_ids" widget="many2many_tags"/>
-                                            <field name="disponible_ids" invisible="1"/>
-                                        </tree>
-                                    </field>
-                                </group>
+                                <field name="tronc_line_ids" nolabel="1">
+                                    <tree string="Tronc de muixeranga"
+                                          create="false" edit="false" delete="false">
+                                        <field name="name"/>
+                                        <field name="posicio_id"/>
+                                        <field name="membre_tronc_id"
+                                               options="{'no_create_edit': True}"
+                                               domain="[('muixeranguera', '=', True)]"/>
+                                        <field name="muixeranga_tronc_id" invisible="1"/>
+                                    </tree>
+                                    <form string="Tronc de muixeranga">
+                                        <group>
+                                            <group name="muixeranga_tronc">
+                                                <field name="name" readonly="1"/>
+                                                <field name="posicio_id" readonly="1"/>
+                                                <field name="membre_tronc_id" readonly="1"/>
+                                            </group>
+                                            <group name="muixeranga_dades">
+                                                <field name="muixeranga_tronc_id" readonly="1"/>
+                                                <field name="actuacio_id" readonly="1"/>
+                                                <field name="data" readonly="1"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
                             </page>
                             <page name="pinya" string="Pinya">
-                                <group name="pinya" string="Pinya">
-                                    <field name="pinya_line_ids" nolabel="1">
-                                        <tree editable="bottom" string="Pinya de muixeranga">
-                                            <field name="name"/>
-                                            <field name="rengle"/>
-                                            <field name="posicio_id"/>
-                                            <field name="membre_pinya_id"
-                                                   options="{'no_create_edit': True}"
-                                                   domain="[('muixeranguera', '=', True), ('id', 'in', disponible_ids)]"/>
-                                            <field name="muixeranga_pinya_id" invisible="1"/>
-                                            <field name="recomanats_ids" widget="many2many_tags"/>
-                                            <field name="disponible_ids" invisible="1"/>
-                                        </tree>
-                                    </field>
-                                </group>
+                                <field name="pinya_line_ids" nolabel="1">
+                                    <tree string="Pinya de muixeranga"
+                                          create="false" edit="false" delete="false">
+                                        <field name="name"/>
+                                        <field name="rengle"/>
+                                        <field name="posicio_id"/>
+                                        <field name="membre_pinya_id"
+                                               options="{'no_create_edit': True}"
+                                               domain="[('muixeranguera', '=', True)]"/>
+                                        <field name="muixeranga_pinya_id" invisible="1"/>
+                                    </tree>
+                                    <form string="Pinya de muixeranga">
+                                        <group>
+                                            <group name="muixeranga_pinya">
+                                                <field name="name" readonly="1"/>
+                                                <field name="rengle" readonly="1"/>
+                                                <field name="posicio_id" readonly="1"/>
+                                                <field name="membre_pinya_id" readonly="1"/>
+                                            </group>
+                                            <group name="muixeranga_dades">
+                                                <field name="muixeranga_pinya_id" readonly="1"/>
+                                                <field name="actuacio_id" readonly="1"/>
+                                                <field name="data" readonly="1"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
                             </page>
                             <page name="altra" string="Altra Informació">
                                 <group>
@@ -162,8 +191,8 @@
             </field>
         </record>
 
-        <record id="view_muixeranga_tronc_tree" model="ir.ui.view">
-            <field name="name">pinya.muixeranga.tronc.tree</field>
+        <record id="view_muixeranga_tronc_tree_all" model="ir.ui.view">
+            <field name="name">pinya.muixeranga.tronc.tree.all</field>
             <field name="model">pinya.muixeranga.tronc</field>
             <field name="arch" type="xml">
                 <tree string="Tronc de muixeranga">
@@ -173,6 +202,23 @@
                     <field name="name"/>
                     <field name="posicio_id"/>
                     <field name="membre_tronc_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_muixeranga_tronc_tree_selected" model="ir.ui.view">
+            <field name="name">pinya.muixeranga.tronc.tree.selected</field>
+            <field name="model">pinya.muixeranga.tronc</field>
+            <field name="arch" type="xml">
+                <tree editable="top" string="Tronc de muixeranga">
+                    <field name="name"/>
+                    <field name="posicio_id"/>
+                    <field name="membre_tronc_id"
+                           options="{'no_create_edit': True}"
+                           domain="[('muixeranguera', '=', True), ('id', 'in', disponible_ids)]"/>
+                    <field name="muixeranga_tronc_id" invisible="1"/>
+                    <field name="recomanats_ids" widget="many2many_tags"/>
+                    <field name="disponible_ids" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -207,8 +253,8 @@
             </field>
         </record>
 
-        <record id="view_muixeranga_pinya_tree" model="ir.ui.view">
-            <field name="name">pinya.muixeranga.pinya.tree</field>
+        <record id="view_muixeranga_pinya_tree_all" model="ir.ui.view">
+            <field name="name">pinya.muixeranga.pinya.tree.all</field>
             <field name="model">pinya.muixeranga.pinya</field>
             <field name="arch" type="xml">
                 <tree string="Pinya de muixeranga">
@@ -219,6 +265,25 @@
                     <field name="rengle"/>
                     <field name="posicio_id"/>
                     <field name="membre_pinya_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_muixeranga_pinya_tree_selected" model="ir.ui.view">
+            <field name="name">pinya.muixeranga.pinya.tree.selected</field>
+            <field name="model">pinya.muixeranga.pinya</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Pinya de muixeranga">
+                    <field name="name"/>
+                    <field name="rengle"/>
+                    <field name="posicio_id"/>
+                    <field name="membre_pinya_id"
+                           options="{'no_create_edit': True}"
+                           domain="[('muixeranguera', '=', True), ('id', 'in', disponible_ids)]"/>
+                    <field name="muixeranga_pinya_id" invisible="1"/>
+                    <field name="recomanats"/>
+                    <field name="recomanats_ids" widget="many2many_tags"/>
+                    <field name="disponible_ids" invisible="1"/>
                 </tree>
             </field>
         </record>

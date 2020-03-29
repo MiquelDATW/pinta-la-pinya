@@ -94,3 +94,6 @@ class PinyaActuacio(models.Model):
             'context': {}
         }
         return action
+
+    def calcular_muixeranga(self):
+        print(fields.Datetime.now())

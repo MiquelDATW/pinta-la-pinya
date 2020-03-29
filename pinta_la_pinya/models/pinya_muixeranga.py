@@ -71,6 +71,41 @@ class PinyaMuixeranga(models.Model):
             muix.pinya_count = p
             muix.membres_count = t + p
 
+    def calcular_muixeranga(self):
+        print(fields.Datetime.now())
+
+    def tronc_muixeranga(self):
+        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_selected').id
+        name = self.name
+        domain = [('id', 'in', self.tronc_line_ids.ids)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_tree_id, 'tree')],
+            'view_mode': 'tree',
+            'name': "Tronc de {}".format(name),
+            'target': 'current',
+            'res_model': 'pinya.muixeranga.tronc',
+            'context': {},
+            'domain': domain,
+        }
+        return action
+
+    def pinya_muixeranga(self):
+        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_tree_selected').id
+        name = self.name
+        domain = [('id', 'in', self.pinya_line_ids.ids)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_tree_id, 'tree')],
+            'view_mode': 'tree',
+            'name': "Pinya de {}".format(name),
+            'target': 'current',
+            'res_model': 'pinya.muixeranga.pinya',
+            'context': {},
+            'domain': domain,
+        }
+        return action
+
 
 class PinyaMuixerangaPinya(models.Model):
     _name = "pinya.muixeranga.pinya"
@@ -90,26 +125,41 @@ class PinyaMuixerangaPinya(models.Model):
 
     disponible_ids = fields.Many2many(string="Disponibles", comodel_name="hr.employee", compute="_compute_disponible")
     recomanats_ids = fields.Many2many(string="Recomanats", comodel_name="hr.employee", compute="_compute_disponible")
+    recomanats = fields.Char(string="Recomanats")
 
     @api.onchange('membre_pinya_id')
     def onchange_membre_pinya(self):
         print("membre_pinya_id")
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_view_reload',
+        }
 
     @api.multi
     @api.depends('muixeranga_pinya_id.lliure_ids')
     def _compute_disponible(self):
-        max_all = 6
-        pinya = self.mapped('muixeranga_pinya_id')
-        if len(pinya) > 1:
+        if not bool(self.ids):
             return False
-        muixers = pinya.lliure_ids
-        for pinya in self:
+        max_all = 6
+        muixeranga = self.mapped('muixeranga_pinya_id')
+        if len(muixeranga) > 1:
+            return False
+        muixers = muixeranga.lliure_ids
+        pinyes = muixeranga.pinya_line_ids
+        for pinya in pinyes:
             p1 = muixers.filtered(lambda x: pinya.posicio_id.id in x.posicio_ids.ids)
             p2 = p1.sorted(lambda x: x.employee_skill_ids.filtered(lambda x: x.skill_id.id == pinya.posicio_id.id).level,
                           reverse=True)
             p3 = p2[0:max_all] if len(p2) > max_all else p2
+            pinya.write({'recomanats': ", ".join(p3.mapped('name'))})
             pinya.recomanats_ids = [(6, 0, p3.ids)]
             pinya.disponible_ids = [(6, 0, p2.ids)]
+        if len(self) == 1:
+            self.ensure_one()
+            return {
+                'type': 'ir.actions.act_view_reload',
+                'tag': 'reload',
+            }
 
     @api.model
     def create(self, vals):
@@ -119,6 +169,11 @@ class PinyaMuixerangaPinya(models.Model):
             vals['data'] = actuacio.data
             vals['actuacio_id'] = actuacio.id
         res = super(PinyaMuixerangaPinya, self).create(vals)
+        return res
+
+    @api.multi
+    def write(self, vals):
+        res = super(PinyaMuixerangaPinya, self).write(vals)
         return res
 
 
