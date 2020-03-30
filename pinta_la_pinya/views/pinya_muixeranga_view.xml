@@ -281,7 +281,6 @@
                            options="{'no_create_edit': True}"
                            domain="[('muixeranguera', '=', True), ('id', 'in', disponible_ids)]"/>
                     <field name="muixeranga_pinya_id" invisible="1"/>
-                    <field name="recomanats"/>
                     <field name="recomanats_ids" widget="many2many_tags"/>
                     <field name="disponible_ids" invisible="1"/>
                 </tree>

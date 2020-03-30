@@ -139,6 +139,14 @@
                 <field name="child_ids" position="attributes">
                     <attribute name="invisible">0</attribute>
                 </field>
+                <field name="child_ids" position="after">
+                    <field name="employee_skill_ids">
+                        <tree default_order="level desc">
+                            <field name="employee_id"/>
+                            <field name="level" widget="priority"/>
+                        </tree>
+                    </field>
+                </field>
             </field>
         </record>
     </data>
