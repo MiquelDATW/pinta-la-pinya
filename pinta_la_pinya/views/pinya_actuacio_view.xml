@@ -52,13 +52,15 @@
                         <notebook>
                             <page name="muixerangues" string="Muixerangues">
                                 <group name="muixerangues" string="Muixerangues">
-                                    <field name="muixeranga_ids" nolabel="1"/>
+                                    <field name="muixerangues_count"/>
                                 </group>
+                                <field name="muixeranga_ids" nolabel="1"/>
                             </page>
                             <page name="membres" string="Membres">
                                 <group name="membres" string="Membres">
-                                    <field name="membre_ids" nolabel="1"/>
+                                    <field name="membres_count"/>
                                 </group>
+                                <field name="membre_ids" nolabel="1"/>
                             </page>
                         </notebook>
                     </sheet>

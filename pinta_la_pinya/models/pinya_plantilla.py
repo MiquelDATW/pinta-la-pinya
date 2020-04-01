@@ -28,16 +28,18 @@ class PinyaPlantilla(models.Model):
         ('4', '4'),  ('5', '5'),  ('6', '6'),
     ], string='Pisos', required=True)
 
+    neta = fields.Boolean(string="Sense pinya", default=False)
+
     plantilla_line_ids = fields.One2many('pinya.plantilla.line', 'plantilla_id', string="Plantilla")
-    membres_count = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
-    pinya_count = fields.Integer(compute='_compute_membres_count', string='Persones pinya', store=True)
-    tronc_count = fields.Integer(compute='_compute_membres_count', string='Persones tronc', store=True)
+    total_count = fields.Integer(compute='_compute_total_count', string='Total persones', store=True)
+    pinya_count = fields.Integer(compute='_compute_total_count', string='Persones pinya', store=True)
+    tronc_count = fields.Integer(compute='_compute_total_count', string='Persones tronc', store=True)
 
     image = fields.Binary("Image", attachment=True, help="Limitat a 1024x1024px.")
 
     @api.multi
     @api.depends('plantilla_line_ids', 'plantilla_line_ids.posicions_qty', 'plantilla_line_ids.rengles')
-    def _compute_membres_count(self):
+    def _compute_total_count(self):
         for plantilla in self:
             tronc = plantilla.plantilla_line_ids.filtered(lambda x: x.tipus == 'tronc')
             pinya = plantilla.plantilla_line_ids.filtered(lambda x: x.tipus == 'pinya')
@@ -45,7 +47,7 @@ class PinyaPlantilla(models.Model):
             p = sum(p.posicions_qty * p.rengles for p in pinya)
             plantilla.tronc_count = t
             plantilla.pinya_count = p
-            plantilla.membres_count = t + p
+            plantilla.total_count = t + p
 
     def crear_muixeranga(self, actuacio):
         obj_actua = self.env['pinya.actuacio']
@@ -80,6 +82,11 @@ class PinyaPlantilla(models.Model):
                     new_line += obj_tronc.create(line_vals)
 
         vals['tronc_line_ids'] = [(6, 0, new_line.ids)]
+
+        if self.neta:
+            vals['pinya_line_ids'] = False
+            res = obj_muixe.create(vals)
+            return res
 
         new_line = self.env['pinya.muixeranga.pinya']
         pinya = self.plantilla_line_ids.filtered(lambda x: x.tipus == 'pinya')

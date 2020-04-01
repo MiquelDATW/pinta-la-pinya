@@ -26,6 +26,7 @@
                                     string="Tronc"/>
                             <button class="oe_stat_button" type="object"
                                     name="pinya_muixeranga" icon="fas fa-users"
+                                    attrs="{'invisible': [('neta', '=', True)]}"
                                     string="Pinya"/>
                             <button name="toggle_active" type="object" groups="base.group_user"
                                     class="oe_stat_button" icon="fa-archive">
@@ -44,13 +45,15 @@
                             <group name="principal">
                                 <field name="pisos"/>
                                 <field name="tipus"/>
+                                <field name="neta"
+                                       attrs="{'invisible': [('neta', '=', False)]}"/>
                                 <field name="plantilla_id"/>
                                 <field name="actuacio_id"/>
                             </group>
                             <group name="count" string="Membres">
                                 <field name="tronc_count"/>
                                 <field name="pinya_count"/>
-                                <field name="membres_count"/>
+                                <field name="total_count"/>
                             </group>
                             <field name="notes" placeholder="Altra informació..." colspan="4"/>
                         </group>
@@ -82,7 +85,8 @@
                                     </form>
                                 </field>
                             </page>
-                            <page name="pinya" string="Pinya">
+                            <page name="pinya" string="Pinya"
+                                  attrs="{'invisible': [('neta', '=', True)]}">
                                 <field name="pinya_line_ids" nolabel="1">
                                     <tree string="Pinya de muixeranga"
                                           create="false" edit="false" delete="false">
@@ -134,13 +138,15 @@
                             </page>
                             <page name="membres" string="Membres">
                                 <group name="membres" string="Membres">
-                                    <field name="membre_ids" nolabel="1"/>
+                                    <field name="membre_count"/>
                                 </group>
+                                <field name="membre_ids" nolabel="1"/>
                             </page>
                             <page name="lliures" string="Lliures">
                                 <group name="lliures" string="Lliures">
-                                    <field name="lliure_ids" nolabel="1"/>
+                                    <field name="lliure_count"/>
                                 </group>
+                                <field name="lliure_ids" nolabel="1"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -165,7 +171,7 @@
                     <field name="cordons"/>
                     <field name="tronc_count"/>
                     <field name="pinya_count"/>
-                    <field name="membres_count"/>
+                    <field name="total_count"/>
                 </tree>
             </field>
         </record>

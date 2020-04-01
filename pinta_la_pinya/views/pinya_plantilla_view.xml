@@ -33,11 +33,12 @@
                             <group name="principal" string="Info">
                                 <field name="pisos"/>
                                 <field name="tipus"/>
+                                <field name="neta"/>
                             </group>
                             <group name="count" string="Membres">
                                 <field name="tronc_count"/>
                                 <field name="pinya_count"/>
-                                <field name="membres_count"/>
+                                <field name="total_count"/>
                             </group>
                             <field name="notes" placeholder="Altra informació..." colspan="4"/>
                         </group>
@@ -64,7 +65,7 @@
                     <field name="plantilla_line_ids" widget="many2many_tags"/>
                     <field name="tronc_count"/>
                     <field name="pinya_count"/>
-                    <field name="membres_count"/>
+                    <field name="total_count"/>
                 </tree>
             </field>
         </record>

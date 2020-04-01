@@ -14,12 +14,13 @@ class PinyaMuixeranga(models.Model):
 
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
     active = fields.Boolean(string="Actiu", default=True)
-    plantilla_id = fields.Many2one("pinya.plantilla", string="Plantilla", required=True, readonly="1")
+    plantilla_id = fields.Many2one("pinya.plantilla", string="Plantilla", required=True, readonly=True)
     notes = fields.Text(string="Altra informació")
 
-    tipus = fields.Selection(related="plantilla_id.tipus", string='Tipus', required=True, readonly="1")
-    pisos = fields.Selection(related="plantilla_id.pisos", string='Pisos', required=True, readonly="1")
-    cordons = fields.Integer(compute='_compute_cordons', string='Cordons', store=True, readonly="1")
+    tipus = fields.Selection(related="plantilla_id.tipus", string='Tipus', store=True, readonly=True)
+    pisos = fields.Selection(related="plantilla_id.pisos", string='Pisos', store=True, readonly=True)
+    neta = fields.Boolean(related="plantilla_id.neta", string='Sense pinya', store=True, readonly=True)
+    cordons = fields.Integer(compute='_compute_cordons', string='Cordons', store=True, readonly=True)
 
     tronc_line_ids = fields.One2many('pinya.muixeranga.tronc', 'muixeranga_tronc_id', string="Tronc", copy=True)
     pinya_line_ids = fields.One2many('pinya.muixeranga.pinya', 'muixeranga_pinya_id', string="Pinya", copy=True)
@@ -28,13 +29,15 @@ class PinyaMuixeranga(models.Model):
     passadora_id = fields.Many2one('hr.employee', string="Passadora")
     estiradora_id = fields.Many2one('hr.employee', string="Estiradora")
     resp_xicalla_ids = fields.Many2many('hr.employee', string="Responsable de xicalla")
-    membres_count = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
-    pinya_count = fields.Integer(compute='_compute_membres_count', string='Persones pinya', store=True)
-    tronc_count = fields.Integer(compute='_compute_membres_count', string='Persones tronc', store=True)
+    total_count = fields.Integer(compute='_compute_total_count', string='Total persones', store=True)
+    pinya_count = fields.Integer(compute='_compute_total_count', string='Persones pinya', store=True)
+    tronc_count = fields.Integer(compute='_compute_total_count', string='Persones tronc', store=True)
 
     actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio")
     membre_ids = fields.Many2many('hr.employee', string="Membres", related="actuacio_id.membre_ids")
+    membre_count = fields.Integer(string='Total Membres', related='actuacio_id.membres_count')
     lliure_ids = fields.Many2many('hr.employee', string="Lliures", compute="_compute_lliures")
+    lliure_count = fields.Integer(compute='_compute_lliures', string='Total Lliures')
 
     estat = fields.Selection([
         ('draft', 'Esborrany'),
@@ -54,24 +57,26 @@ class PinyaMuixeranga(models.Model):
         xicalleres = self.resp_xicalla_ids
         lliures = membres - troncs - pinyes - altres - xicalleres
         self.lliure_ids = [(6, 0, lliures.ids)]
+        self.lliure_count = len(lliures.ids)
         return lliures
 
     @api.multi
     @api.depends('pinya_line_ids')
     def _compute_cordons(self):
-        for muix in self:
+        muixs = self.filtered(lambda x: not x.neta)
+        for muix in muixs:
             c = max(muix.pinya_line_ids.mapped('name'))
             muix.cordons = c
 
     @api.multi
     @api.depends('tronc_line_ids', 'pinya_line_ids')
-    def _compute_membres_count(self):
+    def _compute_total_count(self):
         for muix in self:
             t = len(muix.tronc_line_ids)
             p = len(muix.pinya_line_ids)
             muix.tronc_count = t
             muix.pinya_count = p
-            muix.membres_count = t + p
+            muix.total_count = t + p
 
     def calcular_muixeranga(self):
         print(fields.Datetime.now())
