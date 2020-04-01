@@ -45,14 +45,12 @@
                         <group name="habilitats">
                             <field name="employee_skill_ids" nolabel="1">
                                 <tree>
+                                    <field name="name"/>
                                     <field name="skill_id"/>
                                     <field name="description"/>
                                     <field name="level" widget="priority"/>
                                 </tree>
                             </field>
-                        </group>
-                        <group>
-                            <field name="posicio_ids" nolabel="1"/>
                         </group>
                     </page>
                     <page name="tronc" string="Troncs">
@@ -105,9 +103,6 @@
                         <field name="name"/>
                         <field name="data_inscripcio"/>
                         <field name="employee_skill_ids" widget="many2many_tags"/>
-                        <!--
-                        <field name="pinya_ids" widget="many2many_tags"/>
-                        <field name="tronc_ids" widget="many2many_tags"/>-->
                         <field name="message_needaction" invisible="1"/>
                     </tree>
                 </xpath>
@@ -140,12 +135,26 @@
                     <attribute name="invisible">0</attribute>
                 </field>
                 <field name="child_ids" position="after">
-                    <field name="employee_skill_ids">
-                        <tree default_order="level desc">
-                            <field name="employee_id"/>
-                            <field name="level" widget="priority"/>
-                        </tree>
-                    </field>
+                    <notebook>
+                        <page name="employee_skill" string="employee_skill">
+                            <field name="employee_skill_ids">
+                                <tree default_order="level desc">
+                                    <field name="name"/>
+                                    <field name="employee_id"/>
+                                    <field name="level" widget="priority"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="employee_level" string="employee_level">
+                            <field name="employee_level_ids">
+                                <tree editable="bottom" default_order="level desc">
+                                    <field name="name"/>
+                                    <field name="employee_id"/>
+                                    <field name="level" widget="priority"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </field>
             </field>
         </record>
