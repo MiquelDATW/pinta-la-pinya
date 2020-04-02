@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="view_skill_tree" model="ir.ui.view">
+            <field name="name">hr.skill.tree</field>
+            <field name="model">hr.skill</field>
+            <field name="inherit_id" ref="hr_skill.view_hr_skill_tree"/>
+            <field name="arch" type="xml">
+                <field name="display_name" position="before">
+                    <field name="tipus"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_skill_form" model="ir.ui.view">
+            <field name="name">hr.skill.form</field>
+            <field name="model">hr.skill</field>
+            <field name="inherit_id" ref="hr_skill.view_skill_form"/>
+            <field name="arch" type="xml">
+                <field name="description" position="before">
+                    <field name="tipus"/>
+                </field>
+                <field name="parent_id" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </field>
+                <field name="child_ids" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </field>
+
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="object"
+                            name="employee_skill" icon="fas fa-star"
+                            string="Posicions nivell"/>
+                    <button class="oe_stat_button" type="object"
+                            groups="base.group_no_one"
+                            name="employee_level" icon="fas fa-user"
+                            string="Membres nivell"/>
+                </div>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_skill_tree" model="ir.ui.view">
+            <field name="name">hr.employee.skill.tree</field>
+            <field name="model">hr.employee.skill</field>
+            <field name="arch" type="xml">
+                <tree string="Posicions nivell" default_order="level desc">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="level" widget="priority"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_skill_form" model="ir.ui.view">
+            <field name="name">hr.employee.skill.form</field>
+            <field name="model">hr.employee.skill</field>
+            <field name="arch" type="xml">
+                <form string="Posicions nivell">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="employee_id"/>
+                            <field name="level" widget="priority"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_level_tree" model="ir.ui.view">
+            <field name="name">hr.employee.level.tree</field>
+            <field name="model">hr.employee.level</field>
+            <field name="arch" type="xml">
+                <tree string="Membres nivell" default_order="level desc">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="level" widget="priority"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_level_form" model="ir.ui.view">
+            <field name="name">hr.employee.level.form</field>
+            <field name="model">hr.employee.level</field>
+            <field name="arch" type="xml">
+                <form string="Membres nivell">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="employee_id"/>
+                            <field name="level" widget="priority"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

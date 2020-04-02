@@ -57,6 +57,38 @@ class HrSkill(models.Model):
 
     employee_level_ids = fields.One2many('hr.employee.level', 'skill_id', string="Employee Level")
 
+    def employee_skill(self):
+        view_tree_id = self.env.ref('pinta_la_pinya.view_hr_employee_skill_tree').id
+        view_form_id = self.env.ref('pinta_la_pinya.view_hr_employee_skill_form').id
+        domain = [('id', 'in', self.employee_skill_ids.ids)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': "Posicions nivell",
+            'target': 'current',
+            'res_model': 'hr.employee.skill',
+            'context': {},
+            'domain': domain,
+        }
+        return action
+
+    def employee_level(self):
+        view_tree_id = self.env.ref('pinta_la_pinya.view_hr_employee_level_tree').id
+        view_form_id = self.env.ref('pinta_la_pinya.view_hr_employee_level_form').id
+        domain = [('id', 'in', self.employee_level_ids.ids)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': "Membres nivell",
+            'target': 'current',
+            'res_model': 'hr.employee.level',
+            'context': {},
+            'domain': domain,
+        }
+        return action
+
 
 class HrEmployeeSkill(models.Model):
     _inherit = 'hr.employee.skill'
