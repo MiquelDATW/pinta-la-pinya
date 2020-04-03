@@ -45,11 +45,29 @@
                         <group name="habilitats">
                             <field name="employee_skill_ids" nolabel="1">
                                 <tree>
-                                    <field name="name"/>
                                     <field name="skill_id"/>
-                                    <field name="description"/>
                                     <field name="level" widget="priority"/>
+                                    <field name="description"/>
+                                    <field name="count_total"/>
+                                    <field name="count_sismesos"/>
                                 </tree>
+                                <form string="Posicions nivell">
+                                    <header>
+                                    </header>
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="employee_id"/>
+                                                <field name="skill_id"/>
+                                                <field name="level"/>
+                                            </group>
+                                            <group>
+                                                <field name="count_total"/>
+                                                <field name="count_sismesos"/>
+                                            </group>
+                                        </group>
+                                    </sheet>
+                                </form>
                             </field>
                         </group>
                     </page>
@@ -99,8 +117,12 @@
             <field name="arch" type="xml">
                 <tree string="Employees" decoration-bf="message_needaction==True">
                     <field name="name"/>
-                    <field name="data_inscripcio"/>
-                    <field name="employee_skill_ids" widget="many2many_tags"/>
+                    <field name="mesos_inscrit"/>
+                    <field name="count_3stars"/>
+                    <field name="count_2stars"/>
+                    <field name="count_1stars"/>
+                    <field name="count_total"/>
+                    <field name="count_sismesos"/>
                     <field name="message_needaction" invisible="1"/>
                 </tree>
             </field>

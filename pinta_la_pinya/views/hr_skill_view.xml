@@ -13,6 +13,17 @@
                 <field name="display_name" position="before">
                     <field name="tipus"/>
                 </field>
+                <field name="display_name" position="after">
+                    <field name="tecnica" widget="priority" readonly="1"/>
+                </field>
+                <field name="color" position="before">
+                    <field name="count_3stars"/>
+                    <field name="count_2stars"/>
+                    <field name="count_1stars"/>
+                </field>
+                <field name="color" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
             </field>
         </record>
 
@@ -21,11 +32,12 @@
             <field name="model">hr.skill</field>
             <field name="inherit_id" ref="hr_skill.view_skill_form"/>
             <field name="arch" type="xml">
-                <field name="description" position="before">
+                <field name="color" position="before">
                     <field name="tipus"/>
+                    <field name="tecnica" widget="priority"/>
                 </field>
-                <field name="parent_id" position="attributes">
-                    <attribute name="invisible">0</attribute>
+                <field name="color" position="attributes">
+                    <attribute name="invisible">1</attribute>
                 </field>
                 <field name="child_ids" position="attributes">
                     <attribute name="invisible">0</attribute>
@@ -40,6 +52,9 @@
                             name="employee_level" icon="fas fa-user"
                             string="Membres nivell"/>
                 </div>
+                <button name="toggle_active" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
             </field>
         </record>
 
@@ -47,10 +62,12 @@
             <field name="name">hr.employee.skill.tree</field>
             <field name="model">hr.employee.skill</field>
             <field name="arch" type="xml">
-                <tree string="Posicions nivell" default_order="level desc">
-                    <field name="name"/>
+                <tree string="Posicions nivell">
+                    <field name="name" invisible="1"/>
                     <field name="employee_id"/>
-                    <field name="level" widget="priority"/>
+                    <field name="level" widget="priority" readonly="1"/>
+                    <field name="count_total"/>
+                    <field name="count_sismesos"/>
                 </tree>
             </field>
         </record>
@@ -64,9 +81,14 @@
                     </header>
                     <sheet>
                         <group>
-                            <field name="name"/>
-                            <field name="employee_id"/>
-                            <field name="level" widget="priority"/>
+                            <group>
+                                <field name="name" invisible="1"/>
+                                <field name="skill_id" readonly="1"/>
+                                <field name="employee_id"/>
+                                <field name="level"/>
+                                <field name="count_total"/>
+                                <field name="count_sismesos"/>
+                            </group>
                         </group>
                     </sheet>
                 </form>
@@ -77,10 +99,13 @@
             <field name="name">hr.employee.level.tree</field>
             <field name="model">hr.employee.level</field>
             <field name="arch" type="xml">
-                <tree string="Membres nivell" default_order="level desc">
-                    <field name="name"/>
+                <tree string="Membres nivell">
+                    <field name="name" invisible="1"/>
                     <field name="employee_id"/>
-                    <field name="level" widget="priority"/>
+                    <field name="level" widget="priority" readonly="1"/>
+                    <field name="count_total"/>
+                    <field name="count_sismesos"/>
+                    <field name="employee_skill_id"/>
                 </tree>
             </field>
         </record>
@@ -94,9 +119,14 @@
                     </header>
                     <sheet>
                         <group>
-                            <field name="name"/>
-                            <field name="employee_id"/>
-                            <field name="level" widget="priority"/>
+                            <group>
+                                <field name="name" invisible="1"/>
+                                <field name="skill_id" readonly="1"/>
+                                <field name="employee_id" readonly="1"/>
+                                <field name="level" widget="priority" readonly="1"/>
+                                <field name="count_total" readonly="1"/>
+                                <field name="count_sismesos" readonly="1"/>
+                            </group>
                         </group>
                     </sheet>
                 </form>
