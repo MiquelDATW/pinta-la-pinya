@@ -65,7 +65,7 @@ class PinyaMuixeranga(models.Model):
     def _compute_cordons(self):
         muixs = self.filtered(lambda x: not x.neta)
         for muix in muixs:
-            c = max(muix.pinya_line_ids.mapped('name'))
+            c = max(muix.pinya_line_ids.mapped('name') or [0])
             muix.cordons = c
 
     @api.multi
@@ -115,6 +115,14 @@ class PinyaMuixeranga(models.Model):
         }
         return action
 
+    @api.multi
+    def unlink(self):
+        for muixe in self:
+            muixe.pinya_line_ids.unlink()
+            muixe.tronc_line_ids.unlink()
+        res = super(PinyaMuixeranga, self).unlink()
+        return res
+
 
 class PinyaMuixerangaPinya(models.Model):
     _name = "pinya.muixeranga.pinya"
@@ -126,6 +134,13 @@ class PinyaMuixerangaPinya(models.Model):
     active = fields.Boolean(string="Actiu", default=True)
     data = fields.Date(string="Data", related="muixeranga_pinya_id.actuacio_id.data", readonly=True, store=True)
 
+    tecnica = fields.Selection([
+        ('0', 'Inicial'),
+        ('1', 'Mitjana'),
+        ('2', 'Avançada'),
+        ('3', 'Experta'),
+    ], string='Tècnica', default="1", required=True)
+
     posicio_id = fields.Many2one(string="Posició", comodel_name="hr.skill")
     muixeranga_pinya_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
     membre_pinya_id = fields.Many2one(string="Membre Pinya", comodel_name="hr.employee",
@@ -133,7 +148,12 @@ class PinyaMuixerangaPinya(models.Model):
     membre_pinya_level_id = fields.Many2one(string="Membre Pinya Level", comodel_name="hr.employee.level")
     actuacio_id = fields.Many2one(string="Actuació", related="muixeranga_pinya_id.actuacio_id", readonly=True, store=True)
 
-    recomanats_ids = fields.Many2many(string="Recomanats ⭐", comodel_name="hr.employee.level", compute="_compute_recomanats")
+    recomanats_ids = fields.Many2many(string="Recomanats", comodel_name="hr.employee.level", compute="_compute_recomanats")
+
+    _sql_constraints = [
+        ('muixeranga_membre_pinya_uniq', 'unique(muixeranga_pinya_id, membre_pinya_id)',
+         "Aquest membre fa forma part de la figura!"),
+    ]
 
     @api.multi
     def _compute_recomanats(self):
@@ -170,6 +190,13 @@ class PinyaMuixerangaTronc(models.Model):
     active = fields.Boolean(string="Actiu", default=True)
     data = fields.Date(string="Data", related="muixeranga_tronc_id.actuacio_id.data", readonly=True, store=True)
 
+    tecnica = fields.Selection([
+        ('0', 'Inicial'),
+        ('1', 'Mitjana'),
+        ('2', 'Avançada'),
+        ('3', 'Experta'),
+    ], string='Tècnica', default="1", required=True)
+
     posicio_id = fields.Many2one(string="Posició", comodel_name="hr.skill")
     muixeranga_tronc_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
     membre_tronc_id = fields.Many2one(string="Membre Tronc", comodel_name="hr.employee",
@@ -177,7 +204,12 @@ class PinyaMuixerangaTronc(models.Model):
     membre_tronc_level_id = fields.Many2one(string="Membre Tronc Level", comodel_name="hr.employee.level")
     actuacio_id = fields.Many2one(string="Actuació", related="muixeranga_tronc_id.actuacio_id", readonly=True, store=True)
 
-    recomanats_ids = fields.Many2many(string="Recomanats ⭐", comodel_name="hr.employee.level", compute="_compute_recomanats")
+    recomanats_ids = fields.Many2many(string="Recomanats", comodel_name="hr.employee.level", compute="_compute_recomanats")
+
+    _sql_constraints = [
+        ('muixeranga_membre_tronc_uniq', 'unique(muixeranga_tronc_id, membre_tronc_id)',
+         "Aquest membre fa forma part de la figura!"),
+    ]
 
     @api.multi
     def _compute_recomanats(self):

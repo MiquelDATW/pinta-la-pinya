@@ -64,6 +64,7 @@
                                           create="false" edit="false" delete="false">
                                         <field name="name"/>
                                         <field name="posicio_id"/>
+                                        <field name="tecnica" widget="priority" readonly="1"/>
                                         <field name="membre_tronc_id"
                                                options="{'no_create_edit': True}"
                                                domain="[('muixeranguera', '=', True)]"/>
@@ -74,6 +75,7 @@
                                             <group name="muixeranga_tronc">
                                                 <field name="name" readonly="1"/>
                                                 <field name="posicio_id" readonly="1"/>
+                                                <field name="tecnica" widget="priority" readonly="1"/>
                                                 <field name="membre_tronc_id" readonly="1"/>
                                             </group>
                                             <group name="muixeranga_dades">
@@ -93,6 +95,7 @@
                                         <field name="name"/>
                                         <field name="rengle"/>
                                         <field name="posicio_id"/>
+                                        <field name="tecnica" widget="priority" readonly="1"/>
                                         <field name="membre_pinya_id"
                                                options="{'no_create_edit': True}"
                                                domain="[('muixeranguera', '=', True)]"/>
@@ -104,6 +107,7 @@
                                                 <field name="name" readonly="1"/>
                                                 <field name="rengle" readonly="1"/>
                                                 <field name="posicio_id" readonly="1"/>
+                                                <field name="tecnica" widget="priority" readonly="1"/>
                                                 <field name="membre_pinya_id" readonly="1"/>
                                             </group>
                                             <group name="muixeranga_dades">
@@ -192,6 +196,7 @@
                             <group name="muixeranga_tronc">
                                 <field name="name"/>
                                 <field name="posicio_id"/>
+                                <field name="tecnica" widget="priority"/>
                                 <field name="membre_tronc_id"
                                        options="{'no_create_edit': True}"
                                        domain="[('muixeranguera', '=', True)]"/>
@@ -217,6 +222,7 @@
                     <field name="muixeranga_tronc_id"/>
                     <field name="name"/>
                     <field name="posicio_id"/>
+                    <field name="tecnica" widget="priority"/>
                     <field name="membre_tronc_id"/>
                 </tree>
             </field>
@@ -226,10 +232,11 @@
             <field name="name">pinya.muixeranga.tronc.tree.selected</field>
             <field name="model">pinya.muixeranga.tronc</field>
             <field name="arch" type="xml">
-                <tree editable="bottom" string="Tronc de muixeranga">
-                    <field name="name"/>
-                    <field name="posicio_id"/>
-                    <field name="membre_tronc_id"/>
+                <tree create="0" editable="bottom" string="Tronc de muixeranga">
+                    <field name="name" readonly="1"/>
+                    <field name="posicio_id" readonly="1"/>
+                    <field name="tecnica" widget="priority" readonly="1"/>
+                    <field name="membre_tronc_id" readonly="1"/>
                     <field name="membre_tronc_level_id"
                            options="{'no_create_edit': True}"
                            domain="[('id', 'in', recomanats_ids)]"/>
@@ -256,6 +263,7 @@
                                 <field name="name"/>
                                 <field name="rengle" readonly="1"/>
                                 <field name="posicio_id"/>
+                                <field name="tecnica" widget="priority"/>
                                 <field name="membre_pinya_id"
                                        options="{'no_create_edit': True}"
                                        domain="[('muixeranguera', '=', True)]"/>
@@ -282,6 +290,7 @@
                     <field name="name"/>
                     <field name="rengle"/>
                     <field name="posicio_id"/>
+                    <field name="tecnica" widget="priority"/>
                     <field name="membre_pinya_id"/>
                 </tree>
             </field>
@@ -291,11 +300,12 @@
             <field name="name">pinya.muixeranga.pinya.tree.selected</field>
             <field name="model">pinya.muixeranga.pinya</field>
             <field name="arch" type="xml">
-                <tree editable="bottom" string="Pinya de muixeranga">
-                    <field name="name"/>
-                    <field name="rengle"/>
-                    <field name="posicio_id"/>
-                    <field name="membre_pinya_id"/>
+                <tree create="0" editable="bottom" string="Pinya de muixeranga">
+                    <field name="name" readonly="1"/>
+                    <field name="rengle" readonly="1"/>
+                    <field name="posicio_id" readonly="1"/>
+                    <field name="tecnica" widget="priority" readonly="1"/>
+                    <field name="membre_pinya_id" readonly="1"/>
                     <field name="membre_pinya_level_id"
                            options="{'no_create_edit': True}"
                            domain="[('id', 'in', recomanats_ids)]"/>

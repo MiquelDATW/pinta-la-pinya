@@ -13,15 +13,15 @@
                 <field name="display_name" position="before">
                     <field name="tipus"/>
                 </field>
-                <field name="display_name" position="after">
-                    <field name="tecnica" widget="priority" readonly="1"/>
-                </field>
                 <field name="color" position="before">
                     <field name="count_3stars"/>
                     <field name="count_2stars"/>
                     <field name="count_1stars"/>
                 </field>
                 <field name="color" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="description" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
             </field>
@@ -32,16 +32,20 @@
             <field name="model">hr.skill</field>
             <field name="inherit_id" ref="hr_skill.view_skill_form"/>
             <field name="arch" type="xml">
-                <field name="color" position="before">
-                    <field name="tipus"/>
-                    <field name="tecnica" widget="priority"/>
-                </field>
-                <field name="color" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
-                <field name="child_ids" position="attributes">
-                    <attribute name="invisible">0</attribute>
-                </field>
+                <xpath expr="//group" position="replace">
+                    <group>
+                        <group>
+                            <field name="tipus"/>
+                            <field name="count_3stars"/>
+                            <field name="count_2stars"/>
+                            <field name="count_1stars"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </xpath>
+                <field name="child_ids" position="replace"/>
 
                 <div name="button_box" position="inside">
                     <button class="oe_stat_button" type="object"

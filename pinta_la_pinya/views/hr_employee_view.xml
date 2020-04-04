@@ -47,7 +47,6 @@
                                 <tree>
                                     <field name="skill_id"/>
                                     <field name="level" widget="priority"/>
-                                    <field name="description"/>
                                     <field name="count_total"/>
                                     <field name="count_sismesos"/>
                                 </tree>

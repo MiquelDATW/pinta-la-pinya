@@ -24,9 +24,14 @@
                                     name="pinya_muixeranga_wizard" icon="fas fa-plus-square"
                                     string="Afegir muixerangues"/>
                             <button class="oe_stat_button" type="object"
-                                    context="{'actuacio_id': id}"
                                     name="calcular_muixeranga" icon="fas fa-calculator"
                                     string="Calcular muixerangues"/>
+                            <button class="oe_stat_button" type="object"
+                                    name="mostrar_muixerangues" icon="fas fa-cogs"
+                                    string="Muixerangues"/>
+                            <button class="oe_stat_button" type="object"
+                                    name="mostrar_membres" icon="fas fa-users"
+                                    string="Membres"/>
                             <button name="toggle_active" type="object" groups="base.group_user"
                                     class="oe_stat_button" icon="fa-archive">
                                 <field name="active" widget="boolean_button"
@@ -45,24 +50,13 @@
                                 options='{"always_reload": True, "highlight_first_line": True}'/>
                             <field name="data"/>
                             <field name="tipus"/>
-                            <field name="membres_count"/>
-                            <field name="muixerangues_count"/>
                             <field name="notes" placeholder="Altra informació..."/>
                         </group>
-                        <notebook>
-                            <page name="muixerangues" string="Muixerangues">
-                                <group name="muixerangues" string="Muixerangues">
-                                    <field name="muixerangues_count"/>
-                                </group>
-                                <field name="muixeranga_ids" nolabel="1"/>
-                            </page>
-                            <page name="membres" string="Membres">
-                                <group name="membres" string="Membres">
-                                    <field name="membres_count"/>
-                                </group>
-                                <field name="membre_ids" nolabel="1"/>
-                            </page>
-                        </notebook>
+                        <group>
+                            <field name="membres_count"/>
+                            <field name="muixerangues_count"/>
+                            <field name="muixeranga_ids" readonly="1" widget="many2many_tags"/>
+                        </group>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>

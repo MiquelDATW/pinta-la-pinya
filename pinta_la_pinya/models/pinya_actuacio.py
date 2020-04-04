@@ -31,7 +31,7 @@ class PinyaActuacio(models.Model):
     membre_ids = fields.Many2many('hr.employee', string="Membres")
     muixeranga_ids = fields.One2many('pinya.muixeranga', 'actuacio_id', string="Muixerangues")
     membres_count = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
-    muixerangues_count = fields.Integer(compute='_compute_muixerangues_count', string='Total figures', store=True)
+    muixerangues_count = fields.Integer(compute='_compute_muixerangues_count', string='Total muixerangues', store=True)
 
     @api.multi
     @api.depends('membre_ids')
@@ -95,5 +95,38 @@ class PinyaActuacio(models.Model):
         }
         return action
 
+    def mostrar_muixerangues(self):
+        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tree').id
+        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_form').id
+        domain = [('id', 'in', self.muixeranga_ids.ids)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': "Muixerangues",
+            'target': 'current',
+            'res_model': 'pinya.muixeranga',
+            'context': {},
+            'domain': domain,
+        }
+        return action
+
+    def mostrar_membres(self):
+        view_tree_id = self.env.ref('pinta_la_pinya.hr_employee_membre_tree').id
+        view_form_id = self.env.ref('hr.view_employee_form').id
+        domain = [('id', 'in', self.membre_ids.ids)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': "Membres",
+            'target': 'current',
+            'res_model': 'hr.employee',
+            'context': {},
+            'domain': domain,
+        }
+        return action
+
     def calcular_muixeranga(self):
         print(fields.Datetime.now())
+

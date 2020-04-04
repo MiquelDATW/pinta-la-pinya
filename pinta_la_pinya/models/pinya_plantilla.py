@@ -77,6 +77,7 @@ class PinyaPlantilla(models.Model):
             line_vals['name'] = str(aux.name)
             for pos in posicions:
                 qty = pos.quantity
+                line_vals['tecnica'] = pos.tecnica
                 line_vals['posicio_id'] = pos.posicio_id.id
                 for q in range(qty):
                     new_line += obj_tronc.create(line_vals)
@@ -106,6 +107,7 @@ class PinyaPlantilla(models.Model):
                 line_vals['name'] = str(aux.name)
                 for pos in posicions:
                     qty = pos.quantity
+                    line_vals['tecnica'] = pos.tecnica
                     line_vals['posicio_id'] = pos.posicio_id.id
                     for q in range(qty):
                         new_line += obj_pinya.create(line_vals)
@@ -152,7 +154,15 @@ class PinyaPlantillaSkill(models.Model):
     name = fields.Char(string="Nom", related="posicio_id.name", index=True)
     posicio_id = fields.Many2one(string="Posicions", comodel_name="hr.skill", required=True)
     quantity = fields.Integer(string="Quantitat", default=1)
+
     tipus = fields.Selection([
         ('pinya', 'Pinya'),
         ('tronc', 'Tronc')
     ], string='Tipus', required=True)
+
+    tecnica = fields.Selection([
+        ('0', 'Inicial'),
+        ('1', 'Mitjana'),
+        ('2', 'Avançada'),
+        ('3', 'Experta'),
+    ], string='Tècnica', default="1", required=True)

@@ -17,13 +17,6 @@ class HrSkill(models.Model):
         ('tronc', 'Tronc')
     ], string='Tipus', default="pinya", required=True)
 
-    tecnica = fields.Selection([
-        ('0', 'Inicial'),
-        ('1', 'Mitjana'),
-        ('2', 'Avançada'),
-        ('3', 'Experta'),
-    ], string='Tècnica', default="1", required=True)
-
     employee_level_ids = fields.One2many('hr.employee.level', 'skill_id', string="Employee Level")
     count_3stars = fields.Char(string="Membres experts", compute="_compute_millors", store=True)
     count_2stars = fields.Char(string="Membres avançats", compute="_compute_millors", store=True)
@@ -81,8 +74,12 @@ class HrEmployeeSkill(models.Model):
 
     active = fields.Boolean('Active', related='employee_id.active', default=True, store=True)
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
-    description = fields.Char(string="Descripció", related="skill_id.description", store=True)
-    tecnica = fields.Selection(string="Tècnica", related="skill_id.tecnica", store=True)
+    tecnica = fields.Selection([
+        ('0', 'Inicial'),
+        ('1', 'Mitjana'),
+        ('2', 'Avançada'),
+        ('3', 'Experta'),
+    ], string='Tècnica', default="1", required=True)
     count_total = fields.Integer(string="Figures total", compute="_compute_figures", store=True)
     count_sismesos = fields.Integer(string="Figures 6 mesos", compute="_compute_figures", store=True)
 
