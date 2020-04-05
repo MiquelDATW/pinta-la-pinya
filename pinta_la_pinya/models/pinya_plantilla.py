@@ -50,6 +50,14 @@ class PinyaPlantilla(models.Model):
             plantilla.total_count = t + p
 
     def crear_muixeranga(self, actuacio):
+        def _get_last(ms):
+            plantilla_name = ms.mapped('plantilla_id').name
+            names = ms.filtered(lambda x: plantilla_name in x.name).mapped('name')
+            names2 = [name.replace(plantilla_name + ' #', '') for name in names]
+            names3 = [int(name) for name in names2]
+            max_name = max(names3)
+            return max_name
+
         obj_actua = self.env['pinya.actuacio']
         obj_muixe = self.env['pinya.muixeranga']
         obj_tronc = self.env['pinya.muixeranga.tronc']
@@ -57,7 +65,7 @@ class PinyaPlantilla(models.Model):
 
         ms = obj_muixe.search([('plantilla_id', '=', self.id)], order='create_date DESC')
         len_ms = len(ms)
-        max_ms = int(ms[0].name.replace(self.name + ' #', '')) if bool(ms) else 0
+        max_ms = _get_last(ms) if bool(ms) else 0
         max_len = max(len_ms, max_ms)
         name = self.name + ' #' + str(max_len+1).zfill(4)
 

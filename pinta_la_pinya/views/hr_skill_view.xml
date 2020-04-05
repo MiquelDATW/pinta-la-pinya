@@ -62,6 +62,24 @@
             </field>
         </record>
 
+        <record id="view_skill_search" model="ir.ui.view">
+            <field name="name">hr.skill.search</field>
+            <field name="model">hr.skill</field>
+            <field name="field_parent">child_ids</field>
+            <field name="arch" type="xml">
+                <search string="Skills">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <filter string="Tronc" name="tronc" domain="[('tipus', '=', 'tronc')]"/>
+                    <filter string="Pinya" name="pinya" domain="[('tipus', '=', 'pinya')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Tipus" name="group_tipus" domain="[]" context="{'group_by':'tipus'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <record id="view_hr_employee_skill_tree" model="ir.ui.view">
             <field name="name">hr.employee.skill.tree</field>
             <field name="model">hr.employee.skill</field>
@@ -96,6 +114,30 @@
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_skill_search" model="ir.ui.view">
+            <field name="name">hr.employee.skill.search</field>
+            <field name="model">hr.employee.skill</field>
+            <field name="arch" type="xml">
+                <search string="Posicions nivell">
+                    <field name="employee_id"/>
+                    <field name="level"/>
+                    <field name="count_total"/>
+                    <field name="count_sismesos"/>
+                    <separator/>
+                    <filter string="Nivell ⭐⭐⭐" name="level_3" domain="[('level', '=', '3')]"/>
+                    <filter string="Nivell ⭐⭐" name="level_2" domain="[('level', '=', '2')]"/>
+                    <filter string="Nivell ⭐" name="level_1" domain="[('level', '=', '1')]"/>
+                    <filter string="Nivell 🌑" name="level_0" domain="[('level', '=', '0')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_level" string="Nivell" domain="[]" context="{'group_by':'level'}"/>
+                        <filter name="group_count_total" string="Figures total" domain="[]" context="{'group_by':'count_total'}"/>
+                        <filter name="group_count_sismesos" string="Figures 6 mesos" domain="[]" context="{'group_by':'count_sismesos'}"/>
+                    </group>
+                </search>
             </field>
         </record>
 
@@ -134,6 +176,30 @@
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_level_search" model="ir.ui.view">
+            <field name="name">hr.employee.level.search</field>
+            <field name="model">hr.employee.level</field>
+            <field name="arch" type="xml">
+                <search string="Membres nivell">
+                    <field name="employee_id"/>
+                    <field name="level"/>
+                    <field name="count_total"/>
+                    <field name="count_sismesos"/>
+                    <separator/>
+                    <filter string="Nivell ⭐⭐⭐" name="level_3" domain="[('level', '=', '3')]"/>
+                    <filter string="Nivell ⭐⭐" name="level_2" domain="[('level', '=', '2')]"/>
+                    <filter string="Nivell ⭐" name="level_1" domain="[('level', '=', '1')]"/>
+                    <filter string="Nivell 🌑" name="level_0" domain="[('level', '=', '0')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_level" string="Nivell" domain="[]" context="{'group_by':'level'}"/>
+                        <filter name="group_count_total" string="Figures total" domain="[]" context="{'group_by':'count_total'}"/>
+                        <filter name="group_count_sismesos" string="Figures 6 mesos" domain="[]" context="{'group_by':'count_sismesos'}"/>
+                    </group>
+                </search>
             </field>
         </record>
     </data>

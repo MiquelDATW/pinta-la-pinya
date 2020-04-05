@@ -169,6 +169,7 @@
                 <tree string="Muixerangues">
                     <field name="name"/>
                     <field name="actuacio_id"/>
+                    <field name="data"/>
                     <field name="estat"/>
                     <field name="tipus"/>
                     <field name="pisos"/>
@@ -177,6 +178,50 @@
                     <field name="pinya_count"/>
                     <field name="total_count"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="view_muixeranga_search" model="ir.ui.view">
+            <field name="name">pinya.muixeranga.search</field>
+            <field name="model">pinya.muixeranga</field>
+            <field name="arch" type="xml">
+                <search string="Muixerangues">
+                    <field name="actuacio_id"/>
+                    <field name="plantilla_id"/>
+                    <field name="estat"/>
+                    <field name="tipus"/>
+                    <field name="pisos"/>
+                    <field name="cordons"/>
+                    <filter string="Esborrany" name="esborrany" domain="[('estat', '=', 'draft')]"/>
+                    <filter string="Descarregat" name="descarregat" domain="[('estat', '=', 'desca')]"/>
+                    <filter string="Intent" name="intent" domain="[('estat', '=', 'intent')]"/>
+                    <filter string="Caigut" name="caigut" domain="[('estat', '=', 'fail')]"/>
+                    <separator/>
+                    <filter string="Normal" name="normal" domain="[('tipus', '=', 'normal')]"/>
+                    <filter string="Desplegada" name="desplegada" domain="[('tipus', '=', 'desplega')]"/>
+                    <filter string="Aixecat" name="aixecat" domain="[('tipus', '=', 'aixeca')]"/>
+                    <separator/>
+                    <filter string="2 pisos" name="pisos_2" domain="[('pisos', '=', '2')]"/>
+                    <filter string="3 pisos" name="pisos_3" domain="[('pisos', '=', '3')]"/>
+                    <filter string="4 pisos" name="pisos_4" domain="[('pisos', '=', '4')]"/>
+                    <filter string="5 pisos" name="pisos_5" domain="[('pisos', '=', '5')]"/>
+                    <filter string="6 pisos" name="pisos_6" domain="[('pisos', '=', '6')]"/>
+                    <separator/>
+                    <filter string="Any anterior" name="previous_year" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-01-01')), ('data', '&lt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-12-31'))]"/>
+                    <filter string="12 mesos anteriors" name="previous_12_months" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>
+                    <filter string="Mes anterior" name="previous_month" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=1)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>
+                    <filter string="Any actual" name="current_year" domain="[('data', '&gt;=', datetime.date.today().strftime('%Y-01-01'))]"/>
+                    <filter string="Mes actual" name="current_month" domain="[('data', '&gt;=', datetime.date.today().strftime('%Y-%m-01'))]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_actuacio" string="Actuació" domain="[]" context="{'group_by':'actuacio_id'}"/>
+                        <filter name="group_plantilla" string="Plantilla" domain="[]" context="{'group_by':'plantilla_id'}"/>
+                        <filter name="group_estat" string="Estat" domain="[]" context="{'group_by':'estat'}"/>
+                        <filter name="group_data" string="Data" domain="[]" context="{'group_by':'data'}"/>
+                        <filter name="group_tipus" string="Tipus" domain="[]" context="{'group_by':'tipus'}"/>
+                        <filter name="group_pisos" string="Pisos" domain="[]" context="{'group_by':'pisos'}"/>
+                    </group>
+                </search>
             </field>
         </record>
 
@@ -220,6 +265,7 @@
                     <field name="data"/>
                     <field name="actuacio_id"/>
                     <field name="muixeranga_tronc_id"/>
+                    <field name="plantilla_id"/>
                     <field name="name"/>
                     <field name="posicio_id"/>
                     <field name="tecnica" widget="priority"/>
@@ -243,6 +289,51 @@
                     <field name="muixeranga_tronc_id" invisible="1"/>
                     <field name="recomanats_ids" invisible="1"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="view_muixeranga_tronc_search" model="ir.ui.view">
+            <field name="name">pinya.muixeranga.tronc.search</field>
+            <field name="model">pinya.muixeranga.tronc</field>
+            <field name="arch" type="xml">
+                <search string="Tronc de muixeranga">
+                    <field name="actuacio_id"/>
+                    <field name="muixeranga_tronc_id"/>
+                    <field name="plantilla_id"/>
+                    <field name="name"/>
+                    <field name="posicio_id"/>
+                    <field name="tecnica" widget="priority"/>
+                    <field name="membre_tronc_id"/>
+                    <separator/>
+                    <filter string="1r pis" name="1r_pis" domain="[('name', '=', '1')]"/>
+                    <filter string="2n pis" name="2n_pis" domain="[('name', '=', '2')]"/>
+                    <filter string="3r pis" name="3r_pis" domain="[('name', '=', '3')]"/>
+                    <filter string="4t pis" name="4t_pis" domain="[('name', '=', '4')]"/>
+                    <filter string="5é pis" name="5e_pis" domain="[('name', '=', '5')]"/>
+                    <filter string="6é pis" name="6e_pis" domain="[('name', '=', '6')]"/>
+                    <separator/>
+                    <filter string="Tècnica ⭐⭐⭐" name="tecnica_3" domain="[('tecnica', '=', '3')]"/>
+                    <filter string="Tècnica ⭐⭐" name="tecnica_2" domain="[('tecnica', '=', '2')]"/>
+                    <filter string="Tècnica ⭐" name="tecnica_1" domain="[('tecnica', '=', '1')]"/>
+                    <filter string="Tècnica 🌑" name="tecnica_0" domain="[('tecnica', '=', '0')]"/>
+                    <separator/>
+                    <filter string="Any anterior" name="previous_year" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-01-01')), ('data', '&lt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-12-31'))]"/>
+                    <filter string="12 mesos anteriors" name="previous_12_months" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>
+                    <filter string="Mes anterior" name="previous_month" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=1)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>
+                    <filter string="Any actual" name="current_year" domain="[('data', '&gt;=', datetime.date.today().strftime('%Y-01-01'))]"/>
+                    <filter string="Mes actual" name="current_month" domain="[('data', '&gt;=', datetime.date.today().strftime('%Y-%m-01'))]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_actuacio" string="Actuació" domain="[]" context="{'group_by':'actuacio_id'}"/>
+                        <filter name="group_muixeranga_tronc" string="Figura" domain="[]" context="{'group_by':'muixeranga_tronc_id'}"/>
+                        <filter name="group_plantilla" string="Plantilla" domain="[]" context="{'group_by':'plantilla_id'}"/>
+                        <filter name="group_data" string="Data" domain="[]" context="{'group_by':'data'}"/>
+                        <filter name="group_name" string="Pis" domain="[]" context="{'group_by':'name'}"/>
+                        <filter name="group_posicio" string="Posició" domain="[]" context="{'group_by':'posicio_id'}"/>
+                        <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"/>
+                        <filter name="group_membre_tronc" string="Membre Tronc" domain="[]" context="{'group_by':'membre_tronc_id'}"/>
+                    </group>
+                </search>
             </field>
         </record>
 
@@ -287,6 +378,7 @@
                     <field name="data"/>
                     <field name="actuacio_id"/>
                     <field name="muixeranga_pinya_id"/>
+                    <field name="plantilla_id"/>
                     <field name="name"/>
                     <field name="rengle"/>
                     <field name="posicio_id"/>
@@ -312,6 +404,60 @@
                     <field name="muixeranga_pinya_id" invisible="1"/>
                     <field name="recomanats_ids" invisible="1"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="view_muixeranga_pinya_search" model="ir.ui.view">
+            <field name="name">pinya.muixeranga.pinya.search</field>
+            <field name="model">pinya.muixeranga.pinya</field>
+            <field name="arch" type="xml">
+                <search string="Pinya de muixeranga">
+                    <field name="actuacio_id"/>
+                    <field name="muixeranga_pinya_id"/>
+                    <field name="plantilla_id"/>
+                    <field name="name"/>
+                    <field name="rengle"/>
+                    <field name="posicio_id"/>
+                    <field name="tecnica" widget="priority"/>
+                    <field name="membre_pinya_id"/>
+                    <separator/>
+                    <filter string="1r cordó" name="1r_cordo" domain="[('name', '=', '1')]"/>
+                    <filter string="2n cordó" name="2n_cordo" domain="[('name', '=', '2')]"/>
+                    <filter string="3r cordó" name="3r_cordo" domain="[('name', '=', '3')]"/>
+                    <filter string="4t cordó" name="4t_cordo" domain="[('name', '=', '4')]"/>
+                    <filter string="5é cordó" name="5e_cordo" domain="[('name', '=', '5')]"/>
+                    <filter string="6é cordó" name="6e_cordo" domain="[('name', '=', '6')]"/>
+                    <separator/>
+                    <filter string="1r rengle" name="1r_rengle" domain="[('rengle', '=', '1')]"/>
+                    <filter string="2n rengle" name="2n_rengle" domain="[('rengle', '=', '2')]"/>
+                    <filter string="3r rengle" name="3r_rengle" domain="[('rengle', '=', '3')]"/>
+                    <filter string="4t rengle" name="4t_rengle" domain="[('rengle', '=', '4')]"/>
+                    <filter string="5é rengle" name="5e_rengle" domain="[('rengle', '=', '5')]"/>
+                    <filter string="6é rengle" name="6e_rengle" domain="[('rengle', '=', '6')]"/>
+                    <separator/>
+                    <filter string="Tècnica ⭐⭐⭐" name="tecnica_3" domain="[('tecnica', '=', '3')]"/>
+                    <filter string="Tècnica ⭐⭐" name="tecnica_2" domain="[('tecnica', '=', '2')]"/>
+                    <filter string="Tècnica ⭐" name="tecnica_1" domain="[('tecnica', '=', '1')]"/>
+                    <filter string="Tècnica 🌑" name="tecnica_0" domain="[('tecnica', '=', '0')]"/>
+                    <separator/>
+                    <filter string="Any anterior" name="previous_year" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-01-01')), ('data', '&lt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-12-31'))]"/>
+                    <filter string="12 mesos anteriors" name="previous_12_months" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>
+                    <filter string="Mes anterior" name="previous_month" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=1)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>
+                    <filter string="Any actual" name="current_year" domain="[('data', '&gt;=', datetime.date.today().strftime('%Y-01-01'))]"/>
+                    <filter string="Mes actual" name="current_month" domain="[('data', '&gt;=', datetime.date.today().strftime('%Y-%m-01'))]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_actuacio" string="Actuació" domain="[]" context="{'group_by':'actuacio_id'}"/>
+                        <filter name="group_muixeranga_pinya" string="Figura" domain="[]" context="{'group_by':'muixeranga_pinya_id'}"/>
+                        <filter name="group_plantilla" string="Plantilla" domain="[]" context="{'group_by':'plantilla_id'}"/>
+                        <filter name="group_data" string="Data" domain="[]" context="{'group_by':'data'}"/>
+                        <filter name="group_name" string="Cordó" domain="[]" context="{'group_by':'name'}"/>
+                        <filter name="group_rengle" string="Rengle" domain="[]" context="{'group_by':'rengle'}"/>
+                        <filter name="group_posicio" string="Posició" domain="[]" context="{'group_by':'posicio_id'}"/>
+                        <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"/>
+                        <filter name="group_membre_pinya" string="Membre Pinya" domain="[]" context="{'group_by':'membre_pinya_id'}"/>
+                    </group>
+                </search>
             </field>
         </record>
     </data>

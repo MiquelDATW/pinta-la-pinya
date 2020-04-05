@@ -112,12 +112,14 @@ class PinyaActuacio(models.Model):
         return action
 
     def mostrar_membres(self):
+        view_search_id = self.env.ref('pinta_la_pinya.hr_employee_membre_search').id
         view_tree_id = self.env.ref('pinta_la_pinya.hr_employee_membre_tree').id
         view_form_id = self.env.ref('hr.view_employee_form').id
         domain = [('id', 'in', self.membre_ids.ids)]
         action = {
             'type': 'ir.actions.act_window',
             'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+            'search_view_id': view_search_id,
             'view_mode': 'form',
             'name': "Membres",
             'target': 'current',

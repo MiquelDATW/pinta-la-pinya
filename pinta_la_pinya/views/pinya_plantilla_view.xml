@@ -70,6 +70,31 @@
             </field>
         </record>
 
+        <record id="view_plantilla_search" model="ir.ui.view">
+            <field name="name">pinya.plantilla.search</field>
+            <field name="model">pinya.plantilla</field>
+            <field name="arch" type="xml">
+                <search string="Plantilles">
+                    <field name="name"/>
+                    <field name="tipus"/>
+                    <field name="pisos"/>
+                    <filter string="Normal" name="normal" domain="[('tipus', '=', 'normal')]"/>
+                    <filter string="Desplegada" name="desplegada" domain="[('tipus', '=', 'desplega')]"/>
+                    <filter string="Aixecat" name="aixecat" domain="[('tipus', '=', 'aixeca')]"/>
+                    <separator/>
+                    <filter string="2 pisos" name="pisos_2" domain="[('pisos', '=', '2')]"/>
+                    <filter string="3 pisos" name="pisos_3" domain="[('pisos', '=', '3')]"/>
+                    <filter string="4 pisos" name="pisos_4" domain="[('pisos', '=', '4')]"/>
+                    <filter string="5 pisos" name="pisos_5" domain="[('pisos', '=', '5')]"/>
+                    <filter string="6 pisos" name="pisos_6" domain="[('pisos', '=', '6')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_tipus" string="Tipus" domain="[]" context="{'group_by':'tipus'}"/>
+                        <filter name="group_pisos" string="Pisos" domain="[]" context="{'group_by':'pisos'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <record id="view_plantilla_line_form" model="ir.ui.view">
             <field name="name">pinya.plantilla.line.form</field>
             <field name="model">pinya.plantilla.line</field>
@@ -82,10 +107,14 @@
                                 <field name="tipus"/>
                                 <field name="name"/>
                                 <field name="rengles"
-                                       attrs="{'invisible': [('tipus', '=', 'tronc')]}"/>
+                                       attrs="{'invisible': [('tipus', '!=', 'pinya')]}"/>
                                 <field name="posicions_qty"/>
                             </group>
-                            <field name="posicio_ids" context="{'default_tipus': tipus}"/>
+                        </group>
+                        <group>
+                            <field name="posicio_ids"
+                                   attrs="{'invisible': [('tipus', 'not in', ['pinya', 'tronc'])]}"
+                                   context="{'default_tipus': tipus, 'search_default_pinya': 0, 'search_default_tronc': 0}"/>
                         </group>
                     </sheet>
                 </form>
@@ -101,8 +130,7 @@
                     <field name="name"/>
                     <field name="rengles"/>
                     <field name="posicions_qty"/>
-                    <field name="posicio_ids" widget="many2many_tags"
-                           context="{'default_tipus': tipus}"/>
+                    <field name="posicio_ids" widget="many2many_tags"/>
                 </tree>
             </field>
         </record>
@@ -134,6 +162,28 @@
                     <field name="quantity"/>
                     <field name="tecnica"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="view_plantilla_skill_search" model="ir.ui.view">
+            <field name="name">pinya.plantilla.skill.search</field>
+            <field name="model">pinya.plantilla.skill</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Tronc" name="tronc" domain="[('tipus', '=', 'tronc')]"/>
+                    <filter string="Pinya" name="pinya" domain="[('tipus', '=', 'pinya')]"/>
+                    <filter string="Inicial" name="inicial" domain="[('tecnica', '=', '0')]"/>
+                    <filter string="Mitjana" name="mitjana" domain="[('tecnica', '=', '1')]"/>
+                    <filter string="Avançada" name="avansada" domain="[('tecnica', '=', '2')]"/>
+                    <filter string="Experta" name="experta" domain="[('tecnica', '=', '3')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_tipus" string="Tipus" domain="[]" context="{'group_by':'tipus'}"/>
+                        <filter name="group_posicio" string="Posició" domain="[]" context="{'group_by':'posicio_id'}"/>
+                        <filter name="group_quantitat" string="Quantitat" domain="[]" context="{'group_by':'quantity'}"/>
+                        <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"/>
+                    </group>
+                </search>
             </field>
         </record>
     </data>

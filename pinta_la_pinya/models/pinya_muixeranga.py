@@ -36,6 +36,7 @@ class PinyaMuixeranga(models.Model):
     actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio")
     membre_ids = fields.Many2many('hr.employee', string="Membres", related="actuacio_id.membre_ids")
     membre_count = fields.Integer(string='Total Membres', related='actuacio_id.membres_count')
+    data = fields.Date(string='Data', related='actuacio_id.data', store=True)
     lliure_ids = fields.Many2many('hr.employee', string="Lliures", compute="_compute_lliures")
     lliure_count = fields.Integer(compute='_compute_lliures', string='Total Lliures')
 
@@ -147,6 +148,7 @@ class PinyaMuixerangaPinya(models.Model):
                                       related="membre_pinya_level_id.employee_id", store=True)
     membre_pinya_level_id = fields.Many2one(string="Membre Pinya Level", comodel_name="hr.employee.level")
     actuacio_id = fields.Many2one(string="Actuació", related="muixeranga_pinya_id.actuacio_id", readonly=True, store=True)
+    plantilla_id = fields.Many2one(string="Plantilla", related="muixeranga_pinya_id.plantilla_id", readonly=True, store=True)
 
     recomanats_ids = fields.Many2many(string="Recomanats", comodel_name="hr.employee.level", compute="_compute_recomanats")
 
@@ -203,6 +205,7 @@ class PinyaMuixerangaTronc(models.Model):
                                       related="membre_tronc_level_id.employee_id", store=True)
     membre_tronc_level_id = fields.Many2one(string="Membre Tronc Level", comodel_name="hr.employee.level")
     actuacio_id = fields.Many2one(string="Actuació", related="muixeranga_tronc_id.actuacio_id", readonly=True, store=True)
+    plantilla_id = fields.Many2one(string="Plantilla", related="muixeranga_tronc_id.plantilla_id", readonly=True, store=True)
 
     recomanats_ids = fields.Many2many(string="Recomanats", comodel_name="hr.employee.level", compute="_compute_recomanats")
 

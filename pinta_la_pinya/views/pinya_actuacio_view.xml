@@ -86,14 +86,31 @@
             <field name="model">pinya.actuacio</field>
             <field name="arch" type="xml">
                 <search string="Actuacions">
-                    <field name="data"/>
+                    <field name="name" />
                     <field name="zip_id"/>
-                    <field name="tipus" />
-                    <filter string="Assajos" name="assajos" domain="[('tipus','=','assaig')]"/>
-                    <filter string="Actuacions" name="actuacions" domain="[('tipus','=','actuacio')]"/>
+                    <field name="membres_count"/>
+                    <field name="muixerangues_count"/>
+                    <separator/>
+                    <filter string="Any anterior" name="previous_year" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-01-01')), ('data', '&lt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-12-31'))]"/>
+                    <filter string="12 mesos anteriors" name="previous_12_months" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>
+                    <filter string="Mes anterior" name="previous_month" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=1)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>
+                    <filter string="Any actual" name="current_year" domain="[('data', '&gt;=', datetime.date.today().strftime('%Y-01-01'))]"/>
+                    <filter string="Mes actual" name="current_month" domain="[('data', '&gt;=', datetime.date.today().strftime('%Y-%m-01'))]"/>
+                    <separator/>
+                    <filter string="1-50 membres" name="membres_01_50" domain="[('membres_count', '&gt;=', 1), ('membres_count', '&lt;', 50)]"/>
+                    <filter string="51-100 membres" name="membres_51_100" domain="[('membres_count', '&gt;=', 51), ('membres_count', '&lt;', 100)]"/>
+                    <filter string="101-150 membres" name="membres_101_150" domain="[('membres_count', '&gt;=', 100), ('membres_count', '&lt;', 150)]"/>
+                    <filter string="151-200 membres" name="membres_151_200" domain="[('membres_count', '&gt;=', 151), ('membres_count', '&lt;', 200)]"/>
+                    <filter string="201+ membres" name="membres_201" domain="[('membres_count', '&gt;=', 201)]"/>
+                    <separator/>
+                    <filter string="1-10 muixerangues" name="muixes_01_10" domain="[('muixerangues_count', '&gt;=', 1), ('muixerangues_count', '&lt;', 10)]"/>
+                    <filter string="11-20 muixerangues" name="muixes_51_100" domain="[('muixerangues_count', '&gt;=', 11), ('muixerangues_count', '&lt;', 20)]"/>
+                    <filter string="21+ muixerangues" name="muixes_201" domain="[('muixerangues_count', '&gt;=', 21)]"/>
                     <group expand="0" string="Group By">
                         <filter name="group_date" string="Data" domain="[]" context="{'group_by':'data'}"/>
-                        <filter name="group_assajos" string="Actuació/Assaig" domain="[]" context="{'group_by':'tipus'}"/>
+                        <filter name="group_zip" string="Lloc" domain="[]" context="{'group_by':'zip_id'}"/>
+                        <filter name="group_membres" string="Persones" domain="[]" context="{'group_by':'membres_count'}"/>
+                        <filter name="group_muixerangues" string="Muixerangues" domain="[]" context="{'group_by':'muixerangues_count'}"/>
                     </group>
                 </search>
              </field>

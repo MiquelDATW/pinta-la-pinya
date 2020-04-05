@@ -101,8 +101,8 @@
             </field>
         </record>
 
-        <record id="view_employee_skill_form" model="ir.ui.view">
-            <field name="name">hr.employee.skill.form</field>
+        <record id="view_employee_membre_skill_form" model="ir.ui.view">
+            <field name="name">hr.employee.membre.skill.form</field>
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr_skill.view_employee_skill_form"/>
             <field name="arch" type="xml">
@@ -122,8 +122,46 @@
                     <field name="count_1stars"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
+                    <field name="alsada_cap" string="Alçada (cm)"/>
+                    <field name="alsada_muscle" invisible="1"/>
+                    <field name="alsada_bras" invisible="1"/>
+                    <field name="pes" invisible="1"/>
                     <field name="message_needaction" invisible="1"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="hr_employee_membre_search" model="ir.ui.view">
+            <field name="name">hr.employee.membre.search</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <search string="Employees">
+                    <field name="name"/>
+                    <field name="count_3stars"/>
+                    <field name="count_2stars"/>
+                    <field name="count_1stars"/>
+                    <field name="count_total"/>
+                    <field name="count_sismesos"/>
+                    <field name="alsada_cap"/>
+                    <field name="alsada_muscle"/>
+                    <field name="alsada_bras"/>
+                    <separator/>
+                    <filter string="Habilitats expertes" name="count_3stars" domain="[('count_3stars', '!=', '')]"/>
+                    <filter string="Habilitats avançades" name="count_2stars" domain="[('count_2stars', '!=', '')]"/>
+                    <filter string="Habilitats mitjanes" name="count_1stars" domain="[('count_1stars', '!=', '')]"/>
+                    <separator/>
+                    <filter string="Alçada 190+" name="alsada_190" domain="[('alsada_cap', '&gt;=', 190)]"/>
+                    <filter string="Alçada 180, 190" name="alsada_180" domain="[('alsada_cap', '&gt;=', 180), ('alsada_cap', '&lt;', 190)]"/>
+                    <filter string="Alçada 170, 180" name="alsada_170" domain="[('alsada_cap', '&gt;=', 170), ('alsada_cap', '&lt;', 180)]"/>
+                    <filter string="Alçada 160, 170" name="alsada_160" domain="[('alsada_cap', '&gt;=', 160), ('alsada_cap', '&lt;', 170)]"/>
+                    <filter string="Alçada 159-" name="alsada_150" domain="[('alsada_cap', '&lt;', 160)]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Habilitats expertes" name="group_count_3stars" domain="[]" context="{'group_by':'count_3stars'}"/>
+                        <filter string="Habilitats avançades" name="group_count_2stars" domain="[]" context="{'group_by':'count_2stars'}"/>
+                        <filter string="Habilitats mitjanes" name="group_count_1stars" domain="[]" context="{'group_by':'count_1stars'}"/>
+                    </group>
+                </search>
             </field>
         </record>
     </data>
