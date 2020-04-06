@@ -25,8 +25,12 @@ def post_init_hook(cr, registry):
         for i in range(120):
             j = random.randint(0, 1)
             name = ''.join([random.choice(string.ascii_lowercase) for n in range(12)]).capitalize()
+            als = random.randint(145, 201)
             data = {
                 'name': name + ' ' + str(i).zfill(3),
+                'alsada_cap': als,
+                'alsada_muscle': als - random.randint(20, 30),
+                'alsada_bras': als + random.randint(45, 55),
                 'gender': 'male' if j == 0 else 'female'
             }
             muixo = employee.create(data)
