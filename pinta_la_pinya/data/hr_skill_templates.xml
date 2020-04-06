@@ -59,6 +59,11 @@
             <field name="tipus">pinya</field>
             <field name="description">Agafa un dels peus de la segona.</field>
         </record>
+        <record id="pinyerista" model="hr.skill">
+            <field name="name">Pinyerista</field>
+            <field name="tipus">pinya</field>
+            <field name="description">Pinya genérica, a partir del 3r o 4t cordó aproximadament.</field>
+        </record>
         <record id="tap" model="hr.skill">
             <field name="name">Tap</field>
             <field name="tipus">pinya</field>

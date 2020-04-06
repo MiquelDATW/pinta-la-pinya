@@ -172,6 +172,7 @@
                 <search>
                     <filter string="Tronc" name="tronc" domain="[('tipus', '=', 'tronc')]"/>
                     <filter string="Pinya" name="pinya" domain="[('tipus', '=', 'pinya')]"/>
+                    <separator/>
                     <filter string="Inicial" name="inicial" domain="[('tecnica', '=', '0')]"/>
                     <filter string="Mitjana" name="mitjana" domain="[('tecnica', '=', '1')]"/>
                     <filter string="Avançada" name="avansada" domain="[('tecnica', '=', '2')]"/>

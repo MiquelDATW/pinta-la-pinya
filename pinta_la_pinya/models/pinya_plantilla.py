@@ -100,8 +100,8 @@ class PinyaPlantilla(models.Model):
         new_line = self.env['pinya.muixeranga.pinya']
         pinya = self.plantilla_line_ids.filtered(lambda x: x.tipus == 'pinya')
         rengles = list(set(pinya.mapped('rengles')))
-        if not bool(rengles) or len(rengles) != 1:
-            error_msg = "Error❗"
+        if not bool(pinya) or not bool(rengles):
+            error_msg = "A la figura '{}' li falta la pinya❗".format(self.name)
             raise ValidationError(error_msg)
         rengles = rengles[0]
 
