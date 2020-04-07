@@ -129,6 +129,8 @@ class PinyaActuacio(models.Model):
         }
         return action
 
-    def calcular_muixeranga(self):
-        print(fields.Datetime.now())
+    def calcular_muixerangues(self):
+        muixes = self.muixeranga_ids
+        for muix in muixes:
+            muix.calcular_muixeranga()
 

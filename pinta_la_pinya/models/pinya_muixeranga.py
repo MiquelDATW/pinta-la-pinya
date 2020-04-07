@@ -81,6 +81,35 @@ class PinyaMuixeranga(models.Model):
 
     def calcular_muixeranga(self):
         print(fields.Datetime.now())
+        ocupats = self.env['hr.employee']
+
+        troncs = self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id).sorted('tecnica', reverse=True)
+        for tronc in troncs:
+            tecnica = tronc.tecnica
+            recomanats = tronc.recomanats_ids.filtered(lambda x: x.employee_id.id not in ocupats.ids)
+            aptes = recomanats.filtered(lambda x: x.level >= tecnica)
+            if not bool(aptes):
+                aptes = recomanats
+            if not bool(aptes):
+                print(fields.Datetime.now() + ": No es pot omplir!!")
+                continue
+            membre = aptes[0]
+            ocupats += membre.employee_id
+            tronc.membre_tronc_level_id = membre
+
+        pinyes = self.pinya_line_ids.filtered(lambda x: not x.membre_pinya_id).sorted('tecnica', reverse=True)
+        for pinya in pinyes:
+            tecnica = pinya.tecnica
+            recomanats = pinya.recomanats_ids.filtered(lambda x: x.employee_id.id not in ocupats.ids)
+            aptes = recomanats.filtered(lambda x: x.level >= tecnica)
+            if not bool(aptes):
+                aptes = recomanats
+            if not bool(aptes):
+                print(fields.Datetime.now() + ": No es pot omplir!!")
+                continue
+            membre = aptes[0]
+            ocupats += membre.employee_id
+            pinya.membre_pinya_level_id = membre
 
     def tronc_muixeranga(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_selected').id

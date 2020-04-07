@@ -74,12 +74,7 @@ class HrEmployeeSkill(models.Model):
 
     active = fields.Boolean('Active', related='employee_id.active', default=True, store=True)
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
-    tecnica = fields.Selection([
-        ('0', 'Inicial'),
-        ('1', 'Mitjana'),
-        ('2', 'Avançada'),
-        ('3', 'Experta'),
-    ], string='Tècnica', default="1", required=True)
+
     count_total = fields.Integer(string="Figures total", compute="_compute_figures", store=True)
     count_sismesos = fields.Integer(string="Figures 6 mesos", compute="_compute_figures", store=True)
 
@@ -152,7 +147,7 @@ class HrEmployeeLevel(models.Model):
     employee_id = fields.Many2one('hr.employee', string="Membre", related="employee_skill_id.employee_id", store=True)
     skill_id = fields.Many2one('hr.skill', string="Habilitat", related="employee_skill_id.skill_id", store=True)
     level = fields.Selection(string='Nivell', related="employee_skill_id.level", store=True)
-    tecnica = fields.Selection(string="Tècnica", related="employee_skill_id.tecnica", store=True)
+
     count_total = fields.Integer(string="Figures total", related="employee_skill_id.count_total", store=True)
     count_sismesos = fields.Integer(string="Figures 6 mesos", related="employee_skill_id.count_sismesos", store=True)
 

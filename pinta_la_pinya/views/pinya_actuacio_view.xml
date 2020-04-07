@@ -24,7 +24,7 @@
                                     name="pinya_muixeranga_wizard" icon="fas fa-plus-square"
                                     string="Afegir muixerangues"/>
                             <button class="oe_stat_button" type="object"
-                                    name="calcular_muixeranga" icon="fas fa-calculator"
+                                    name="calcular_muixerangues" icon="fas fa-calculator"
                                     string="Calcular muixerangues"/>
                             <button class="oe_stat_button" type="object"
                                     name="mostrar_muixerangues" icon="fas fa-cogs"
