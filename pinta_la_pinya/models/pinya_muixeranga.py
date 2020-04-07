@@ -2,6 +2,7 @@
 # (c) 2020 Miquel March <m.marchpuig@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import statistics
 from odoo import models, fields, api, exceptions, _
 from odoo.exceptions import ValidationError
 
@@ -93,7 +94,34 @@ class PinyaMuixeranga(models.Model):
             if not bool(aptes):
                 print(fields.Datetime.now() + ": No es pot omplir!!")
                 continue
-            membre = aptes[0]
+            posicio = troncs.filtered(lambda x: x.posicio_id.id == tronc.posicio_id.id)
+            companyes = posicio.mapped('membre_tronc_id')
+            if bool(companyes) and len(posicio) > 1:
+                muscle = round(statistics.mean(companyes.mapped('alsada_muscle')))
+                muscle_aptes = False
+                for i in range(5):
+                    muscle_range = range(muscle-i, muscle+i+1)
+                    muscle_aptes = aptes.filtered(lambda x: x.employee_id.alsada_muscle in muscle_range)
+                    if bool(muscle_aptes):
+                        break
+                if not bool(muscle_aptes):
+                    muscle_aptes = aptes
+                membre = muscle_aptes[0]
+            elif not bool(companyes) and len(posicio) > 1:
+                aptes_best = aptes.filtered(lambda x: x.level in ['2', '3'])
+                muscle_best = round(statistics.mean(aptes_best.mapped('employee_id.alsada_muscle')))
+                muscle_aptes = aptes.filtered(lambda x: x.employee_id.alsada_muscle == muscle_best)
+                if not bool(muscle_aptes):
+                    for i in range(5):
+                        muscle_range = range(muscle_best-i, muscle_best+i+1)
+                        muscle_aptes = aptes.filtered(lambda x: x.employee_id.alsada_muscle in muscle_range)
+                        if bool(muscle_aptes):
+                            break
+                if not bool(muscle_aptes):
+                    muscle_aptes = aptes
+                membre = muscle_aptes[0]
+            else:
+                membre = aptes[0]
             ocupats += membre.employee_id
             tronc.membre_tronc_level_id = membre
 
