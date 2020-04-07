@@ -14,6 +14,7 @@ class PinyaPlantilla(models.Model):
 
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
     active = fields.Boolean(string="Actiu", default=True)
+    muixeranga_count = fields.Integer(string='Muixerangues creades', readonly=True)
 
     notes = fields.Text(string="Altra informació")
 
@@ -35,6 +36,13 @@ class PinyaPlantilla(models.Model):
     pinya_count = fields.Integer(compute='_compute_total_count', string='Persones pinya', store=True)
     tronc_count = fields.Integer(compute='_compute_total_count', string='Persones tronc', store=True)
 
+    muixeranga_ids = fields.One2many('pinya.muixeranga', 'plantilla_id', string="Muixerangues")
+    total_muix = fields.Integer(compute='_compute_muixeranga_count', string='Total muix.', store=True)
+    esborrany_muix = fields.Integer(compute='_compute_muixeranga_count', string='Muix. esborrany', store=True)
+    descarrega_muix = fields.Integer(compute='_compute_muixeranga_count', string='Muix. descarregades', store=True)
+    intent_muix = fields.Integer(compute='_compute_muixeranga_count', string='Muix. intents', store=True)
+    caigut_muix = fields.Integer(compute='_compute_muixeranga_count', string='Muix. caigudes', store=True)
+
     image = fields.Binary("Image", attachment=True, help="Limitat a 1024x1024px.")
 
     @api.multi
@@ -49,25 +57,28 @@ class PinyaPlantilla(models.Model):
             plantilla.pinya_count = p
             plantilla.total_count = t + p
 
-    def crear_muixeranga(self, actuacio):
-        def _get_last(ms):
-            plantilla_name = ms.mapped('plantilla_id').name
-            names = ms.filtered(lambda x: plantilla_name in x.name).mapped('name')
-            names2 = [name.replace(plantilla_name + ' #', '') for name in names]
-            names3 = [int(name) for name in names2]
-            max_name = max(names3)
-            return max_name
+    @api.multi
+    @api.depends('muixeranga_ids', 'muixeranga_ids.estat')
+    def _compute_muixeranga_count(self):
+        for plantilla in self:
+            draft = plantilla.muixeranga_ids.filtered(lambda x: x.estat == 'draft')
+            desca = plantilla.muixeranga_ids.filtered(lambda x: x.estat == 'desca')
+            intent = plantilla.muixeranga_ids.filtered(lambda x: x.estat == 'intent')
+            fail = plantilla.muixeranga_ids.filtered(lambda x: x.estat == 'fail')
+            plantilla.total_muix = len(plantilla.muixeranga_ids)
+            plantilla.esborrany_muix = len(draft)
+            plantilla.descarrega_muix = len(desca)
+            plantilla.intent_muix = len(intent)
+            plantilla.caigut_muix = len(fail)
 
+    def crear_muixeranga(self, actuacio):
         obj_actua = self.env['pinya.actuacio']
         obj_muixe = self.env['pinya.muixeranga']
         obj_tronc = self.env['pinya.muixeranga.tronc']
         obj_pinya = self.env['pinya.muixeranga.pinya']
 
-        ms = obj_muixe.search([('plantilla_id', '=', self.id)], order='create_date DESC')
-        len_ms = len(ms)
-        max_ms = _get_last(ms) if bool(ms) else 0
-        max_len = max(len_ms, max_ms)
-        name = self.name + ' #' + str(max_len+1).zfill(4)
+        count = self.muixeranga_count
+        name = self.name + ' #' + str(count+1).zfill(4)
 
         vals = {}
         vals['name'] = name
@@ -95,6 +106,7 @@ class PinyaPlantilla(models.Model):
         if self.neta:
             vals['pinya_line_ids'] = False
             res = obj_muixe.create(vals)
+            self.muixeranga_count += 1
             return res
 
         new_line = self.env['pinya.muixeranga.pinya']
@@ -122,7 +134,24 @@ class PinyaPlantilla(models.Model):
 
         vals['pinya_line_ids'] = [(6, 0, new_line.ids)]
         res = obj_muixe.create(vals)
+        self.muixeranga_count += 1
         return res
+
+    def mostrar_muixerangues(self):
+        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tree').id
+        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_form').id
+        domain = [('id', 'in', self.muixeranga_ids.ids)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': "Muixerangues",
+            'target': 'current',
+            'res_model': 'pinya.muixeranga',
+            'context': {},
+            'domain': domain,
+        }
+        return action
 
 
 class PinyaPlantillaLine(models.Model):

@@ -21,6 +21,9 @@
                                 <field name="active" widget="boolean_button"
                                     options='{"terminology": "archive"}'/>
                             </button>
+                            <button class="oe_stat_button" type="object"
+                                    name="mostrar_muixerangues" icon="fas fa-cogs"
+                                    string="Muixerangues"/>
                         </div>
                         <field name="image" widget='image' class="oe_avatar"/>
                         <div class="oe_title">
@@ -45,6 +48,16 @@
                         <group name="plantilla_line" string="Línea de plantilla">
                             <field name="plantilla_line_ids" nolabel="1"/>
                         </group>
+                        <group>
+                            <group name="estadistica" string="Estadística">
+                                <field name="muixeranga_count" string="Muix. creades"/>
+                                <field name="total_muix"/>
+                                <field name="esborrany_muix"/>
+                                <field name="descarrega_muix"/>
+                                <field name="intent_muix"/>
+                                <field name="caigut_muix"/>
+                            </group>
+                        </group>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
@@ -62,6 +75,7 @@
                     <field name="name"/>
                     <field name="tipus"/>
                     <field name="pisos"/>
+                    <field name="muixeranga_count" string="Muix. creades"/>
                     <field name="plantilla_line_ids" widget="many2many_tags"/>
                     <field name="tronc_count"/>
                     <field name="pinya_count"/>
@@ -78,6 +92,7 @@
                     <field name="name"/>
                     <field name="tipus"/>
                     <field name="pisos"/>
+                    <field name="muixeranga_count"/>
                     <filter string="Normal" name="normal" domain="[('tipus', '=', 'normal')]"/>
                     <filter string="Desplegada" name="desplegada" domain="[('tipus', '=', 'desplega')]"/>
                     <filter string="Aixecat" name="aixecat" domain="[('tipus', '=', 'aixeca')]"/>
