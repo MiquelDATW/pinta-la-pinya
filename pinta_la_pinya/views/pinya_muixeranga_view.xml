@@ -305,6 +305,9 @@
                     <field name="tecnica" widget="priority"/>
                     <field name="membre_tronc_id"/>
                     <separator/>
+                    <filter string="No establert" name="no_establert" domain="[('membre_tronc_id', '=', False)]"/>
+                    <filter string="Establert" name="establert" domain="[('membre_tronc_id', '!=', False)]"/>
+                    <separator/>
                     <filter string="1r pis" name="1r_pis" domain="[('name', '=', '1')]"/>
                     <filter string="2n pis" name="2n_pis" domain="[('name', '=', '2')]"/>
                     <filter string="3r pis" name="3r_pis" domain="[('name', '=', '3')]"/>
@@ -420,6 +423,9 @@
                     <field name="posicio_id"/>
                     <field name="tecnica" widget="priority"/>
                     <field name="membre_pinya_id"/>
+                    <separator/>
+                    <filter string="No establert" name="no_establert" domain="[('membre_pinya_id', '=', False)]"/>
+                    <filter string="Establert" name="establert" domain="[('membre_pinya_id', '!=', False)]"/>
                     <separator/>
                     <filter string="-1 cordó" name="minus1_cordo" domain="[('name', '=', '-1')]"/>
                     <filter string="0 cordó" name="0_cordo" domain="[('name', '=', '0')]"/>
