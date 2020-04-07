@@ -16,6 +16,7 @@
                                 <tree editable="bottom">
                                     <field name="plantilla_id"
                                            options="{'no_create': True}"/>
+                                    <field name="numero"/>
                                 </tree>
                             </field>
                         </group>

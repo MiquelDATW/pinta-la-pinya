@@ -25,7 +25,8 @@ class PinyaMuixerangaWizard(models.TransientModel):
         if not bool(lines):
             return False
         for line in lines:
-            new_muixeranga = line.plantilla_id.crear_muixeranga(actuacio)
+            for i in range(line.numero):
+                new_muixeranga = line.plantilla_id.crear_muixeranga(actuacio)
         return True
 
 
@@ -34,3 +35,4 @@ class PinyaMuixerangaLineWizard(models.TransientModel):
 
     wizard_id = fields.Many2one('pinya.muixeranga.wizard', string='Wizard')
     plantilla_id = fields.Many2one('pinya.plantilla', string='Plantilla')
+    numero = fields.Integer(string='Número', default=1)
