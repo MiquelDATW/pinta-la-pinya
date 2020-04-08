@@ -427,7 +427,6 @@
                     <filter string="No establert" name="no_establert" domain="[('membre_pinya_id', '=', False)]"/>
                     <filter string="Establert" name="establert" domain="[('membre_pinya_id', '!=', False)]"/>
                     <separator/>
-                    <filter string="-1 cordó" name="minus1_cordo" domain="[('name', '=', '-1')]"/>
                     <filter string="0 cordó" name="0_cordo" domain="[('name', '=', '0')]"/>
                     <filter string="1r cordó" name="1r_cordo" domain="[('name', '=', '1')]"/>
                     <filter string="2n cordó" name="2n_cordo" domain="[('name', '=', '2')]"/>

@@ -29,8 +29,8 @@
         "views/pinya_actuacio_view.xml",
         "views/pinya_muixeranga_view.xml",
         "views/pinya_plantilla_view.xml",
-        "wizard/pinya_import_wizard_view.xml",
-        "wizard/pinya_muixeranga_wizard_view.xml",
+        "wizard/import_pinya_wizard_view.xml",
+        "wizard/import_muixeranga_wizard_view.xml",
         "views/menus_views.xml",
     ],
 }

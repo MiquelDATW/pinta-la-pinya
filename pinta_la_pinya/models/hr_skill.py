@@ -17,6 +17,12 @@ class HrSkill(models.Model):
         ('tronc', 'Tronc')
     ], string='Tipus', default="pinya", required=True)
 
+    prioritat = fields.Selection([
+        ('0', 'Baixa'),
+        ('1', 'Mitjana'),
+        ('2', 'Alta'),
+    ], string='Prioritat', default="1", required=True)
+
     employee_level_ids = fields.One2many('hr.employee.level', 'skill_id', string="Employee Level")
     count_3stars = fields.Char(string="Membres experts", compute="_compute_millors", store=True)
     count_2stars = fields.Char(string="Membres avançats", compute="_compute_millors", store=True)

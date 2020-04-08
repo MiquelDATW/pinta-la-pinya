@@ -94,50 +94,82 @@ class PinyaMuixeranga(models.Model):
             if not bool(aptes):
                 print(fields.Datetime.now() + ": No es pot omplir!!")
                 continue
+
             posicio = troncs.filtered(lambda x: x.posicio_id.id == tronc.posicio_id.id)
             companyes = posicio.mapped('membre_tronc_id')
             if bool(companyes) and len(posicio) > 1:
-                muscle = round(statistics.mean(companyes.mapped('alsada_muscle')))
-                muscle_aptes = False
+                alsada = round(statistics.mean(companyes.mapped('alsada_muscle')))
+                alsada_aptes = False
                 for i in range(5):
-                    muscle_range = range(muscle-i, muscle+i+1)
-                    muscle_aptes = aptes.filtered(lambda x: x.employee_id.alsada_muscle in muscle_range)
-                    if bool(muscle_aptes):
+                    alsada_range = range(alsada-i, alsada+i+1)
+                    alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_muscle in alsada_range)
+                    if bool(alsada_aptes):
                         break
-                if not bool(muscle_aptes):
-                    muscle_aptes = aptes
-                membre = muscle_aptes[0]
+                if not bool(alsada_aptes):
+                    alsada_aptes = aptes
+                membre = alsada_aptes[0]
             elif not bool(companyes) and len(posicio) > 1:
                 aptes_best = aptes.filtered(lambda x: x.level in ['2', '3'])
-                muscle_best = round(statistics.mean(aptes_best.mapped('employee_id.alsada_muscle')))
-                muscle_aptes = aptes.filtered(lambda x: x.employee_id.alsada_muscle == muscle_best)
-                if not bool(muscle_aptes):
+                alsada_best = round(statistics.mean(aptes_best.mapped('employee_id.alsada_muscle')))
+                alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_muscle == alsada_best)
+                if not bool(alsada_aptes):
                     for i in range(5):
-                        muscle_range = range(muscle_best-i, muscle_best+i+1)
-                        muscle_aptes = aptes.filtered(lambda x: x.employee_id.alsada_muscle in muscle_range)
-                        if bool(muscle_aptes):
+                        alsada_range = range(alsada_best-i, alsada_best+i+1)
+                        alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_muscle in alsada_range)
+                        if bool(alsada_aptes):
                             break
-                if not bool(muscle_aptes):
-                    muscle_aptes = aptes
-                membre = muscle_aptes[0]
+                if not bool(alsada_aptes):
+                    alsada_aptes = aptes
+                membre = alsada_aptes[0]
             else:
                 membre = aptes[0]
             ocupats += membre.employee_id
             tronc.membre_tronc_level_id = membre
 
         pinyes = self.pinya_line_ids.filtered(lambda x: not x.membre_pinya_id).sorted('tecnica', reverse=True)
-        for pinya in pinyes:
-            tecnica = pinya.tecnica
-            recomanats = pinya.recomanats_ids.filtered(lambda x: x.employee_id.id not in ocupats.ids)
-            aptes = recomanats.filtered(lambda x: x.level >= tecnica)
-            if not bool(aptes):
-                aptes = recomanats
-            if not bool(aptes):
-                print(fields.Datetime.now() + ": No es pot omplir!!")
-                continue
-            membre = aptes[0]
-            ocupats += membre.employee_id
-            pinya.membre_pinya_level_id = membre
+        tecniques = ['3', '2', '1', '0']
+        for tecnica in tecniques:
+            pinyes_ = pinyes.filtered(lambda x: x.tecnica == tecnica).sorted(lambda x: x.posicio_id.prioritat, reverse=True)
+            for pinya in pinyes_:
+                recomanats = pinya.recomanats_ids.filtered(lambda x: x.employee_id.id not in ocupats.ids)
+                aptes = recomanats.filtered(lambda x: x.level >= tecnica)
+                if not bool(aptes):
+                    aptes = recomanats
+                if not bool(aptes):
+                    print(fields.Datetime.now() + ": No es pot omplir!!")
+                    continue
+
+                posicio = pinyes.filtered(lambda x: x.posicio_id.id == pinya.posicio_id.id)
+                companyes = posicio.mapped('membre_pinya_id')
+
+                if bool(companyes) and len(posicio) > 1:
+                    alsada = round(statistics.mean(companyes.mapped('alsada_bras')))
+                    alsada_aptes = False
+                    for i in range(5):
+                        alsada_range = range(alsada-i, alsada+i+1)
+                        alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_bras in alsada_range)
+                        if bool(alsada_aptes):
+                            break
+                    if not bool(alsada_aptes):
+                        alsada_aptes = aptes
+                    membre = alsada_aptes[0]
+                elif not bool(companyes) and len(posicio) > 1:
+                    aptes_best = aptes.filtered(lambda x: x.level in ['2', '3'])
+                    alsada_best = round(statistics.mean(aptes_best.mapped('employee_id.alsada_bras')))
+                    alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_bras == alsada_best)
+                    if not bool(alsada_aptes):
+                        for i in range(5):
+                            alsada_range = range(alsada_best-i, alsada_best+i+1)
+                            alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_bras in alsada_range)
+                            if bool(alsada_aptes):
+                                break
+                    if not bool(alsada_aptes):
+                        alsada_aptes = aptes
+                    membre = alsada_aptes[0]
+                else:
+                    membre = aptes[0]
+                ocupats += membre.employee_id
+                pinya.membre_pinya_level_id = membre
 
     def tronc_muixeranga(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_selected').id

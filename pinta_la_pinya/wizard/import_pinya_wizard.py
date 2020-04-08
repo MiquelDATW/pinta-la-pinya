@@ -51,7 +51,7 @@ class PinyaImportWizard(models.TransientModel):
         validos = self.env['hr.employee']
         error_msg = ""
         for row in csv_raw:
-            adult1 = row.get('Adult 1') or membre_obj
+            adult1 = row.get('name') or membre_obj
 
             if not bool(adult1):
                 continue

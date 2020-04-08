@@ -5,26 +5,31 @@
         <record id="alsadora" model="hr.skill">
             <field name="name">Alçadora</field>
             <field name="tipus">tronc</field>
+            <field name="prioritat">2</field>
             <field name="description">Última adulta en la figura. Alça la xiqueta. Pot estar dreta o col·locar-se aponada i després desplegar-se.</field>
         </record>
         <record id="base" model="hr.skill">
             <field name="name">Base</field>
             <field name="tipus">tronc</field>
+            <field name="prioritat">1</field>
             <field name="description">Està baix del tot del tronc i sobre ella es col·loquen els pisos superiors. En segons quines figures es reforça amb crosses o contraforts per tal d’ajuda-la a suportar el pes.</field>
         </record>
         <record id="segones" model="hr.skill">
             <field name="name">Segones</field>
             <field name="tipus">tronc</field>
+            <field name="prioritat">1</field>
             <field name="description">Segon pis de la figura</field>
         </record>
         <record id="terces" model="hr.skill">
             <field name="name">Terces</field>
             <field name="tipus">tronc</field>
+            <field name="prioritat">2</field>
             <field name="description">Tercer pis de la figura</field>
         </record>
         <record id="xicalla" model="hr.skill">
             <field name="name">Xicalla</field>
             <field name="tipus">tronc</field>
+            <field name="prioritat">2</field>
             <field name="description">Xicalla que puja al més alt de la figura  i la corona</field>
         </record>
 
@@ -32,46 +37,55 @@
         <record id="agulla" model="hr.skill">
             <field name="name">Agulla</field>
             <field name="tipus">pinya</field>
+            <field name="prioritat">1</field>
             <field name="description">En figures de 5 i amunt, es col·loca dins del perímetre format per les bases i agafa les cuixes de les segones des de davant.</field>
         </record>
         <record id="contrafort" model="hr.skill">
             <field name="name">Contrafort</field>
             <field name="tipus">pinya</field>
+            <field name="prioritat">0</field>
             <field name="description">Abraça des de darrere la base i fa força cap amunt per tal d'ajudar-la a suportar el pes.</field>
         </record>
         <record id="crossa" model="hr.skill">
             <field name="name">Crossa</field>
             <field name="tipus">pinya</field>
+            <field name="prioritat">0</field>
             <field name="description">Abraça la base des d’un lateral, posant el seu muscle sota l’aixella, per tal d'ajudar-la a suportar el pes.</field>
         </record>
         <record id="lateral" model="hr.skill">
             <field name="name">Lateral</field>
             <field name="tipus">pinya</field>
+            <field name="prioritat">1</field>
             <field name="description">Agafa amb les dos mans a la persona que fa de segona pel lateral d’una de les cuixes, fent força cap a amunt; la resta de laterals es col·loquen per darrere en filera, agafant del canell a la persona que tenen davant. Es col·loca en el rengle de la pinya disposat entre les mans i els vents.</field>
         </record>
         <record id="mans" model="hr.skill">
             <field name="name">Mans</field>
             <field name="tipus">pinya</field>
+            <field name="prioritat">2</field>
             <field name="description">La primera persona del rengle es diu primeres mans i ajuda a sostrindre la segona agafant-la de les natges i fent força vertical amb els braços; la resta de mans es col·loquen per darrere en filera, agafant el canell de la persona que tenen davant. Es col·loca en el rengle de la pinya darrere de cada segona.</field>
         </record>
         <record id="peu" model="hr.skill">
             <field name="name">Peu</field>
             <field name="tipus">pinya</field>
+            <field name="prioritat">0</field>
             <field name="description">Agafa un dels peus de la segona.</field>
         </record>
         <record id="pinyerista" model="hr.skill">
             <field name="name">Pinyerista</field>
             <field name="tipus">pinya</field>
+            <field name="prioritat">0</field>
             <field name="description">Pinya genérica, a partir del 3r o 4t cordó aproximadament.</field>
         </record>
         <record id="tap" model="hr.skill">
             <field name="name">Tap</field>
             <field name="tipus">pinya</field>
+            <field name="prioritat">0</field>
             <field name="description">Es col·loca entre dos rengles de la pinya per tal de compactar-la i cobrir forats.</field>
         </record>
         <record id="vent" model="hr.skill">
             <field name="name">Vent</field>
             <field name="tipus">pinya</field>
+            <field name="prioritat">2</field>
             <field name="description">En les figures amb pom, la primera persona del rengle ajuda a les segones que té als dos costats agafant-les pels laterals dels malucs; en els Pilars agafa amb les dues mans a la segona per un dels laterals dels malucs i fa força cap a amunt. La resta de vents del rengle es col·loquen per darrere en filera, agafant del canell la persona que tenen davant. Es col·loca en el rengle de la pinya situat entre dos segones (si hi ha pom) o en perpendicular al segon (en Pilars).</field>
         </record>
 
@@ -79,16 +93,19 @@
         <record id="cantadora_aixecat" model="hr.skill">
             <field name="name">Cantadora Aixecat</field>
             <field name="tipus">pinya</field>
+            <field name="prioritat">2</field>
             <field name="description">Dirigeix el procés d'aixecament.</field>
         </record>
         <record id="contrafort_aixecat" model="hr.skill">
             <field name="name">Contrafort Aixecat</field>
             <field name="tipus">pinya</field>
+            <field name="prioritat">2</field>
             <field name="description">Abraça des de darrere la persona sent aixecada, li col·loca els peus i fa força cap amunt en el procés d'aixecament.</field>
         </record>
         <record id="forsuda_aixecat" model="hr.skill">
             <field name="name">Forçuda Aixecat</field>
             <field name="tipus">pinya</field>
+            <field name="prioritat">1</field>
             <field name="description">Contribueix a elevar cada membre del Pi Doble Aixecat a partir de l’alçadora, agafant-la de la faixa i de les cames i impulsant-la cap a dalt quan es munta, i cap a baix quan es desmunta.</field>
         </record>
     </data>

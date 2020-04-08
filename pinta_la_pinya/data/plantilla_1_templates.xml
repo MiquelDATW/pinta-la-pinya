@@ -242,17 +242,11 @@
             <field name="tipus">pinya</field>
             <field name="posicio_ids" eval="[(6,0,[ref('pinyerista_6_1star'), ref('tap_2_1star')])]"/>
         </record>
-        <record id="xopera_pinya_minus1" model="pinya.plantilla.line">
-            <field name="name">-1</field>
-            <field name="rengles">4</field>
-            <field name="tipus">pinya</field>
-            <field name="posicio_ids" eval="[(6,0,[ref('agulla_1_2star')])]"/>
-        </record>
         <record id="xopera_pinya_0" model="pinya.plantilla.line">
             <field name="name">0</field>
             <field name="rengles">4</field>
             <field name="tipus">pinya</field>
-            <field name="posicio_ids" eval="[(6,0,[ref('crossa_2_1star')])]"/>
+            <field name="posicio_ids" eval="[(6,0,[ref('agulla_1_2star'), ref('crossa_2_1star')])]"/>
         </record>
         <record id="xopera_pinya_1" model="pinya.plantilla.line">
             <field name="name">1</field>
@@ -333,7 +327,7 @@
             <field name="pisos">5</field>
             <field name="tipus">normal</field>
             <field name="neta">False</field>
-            <field name="plantilla_line_ids" eval="[(6,0,[ref('xopera_tronc_1'), ref('xopera_tronc_2'), ref('xopera_tronc_3'), ref('xopera_tronc_4'), ref('xopera_tronc_5'), ref('xopera_pinya_minus1'),  ref('xopera_pinya_0'),  ref('xopera_pinya_1'), ref('xopera_pinya_2'), ref('xopera_pinya_3'), ref('xopera_pinya_4'), ref('xopera_pinya_5')])]"/>
+            <field name="plantilla_line_ids" eval="[(6,0,[ref('xopera_tronc_1'), ref('xopera_tronc_2'), ref('xopera_tronc_3'), ref('xopera_tronc_4'), ref('xopera_tronc_5'), ref('xopera_pinya_0'),  ref('xopera_pinya_1'), ref('xopera_pinya_2'), ref('xopera_pinya_3'), ref('xopera_pinya_4'), ref('xopera_pinya_5')])]"/>
         </record>
     </data>
 </odoo>

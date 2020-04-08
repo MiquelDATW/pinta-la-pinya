@@ -160,7 +160,7 @@ class PinyaPlantillaLine(models.Model):
     _order = "tipus desc, name, rengles asc"
 
     name = fields.Selection([
-        ('-1', '-1'), ('0', '0'),
+        ('0', '0'),
         ('1', '1'), ('2', '2'), ('3', '3'),
         ('4', '4'),  ('5', '5'),  ('6', '6'),
     ], string="Pis/Cordó")
