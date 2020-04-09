@@ -97,6 +97,18 @@
                             </field>
                         </group>
                     </page>
+                    <page name="actuacions" string="Actuacions">
+                        <group name="actuacions">
+                            <field name="membre_actuacio_ids" nolabel="1">
+                                <tree string="Actuacions">
+                                    <field name="actuacio_id"/>
+                                    <field name="count_actuacio"/>
+                                    <field name="count_actuacio_pinya_2"/>
+                                    <field name="count_actuacio_tronc_2"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
                 </page>
             </field>
         </record>
@@ -173,6 +185,7 @@
                     <field name="name"/>
                     <field name="count_actuacio_pinya"/>
                     <field name="count_actuacio_tronc"/>
+                    <field name="count_actuacio"/>
                     <field name="count_actuacio_pinya_2"/>
                     <field name="count_actuacio_tronc_2"/>
                     <field name="count_3stars"/>
@@ -197,6 +210,7 @@
                                 <field name="actuacio_id"/>
                                 <field name="count_actuacio_pinya"/>
                                 <field name="count_actuacio_tronc"/>
+                                <field name="count_actuacio"/>
                                 <field name="count_actuacio_pinya_2"/>
                                 <field name="count_actuacio_tronc_2"/>
                             </group>

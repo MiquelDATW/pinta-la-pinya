@@ -22,6 +22,7 @@ class HrEmployee(models.Model):
 
     muixeranga_tronc_ids = fields.One2many("pinya.muixeranga.tronc", "membre_tronc_id", string="Muixeranga")
     muixeranga_pinya_ids = fields.One2many("pinya.muixeranga.pinya", "membre_pinya_id", string="Muixeranga")
+    membre_actuacio_ids = fields.One2many('hr.employee.actuacio', 'employee_id', string="Actuacions")
 
     posicio_ids = fields.Many2many(string="Posicions", comodel_name="hr.skill", compute="_compute_posicions", store=True)
     count_3stars = fields.Char(string="Habilitats expertes", compute="_compute_millors", store=True)
@@ -107,6 +108,7 @@ class HrEmployeeActuacio(models.Model):
     count_actuacio_tronc = fields.Integer(string="Figures tronc", readonly=True)
     count_actuacio_pinya_2 = fields.Char(string="Figures pinya", compute="_compute_count_actuacio", store=True)
     count_actuacio_tronc_2 = fields.Char(string="Figures tronc", compute="_compute_count_actuacio", store=True)
+    count_actuacio = fields.Char(string="Figures total", compute="_compute_count_actuacio", store=True)
 
     @api.multi
     @api.depends('actuacio_id',
@@ -132,31 +134,45 @@ class HrEmployeeActuacio(models.Model):
                 pinyes = m.actuacio_id.muixeranga_ids.mapped('pinya_line_ids')
                 troncs = m.actuacio_id.muixeranga_ids.mapped('tronc_line_ids')
 
-            a1 = pinyes.filtered(lambda x: x.membre_pinya_id.id == m.employee_id.id)
-            if not bool(a1):
-                a4 = ""
+            suma1 = [0, 0, 0, 0]
+            p1 = pinyes.filtered(lambda x: x.membre_pinya_id.id == m.employee_id.id)
+            if not bool(p1):
+                p4 = ""
             else:
-                a2 = list(set(a1.mapped('posicio_id').sorted('prioritat').mapped('prioritat')))
-                a3 = []
-                for i in a2:
+                p2 = list(set(p1.mapped('posicio_id').sorted('prioritat').mapped('prioritat')))
+                p3 = []
+                for i in p2:
                     i2 = str(i).replace('0', '⚫').replace('1', ' ⭐').replace('2', ' ⭐⭐').replace('3', ' ⭐⭐⭐')
-                    aux = str(len(a1.filtered(lambda x: x.posicio_id.prioritat == i).ids)) + ' ' + i2
-                    a3.append(aux)
-                a4 = ", ".join(a3)
-            m.count_actuacio_pinya_2 = a4
+                    aux = str(len(p1.filtered(lambda x: x.posicio_id.prioritat == i).ids))
+                    suma1[int(i)] = aux
+                    p3.append(aux + ' ' + i2)
+                p4 = ", ".join(p3)
+            m.count_actuacio_pinya_2 = p4
 
-            a1 = troncs.filtered(lambda x: x.membre_tronc_id.id == m.employee_id.id)
-            if not bool(a1):
-                a4 = ""
+            suma2 = [0, 0, 0, 0]
+            t1 = troncs.filtered(lambda x: x.membre_tronc_id.id == m.employee_id.id)
+            if not bool(t1):
+                t4 = ""
             else:
-                a2 = list(set(a1.mapped('posicio_id').sorted('prioritat').mapped('prioritat')))
-                a3 = []
-                for i in a2:
+                t2 = list(set(t1.mapped('posicio_id').sorted('prioritat').mapped('prioritat')))
+                t3 = []
+                for i in t2:
                     i2 = str(i).replace('0', '⚫').replace('1', ' ⭐').replace('2', ' ⭐⭐').replace('3', ' ⭐⭐⭐')
-                    aux = str(len(a1.filtered(lambda x: x.posicio_id.prioritat == i).ids)) + ' ' + i2
-                    a3.append(aux)
-                a4 = ", ".join(a3)
-            m.count_actuacio_tronc_2 = a4
+                    aux = str(len(t1.filtered(lambda x: x.posicio_id.prioritat == i).ids))
+                    suma2[int(i)] = aux
+                    t3.append(aux + ' ' + i2)
+                t4 = ", ".join(t3)
+            m.count_actuacio_tronc_2 = t4
+
+            suma_n = []
+            for i in range(4):
+                ss = int(suma1[i]) + int(suma2[i])
+                i2 = str(i).replace('0', '⚫').replace('1', ' ⭐').replace('2', ' ⭐⭐').replace('3', ' ⭐⭐⭐')
+                if ss != 0:
+                    suma_n.append(str(ss) + ' ' + i2)
+            suma_n.reverse()
+            suma_c = ", ".join(suma_n)
+            m.count_actuacio = suma_c
 
     @api.model
     def create(self, vals):
