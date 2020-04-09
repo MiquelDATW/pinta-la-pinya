@@ -124,7 +124,9 @@ class PinyaMuixeranga(models.Model):
             else:
                 membre = aptes[0]
             ocupats += membre.employee_id
-            tronc.membre_tronc_level_id = membre
+            tronc.membre_tronc_level_id = membre.id
+            self.actuacio_id.membre_actuacio_ids.filtered(
+                lambda x: x.employee_id.id == membre.employee_id.id).count_actuacio_tronc += 1
 
         pinyes = self.pinya_line_ids.filtered(lambda x: not x.membre_pinya_id).sorted('tecnica', reverse=True)
         tecniques = ['3', '2', '1', '0']
@@ -143,33 +145,23 @@ class PinyaMuixeranga(models.Model):
                 companyes = posicio.mapped('membre_pinya_id')
 
                 if bool(companyes) and len(posicio) > 1:
-                    alsada = round(statistics.mean(companyes.mapped('alsada_bras')))
+                    alsada = min(companyes.mapped('alsada_bras'))
                     alsada_aptes = False
                     for i in range(5):
-                        alsada_range = range(alsada-i, alsada+i+1)
+                        alsada_range = range(alsada-(5*(i+1)), alsada)
                         alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_bras in alsada_range)
                         if bool(alsada_aptes):
                             break
                     if not bool(alsada_aptes):
                         alsada_aptes = aptes
-                    membre = alsada_aptes[0]
+                    membre = alsada_aptes.sorted(lambda x: x.employee_id.alsada_bras, reverse=True)[0]
                 elif not bool(companyes) and len(posicio) > 1:
                     aptes_best = aptes.filtered(lambda x: x.level in ['2', '3'])
-                    alsada_best = round(statistics.mean(aptes_best.mapped('employee_id.alsada_bras')))
-                    alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_bras == alsada_best)
-                    if not bool(alsada_aptes):
-                        for i in range(5):
-                            alsada_range = range(alsada_best-i, alsada_best+i+1)
-                            alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_bras in alsada_range)
-                            if bool(alsada_aptes):
-                                break
-                    if not bool(alsada_aptes):
-                        alsada_aptes = aptes
-                    membre = alsada_aptes[0]
+                    membre = aptes_best.sorted(lambda x: x.employee_id.alsada_bras, reverse=True)[0]
                 else:
-                    membre = aptes[0]
+                    membre = aptes.sorted(lambda x: x.employee_id.alsada_bras, reverse=True)[0]
                 ocupats += membre.employee_id
-                pinya.membre_pinya_level_id = membre
+                pinya.membre_pinya_level_id = membre.id
 
     def tronc_muixeranga(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_selected').id

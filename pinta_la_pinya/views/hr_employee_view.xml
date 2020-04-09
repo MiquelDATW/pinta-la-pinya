@@ -164,5 +164,51 @@
                 </search>
             </field>
         </record>
+
+        <record id="hr_employee_actuacio_tree" model="ir.ui.view">
+            <field name="name">hr.employee.actuacio.tree</field>
+            <field name="model">hr.employee.actuacio</field>
+            <field name="arch" type="xml">
+                <tree string="Membres">
+                    <field name="name"/>
+                    <field name="count_actuacio_pinya"/>
+                    <field name="count_actuacio_tronc"/>
+                    <field name="count_actuacio_pinya_2"/>
+                    <field name="count_actuacio_tronc_2"/>
+                    <field name="count_3stars"/>
+                    <field name="count_2stars"/>
+                    <field name="count_1stars"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hr_employee_actuacio_form" model="ir.ui.view">
+            <field name="name">hr.employee.actuacio.form</field>
+            <field name="model">hr.employee.actuacio</field>
+            <field name="arch" type="xml">
+                <form string="Membres">
+                    <header>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" invisible="1"/>
+                                <field name="employee_id"/>
+                                <field name="actuacio_id"/>
+                                <field name="count_actuacio_pinya"/>
+                                <field name="count_actuacio_tronc"/>
+                                <field name="count_actuacio_pinya_2"/>
+                                <field name="count_actuacio_tronc_2"/>
+                            </group>
+                            <group>
+                                <field name="count_3stars"/>
+                                <field name="count_2stars"/>
+                                <field name="count_1stars"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
     </data>
 </odoo>

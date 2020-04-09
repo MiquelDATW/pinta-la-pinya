@@ -29,6 +29,7 @@ class PinyaActuacio(models.Model):
     ], string='Estat', required=True, default='draft')
 
     membre_ids = fields.Many2many('hr.employee', string="Membres")
+    membre_actuacio_ids = fields.One2many('hr.employee.actuacio', 'actuacio_id', string="Membres")
     muixeranga_ids = fields.One2many('pinya.muixeranga', 'actuacio_id', string="Muixerangues")
     membres_count = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
     muixerangues_count = fields.Integer(compute='_compute_muixerangues_count', string='Total muixerangues', store=True)
@@ -112,19 +113,23 @@ class PinyaActuacio(models.Model):
         return action
 
     def mostrar_membres(self):
-        view_search_id = self.env.ref('pinta_la_pinya.hr_employee_membre_search').id
-        view_tree_id = self.env.ref('pinta_la_pinya.hr_employee_membre_tree').id
-        view_form_id = self.env.ref('hr.view_employee_form').id
-        domain = [('id', 'in', self.membre_ids.ids)]
+        #view_search_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_search').id
+        view_tree_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_tree').id
+        view_form_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_form').id
+        domain = [('id', 'in', self.membre_actuacio_ids.ids)]
+        ctx = dict(self.env.context)
+        ctx.update({
+            'actuacio_id': self.id,
+        })
         action = {
             'type': 'ir.actions.act_window',
             'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            'search_view_id': view_search_id,
+            #'search_view_id': view_search_id,
             'view_mode': 'form',
             'name': "Membres",
             'target': 'current',
-            'res_model': 'hr.employee',
-            'context': {},
+            'res_model': 'hr.employee.actuacio',
+            'context': ctx,
             'domain': domain,
         }
         return action

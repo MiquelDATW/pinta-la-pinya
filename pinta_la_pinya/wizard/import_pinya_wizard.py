@@ -41,6 +41,15 @@ class PinyaImportWizard(models.TransientModel):
         actuacio = self.env['pinya.actuacio'].browse(actuacio)
         actuacio.membre_ids = [(6, 0, membres.ids)]
 
+        muix_act_obj = self.env['hr.employee.actuacio']
+        data = {
+            'actuacio_id': actuacio.id,
+        }
+        for membre in membres:
+            data['employee_id'] = membre.id
+            data['name'] = membre.name
+            muix_act_obj.create(data)
+
         return False
 
     def import_pinya(self, decoded_data):

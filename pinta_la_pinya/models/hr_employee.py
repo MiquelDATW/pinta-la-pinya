@@ -78,3 +78,85 @@ class HrEmployee(models.Model):
             mesos = delta.years * 12 + delta.months
             muixeranguer.mesos_inscrit = str(mesos)
 
+
+class HrEmployeeActuacio(models.Model):
+    _name = 'hr.employee.actuacio'
+    _order = 'employee_id'
+
+    active = fields.Boolean('Active', related='employee_id.active', default=True, store=True)
+    name = fields.Char(string="Nom", index=True, required=True, translate=True)
+
+    employee_id = fields.Many2one('hr.employee', string="Membre")
+    actuacio_id = fields.Many2one('pinya.actuacio', string="Actuació")
+
+    count_3stars = fields.Char(string="Habilitats expertes", related="employee_id.count_3stars", store=True)
+    count_2stars = fields.Char(string="Habilitats avançats", related="employee_id.count_2stars", store=True)
+    count_1stars = fields.Char(string="Habilitats mitjanes", related="employee_id.count_1stars", store=True)
+
+    count_actuacio_pinya = fields.Integer(string="Figures pinya", readonly=True)
+    count_actuacio_tronc = fields.Integer(string="Figures tronc", readonly=True)
+    count_actuacio_pinya_2 = fields.Char(string="Figures pinya", compute="_compute_count_actuacio", store=True)
+    count_actuacio_tronc_2 = fields.Char(string="Figures tronc", compute="_compute_count_actuacio", store=True)
+
+    @api.multi
+    @api.depends('actuacio_id',
+                 'actuacio_id.muixeranga_ids',
+                 'actuacio_id.muixeranga_ids.pinya_line_ids',
+                 'actuacio_id.muixeranga_ids.pinya_line_ids.membre_pinya_id',
+                 'actuacio_id.muixeranga_ids.tronc_line_ids',
+                 'actuacio_id.muixeranga_ids.tronc_line_ids.membre_tronc_id')
+    def _compute_count_actuacio(self):
+        muix_act = self.filtered(lambda x: x)
+        actuacio = self.env.context.get('actuacio_id', False)
+        print(fields.Datetime.now())
+        if bool(actuacio):
+            muixes = self.env['pinya.actuacio'].browse(actuacio).muixeranga_ids
+            pinyes = muixes.mapped('pinya_line_ids')
+            troncs = muixes.mapped('tronc_line_ids')
+            muix_act = self.filtered(lambda x: x.actuacio_id.id == actuacio)
+        for m in muix_act:
+            print(fields.Datetime.now() + ' ' + m.employee_id.name)
+            if not bool(actuacio):
+                pinyes = m.actuacio_id.muixeranga_ids.mapped('pinya_line_ids')
+                troncs = m.actuacio_id.muixeranga_ids.mapped('tronc_line_ids')
+
+            a1 = pinyes.filtered(lambda x: x.membre_pinya_id.id == m.employee_id.id)
+            if not bool(a1):
+                a4 = ""
+            else:
+                a2 = list(set(a1.mapped('posicio_id').sorted('prioritat').mapped('prioritat')))
+                a3 = []
+                for i in a2:
+                    i2 = str(i).replace('0', '⚫').replace('1', ' ⭐').replace('2', ' ⭐⭐').replace('3', ' ⭐⭐⭐')
+                    aux = str(len(a1.filtered(lambda x: x.posicio_id.prioritat == i).ids)) + ' ' + i2
+                    a3.append(aux)
+                a4 = ", ".join(a3)
+            m.count_actuacio_pinya_2 = a4
+
+            a1 = troncs.filtered(lambda x: x.membre_tronc_id.id == m.employee_id.id)
+            if not bool(a1):
+                a4 = ""
+            else:
+                a2 = list(set(a1.mapped('posicio_id').sorted('prioritat').mapped('prioritat')))
+                a3 = []
+                for i in a2:
+                    i2 = str(i).replace('0', '⚫').replace('1', ' ⭐').replace('2', ' ⭐⭐').replace('3', ' ⭐⭐⭐')
+                    aux = str(len(a1.filtered(lambda x: x.posicio_id.prioritat == i).ids)) + ' ' + i2
+                    a3.append(aux)
+                a4 = ", ".join(a3)
+            m.count_actuacio_tronc_2 = a4
+
+    @api.model
+    def create(self, vals):
+        if not vals.get('name', False):
+            muix = vals.get('employee_id')
+            name = self.env['hr.employee'].browse(muix).name
+            vals['name'] = name
+        res = super(HrEmployeeActuacio, self).create(vals)
+        return res
+
+    @api.multi
+    def write(self, vals):
+        res = super(HrEmployeeActuacio, self).write(vals)
+        return res
+
