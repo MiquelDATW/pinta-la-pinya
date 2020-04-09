@@ -78,6 +78,16 @@ class HrEmployee(models.Model):
             mesos = delta.years * 12 + delta.months
             muixeranguer.mesos_inscrit = str(mesos)
 
+    @api.model
+    def create(self, vals):
+        res = super(HrEmployee, self).create(vals)
+        return res
+
+    @api.multi
+    def write(self, vals):
+        res = super(HrEmployee, self).write(vals)
+        return res
+
 
 class HrEmployeeActuacio(models.Model):
     _name = 'hr.employee.actuacio'
@@ -108,12 +118,14 @@ class HrEmployeeActuacio(models.Model):
     def _compute_count_actuacio(self):
         muix_act = self.filtered(lambda x: x)
         actuacio = self.env.context.get('actuacio_id', False)
+        employee = self.env.context.get('employee_id', False)
         print(fields.Datetime.now())
         if bool(actuacio):
             muixes = self.env['pinya.actuacio'].browse(actuacio).muixeranga_ids
             pinyes = muixes.mapped('pinya_line_ids')
             troncs = muixes.mapped('tronc_line_ids')
-            muix_act = self.filtered(lambda x: x.actuacio_id.id == actuacio)
+            if bool(employee):
+                muix_act = self.filtered(lambda x: x.actuacio_id.id == actuacio and x.employee_id.id == employee)
         for m in muix_act:
             print(fields.Datetime.now() + ' ' + m.employee_id.name)
             if not bool(actuacio):

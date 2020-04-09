@@ -125,8 +125,6 @@ class PinyaMuixeranga(models.Model):
                 membre = aptes[0]
             ocupats += membre.employee_id
             tronc.membre_tronc_level_id = membre.id
-            self.actuacio_id.membre_actuacio_ids.filtered(
-                lambda x: x.employee_id.id == membre.employee_id.id).count_actuacio_tronc += 1
 
         pinyes = self.pinya_line_ids.filtered(lambda x: not x.membre_pinya_id).sorted('tecnica', reverse=True)
         tecniques = ['3', '2', '1', '0']
@@ -260,6 +258,12 @@ class PinyaMuixerangaPinya(models.Model):
 
     @api.multi
     def write(self, vals):
+        # ctx = self.env.context.copy()
+        # ctx.update({
+        #     'actuacio_id': self.actuacio_id.id,
+        #     'employee_id': self.env['hr.employee.level'].browse(vals.get('membre_pinya_level_id')).employee_id.id,
+        # })
+        # res = super(PinyaMuixerangaPinya, self.with_context(ctx)).write(vals)
         res = super(PinyaMuixerangaPinya, self).write(vals)
         return res
 
@@ -317,6 +321,12 @@ class PinyaMuixerangaTronc(models.Model):
 
     @api.multi
     def write(self, vals):
+        # ctx = self.env.context.copy()
+        # ctx.update({
+        #     'actuacio_id': self.actuacio_id.id,
+        #     'employee_id': self.env['hr.employee.level'].browse(vals.get('membre_tronc_level_id')).employee_id.id,
+        # })
+        # res = super(PinyaMuixerangaTronc, self.with_context(ctx)).write(vals)
         res = super(PinyaMuixerangaTronc, self).write(vals)
         return res
 
