@@ -12,14 +12,14 @@
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
                 <field name="category_ids" position="after">
-                    <group>
-                        <group name="informacio">
+                    <group name="employee">
+                        <group name="informacio" string="Info">
                             <field name="muixeranguera"/>
                             <field name="data_inscripcio"/>
                             <field name="mesos_inscrit"/>
                             <field name="altres_noms"/>
                         </group>
-                        <group name="mesures">
+                        <group name="mesures" string="Mesures">
                             <label for="alsada_cap" string="Alçada"/>
                             <div>
                                 <field name="alsada_cap" nolabel="1" class="oe_inline"/> cm
@@ -37,7 +37,9 @@
                                 <field name="pes" nolabel="1" class="oe_inline"/> kg
                             </div>
                         </group>
-                        <field name="notes" string="Altra informació" placeholder="Altra informació..."/>
+                    </group>
+                    <group name="notes" string="Altra informació">
+                        <field name="notes" placeholder="Altra informació..."/>
                     </group>
                 </field>
                 <page name="public" position="before">
@@ -70,6 +72,18 @@
                             </field>
                         </group>
                     </page>
+                    <page name="actuacions" string="Actuacions">
+                        <group name="actuacions">
+                            <field name="membre_actuacio_ids" nolabel="1">
+                                <tree string="Actuacions">
+                                    <field name="actuacio_id"/>
+                                    <field name="count_actuacio_total"/>
+                                    <field name="count_actuacio_pinya"/>
+                                    <field name="count_actuacio_tronc"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
                     <page name="tronc" string="Troncs">
                        <group name="tronc">
                             <field name="muixeranga_tronc_ids" nolabel="1">
@@ -93,18 +107,6 @@
                                     <field name="muixeranga_pinya_id"/>
                                     <field name="actuacio_id"/>
                                     <field name="data"/>
-                                </tree>
-                            </field>
-                        </group>
-                    </page>
-                    <page name="actuacions" string="Actuacions">
-                        <group name="actuacions">
-                            <field name="membre_actuacio_ids" nolabel="1">
-                                <tree string="Actuacions">
-                                    <field name="actuacio_id"/>
-                                    <field name="count_actuacio_total"/>
-                                    <field name="count_actuacio_pinya"/>
-                                    <field name="count_actuacio_tronc"/>
                                 </tree>
                             </field>
                         </group>
@@ -202,8 +204,8 @@
                     <header>
                     </header>
                     <sheet>
-                        <group>
-                            <group>
+                        <group name="membres">
+                            <group name="info" string="Info">
                                 <field name="name" invisible="1"/>
                                 <field name="employee_id"/>
                                 <field name="actuacio_id"/>
@@ -211,7 +213,7 @@
                                 <field name="count_actuacio_pinya"/>
                                 <field name="count_actuacio_tronc"/>
                             </group>
-                            <group>
+                            <group name="habilitats" string="Habilitats">
                                 <field name="count_3stars"/>
                                 <field name="count_2stars"/>
                                 <field name="count_1stars"/>

@@ -34,16 +34,18 @@
             <field name="inherit_id" ref="hr_skill.view_skill_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//group" position="replace">
-                    <group>
-                        <group>
+                    <group name="posicions">
+                        <group name="info" string="Info">
                             <field name="tipus"/>
                             <field name="prioritat" widget="priority"/>
+                        </group>
+                        <group name="membres" string="Membres">
                             <field name="count_3stars"/>
                             <field name="count_2stars"/>
                             <field name="count_1stars"/>
                         </group>
                     </group>
-                    <group>
+                    <group name="descripcio" string="Descripció">
                         <field name="description"/>
                     </group>
                 </xpath>
@@ -108,12 +110,14 @@
                     <header>
                     </header>
                     <sheet>
-                        <group>
-                            <group>
+                        <group name="posicions_nivell">
+                            <group name="info" string="Info">
                                 <field name="name" invisible="1"/>
                                 <field name="skill_id" readonly="1"/>
                                 <field name="employee_id"/>
                                 <field name="level"/>
+                            </group>
+                            <group name="figures" string="Figures">
                                 <field name="count_total"/>
                                 <field name="count_sismesos"/>
                             </group>
@@ -170,12 +174,14 @@
                     <header>
                     </header>
                     <sheet>
-                        <group>
-                            <group>
+                        <group name="membres_nivell">
+                            <group name="info" string="Info">
                                 <field name="name" invisible="1"/>
                                 <field name="skill_id" readonly="1"/>
                                 <field name="employee_id" readonly="1"/>
                                 <field name="level" widget="priority" readonly="1"/>
+                            </group>
+                            <group name="figures" string="Figures">
                                 <field name="count_total" readonly="1"/>
                                 <field name="count_sismesos" readonly="1"/>
                             </group>

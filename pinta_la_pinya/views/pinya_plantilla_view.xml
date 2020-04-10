@@ -32,18 +32,20 @@
                                 <field name="name" placeholder="Nom de la plantilla" required="True"/>
                             </h1>
                         </div>
-                        <group>
-                            <group name="principal" string="Info">
+                        <group name="plantilla">
+                            <group name="info" string="Info">
                                 <field name="pisos"/>
                                 <field name="tipus"/>
                                 <field name="neta"/>
                             </group>
-                            <group name="count" string="Membres">
+                            <group name="persones" string="Persones">
                                 <field name="tronc_count"/>
                                 <field name="pinya_count"/>
                                 <field name="total_count"/>
                             </group>
-                            <field name="notes" placeholder="Altra informació..." colspan="4"/>
+                        </group>
+                        <group name="notes" string="Altra informació">
+                            <field name="notes" placeholder="Altra informació..."/>
                         </group>
                         <group name="plantilla_line" string="Línea de plantilla">
                             <field name="plantilla_line_ids" nolabel="1"/>

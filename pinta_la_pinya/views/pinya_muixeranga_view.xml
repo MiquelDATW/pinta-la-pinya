@@ -22,17 +22,20 @@
                                     name="calcular_muixeranga" icon="fas fa-calculator"
                                     string="Calcular muixeranga"/>
                             <button class="oe_stat_button" type="object"
+                                    name="esborrar_muixeranga" icon="fas fa-eraser"
+                                    string="Esborrar muixeranga"/>
+                            <button name="toggle_active" type="object" groups="base.group_user"
+                                    class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                    options='{"terminology": "archive"}'/>
+                            </button>
+                            <button class="oe_stat_button" type="object"
                                     name="tronc_muixeranga" icon="fas fa-cog"
                                     string="Tronc"/>
                             <button class="oe_stat_button" type="object"
                                     name="pinya_muixeranga" icon="fas fa-users"
                                     attrs="{'invisible': [('neta', '=', True)]}"
                                     string="Pinya"/>
-                            <button name="toggle_active" type="object" groups="base.group_user"
-                                    class="oe_stat_button" icon="fa-archive">
-                                <field name="active" widget="boolean_button"
-                                    options='{"terminology": "archive"}'/>
-                            </button>
                         </div>
                         <field name="image" widget='image' class="oe_avatar"/>
                         <div class="oe_title">
@@ -41,8 +44,8 @@
                                 <field name="name" placeholder="Nom de la figura" required="True"/>
                             </h1>
                         </div>
-                        <group>
-                            <group name="principal">
+                        <group name="muixeranga">
+                            <group name="info" string="Info">
                                 <field name="pisos"/>
                                 <field name="tipus"/>
                                 <field name="neta"
@@ -50,12 +53,14 @@
                                 <field name="plantilla_id"/>
                                 <field name="actuacio_id"/>
                             </group>
-                            <group name="count" string="Membres">
+                            <group name="persones" string="Persones">
                                 <field name="tronc_count"/>
                                 <field name="pinya_count"/>
                                 <field name="total_count"/>
                             </group>
-                            <field name="notes" placeholder="Altra informació..." colspan="4"/>
+                        </group>
+                        <group name="notes" string="Altra informació">
+                            <field name="notes" placeholder="Altra informació..."/>
                         </group>
                         <notebook>
                             <page name="tronc" string="Tronc">
