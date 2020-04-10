@@ -90,7 +90,7 @@
                        <group name="tronc">
                             <field name="muixeranga_tronc_ids" nolabel="1">
                                 <tree string="Tronc de muixeranga">
-                                    <field name="name"/>
+                                    <field name="pis"/>
                                     <field name="posicio_id"/>
                                     <field name="muixeranga_tronc_id"/>
                                     <field name="actuacio_id"/>
@@ -103,7 +103,7 @@
                         <group name="pinya">
                             <field name="muixeranga_pinya_ids" nolabel="1">
                                 <tree string="Pinya de muixeranga">
-                                    <field name="name"/>
+                                    <field name="cordo"/>
                                     <field name="rengle"/>
                                     <field name="posicio_id"/>
                                     <field name="muixeranga_pinya_id"/>

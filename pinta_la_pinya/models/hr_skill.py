@@ -18,10 +18,9 @@ class HrSkill(models.Model):
     ], string='Tipus', default="pinya", required=True)
 
     prioritat = fields.Selection([
-        ('0', 'Molt baixa'),
-        ('1', 'Baixa'),
-        ('2', 'Mitjana'),
-        ('3', 'Alta'),
+        ('1', '1️⃣'),
+        ('2', '2️⃣'),
+        ('3', '3️⃣'),
     ], string='Prioritat', default="1", required=True)
 
     employee_level_ids = fields.One2many('hr.employee.level', 'skill_id', string="Employee Level")

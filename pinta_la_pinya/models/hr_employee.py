@@ -132,7 +132,7 @@ class HrEmployeeActuacio(models.Model):
                 p2 = list(set(p1.mapped('posicio_id').sorted('prioritat').mapped('prioritat')))
                 p3 = []
                 for i in p2:
-                    i2 = str(i).replace('0', '⚫').replace('1', ' ⭐').replace('2', ' ⭐⭐').replace('3', ' ⭐⭐⭐')
+                    i2 = str(i).replace('0', '0️⃣').replace('1', '1️⃣').replace('2', '2️⃣').replace('3', '3️⃣')
                     aux = str(len(p1.filtered(lambda x: x.posicio_id.prioritat == i).ids))
                     suma1[int(i)] = aux
                     p3.append(aux + ' ' + i2)
@@ -148,7 +148,7 @@ class HrEmployeeActuacio(models.Model):
                 t2 = list(set(t1.mapped('posicio_id').sorted('prioritat').mapped('prioritat')))
                 t3 = []
                 for i in t2:
-                    i2 = str(i).replace('0', '⚫').replace('1', ' ⭐').replace('2', ' ⭐⭐').replace('3', ' ⭐⭐⭐')
+                    i2 = str(i).replace('0', '0️⃣').replace('1', '1️⃣').replace('2', '2️⃣').replace('3', '3️⃣')
                     aux = str(len(t1.filtered(lambda x: x.posicio_id.prioritat == i).ids))
                     suma2[int(i)] = aux
                     t3.append(aux + ' ' + i2)
@@ -160,7 +160,7 @@ class HrEmployeeActuacio(models.Model):
             for i in range(4):
                 ss = int(suma1[i]) + int(suma2[i])
                 if ss != 0:
-                    i2 = str(i).replace('0', '⚫').replace('1', ' ⭐').replace('2', ' ⭐⭐').replace('3', ' ⭐⭐⭐')
+                    i2 = str(i).replace('0', '0️⃣').replace('1', '1️⃣').replace('2', '2️⃣').replace('3', '3️⃣')
                     suma_n.append(str(ss) + ' ' + i2)
             suma_n.reverse()
             suma_c = ", ".join(suma_n)

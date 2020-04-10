@@ -12,7 +12,7 @@
             <field name="arch" type="xml">
                 <field name="display_name" position="before">
                     <field name="tipus"/>
-                    <field name="prioritat" widget="priority" readonly="1"/>
+                    <field name="prioritat" readonly="1"/>
                 </field>
                 <field name="color" position="before">
                     <field name="count_3stars"/>
@@ -37,7 +37,7 @@
                     <group name="posicions">
                         <group name="info" string="Info">
                             <field name="tipus"/>
-                            <field name="prioritat" widget="priority"/>
+                            <field name="prioritat"/>
                         </group>
                         <group name="membres" string="Membres">
                             <field name="count_3stars"/>
@@ -77,9 +77,9 @@
                     <filter string="Tronc" name="tronc" domain="[('tipus', '=', 'tronc')]"/>
                     <filter string="Pinya" name="pinya" domain="[('tipus', '=', 'pinya')]"/>
                     <separator/>
-                    <filter string="Baixa" name="baixa" domain="[('prioritat', '=', '0')]"/>
-                    <filter string="Mitjana" name="mitjana" domain="[('prioritat', '=', '1')]"/>
-                    <filter string="Alta" name="alta" domain="[('prioritat', '=', '2')]"/>
+                    <filter string="Baixa" name="baixa" domain="[('prioritat', '=', '1')]"/>
+                    <filter string="Mitjana" name="mitjana" domain="[('prioritat', '=', '2')]"/>
+                    <filter string="Alta" name="alta" domain="[('prioritat', '=', '3')]"/>
                     <separator/>
                     <group expand="0" string="Group By">
                         <filter string="Tipus" name="group_tipus" domain="[]" context="{'group_by':'tipus'}"/>

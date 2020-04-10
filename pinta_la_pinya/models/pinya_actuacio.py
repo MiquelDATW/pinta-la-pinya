@@ -99,7 +99,7 @@ class PinyaActuacio(models.Model):
         return action
 
     def mostrar_muixerangues(self):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tree').id
+        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tree_all').id
         view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_form').id
         domain = [('id', 'in', self.muixeranga_ids.ids)]
         action = {

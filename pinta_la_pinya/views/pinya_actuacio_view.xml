@@ -35,7 +35,7 @@
                                     name="pinya_muixeranga_wizard" icon="fas fa-plus-square"
                                     string="Afegir muixerangues"/>
                             <button class="oe_stat_button" type="object"
-                                    name="mostrar_muixerangues" icon="fas fa-cogs"
+                                    name="mostrar_muixerangues" icon="fas fa-list-ol"
                                     string="Muixerangues"/>
                             <button class="oe_stat_button" type="object"
                                     name="mostrar_membres" icon="fas fa-users"

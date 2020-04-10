@@ -93,9 +93,10 @@ class PinyaPlantilla(models.Model):
         line_vals['data'] = obj_actua.browse(actuacio).data
         for aux in tronc:
             posicions = aux.posicio_ids
-            line_vals['name'] = str(aux.name)
+            line_vals['pis'] = str(aux.name)
             for pos in posicions:
                 qty = pos.quantity
+                line_vals['name'] = pos.posicio_id.name + ' / ' + str(aux.name)
                 line_vals['tecnica'] = pos.tecnica
                 line_vals['posicio_id'] = pos.posicio_id.id
                 for q in range(qty):
@@ -111,11 +112,10 @@ class PinyaPlantilla(models.Model):
 
         new_line = self.env['pinya.muixeranga.pinya']
         pinya = self.plantilla_line_ids.filtered(lambda x: x.tipus == 'pinya')
-        rengles = list(set(pinya.mapped('rengles')))
+        rengles = max(pinya.mapped('rengles') or [0])
         if not bool(pinya) or not bool(rengles):
             error_msg = "A la figura '{}' li falta la pinya❗".format(self.name)
             raise ValidationError(error_msg)
-        rengles = rengles[0]
 
         line_vals = {}
         line_vals['actuacio_id'] = actuacio
@@ -124,9 +124,10 @@ class PinyaPlantilla(models.Model):
             line_vals['rengle'] = str(i+1)
             for aux in pinya:
                 posicions = aux.posicio_ids
-                line_vals['name'] = str(aux.name)
+                line_vals['cordo'] = str(aux.name)
                 for pos in posicions:
                     qty = pos.quantity
+                    line_vals['name'] = pos.posicio_id.name + ' / ' + str(aux.name)
                     line_vals['tecnica'] = pos.tecnica
                     line_vals['posicio_id'] = pos.posicio_id.id
                     for q in range(qty):
@@ -138,7 +139,7 @@ class PinyaPlantilla(models.Model):
         return res
 
     def mostrar_muixerangues(self):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tree').id
+        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tree_selected').id
         view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_form').id
         domain = [('id', 'in', self.muixeranga_ids.ids)]
         action = {

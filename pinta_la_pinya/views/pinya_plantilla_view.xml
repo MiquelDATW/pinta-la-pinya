@@ -22,7 +22,7 @@
                                     options='{"terminology": "archive"}'/>
                             </button>
                             <button class="oe_stat_button" type="object"
-                                    name="mostrar_muixerangues" icon="fas fa-cogs"
+                                    name="mostrar_muixerangues" icon="fas fa-list-ol"
                                     string="Muixerangues"/>
                         </div>
                         <field name="image" widget='image' class="oe_avatar"/>

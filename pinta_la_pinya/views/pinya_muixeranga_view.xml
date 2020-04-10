@@ -67,7 +67,7 @@
                                 <field name="tronc_line_ids" nolabel="1">
                                     <tree string="Tronc de muixeranga"
                                           create="false" edit="false" delete="false">
-                                        <field name="name"/>
+                                        <field name="pis"/>
                                         <field name="posicio_id"/>
                                         <field name="tecnica" widget="priority" readonly="1"/>
                                         <field name="membre_tronc_id"
@@ -78,7 +78,7 @@
                                     <form string="Tronc de muixeranga">
                                         <group>
                                             <group name="muixeranga_tronc">
-                                                <field name="name" readonly="1"/>
+                                                <field name="pis" readonly="1"/>
                                                 <field name="posicio_id" readonly="1"/>
                                                 <field name="tecnica" widget="priority" readonly="1"/>
                                                 <field name="membre_tronc_id" readonly="1"/>
@@ -97,7 +97,7 @@
                                 <field name="pinya_line_ids" nolabel="1">
                                     <tree string="Pinya de muixeranga"
                                           create="false" edit="false" delete="false">
-                                        <field name="name"/>
+                                        <field name="cordo"/>
                                         <field name="rengle"/>
                                         <field name="posicio_id"/>
                                         <field name="tecnica" widget="priority" readonly="1"/>
@@ -109,7 +109,7 @@
                                     <form string="Pinya de muixeranga">
                                         <group>
                                             <group name="muixeranga_pinya">
-                                                <field name="name" readonly="1"/>
+                                                <field name="cordo" readonly="1"/>
                                                 <field name="rengle" readonly="1"/>
                                                 <field name="posicio_id" readonly="1"/>
                                                 <field name="tecnica" widget="priority" readonly="1"/>
@@ -167,8 +167,8 @@
             </field>
         </record>
 
-        <record id="view_muixeranga_tree" model="ir.ui.view">
-            <field name="name">pinya.muixeranga.tree</field>
+        <record id="view_muixeranga_tree_all" model="ir.ui.view">
+            <field name="name">pinya.muixeranga.tree.all</field>
             <field name="model">pinya.muixeranga</field>
             <field name="arch" type="xml">
                 <tree string="Muixerangues">
@@ -182,6 +182,21 @@
                     <field name="tronc_count"/>
                     <field name="pinya_count"/>
                     <field name="total_count"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_muixeranga_tree_selected" model="ir.ui.view">
+            <field name="name">pinya.muixeranga.tree.selected</field>
+            <field name="model">pinya.muixeranga</field>
+            <field name="arch" type="xml">
+                <tree string="Muixerangues">
+                    <field name="name"/>
+                    <field name="actuacio_id"/>
+                    <field name="data"/>
+                    <field name="estat"/>
+                    <field name="tipus"/>
+                    <field name="pisos"/>
                 </tree>
             </field>
         </record>
@@ -240,21 +255,26 @@
                         </div>
                         <div class="oe_title">
                             <h1>
+                                <field name="name"/>
                             </h1>
                         </div>
                         <group>
                             <group name="muixeranga_tronc">
-                                <field name="name"/>
+                                <field name="pis"/>
                                 <field name="posicio_id"/>
                                 <field name="tecnica" widget="priority"/>
-                                <field name="membre_tronc_id"
-                                       options="{'no_create_edit': True}"
-                                       domain="[('muixeranguera', '=', True)]"/>
+                                <field name="membre_tronc_id" readonly="1"/>
                             </group>
                             <group name="muixeranga_dades">
                                 <field name="muixeranga_tronc_id"/>
                                 <field name="actuacio_id"/>
                                 <field name="data"/>
+                            </group>
+                            <group class="oe_edit_only">
+                                <field name="membre_tronc_level_id"
+                                       options="{'no_create_edit': True}"
+                                       domain="[('id', 'in', recomanats_ids)]"/>
+                                <field name="recomanats_ids" invisible="1"/>
                             </group>
                         </group>
                     </sheet>
@@ -271,7 +291,7 @@
                     <field name="actuacio_id"/>
                     <field name="muixeranga_tronc_id"/>
                     <field name="plantilla_id"/>
-                    <field name="name"/>
+                    <field name="pis"/>
                     <field name="posicio_id"/>
                     <field name="tecnica" widget="priority"/>
                     <field name="membre_tronc_id"/>
@@ -284,7 +304,7 @@
             <field name="model">pinya.muixeranga.tronc</field>
             <field name="arch" type="xml">
                 <tree create="0" editable="bottom" string="Tronc de muixeranga">
-                    <field name="name" readonly="1"/>
+                    <field name="pis" readonly="1"/>
                     <field name="posicio_id" readonly="1"/>
                     <field name="tecnica" widget="priority" readonly="1"/>
                     <field name="membre_tronc_id" readonly="1"/>
@@ -305,7 +325,7 @@
                     <field name="actuacio_id"/>
                     <field name="muixeranga_tronc_id"/>
                     <field name="plantilla_id"/>
-                    <field name="name"/>
+                    <field name="pis"/>
                     <field name="posicio_id"/>
                     <field name="tecnica" widget="priority"/>
                     <field name="membre_tronc_id"/>
@@ -313,12 +333,12 @@
                     <filter string="No establert" name="no_establert" domain="[('membre_tronc_id', '=', False)]"/>
                     <filter string="Establert" name="establert" domain="[('membre_tronc_id', '!=', False)]"/>
                     <separator/>
-                    <filter string="1r pis" name="1r_pis" domain="[('name', '=', '1')]"/>
-                    <filter string="2n pis" name="2n_pis" domain="[('name', '=', '2')]"/>
-                    <filter string="3r pis" name="3r_pis" domain="[('name', '=', '3')]"/>
-                    <filter string="4t pis" name="4t_pis" domain="[('name', '=', '4')]"/>
-                    <filter string="5é pis" name="5e_pis" domain="[('name', '=', '5')]"/>
-                    <filter string="6é pis" name="6e_pis" domain="[('name', '=', '6')]"/>
+                    <filter string="1r pis" name="1r_pis" domain="[('pis', '=', '1')]"/>
+                    <filter string="2n pis" name="2n_pis" domain="[('pis', '=', '2')]"/>
+                    <filter string="3r pis" name="3r_pis" domain="[('pis', '=', '3')]"/>
+                    <filter string="4t pis" name="4t_pis" domain="[('pis', '=', '4')]"/>
+                    <filter string="5é pis" name="5e_pis" domain="[('pis', '=', '5')]"/>
+                    <filter string="6é pis" name="6e_pis" domain="[('pis', '=', '6')]"/>
                     <separator/>
                     <filter string="Tècnica ⭐⭐⭐" name="tecnica_3" domain="[('tecnica', '=', '3')]"/>
                     <filter string="Tècnica ⭐⭐" name="tecnica_2" domain="[('tecnica', '=', '2')]"/>
@@ -336,7 +356,7 @@
                         <filter name="group_muixeranga_tronc" string="Figura" domain="[]" context="{'group_by':'muixeranga_tronc_id'}"/>
                         <filter name="group_plantilla" string="Plantilla" domain="[]" context="{'group_by':'plantilla_id'}"/>
                         <filter name="group_data" string="Data" domain="[]" context="{'group_by':'data'}"/>
-                        <filter name="group_name" string="Pis" domain="[]" context="{'group_by':'name'}"/>
+                        <filter name="group_pis" string="Pis" domain="[]" context="{'group_by':'pis'}"/>
                         <filter name="group_posicio" string="Posició" domain="[]" context="{'group_by':'posicio_id'}"/>
                         <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"/>
                         <filter name="group_membre_tronc" string="Membre Tronc" domain="[]" context="{'group_by':'membre_tronc_id'}"/>
@@ -355,22 +375,27 @@
                         </div>
                         <div class="oe_title">
                             <h1>
+                                <field name="name"/>
                             </h1>
                         </div>
                         <group>
                             <group name="muixeranga_pinya">
-                                <field name="name"/>
-                                <field name="rengle" readonly="1"/>
+                                <field name="cordo"/>
+                                <field name="rengle"/>
                                 <field name="posicio_id"/>
                                 <field name="tecnica" widget="priority"/>
-                                <field name="membre_pinya_id"
-                                       options="{'no_create_edit': True}"
-                                       domain="[('muixeranguera', '=', True)]"/>
+                                <field name="membre_pinya_id" readonly="1"/>
                             </group>
                             <group name="muixeranga_dades">
                                 <field name="muixeranga_pinya_id"/>
                                 <field name="actuacio_id"/>
                                 <field name="data"/>
+                            </group>
+                            <group class="oe_edit_only">
+                                <field name="membre_pinya_level_id"
+                                       options="{'no_create_edit': True}"
+                                       domain="[('id', 'in', recomanats_ids)]"/>
+                                <field name="recomanats_ids" invisible="1"/>
                             </group>
                         </group>
                     </sheet>
@@ -387,7 +412,7 @@
                     <field name="actuacio_id"/>
                     <field name="muixeranga_pinya_id"/>
                     <field name="plantilla_id"/>
-                    <field name="name"/>
+                    <field name="cordo"/>
                     <field name="rengle"/>
                     <field name="posicio_id"/>
                     <field name="tecnica" widget="priority"/>
@@ -401,7 +426,7 @@
             <field name="model">pinya.muixeranga.pinya</field>
             <field name="arch" type="xml">
                 <tree create="0" editable="bottom" string="Pinya de muixeranga">
-                    <field name="name" readonly="1"/>
+                    <field name="cordo" readonly="1"/>
                     <field name="rengle" readonly="1"/>
                     <field name="posicio_id" readonly="1"/>
                     <field name="tecnica" widget="priority" readonly="1"/>
@@ -423,7 +448,7 @@
                     <field name="actuacio_id"/>
                     <field name="muixeranga_pinya_id"/>
                     <field name="plantilla_id"/>
-                    <field name="name"/>
+                    <field name="cordo"/>
                     <field name="rengle"/>
                     <field name="posicio_id"/>
                     <field name="tecnica" widget="priority"/>
@@ -432,13 +457,13 @@
                     <filter string="No establert" name="no_establert" domain="[('membre_pinya_id', '=', False)]"/>
                     <filter string="Establert" name="establert" domain="[('membre_pinya_id', '!=', False)]"/>
                     <separator/>
-                    <filter string="0 cordó" name="0_cordo" domain="[('name', '=', '0')]"/>
-                    <filter string="1r cordó" name="1r_cordo" domain="[('name', '=', '1')]"/>
-                    <filter string="2n cordó" name="2n_cordo" domain="[('name', '=', '2')]"/>
-                    <filter string="3r cordó" name="3r_cordo" domain="[('name', '=', '3')]"/>
-                    <filter string="4t cordó" name="4t_cordo" domain="[('name', '=', '4')]"/>
-                    <filter string="5é cordó" name="5e_cordo" domain="[('name', '=', '5')]"/>
-                    <filter string="6é cordó" name="6e_cordo" domain="[('name', '=', '6')]"/>
+                    <filter string="0 cordó" name="0_cordo" domain="[('cordo', '=', '0')]"/>
+                    <filter string="1r cordó" name="1r_cordo" domain="[('cordo', '=', '1')]"/>
+                    <filter string="2n cordó" name="2n_cordo" domain="[('cordo', '=', '2')]"/>
+                    <filter string="3r cordó" name="3r_cordo" domain="[('cordo', '=', '3')]"/>
+                    <filter string="4t cordó" name="4t_cordo" domain="[('cordo', '=', '4')]"/>
+                    <filter string="5é cordó" name="5e_cordo" domain="[('cordo', '=', '5')]"/>
+                    <filter string="6é cordó" name="6e_cordo" domain="[('cordo', '=', '6')]"/>
                     <separator/>
                     <filter string="1r rengle" name="1r_rengle" domain="[('rengle', '=', '1')]"/>
                     <filter string="2n rengle" name="2n_rengle" domain="[('rengle', '=', '2')]"/>
@@ -463,7 +488,7 @@
                         <filter name="group_muixeranga_pinya" string="Figura" domain="[]" context="{'group_by':'muixeranga_pinya_id'}"/>
                         <filter name="group_plantilla" string="Plantilla" domain="[]" context="{'group_by':'plantilla_id'}"/>
                         <filter name="group_data" string="Data" domain="[]" context="{'group_by':'data'}"/>
-                        <filter name="group_name" string="Cordó" domain="[]" context="{'group_by':'name'}"/>
+                        <filter name="group_cordo" string="Cordó" domain="[]" context="{'group_by':'cordo'}"/>
                         <filter name="group_rengle" string="Rengle" domain="[]" context="{'group_by':'rengle'}"/>
                         <filter name="group_posicio" string="Posició" domain="[]" context="{'group_by':'posicio_id'}"/>
                         <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"/>

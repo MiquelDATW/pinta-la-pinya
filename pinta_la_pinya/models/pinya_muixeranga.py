@@ -66,7 +66,7 @@ class PinyaMuixeranga(models.Model):
     def _compute_cordons(self):
         muixs = self.filtered(lambda x: not x.neta)
         for muix in muixs:
-            c = max(muix.pinya_line_ids.mapped('name') or [0])
+            c = max(muix.pinya_line_ids.mapped('cordo') or [0])
             muix.cordons = c
 
     @api.multi
@@ -216,10 +216,18 @@ class PinyaMuixeranga(models.Model):
 class PinyaMuixerangaPinya(models.Model):
     _name = "pinya.muixeranga.pinya"
     _description = "Pinya de muixeranga"
-    _order = "data, muixeranga_pinya_id, name, rengle, posicio_id asc"
+    _order = "data, muixeranga_pinya_id, cordo, rengle, posicio_id asc"
 
-    name = fields.Char(string="Cordó", index=True, required=True, translate=True)
-    rengle = fields.Char(string="Rengle")
+    name = fields.Char(string="Nom", index=True, required=True, translate=True)
+    cordo = fields.Selection([
+        ('0', '0'),
+        ('1', '1'), ('2', '2'), ('3', '3'),
+        ('4', '4'),  ('5', '5'),  ('6', '6'),
+    ], string="Cordó", required=True)
+    rengle = fields.Selection([
+        ('1', '1'), ('2', '2'), ('3', '3'),
+        ('4', '4'),  ('5', '5'),  ('6', '6'),
+    ], string="Rengle", required=True)
     active = fields.Boolean(string="Actiu", default=True)
     data = fields.Date(string="Data", related="muixeranga_pinya_id.actuacio_id.data", readonly=True, store=True)
 
@@ -230,7 +238,7 @@ class PinyaMuixerangaPinya(models.Model):
         ('3', 'Experta'),
     ], string='Tècnica', default="1", required=True)
 
-    posicio_id = fields.Many2one(string="Posició", comodel_name="hr.skill")
+    posicio_id = fields.Many2one(string="Posició", comodel_name="hr.skill", required=True)
     muixeranga_pinya_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
     membre_pinya_id = fields.Many2one(string="Membre Pinya", comodel_name="hr.employee",
                                       related="membre_pinya_level_id.employee_id", store=True)
@@ -286,9 +294,9 @@ class PinyaMuixerangaPinya(models.Model):
 class PinyaMuixerangaTronc(models.Model):
     _name = "pinya.muixeranga.tronc"
     _description = "Tronc de muixeranga"
-    _order = "data, muixeranga_tronc_id, name, posicio_id asc"
+    _order = "data, muixeranga_tronc_id, pis, posicio_id asc"
 
-    name = fields.Char(string="Pis", index=True, required=True, translate=True)
+    name = fields.Char(string="Nom", index=True, required=True, translate=True)
     active = fields.Boolean(string="Actiu", default=True)
     data = fields.Date(string="Data", related="muixeranga_tronc_id.actuacio_id.data", readonly=True, store=True)
 
@@ -299,7 +307,11 @@ class PinyaMuixerangaTronc(models.Model):
         ('3', 'Experta'),
     ], string='Tècnica', default="1", required=True)
 
-    posicio_id = fields.Many2one(string="Posició", comodel_name="hr.skill")
+    pis = fields.Selection([
+        ('1', '1'), ('2', '2'), ('3', '3'),
+        ('4', '4'),  ('5', '5'),  ('6', '6'),
+    ], string="Pis", required=True)
+    posicio_id = fields.Many2one(string="Posició", comodel_name="hr.skill", required=True)
     muixeranga_tronc_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
     membre_tronc_id = fields.Many2one(string="Membre Tronc", comodel_name="hr.employee",
                                       related="membre_tronc_level_id.employee_id", store=True)
