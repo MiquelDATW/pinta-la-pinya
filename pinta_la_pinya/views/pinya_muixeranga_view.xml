@@ -144,7 +144,7 @@
                                 <group name="membres" string="Membres">
                                     <field name="membre_count"/>
                                 </group>
-                                <field name="membre_ids" nolabel="1"/>
+                                <!--<field name="membre_ids" nolabel="1"/>-->
                             </page>
                             <page name="lliures" string="Lliures">
                                 <group name="lliures" string="Lliures">

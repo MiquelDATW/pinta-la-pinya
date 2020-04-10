@@ -39,7 +39,6 @@ class PinyaImportWizard(models.TransientModel):
             raise ValidationError(error_msg)
 
         actuacio = self.env['pinya.actuacio'].browse(actuacio)
-        actuacio.membre_ids = [(6, 0, membres.ids)]
 
         muix_act_obj = self.env['hr.employee.actuacio']
         data = {

@@ -100,39 +100,31 @@ class HrEmployeeActuacio(models.Model):
     employee_id = fields.Many2one('hr.employee', string="Membre")
     actuacio_id = fields.Many2one('pinya.actuacio', string="Actuació")
 
+    pinya_line_ids = fields.One2many('pinya.muixeranga.pinya', 'employee_actuacio_id', string="Pinya de muixeranga")
+    tronc_line_ids = fields.One2many('pinya.muixeranga.tronc', 'employee_actuacio_id', string="Tronc de muixeranga")
+
     count_3stars = fields.Char(string="Habilitats expertes", related="employee_id.count_3stars", store=True)
     count_2stars = fields.Char(string="Habilitats avançats", related="employee_id.count_2stars", store=True)
     count_1stars = fields.Char(string="Habilitats mitjanes", related="employee_id.count_1stars", store=True)
 
-    count_actuacio_pinya = fields.Integer(string="Figures pinya", readonly=True)
-    count_actuacio_tronc = fields.Integer(string="Figures tronc", readonly=True)
-    count_actuacio_pinya_2 = fields.Char(string="Figures pinya", compute="_compute_count_actuacio", store=True)
-    count_actuacio_tronc_2 = fields.Char(string="Figures tronc", compute="_compute_count_actuacio", store=True)
-    count_actuacio = fields.Char(string="Figures total", compute="_compute_count_actuacio", store=True)
+    count_actuacio_total = fields.Char(string="Figures total", compute="_compute_actuacio", store=True)
+    count_actuacio_pinya = fields.Char(string="Figures pinya", compute="_compute_actuacio", store=True)
+    count_actuacio_tronc = fields.Char(string="Figures tronc", compute="_compute_actuacio", store=True)
+
+    _sql_constraints = [
+        ('employee_actuacio_uniq', 'unique(employee_id, actuacio_id)',
+         "Aquest membre ja forma part de l'actuació/assaig❗"),
+    ]
 
     @api.multi
-    @api.depends('actuacio_id',
-                 'actuacio_id.muixeranga_ids',
-                 'actuacio_id.muixeranga_ids.pinya_line_ids',
-                 'actuacio_id.muixeranga_ids.pinya_line_ids.membre_pinya_id',
-                 'actuacio_id.muixeranga_ids.tronc_line_ids',
-                 'actuacio_id.muixeranga_ids.tronc_line_ids.membre_tronc_id')
-    def _compute_count_actuacio(self):
+    @api.depends('pinya_line_ids.employee_actuacio_id', 'tronc_line_ids.employee_actuacio_id')
+    def _compute_actuacio(self):
+        print("!!!!!!!!!!!!" + fields.Datetime.now())
         muix_act = self.filtered(lambda x: x)
-        actuacio = self.env.context.get('actuacio_id', False)
-        employee = self.env.context.get('employee_id', False)
-        print(fields.Datetime.now())
-        if bool(actuacio):
-            muixes = self.env['pinya.actuacio'].browse(actuacio).muixeranga_ids
-            pinyes = muixes.mapped('pinya_line_ids')
-            troncs = muixes.mapped('tronc_line_ids')
-            if bool(employee):
-                muix_act = self.filtered(lambda x: x.actuacio_id.id == actuacio and x.employee_id.id == employee)
         for m in muix_act:
-            print(fields.Datetime.now() + ' ' + m.employee_id.name)
-            if not bool(actuacio):
-                pinyes = m.actuacio_id.muixeranga_ids.mapped('pinya_line_ids')
-                troncs = m.actuacio_id.muixeranga_ids.mapped('tronc_line_ids')
+            print("!!!!!!!!!!!!" + fields.Datetime.now() + ' ' + m.employee_id.name)
+            pinyes = m.pinya_line_ids
+            troncs = m.tronc_line_ids
 
             suma1 = [0, 0, 0, 0]
             p1 = pinyes.filtered(lambda x: x.membre_pinya_id.id == m.employee_id.id)
@@ -146,8 +138,9 @@ class HrEmployeeActuacio(models.Model):
                     aux = str(len(p1.filtered(lambda x: x.posicio_id.prioritat == i).ids))
                     suma1[int(i)] = aux
                     p3.append(aux + ' ' + i2)
+                p3.reverse()
                 p4 = ", ".join(p3)
-            m.count_actuacio_pinya_2 = p4
+            m.count_actuacio_pinya = p4
 
             suma2 = [0, 0, 0, 0]
             t1 = troncs.filtered(lambda x: x.membre_tronc_id.id == m.employee_id.id)
@@ -161,18 +154,19 @@ class HrEmployeeActuacio(models.Model):
                     aux = str(len(t1.filtered(lambda x: x.posicio_id.prioritat == i).ids))
                     suma2[int(i)] = aux
                     t3.append(aux + ' ' + i2)
+                t3.reverse()
                 t4 = ", ".join(t3)
-            m.count_actuacio_tronc_2 = t4
+            m.count_actuacio_tronc = t4
 
             suma_n = []
             for i in range(4):
                 ss = int(suma1[i]) + int(suma2[i])
-                i2 = str(i).replace('0', '⚫').replace('1', ' ⭐').replace('2', ' ⭐⭐').replace('3', ' ⭐⭐⭐')
                 if ss != 0:
+                    i2 = str(i).replace('0', '⚫').replace('1', ' ⭐').replace('2', ' ⭐⭐').replace('3', ' ⭐⭐⭐')
                     suma_n.append(str(ss) + ' ' + i2)
             suma_n.reverse()
             suma_c = ", ".join(suma_n)
-            m.count_actuacio = suma_c
+            m.count_actuacio_total = suma_c
 
     @api.model
     def create(self, vals):

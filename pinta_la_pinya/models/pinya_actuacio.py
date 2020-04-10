@@ -28,17 +28,16 @@ class PinyaActuacio(models.Model):
         ('fet', 'Fet')
     ], string='Estat', required=True, default='draft')
 
-    membre_ids = fields.Many2many('hr.employee', string="Membres")
     membre_actuacio_ids = fields.One2many('hr.employee.actuacio', 'actuacio_id', string="Membres")
     muixeranga_ids = fields.One2many('pinya.muixeranga', 'actuacio_id', string="Muixerangues")
     membres_count = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
     muixerangues_count = fields.Integer(compute='_compute_muixerangues_count', string='Total muixerangues', store=True)
 
     @api.multi
-    @api.depends('membre_ids')
+    @api.depends('membre_actuacio_ids')
     def _compute_membres_count(self):
         for actuacio in self:
-            membres = actuacio.membre_ids
+            membres = actuacio.membre_actuacio_ids
             actuacio.membres_count = len(membres)
 
     @api.multi
@@ -113,7 +112,7 @@ class PinyaActuacio(models.Model):
         return action
 
     def mostrar_membres(self):
-        #view_search_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_search').id
+        view_search_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_search').id
         view_tree_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_tree').id
         view_form_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_form').id
         domain = [('id', 'in', self.membre_actuacio_ids.ids)]
@@ -124,7 +123,7 @@ class PinyaActuacio(models.Model):
         action = {
             'type': 'ir.actions.act_window',
             'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            #'search_view_id': view_search_id,
+            'search_view_id': view_search_id,
             'view_mode': 'form',
             'name': "Membres",
             'target': 'current',
@@ -138,4 +137,12 @@ class PinyaActuacio(models.Model):
         muixes = self.muixeranga_ids
         for muix in muixes:
             muix.calcular_muixeranga()
+
+    @api.multi
+    def unlink(self):
+        for actuacio in self:
+            actuacio.muixeranga_ids.unlink()
+            actuacio.membre_actuacio_ids.unlink()
+        res = super(PinyaActuacio, self).unlink()
+        return res
 

@@ -102,9 +102,9 @@
                             <field name="membre_actuacio_ids" nolabel="1">
                                 <tree string="Actuacions">
                                     <field name="actuacio_id"/>
-                                    <field name="count_actuacio"/>
-                                    <field name="count_actuacio_pinya_2"/>
-                                    <field name="count_actuacio_tronc_2"/>
+                                    <field name="count_actuacio_total"/>
+                                    <field name="count_actuacio_pinya"/>
+                                    <field name="count_actuacio_tronc"/>
                                 </tree>
                             </field>
                         </group>
@@ -183,14 +183,13 @@
             <field name="arch" type="xml">
                 <tree string="Membres">
                     <field name="name"/>
+                    <field name="count_actuacio_total"/>
                     <field name="count_actuacio_pinya"/>
                     <field name="count_actuacio_tronc"/>
-                    <field name="count_actuacio"/>
-                    <field name="count_actuacio_pinya_2"/>
-                    <field name="count_actuacio_tronc_2"/>
+                    <!--
                     <field name="count_3stars"/>
                     <field name="count_2stars"/>
-                    <field name="count_1stars"/>
+                    <field name="count_1stars"/>-->
                 </tree>
             </field>
         </record>
@@ -208,11 +207,9 @@
                                 <field name="name" invisible="1"/>
                                 <field name="employee_id"/>
                                 <field name="actuacio_id"/>
+                                <field name="count_actuacio_total"/>
                                 <field name="count_actuacio_pinya"/>
                                 <field name="count_actuacio_tronc"/>
-                                <field name="count_actuacio"/>
-                                <field name="count_actuacio_pinya_2"/>
-                                <field name="count_actuacio_tronc_2"/>
                             </group>
                             <group>
                                 <field name="count_3stars"/>
@@ -220,8 +217,44 @@
                                 <field name="count_1stars"/>
                             </group>
                         </group>
+                        <notebook>
+                            <page name="pinya" string="Pinyes">
+                                <field name="pinya_line_ids"/>
+                            </page>
+                            <page name="tronc" string="Troncs">
+                                <field name="tronc_line_ids"/>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <record id="hr_employee_actuacio_search" model="ir.ui.view">
+            <field name="name">hr.employee.actuacio.search</field>
+            <field name="model">hr.employee.actuacio</field>
+            <field name="arch" type="xml">
+                <search string="Membres">
+                    <field name="employee_id"/>
+                    <field name="actuacio_id"/>
+                    <field name="count_actuacio_total"/>
+                    <field name="count_actuacio_pinya"/>
+                    <field name="count_actuacio_tronc"/>
+                    <field name="count_3stars"/>
+                    <field name="count_2stars"/>
+                    <field name="count_1stars"/>
+                    <separator/>
+                    <filter string="Buit total" name="count_actuacio_void" domain="[('count_actuacio_total', '=', '')]"/>
+                    <filter string="Figures total" name="count_actuacio" domain="[('count_actuacio_total', '!=', '')]"/>
+                    <filter string="Figures pinya" name="count_actuacio_pinya" domain="[('count_actuacio_pinya', '!=', '')]"/>
+                    <filter string="Figures tronc" name="count_actuacio_tronc" domain="[('count_actuacio_tronc', '!=', '')]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Habilitats expertes" name="group_count_3stars" domain="[]" context="{'group_by':'count_3stars'}"/>
+                        <filter string="Habilitats avançades" name="group_count_2stars" domain="[]" context="{'group_by':'count_2stars'}"/>
+                        <filter string="Habilitats mitjanes" name="group_count_1stars" domain="[]" context="{'group_by':'count_1stars'}"/>
+                    </group>
+                </search>
             </field>
         </record>
     </data>

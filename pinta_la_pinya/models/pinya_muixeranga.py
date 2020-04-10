@@ -35,7 +35,6 @@ class PinyaMuixeranga(models.Model):
     tronc_count = fields.Integer(compute='_compute_total_count', string='Persones tronc', store=True)
 
     actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio")
-    membre_ids = fields.Many2many('hr.employee', string="Membres", related="actuacio_id.membre_ids")
     membre_count = fields.Integer(string='Total Membres', related='actuacio_id.membres_count')
     data = fields.Date(string='Data', related='actuacio_id.data', store=True)
     lliure_ids = fields.Many2many('hr.employee', string="Lliures", compute="_compute_lliures")
@@ -52,7 +51,7 @@ class PinyaMuixeranga(models.Model):
 
     @api.multi
     def _compute_lliures(self):
-        membres = self.membre_ids.filtered(lambda x: x.muixeranguera)
+        membres = self.actuacio_id.membre_actuacio_ids.mapped('employee_id')
         troncs = self.tronc_line_ids.mapped('membre_tronc_id')
         pinyes = self.pinya_line_ids.mapped('membre_pinya_id')
         altres = self.mestra_id + self.passadora_id + self.estiradora_id
@@ -226,6 +225,7 @@ class PinyaMuixerangaPinya(models.Model):
     membre_pinya_id = fields.Many2one(string="Membre Pinya", comodel_name="hr.employee",
                                       related="membre_pinya_level_id.employee_id", store=True)
     membre_pinya_level_id = fields.Many2one(string="Membre Pinya Level", comodel_name="hr.employee.level")
+    employee_actuacio_id = fields.Many2one(string="Membre actuacio", comodel_name="hr.employee.actuacio", compute="_compute_employee_actuacio", store=True)
     actuacio_id = fields.Many2one(string="Actuació", related="muixeranga_pinya_id.actuacio_id", readonly=True, store=True)
     plantilla_id = fields.Many2one(string="Plantilla", related="muixeranga_pinya_id.plantilla_id", readonly=True, store=True)
 
@@ -233,8 +233,19 @@ class PinyaMuixerangaPinya(models.Model):
 
     _sql_constraints = [
         ('muixeranga_membre_pinya_uniq', 'unique(muixeranga_pinya_id, membre_pinya_id)',
-         "Aquest membre fa forma part de la figura!"),
+         "Aquest membre ja forma part de la figura❗"),
     ]
+
+    @api.multi
+    @api.depends('membre_pinya_id', 'actuacio_id')
+    def _compute_employee_actuacio(self):
+        emp_act_obj = self.env['hr.employee.actuacio']
+        pinyes = self.filtered(lambda x: x.membre_pinya_id and x.actuacio_id)
+        for pinya in pinyes:
+            membre = pinya.membre_pinya_id.id
+            actuacio = pinya.actuacio_id.id
+            membre_actuacio = emp_act_obj.search([('employee_id', '=', membre), ('actuacio_id', '=', actuacio)])
+            pinya.employee_actuacio_id = membre_actuacio.id
 
     @api.multi
     def _compute_recomanats(self):
@@ -289,6 +300,7 @@ class PinyaMuixerangaTronc(models.Model):
     membre_tronc_id = fields.Many2one(string="Membre Tronc", comodel_name="hr.employee",
                                       related="membre_tronc_level_id.employee_id", store=True)
     membre_tronc_level_id = fields.Many2one(string="Membre Tronc Level", comodel_name="hr.employee.level")
+    employee_actuacio_id = fields.Many2one(string="Membre actuacio", comodel_name="hr.employee.actuacio", compute="_compute_employee_actuacio", store=True)
     actuacio_id = fields.Many2one(string="Actuació", related="muixeranga_tronc_id.actuacio_id", readonly=True, store=True)
     plantilla_id = fields.Many2one(string="Plantilla", related="muixeranga_tronc_id.plantilla_id", readonly=True, store=True)
 
@@ -296,8 +308,19 @@ class PinyaMuixerangaTronc(models.Model):
 
     _sql_constraints = [
         ('muixeranga_membre_tronc_uniq', 'unique(muixeranga_tronc_id, membre_tronc_id)',
-         "Aquest membre fa forma part de la figura!"),
+         "Aquest membre ja forma part de la figura❗"),
     ]
+
+    @api.multi
+    @api.depends('membre_tronc_id', 'actuacio_id')
+    def _compute_employee_actuacio(self):
+        emp_act_obj = self.env['hr.employee.actuacio']
+        troncs = self.filtered(lambda x: x.membre_tronc_id and x.actuacio_id)
+        for tronc in troncs:
+            membre = tronc.membre_tronc_id.id
+            actuacio = tronc.actuacio_id.id
+            membre_actuacio = emp_act_obj.search([('employee_id', '=', membre), ('actuacio_id', '=', actuacio)])
+            tronc.employee_actuacio_id = membre_actuacio.id
 
     @api.multi
     def _compute_recomanats(self):
