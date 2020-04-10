@@ -119,10 +119,8 @@ class HrEmployeeActuacio(models.Model):
     @api.multi
     @api.depends('pinya_line_ids.employee_actuacio_id', 'tronc_line_ids.employee_actuacio_id')
     def _compute_actuacio(self):
-        print("!!!!!!!!!!!!" + fields.Datetime.now())
         muix_act = self.filtered(lambda x: x)
         for m in muix_act:
-            print("!!!!!!!!!!!!" + fields.Datetime.now() + ' ' + m.employee_id.name)
             pinyes = m.pinya_line_ids
             troncs = m.tronc_line_ids
 

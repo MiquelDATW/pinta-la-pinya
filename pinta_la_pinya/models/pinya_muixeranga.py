@@ -79,8 +79,18 @@ class PinyaMuixeranga(models.Model):
             muix.pinya_count = p
             muix.total_count = t + p
 
-    def calcular_muixeranga(self):
+    def esborrar_muixeranga(self):
         print(fields.Datetime.now())
+
+        troncs = self.tronc_line_ids
+        for tronc in troncs:
+            tronc.membre_tronc_level_id = False
+
+        pinyes = self.pinya_line_ids
+        for pinya in pinyes:
+            pinya.membre_pinya_level_id = False
+
+    def calcular_muixeranga(self):
         ocupats = self.env['hr.employee']
 
         troncs = self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id).sorted('tecnica', reverse=True)
@@ -269,12 +279,6 @@ class PinyaMuixerangaPinya(models.Model):
 
     @api.multi
     def write(self, vals):
-        # ctx = self.env.context.copy()
-        # ctx.update({
-        #     'actuacio_id': self.actuacio_id.id,
-        #     'employee_id': self.env['hr.employee.level'].browse(vals.get('membre_pinya_level_id')).employee_id.id,
-        # })
-        # res = super(PinyaMuixerangaPinya, self.with_context(ctx)).write(vals)
         res = super(PinyaMuixerangaPinya, self).write(vals)
         return res
 
@@ -344,12 +348,6 @@ class PinyaMuixerangaTronc(models.Model):
 
     @api.multi
     def write(self, vals):
-        # ctx = self.env.context.copy()
-        # ctx.update({
-        #     'actuacio_id': self.actuacio_id.id,
-        #     'employee_id': self.env['hr.employee.level'].browse(vals.get('membre_tronc_level_id')).employee_id.id,
-        # })
-        # res = super(PinyaMuixerangaTronc, self.with_context(ctx)).write(vals)
         res = super(PinyaMuixerangaTronc, self).write(vals)
         return res
 

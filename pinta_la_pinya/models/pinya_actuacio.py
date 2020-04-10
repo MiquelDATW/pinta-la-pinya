@@ -141,6 +141,11 @@ class PinyaActuacio(models.Model):
         for muix in muixes:
             muix.calcular_muixeranga()
 
+    def esborrar_muixerangues(self):
+        muixes = self.muixeranga_ids
+        for muix in muixes:
+            muix.esborrar_muixeranga()
+
     @api.multi
     def unlink(self):
         for actuacio in self:

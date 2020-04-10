@@ -80,6 +80,8 @@
                                     <field name="count_actuacio_total"/>
                                     <field name="count_actuacio_pinya"/>
                                     <field name="count_actuacio_tronc"/>
+                                    <field name="pinya_line_ids" widget="many2many_tags"/>
+                                    <field name="tronc_line_ids" widget="many2many_tags"/>
                                 </tree>
                             </field>
                         </group>
@@ -188,6 +190,8 @@
                     <field name="count_actuacio_total"/>
                     <field name="count_actuacio_pinya"/>
                     <field name="count_actuacio_tronc"/>
+                    <field name="pinya_line_ids" widget="many2many_tags"/>
+                    <field name="tronc_line_ids" widget="many2many_tags"/>
                     <!--
                     <field name="count_3stars"/>
                     <field name="count_2stars"/>
