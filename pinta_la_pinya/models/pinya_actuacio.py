@@ -139,11 +139,40 @@ class PinyaActuacio(models.Model):
         return action
 
     def action_ready(self):
-        muixerangues = self.muixeranga_ids
+        muixerangues = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')
         if not bool(muixerangues):
-            error_msg = "Cal que hi hagen muixerangues❗"
+            error_msg = "Cal que hi hagen muixerangues actives❗"
             raise ValidationError(error_msg)
-        not_ready = muixerangues.filtered(lambda x: x.state != 'ready')
+        not_draft_ready = muixerangues.filtered(lambda x: x.state not in ['ready', 'draft'])
+        if bool(not_draft_ready):
+            names = not_draft_ready.mapped('name')
+            if len(names) == 1:
+                names = names[0]
+                error_msg = "La muixeranga '{}' no està 'Preparada'❗".format(names)
+            else:
+                names = "'" + "', '".join(names[0:-1]) + "' i '" + names[-1] + "'"
+                error_msg = "Les muixerangues {} no estan 'Preparades'❗".format(names)
+            raise ValidationError(error_msg)
+        draft = muixerangues.filtered(lambda x: x.state == 'draft')
+        if bool(draft):
+            not_troncs = draft.mapped('tronc_line_ids').filtered(lambda x: not x.membre_tronc_id)
+            not_pinyes = draft.mapped('pinya_line_ids').filtered(lambda x: not x.membre_pinya_id)
+            if not_troncs and not_pinyes:
+                names = (not_pinyes.mapped('muixeranga_pinya_id') | not_troncs.mapped('muixeranga_tronc_id')).mapped('name')
+                if len(names) == 1:
+                    names = names[0]
+                    error_msg = "La muixeranga '{}' no està 'Preparada'❗".format(names)
+                else:
+                    names = "'" + "', '".join(names[0:-1]) + "' i '" + names[-1] + "'"
+                    error_msg = "Les muixerangues {} no estan 'Preparades'❗".format(names)
+                raise ValidationError(error_msg)
+            else:
+                for d in draft:
+                    d.state = 'ready'
+        self.state = 'ready'
+
+    def action_done(self):
+        not_ready = self.muixeranga_ids.filtered(lambda x: x.state != 'ready')
         if bool(not_ready):
             names = not_ready.mapped('name')
             if len(names) == 1:
@@ -153,33 +182,29 @@ class PinyaActuacio(models.Model):
                 names = "'" + "', '".join(names[0:-1]) + "' i '" + names[-1] + "'"
                 error_msg = "Les muixerangues {} no estan 'Preparades'❗".format(names)
             raise ValidationError(error_msg)
-        self.state = 'ready'
-
-    def action_done(self):
         self.state = 'done'
 
     def action_cancel(self):
-        muixes = self.muixeranga_ids
+        muixes = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')
         for muix in muixes:
-            muix.reset_muixeranga()
-            muix.state = 'cancel'
+            muix.action_cancel()
         self.state = 'cancel'
 
     def action_draft(self):
-        muixes = self.muixeranga_ids
+        muixes = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')
         for muix in muixes:
-            muix.state = 'draft'
+            muix.action_draft()
         self.state = 'draft'
 
     def calcular_muixerangues(self):
         self.state = 'ready'
-        muixes = self.muixeranga_ids
+        muixes = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')
         for muix in muixes:
             muix.calcular_muixeranga()
 
     def reset_muixerangues(self):
         self.state = 'draft'
-        muixes = self.muixeranga_ids
+        muixes = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')
         for muix in muixes:
             muix.reset_muixeranga()
 

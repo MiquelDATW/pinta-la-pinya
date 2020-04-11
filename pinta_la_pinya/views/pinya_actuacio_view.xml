@@ -12,31 +12,31 @@
             <field name="arch" type="xml">
                 <form string="Actuació">
                     <header>
-                        <button string="Preparat" name="action_ready"
-                                attrs="{'invisible': ['|', ('membre_actuacio_ids', '=', []), ('state', '!=', 'draft')]}"
+                        <button string="Preparar" name="action_ready"
+                                attrs="{'invisible': ['|', '|', ('membre_actuacio_ids', '=', []), ('muixeranga_ids', '=', []), ('state', '!=', 'draft')]}"
                                 type="object" class="btn-success"/>
-                        <button string="Fet" name="action_done"
+                        <button string="Fer" name="action_done"
                                 attrs="{'invisible': ['|', ('membre_actuacio_ids', '=', []), ('state', '!=', 'ready')]}"
                                 type="object" class="btn-success"/>
-                        <button string="Cancel·lat" name="action_cancel"
-                                attrs="{'invisible': ['|', ('membre_actuacio_ids', '=', []), ('state', 'not in', ['draft', 'ready'])]}"
-                                type="object" class="btn-warning"/>
+                        <button string="Cancel·lar" name="action_cancel"
+                                attrs="{'invisible': [('state', 'not in', ['draft', 'ready'])]}"
+                                type="object" class="btn-danger"/>
                         <button string="Esborrany" name="action_draft"
-                                attrs="{'invisible': [('state', '!=', 'cancel')]}"
+                                attrs="{'invisible': [('state', 'not in', ['cancel', 'ready'])]}"
                                 type="object" class="btn-warning"/>
                         <button string="Importar membres" name="action_membres_import"
-                                attrs="{'invisible': [('state', 'in', ['done', 'cancel'])]}"
+                                attrs="{'invisible': [('state', '!=', 'draft')]}"
                                 context="{'actuacio': id}"
                                 type="object" class="oe_highlight"/>
                         <button class="oe_highlight" type="object"
                                 name="calcular_muixerangues"
-                                attrs="{'invisible': ['|', '|', ('state', 'in', ['done', 'cancel']), ('muixeranga_ids', '=', []), ('membre_actuacio_ids', '=', [])]}"
+                                attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('muixeranga_ids', '=', []), ('membre_actuacio_ids', '=', [])]}"
                                 string="Calcular muixerangues"/>
                         <button class="oe_highlight" type="object"
                                 name="reset_muixerangues"
-                                attrs="{'invisible': ['|', '|', ('state', 'in', ['done', 'cancel']), ('muixeranga_ids', '=', []), ('membre_actuacio_ids', '=', [])]}"
+                                attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('muixeranga_ids', '=', []), ('membre_actuacio_ids', '=', [])]}"
                                 string="Reset muixerangues"/>
-                        <field name="state" widget="statusbar" statusbar_visible="fet"/>
+                        <field name="state" widget="statusbar" statusbar_visible="done"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">

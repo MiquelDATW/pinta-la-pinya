@@ -92,7 +92,25 @@ class PinyaMuixeranga(models.Model):
         self.state = 'caigut'
 
     def action_cancel(self):
+        action_cancel = self.env.context.get('action_cancel', False)
+        actuacio_state = self.actuacio_state
+        if bool(action_cancel) and actuacio_state == 'done':
+            troncs = self.tronc_line_ids
+            for tronc in troncs:
+                tronc.membre_tronc_level_id = False
+            pinyes = self.pinya_line_ids
+            for pinya in pinyes:
+                pinya.membre_pinya_level_id = False
         self.state = 'cancel'
+
+    def action_draft(self):
+        troncs = bool(self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id))
+        pinyes = bool(self.pinya_line_ids.filtered(lambda x: not x.membre_pinya_id))
+        action_draft = self.env.context.get('action_draft', False)
+        if not troncs and not pinyes and action_draft:
+            self.state = 'ready'
+        else:
+            self.state = 'draft'
 
     def reset_muixeranga(self):
         self.state = 'draft'
@@ -100,7 +118,6 @@ class PinyaMuixeranga(models.Model):
         troncs = self.tronc_line_ids
         for tronc in troncs:
             tronc.membre_tronc_level_id = False
-
         pinyes = self.pinya_line_ids
         for pinya in pinyes:
             pinya.membre_pinya_level_id = False
@@ -261,6 +278,7 @@ class PinyaMuixerangaPinya(models.Model):
     membre_pinya_level_id = fields.Many2one(string="Membre Pinya Level", comodel_name="hr.employee.level")
     employee_actuacio_id = fields.Many2one(string="Membre actuacio", comodel_name="hr.employee.actuacio", compute="_compute_employee_actuacio", store=True)
     actuacio_id = fields.Many2one(string="Actuació", related="muixeranga_pinya_id.actuacio_id", readonly=True, store=True)
+    muixeranga_state = fields.Selection(string='Estat muixeranga', related='muixeranga_pinya_id.state', store=True)
     plantilla_id = fields.Many2one(string="Plantilla", related="muixeranga_pinya_id.plantilla_id", readonly=True, store=True)
 
     recomanats_ids = fields.Many2many(string="Recomanats", comodel_name="hr.employee.level", compute="_compute_recomanats")
@@ -346,6 +364,7 @@ class PinyaMuixerangaTronc(models.Model):
     membre_tronc_level_id = fields.Many2one(string="Membre Tronc Level", comodel_name="hr.employee.level")
     employee_actuacio_id = fields.Many2one(string="Membre actuacio", comodel_name="hr.employee.actuacio", compute="_compute_employee_actuacio", store=True)
     actuacio_id = fields.Many2one(string="Actuació", related="muixeranga_tronc_id.actuacio_id", readonly=True, store=True)
+    muixeranga_state = fields.Selection(string='Estat muixeranga', related='muixeranga_tronc_id.state', store=True)
     plantilla_id = fields.Many2one(string="Plantilla", related="muixeranga_tronc_id.plantilla_id", readonly=True, store=True)
 
     recomanats_ids = fields.Many2many(string="Recomanats", comodel_name="hr.employee.level", compute="_compute_recomanats")
