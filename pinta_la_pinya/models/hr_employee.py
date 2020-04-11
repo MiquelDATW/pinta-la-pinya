@@ -10,6 +10,7 @@ from dateutil.relativedelta import relativedelta
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
+    membre_at = fields.Boolean(string="Membre AT", default=False)
     muixeranguera = fields.Boolean(string="Muixeranguera", default=True)
     data_inscripcio = fields.Date(string="Data inscripció")
     mesos_inscrit = fields.Char(string="Mesos inscrit", compute="_compute_mesos_inscrit")
@@ -96,6 +97,7 @@ class HrEmployeeActuacio(models.Model):
 
     active = fields.Boolean('Active', related='employee_id.active', default=True, store=True)
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
+    membre_at = fields.Boolean(string="Membre AT", related="employee_id.membre_at", store=True)
 
     employee_id = fields.Many2one('hr.employee', string="Membre")
     actuacio_id = fields.Many2one('pinya.actuacio', string="Actuació")

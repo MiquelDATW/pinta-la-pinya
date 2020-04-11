@@ -12,34 +12,54 @@
             <field name="arch" type="xml">
                 <form string="Actuació">
                     <header>
+                        <button string="Preparat" name="action_ready"
+                                attrs="{'invisible': ['|', ('membre_actuacio_ids', '=', []), ('state', '!=', 'draft')]}"
+                                type="object" class="btn-success"/>
+                        <button string="Fet" name="action_done"
+                                attrs="{'invisible': ['|', ('membre_actuacio_ids', '=', []), ('state', '!=', 'ready')]}"
+                                type="object" class="btn-success"/>
+                        <button string="Cancel·lat" name="action_cancel"
+                                attrs="{'invisible': ['|', ('membre_actuacio_ids', '=', []), ('state', 'not in', ['draft', 'ready'])]}"
+                                type="object" class="btn-warning"/>
+                        <button string="Esborrany" name="action_draft"
+                                attrs="{'invisible': [('state', '!=', 'cancel')]}"
+                                type="object" class="btn-warning"/>
                         <button string="Importar membres" name="action_membres_import"
+                                attrs="{'invisible': [('state', 'in', ['done', 'cancel'])]}"
                                 context="{'actuacio': id}"
                                 type="object" class="oe_highlight"/>
-                        <field name="estat" widget="statusbar" statusbar_visible="preparat,fet"/>
+                        <button class="oe_highlight" type="object"
+                                name="calcular_muixerangues"
+                                attrs="{'invisible': ['|', '|', ('state', 'in', ['done', 'cancel']), ('muixeranga_ids', '=', []), ('membre_actuacio_ids', '=', [])]}"
+                                string="Calcular muixerangues"/>
+                        <button class="oe_highlight" type="object"
+                                name="reset_muixerangues"
+                                attrs="{'invisible': ['|', '|', ('state', 'in', ['done', 'cancel']), ('muixeranga_ids', '=', []), ('membre_actuacio_ids', '=', [])]}"
+                                string="Reset muixerangues"/>
+                        <field name="state" widget="statusbar" statusbar_visible="fet"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_stat_button" type="object"
-                                    name="calcular_muixerangues" icon="fas fa-calculator"
-                                    string="Calcular muixerangues"/>
-                            <button class="oe_stat_button" type="object"
-                                    name="esborrar_muixerangues" icon="fas fa-eraser"
-                                    string="Esborrar muixerangues"/>
+                                    context="{'actuacio_id': id}"
+                                    name="pinya_muixeranga_wizard" icon="fas fa-plus-square"
+                                    string="Afegir muixerangues"/>
                             <button name="toggle_active" type="object" groups="base.group_user"
                                     class="oe_stat_button" icon="fa-archive">
                                 <field name="active" widget="boolean_button"
                                     options='{"terminology": "archive"}'/>
                             </button>
-                            <button class="oe_stat_button" type="object"
-                                    context="{'actuacio_id': id}"
-                                    name="pinya_muixeranga_wizard" icon="fas fa-plus-square"
-                                    string="Afegir muixerangues"/>
+                            <br/>
                             <button class="oe_stat_button" type="object"
                                     name="mostrar_muixerangues" icon="fas fa-list-ol"
+                                    attrs="{'invisible': [('muixeranga_ids', '=', [])]}"
                                     string="Muixerangues"/>
                             <button class="oe_stat_button" type="object"
                                     name="mostrar_membres" icon="fas fa-users"
-                                    string="Membres"/>
+                                    attrs="{'invisible': [('membre_actuacio_ids', '=', [])]}"
+                                    string="Membres">
+                                    <field name="membre_actuacio_ids" invisible="1"/>
+                            </button>
                         </div>
                         <div class="oe_title">
                             <label for="name" class="oe_edit_only"/>
@@ -54,6 +74,9 @@
                                     options='{"always_reload": True, "highlight_first_line": True}'/>
                                 <field name="data"/>
                                 <field name="tipus"/>
+                                <field name="mestra_id"
+                                       options="{'no_create_edit': True}"
+                                       domain="[('id', 'in', membre_actuacio_ids), ('membre_at', '=', True)]"/>
                             </group>
                             <group name="persones" string="Persones">
                                 <field name="membres_count"/>
@@ -83,6 +106,7 @@
                 <tree string="Actuacions">
                     <field name="name"/>
                     <field name="data"/>
+                    <field name="state"/>
                     <field name="zip_id"/>
                     <field name="tipus"/>
                     <field name="membres_count"/>
@@ -97,11 +121,16 @@
             <field name="model">pinya.actuacio</field>
             <field name="arch" type="xml">
                 <search string="Actuacions">
-                    <field name="name" />
+                    <field name="name"/>
+                    <field name="state"/>
                     <field name="zip_id"/>
                     <field name="membres_count"/>
                     <field name="actives_count"/>
                     <field name="muixerangues_count"/>
+                    <filter string="Cancel·lat" name="cancel" domain="[('state', '=', 'cancel')]"/>
+                    <filter string="Esborrany" name="esborrany" domain="[('state', '=', 'draft')]"/>
+                    <filter string="Preparat" name="preparat" domain="[('state', '=', 'ready')]"/>
+                    <filter string="Fet" name="done" domain="[('state', '=', 'done')]"/>
                     <separator/>
                     <filter string="Any anterior" name="previous_year" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-01-01')), ('data', '&lt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-12-31'))]"/>
                     <filter string="12 mesos anteriors" name="previous_12_months" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>

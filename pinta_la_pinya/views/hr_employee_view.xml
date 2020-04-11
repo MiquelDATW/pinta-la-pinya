@@ -39,6 +39,7 @@
                         </group>
                     </group>
                     <group name="notes" string="Altra informació">
+                        <field name="membre_at"/>
                         <field name="notes" placeholder="Altra informació..."/>
                     </group>
                 </field>
@@ -133,6 +134,7 @@
                 <tree string="Employees" decoration-bf="message_needaction==True">
                     <field name="name"/>
                     <field name="mesos_inscrit"/>
+                    <field name="membre_at"/>
                     <field name="count_3stars"/>
                     <field name="count_2stars"/>
                     <field name="count_1stars"/>
@@ -153,6 +155,7 @@
             <field name="arch" type="xml">
                 <search string="Employees">
                     <field name="name"/>
+                    <field name="membre_at"/>
                     <field name="count_3stars"/>
                     <field name="count_2stars"/>
                     <field name="count_1stars"/>
@@ -161,6 +164,8 @@
                     <field name="alsada_cap"/>
                     <field name="alsada_muscle"/>
                     <field name="alsada_bras"/>
+                    <separator/>
+                    <filter string="Membre AT" name="membre_at" domain="[('membre_at', '=', True)]"/>
                     <separator/>
                     <filter string="Habilitats expertes" name="count_3stars" domain="[('count_3stars', '!=', '')]"/>
                     <filter string="Habilitats avançades" name="count_2stars" domain="[('count_2stars', '!=', '')]"/>
@@ -187,6 +192,7 @@
             <field name="arch" type="xml">
                 <tree string="Membres">
                     <field name="name"/>
+                    <field name="membre_at"/>
                     <field name="count_actuacio_total"/>
                     <field name="count_actuacio_pinya"/>
                     <field name="count_actuacio_tronc"/>
@@ -212,6 +218,7 @@
                             <group name="info" string="Info">
                                 <field name="name" invisible="1"/>
                                 <field name="employee_id"/>
+                                <field name="membre_at"/>
                                 <field name="actuacio_id"/>
                                 <field name="count_actuacio_total"/>
                                 <field name="count_actuacio_pinya"/>
@@ -242,6 +249,7 @@
             <field name="arch" type="xml">
                 <search string="Membres">
                     <field name="employee_id"/>
+                    <field name="membre_at"/>
                     <field name="actuacio_id"/>
                     <field name="count_actuacio_total"/>
                     <field name="count_actuacio_pinya"/>
@@ -249,6 +257,8 @@
                     <field name="count_3stars"/>
                     <field name="count_2stars"/>
                     <field name="count_1stars"/>
+                    <separator/>
+                    <filter string="Membre AT" name="membre_at" domain="[('membre_at', '=', True)]"/>
                     <separator/>
                     <filter string="Buit total" name="count_actuacio_void" domain="[('count_actuacio_total', '=', '')]"/>
                     <filter string="Figures total" name="count_actuacio" domain="[('count_actuacio_total', '!=', '')]"/>

@@ -96,7 +96,7 @@ class HrEmployeeSkill(models.Model):
                 total_raw = employee.muixeranga_pinya_ids
             else:
                 total_raw = employee.muixeranga_tronc_ids
-            total = total_raw.filtered(lambda x: x.posicio_id.id == posicio.id and x.actuacio_id.estat == 'fet')
+            total = total_raw.filtered(lambda x: x.posicio_id.id == posicio.id and x.actuacio_id.state == 'fet')
             sismesos = total.filtered(lambda x: x.actuacio_id.data > m6)
 
             skill.count_total = len(total)

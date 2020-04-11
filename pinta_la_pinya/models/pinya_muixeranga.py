@@ -34,17 +34,20 @@ class PinyaMuixeranga(models.Model):
     pinya_count = fields.Integer(compute='_compute_total_count', string='Persones pinya', store=True)
     tronc_count = fields.Integer(compute='_compute_total_count', string='Persones tronc', store=True)
 
-    actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio")
-    membre_count = fields.Integer(string='Total Membres', related='actuacio_id.membres_count')
+    actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio", store=True)
+    membre_count = fields.Integer(string='Total Membres', related='actuacio_id.membres_count', store=True)
     data = fields.Date(string='Data', related='actuacio_id.data', store=True)
+    actuacio_state = fields.Selection(string='Estat actuació', related='actuacio_id.state', store=True)
     lliure_ids = fields.Many2many('hr.employee', string="Lliures", compute="_compute_lliures")
     lliure_count = fields.Integer(compute='_compute_lliures', string='Total Lliures')
 
-    estat = fields.Selection([
+    state = fields.Selection([
+        ('cancel', 'Cancel·lat'),
         ('draft', 'Esborrany'),
-        ('desca', 'Descarregat'),
+        ('ready', 'Preparat'),
+        ('descarregat', 'Descarregat'),
         ('intent', 'Intent'),
-        ('fail', 'Caigut')
+        ('caigut', 'Caigut')
     ], string='Estat', required=True, default='draft')
 
     image = fields.Binary("Image", attachment=True, help="Limitat a 1024x1024px.")
@@ -79,9 +82,21 @@ class PinyaMuixeranga(models.Model):
             muix.pinya_count = p
             muix.total_count = t + p
 
-    def esborrar_muixeranga(self):
-        print(fields.Datetime.now())
+    def action_descarregat(self):
+        self.state = 'descarregat'
 
+    def action_intent(self):
+        self.state = 'intent'
+
+    def action_caigut(self):
+        self.state = 'caigut'
+
+    def action_cancel(self):
+        self.state = 'cancel'
+
+    def reset_muixeranga(self):
+        self.state = 'draft'
+        self.actuacio_id.state = 'draft'
         troncs = self.tronc_line_ids
         for tronc in troncs:
             tronc.membre_tronc_level_id = False
@@ -91,6 +106,7 @@ class PinyaMuixeranga(models.Model):
             pinya.membre_pinya_level_id = False
 
     def calcular_muixeranga(self):
+        self.state = 'ready'
         ocupats = self.env['hr.employee']
 
         troncs = self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id).sorted('tecnica', reverse=True)
@@ -280,6 +296,18 @@ class PinyaMuixerangaPinya(models.Model):
             recomanats = levels.filtered(lambda x: x.employee_id.id in mu1.ids).sorted('level', reverse=True)
             pinya.recomanats_ids = [(6, 0, recomanats.ids)]
 
+    @api.onchange('posicio_id', 'cordo')
+    def _onchange_make_name(self):
+        if not bool(self.posicio_id) and not self.cordo:
+            name = ''
+        elif not bool(self.posicio_id) and self.cordo:
+            name = ' / ' + str(self.cordo)
+        elif bool(self.posicio_id) and not self.cordo:
+            name = self.posicio_id.name + ' / '
+        else:
+            name = self.posicio_id.name + ' / ' + str(self.cordo)
+        self.name = name
+
     @api.model
     def create(self, vals):
         res = super(PinyaMuixerangaPinya, self).create(vals)
@@ -352,6 +380,18 @@ class PinyaMuixerangaTronc(models.Model):
             mu1 = muixers.filtered(lambda x: tronc.posicio_id.id in x.posicio_ids.ids)
             recomanats = levels.filtered(lambda x: x.employee_id.id in mu1.ids).sorted('level', reverse=True)
             tronc.recomanats_ids = [(6, 0, recomanats.ids)]
+
+    @api.onchange('posicio_id', 'pis')
+    def _onchange_make_name(self):
+        if not bool(self.posicio_id) and not self.pis:
+            name = ''
+        elif not bool(self.posicio_id) and self.pis:
+            name = ' / ' + str(self.pis)
+        elif bool(self.posicio_id) and not self.pis:
+            name = self.posicio_id.name + ' / '
+        else:
+            name = self.posicio_id.name + ' / ' + str(self.pis)
+        self.name = name
 
     @api.model
     def create(self, vals):

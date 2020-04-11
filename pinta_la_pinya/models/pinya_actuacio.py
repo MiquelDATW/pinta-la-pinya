@@ -22,12 +22,14 @@ class PinyaActuacio(models.Model):
             ('assaig', 'Assaig')
     ], string='Tipus', required=True)
 
-    estat = fields.Selection([
+    state = fields.Selection([
+        ('cancel', 'Cancel·lat'),
         ('draft', 'Esborrany'),
-        ('preparat', 'Preparat'),
-        ('fet', 'Fet')
+        ('ready', 'Preparat'),
+        ('done', 'Fet')
     ], string='Estat', required=True, default='draft')
 
+    mestra_id = fields.Many2one('hr.employee.actuacio', string="Mestra")
     membre_actuacio_ids = fields.One2many('hr.employee.actuacio', 'actuacio_id', string="Membres")
     muixeranga_ids = fields.One2many('pinya.muixeranga', 'actuacio_id', string="Muixerangues")
     membres_count = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
@@ -136,15 +138,50 @@ class PinyaActuacio(models.Model):
         }
         return action
 
+    def action_ready(self):
+        muixerangues = self.muixeranga_ids
+        if not bool(muixerangues):
+            error_msg = "Cal que hi hagen muixerangues❗"
+            raise ValidationError(error_msg)
+        not_ready = muixerangues.filtered(lambda x: x.state != 'ready')
+        if bool(not_ready):
+            names = not_ready.mapped('name')
+            if len(names) == 1:
+                names = names[0]
+                error_msg = "La muixeranga '{}' no està 'Preparada'❗".format(names)
+            else:
+                names = "'" + "', '".join(names[0:-1]) + "' i '" + names[-1] + "'"
+                error_msg = "Les muixerangues {} no estan 'Preparades'❗".format(names)
+            raise ValidationError(error_msg)
+        self.state = 'ready'
+
+    def action_done(self):
+        self.state = 'done'
+
+    def action_cancel(self):
+        muixes = self.muixeranga_ids
+        for muix in muixes:
+            muix.reset_muixeranga()
+            muix.state = 'cancel'
+        self.state = 'cancel'
+
+    def action_draft(self):
+        muixes = self.muixeranga_ids
+        for muix in muixes:
+            muix.state = 'draft'
+        self.state = 'draft'
+
     def calcular_muixerangues(self):
+        self.state = 'ready'
         muixes = self.muixeranga_ids
         for muix in muixes:
             muix.calcular_muixeranga()
 
-    def esborrar_muixerangues(self):
+    def reset_muixerangues(self):
+        self.state = 'draft'
         muixes = self.muixeranga_ids
         for muix in muixes:
-            muix.esborrar_muixeranga()
+            muix.reset_muixeranga()
 
     @api.multi
     def unlink(self):

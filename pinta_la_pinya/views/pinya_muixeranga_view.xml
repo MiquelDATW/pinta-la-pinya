@@ -5,25 +5,36 @@
 -->
 <odoo>
     <data>
-
         <record id="view_muixeranga_form" model="ir.ui.view">
             <field name="name">pinya.muixeranga.form</field>
             <field name="model">pinya.muixeranga</field>
             <field name="arch" type="xml">
                 <form string="Muixerangues">
                     <header>
-                        <!--
-                        <button string="Confirm" name="action_budget_confirm" states="draft" type="object" class="oe_highlight"/>-->
-                        <field name="estat" widget="statusbar" statusbar_visible="desca,intent,fail"/>
+                        <button string="Descarregat" name="action_descarregat"
+                                attrs="{'invisible': ['|', ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
+                                type="object" class="btn-success"/>
+                        <button string="Intent" name="action_intent"
+                                attrs="{'invisible': ['|', ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
+                                type="object" class="btn-warning"/>
+                        <button string="Caigut" name="action_caigut"
+                                attrs="{'invisible': ['|', ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
+                                type="object" class="btn-danger"/>
+                        <button string="Cancel·lat" name="action_cancel"
+                                attrs="{'invisible': ['|', ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
+                                type="object" class="btn-secondary"/>
+                        <button class="oe_highlight" type="object"
+                                name="calcular_muixeranga"
+                                attrs="{'invisible': ['|', ('membre_count', '=', 0), ('state', 'not in', ['draft', 'ready'])]}"
+                                string="Calcular muixeranga"/>
+                        <button class="oe_highlight" type="object"
+                                name="reset_muixeranga"
+                                attrs="{'invisible': ['|', ('membre_count', '=', 0), ('state', '!=', 'ready')]}"
+                                string="Reset muixeranga"/>
+                        <field name="state" widget="statusbar" statusbar_visible="descarregat"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button class="oe_stat_button" type="object"
-                                    name="calcular_muixeranga" icon="fas fa-calculator"
-                                    string="Calcular muixeranga"/>
-                            <button class="oe_stat_button" type="object"
-                                    name="esborrar_muixeranga" icon="fas fa-eraser"
-                                    string="Esborrar muixeranga"/>
                             <button name="toggle_active" type="object" groups="base.group_user"
                                     class="oe_stat_button" icon="fa-archive">
                                 <field name="active" widget="boolean_button"
@@ -31,10 +42,11 @@
                             </button>
                             <button class="oe_stat_button" type="object"
                                     name="tronc_muixeranga" icon="fas fa-cog"
+                                    attrs="{'invisible': [('membre_count', '=', 0)]}"
                                     string="Tronc"/>
                             <button class="oe_stat_button" type="object"
                                     name="pinya_muixeranga" icon="fas fa-users"
-                                    attrs="{'invisible': [('neta', '=', True)]}"
+                                    attrs="{'invisible': ['|', ('membre_count', '=', 0), ('neta', '=', True)]}"
                                     string="Pinya"/>
                         </div>
                         <field name="image" widget='image' class="oe_avatar"/>
@@ -52,6 +64,7 @@
                                        attrs="{'invisible': [('neta', '=', False)]}"/>
                                 <field name="plantilla_id"/>
                                 <field name="actuacio_id"/>
+                                <field name="actuacio_state"/>
                             </group>
                             <group name="persones" string="Persones">
                                 <field name="tronc_count"/>
@@ -129,7 +142,7 @@
                                     <group name="altra" string="Altra Informació">
                                         <field name="mestra_id"
                                                options="{'no_create_edit': True}"
-                                               domain="[('id', 'in', lliure_ids)]"/>
+                                               domain="[('id', 'in', lliure_ids), ('membre_at', '=', True)]"/>
                                         <field name="passadora_id"
                                                attrs="{'invisible': [('tipus', '=', 'aixecat')]}"
                                                options="{'no_create_edit': True}"
@@ -149,9 +162,9 @@
                                 <group name="membres" string="Membres">
                                     <field name="membre_count"/>
                                 </group>
-                                <!--<field name="membre_ids" nolabel="1"/>-->
                             </page>
-                            <page name="lliures" string="Lliures">
+                            <page name="lliures" string="Lliures"
+                                  attrs="{'invisible': [('membre_count', '=', 0)]}">
                                 <group name="lliures" string="Lliures">
                                     <field name="lliure_count"/>
                                 </group>
@@ -175,7 +188,7 @@
                     <field name="name"/>
                     <field name="actuacio_id"/>
                     <field name="data"/>
-                    <field name="estat"/>
+                    <field name="state"/>
                     <field name="tipus"/>
                     <field name="pisos"/>
                     <field name="cordons"/>
@@ -194,7 +207,7 @@
                     <field name="name"/>
                     <field name="actuacio_id"/>
                     <field name="data"/>
-                    <field name="estat"/>
+                    <field name="state"/>
                     <field name="tipus"/>
                     <field name="pisos"/>
                 </tree>
@@ -208,14 +221,16 @@
                 <search string="Muixerangues">
                     <field name="actuacio_id"/>
                     <field name="plantilla_id"/>
-                    <field name="estat"/>
+                    <field name="state"/>
                     <field name="tipus"/>
                     <field name="pisos"/>
                     <field name="cordons"/>
-                    <filter string="Esborrany" name="esborrany" domain="[('estat', '=', 'draft')]"/>
-                    <filter string="Descarregat" name="descarregat" domain="[('estat', '=', 'desca')]"/>
-                    <filter string="Intent" name="intent" domain="[('estat', '=', 'intent')]"/>
-                    <filter string="Caigut" name="caigut" domain="[('estat', '=', 'fail')]"/>
+                    <filter string="Cancel·lat" name="cancel" domain="[('state', '=', 'cancel')]"/>
+                    <filter string="Esborrany" name="esborrany" domain="[('state', '=', 'draft')]"/>
+                    <filter string="Preparat" name="preparat" domain="[('state', '=', 'ready')]"/>
+                    <filter string="Descarregat" name="descarregat" domain="[('state', '=', 'descarregat')]"/>
+                    <filter string="Intent" name="intent" domain="[('state', '=', 'intent')]"/>
+                    <filter string="Caigut" name="caigut" domain="[('state', '=', 'caigut')]"/>
                     <separator/>
                     <filter string="Normal" name="normal" domain="[('tipus', '=', 'normal')]"/>
                     <filter string="Desplegada" name="desplegada" domain="[('tipus', '=', 'desplega')]"/>
@@ -236,7 +251,7 @@
                     <group expand="0" string="Group By">
                         <filter name="group_actuacio" string="Actuació" domain="[]" context="{'group_by':'actuacio_id'}"/>
                         <filter name="group_plantilla" string="Plantilla" domain="[]" context="{'group_by':'plantilla_id'}"/>
-                        <filter name="group_estat" string="Estat" domain="[]" context="{'group_by':'estat'}"/>
+                        <filter name="group_state" string="Estat" domain="[]" context="{'group_by':'state'}"/>
                         <filter name="group_data" string="Data" domain="[]" context="{'group_by':'data'}"/>
                         <filter name="group_tipus" string="Tipus" domain="[]" context="{'group_by':'tipus'}"/>
                         <filter name="group_pisos" string="Pisos" domain="[]" context="{'group_by':'pisos'}"/>
@@ -261,16 +276,20 @@
                         <group>
                             <group name="muixeranga_tronc">
                                 <field name="pis"/>
-                                <field name="posicio_id"/>
+                                <field name="posicio_id"
+                                       options="{'no_create_edit': True}"
+                                       domain="[('tipus', '=', 'tronc')]"/>
                                 <field name="tecnica" widget="priority"/>
                                 <field name="membre_tronc_id" readonly="1"/>
                             </group>
                             <group name="muixeranga_dades">
-                                <field name="muixeranga_tronc_id"/>
+                                <field name="muixeranga_tronc_id"
+                                       options="{'no_create_edit': True}"/>
                                 <field name="actuacio_id"/>
                                 <field name="data"/>
                             </group>
-                            <group class="oe_edit_only">
+                            <group class="oe_edit_only"
+                                   attrs="{'invisible': [('muixeranga_tronc_id', '=', False)]}">
                                 <field name="membre_tronc_level_id"
                                        options="{'no_create_edit': True}"
                                        domain="[('id', 'in', recomanats_ids)]"/>
@@ -382,16 +401,20 @@
                             <group name="muixeranga_pinya">
                                 <field name="cordo"/>
                                 <field name="rengle"/>
-                                <field name="posicio_id"/>
+                                <field name="posicio_id"
+                                       options="{'no_create_edit': True}"
+                                       domain="[('tipus', '=', 'pinya')]"/>
                                 <field name="tecnica" widget="priority"/>
                                 <field name="membre_pinya_id" readonly="1"/>
                             </group>
                             <group name="muixeranga_dades">
-                                <field name="muixeranga_pinya_id"/>
+                                <field name="muixeranga_pinya_id"
+                                       options="{'no_create_edit': True}"/>
                                 <field name="actuacio_id"/>
                                 <field name="data"/>
                             </group>
-                            <group class="oe_edit_only">
+                            <group class="oe_edit_only"
+                                   attrs="{'invisible': [('muixeranga_pinya_id', '=', False)]}">
                                 <field name="membre_pinya_level_id"
                                        options="{'no_create_edit': True}"
                                        domain="[('id', 'in', recomanats_ids)]"/>

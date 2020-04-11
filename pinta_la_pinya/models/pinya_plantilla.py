@@ -58,13 +58,13 @@ class PinyaPlantilla(models.Model):
             plantilla.total_count = t + p
 
     @api.multi
-    @api.depends('muixeranga_ids', 'muixeranga_ids.estat')
+    @api.depends('muixeranga_ids', 'muixeranga_ids.state')
     def _compute_muixeranga_count(self):
         for plantilla in self:
-            draft = plantilla.muixeranga_ids.filtered(lambda x: x.estat == 'draft')
-            desca = plantilla.muixeranga_ids.filtered(lambda x: x.estat == 'desca')
-            intent = plantilla.muixeranga_ids.filtered(lambda x: x.estat == 'intent')
-            fail = plantilla.muixeranga_ids.filtered(lambda x: x.estat == 'fail')
+            draft = plantilla.muixeranga_ids.filtered(lambda x: x.state == 'draft')
+            desca = plantilla.muixeranga_ids.filtered(lambda x: x.state == 'descarregat')
+            intent = plantilla.muixeranga_ids.filtered(lambda x: x.state == 'intent')
+            fail = plantilla.muixeranga_ids.filtered(lambda x: x.state == 'caigut')
             plantilla.total_muix = len(plantilla.muixeranga_ids)
             plantilla.esborrany_muix = len(draft)
             plantilla.descarrega_muix = len(desca)
@@ -134,6 +134,9 @@ class PinyaPlantilla(models.Model):
                         new_line += obj_pinya.create(line_vals)
 
         vals['pinya_line_ids'] = [(6, 0, new_line.ids)]
+        mestra = obj_actua.browse(actuacio).mestra_id.employee_id.id
+        if mestra:
+            vals['mestra_id'] = mestra
         res = obj_muixe.create(vals)
         self.muixeranga_count += 1
         return res
