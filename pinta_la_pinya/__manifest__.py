@@ -15,6 +15,7 @@
     "depends": [
         "hr",
         "hr_skill",
+        "hr_employee_age",
         "base_location",
         "web_ir_actions_act_view_reload",
         "pinya_complements",

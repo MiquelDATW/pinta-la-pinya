@@ -15,11 +15,15 @@
                     <group name="employee">
                         <group name="informacio" string="Info">
                             <field name="muixeranguera"/>
-                            <field name="data_inscripcio"/>
-                            <field name="mesos_inscrit"/>
-                            <field name="altres_noms"/>
+                            <field name="data_inscripcio"
+                                   attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                            <field name="mesos_inscrit"
+                                   attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                            <field name="altres_noms"
+                                   attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
                         </group>
-                        <group name="mesures" string="Mesures">
+                        <group name="mesures" string="Mesures"
+                               attrs="{'invisible': [('muixeranguera', '=', False)]}">
                             <label for="alsada_cap" string="Alçada"/>
                             <div>
                                 <field name="alsada_cap" nolabel="1" class="oe_inline"/> cm
@@ -39,12 +43,14 @@
                         </group>
                     </group>
                     <group name="notes" string="Altra informació">
-                        <field name="membre_at"/>
+                        <field name="membre_at"
+                               attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
                         <field name="notes" placeholder="Altra informació..."/>
                     </group>
                 </field>
                 <page name="public" position="before">
-                    <page name="habilitats" string="Habilitats">
+                    <page name="habilitats" string="Habilitats"
+                          attrs="{'invisible': [('muixeranguera', '=', False)]}">
                         <group name="habilitats">
                             <field name="employee_skill_ids" nolabel="1">
                                 <tree>
@@ -73,7 +79,8 @@
                             </field>
                         </group>
                     </page>
-                    <page name="actuacions" string="Actuacions">
+                    <page name="actuacions" string="Actuacions"
+                          attrs="{'invisible': [('muixeranguera', '=', False)]}">
                         <group name="actuacions">
                             <field name="membre_actuacio_ids" nolabel="1">
                                 <tree string="Actuacions">
@@ -87,7 +94,8 @@
                             </field>
                         </group>
                     </page>
-                    <page name="tronc" string="Troncs">
+                    <page name="tronc" string="Troncs"
+                          attrs="{'invisible': [('muixeranguera', '=', False)]}">
                        <group name="tronc">
                             <field name="muixeranga_tronc_ids" nolabel="1">
                                 <tree string="Tronc de muixeranga">
@@ -100,7 +108,8 @@
                             </field>
                         </group>
                     </page>
-                    <page name="pinya" string="Pinyes">
+                    <page name="pinya" string="Pinyes"
+                          attrs="{'invisible': [('muixeranguera', '=', False)]}">
                         <group name="pinya">
                             <field name="muixeranga_pinya_ids" nolabel="1">
                                 <tree string="Pinya de muixeranga">
@@ -134,7 +143,7 @@
                 <tree string="Employees" decoration-bf="message_needaction==True">
                     <field name="name"/>
                     <field name="mesos_inscrit"/>
-                    <field name="membre_at"/>
+                    <field name="membre_at" string="Membre AT"/>
                     <field name="count_3stars"/>
                     <field name="count_2stars"/>
                     <field name="count_1stars"/>

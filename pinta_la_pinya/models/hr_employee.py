@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    membre_at = fields.Boolean(string="Membre AT", default=False)
+    membre_at = fields.Boolean(string="Membre Àrea Tècnica", default=False)
     muixeranguera = fields.Boolean(string="Muixeranguera", default=True)
     data_inscripcio = fields.Date(string="Data inscripció")
     mesos_inscrit = fields.Char(string="Mesos inscrit", compute="_compute_mesos_inscrit")

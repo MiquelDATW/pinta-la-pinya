@@ -105,13 +105,6 @@ class PinyaMuixeranga(models.Model):
 
     def action_draft(self):
         self.state = 'draft'
-        # troncs = bool(self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id))
-        # pinyes = bool(self.pinya_line_ids.filtered(lambda x: not x.membre_pinya_id))
-        # action_draft = self.env.context.get('action_draft', False)
-        # if (not troncs and not pinyes) or not action_draft:
-        #     self.state = 'ready'
-        # else:
-        #     self.state = 'draft'
 
     def reset_muixeranga(self):
         self.state = 'draft'
