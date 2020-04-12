@@ -258,12 +258,12 @@
                     <field name="count_2stars"/>
                     <field name="count_1stars"/>
                     <separator/>
-                    <filter string="Membre AT" name="membre_at" domain="[('membre_at', '=', True)]"/>
-                    <separator/>
                     <filter string="Buit total" name="count_actuacio_void" domain="[('count_actuacio_total', '=', '')]"/>
                     <filter string="Figures total" name="count_actuacio" domain="[('count_actuacio_total', '!=', '')]"/>
                     <filter string="Figures pinya" name="count_actuacio_pinya" domain="[('count_actuacio_pinya', '!=', '')]"/>
                     <filter string="Figures tronc" name="count_actuacio_tronc" domain="[('count_actuacio_tronc', '!=', '')]"/>
+                    <separator/>
+                    <filter string="Membre AT" name="membre_at" domain="[('membre_at', '=', True)]"/>
                     <separator/>
                     <group expand="0" string="Group By">
                         <filter string="Habilitats expertes" name="group_count_3stars" domain="[]" context="{'group_by':'count_3stars'}"/>

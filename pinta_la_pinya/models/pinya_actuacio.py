@@ -37,7 +37,7 @@ class PinyaActuacio(models.Model):
     muixerangues_count = fields.Integer(compute='_compute_muixerangues_count', string='Total muixerangues', store=True)
 
     @api.multi
-    @api.depends('membre_actuacio_ids')
+    @api.depends('membre_actuacio_ids', 'membre_actuacio_ids.count_actuacio_total')
     def _compute_membres_count(self):
         for actuacio in self:
             membres = actuacio.membre_actuacio_ids
@@ -157,14 +157,43 @@ class PinyaActuacio(models.Model):
         if bool(draft):
             not_troncs = draft.mapped('tronc_line_ids').filtered(lambda x: not x.membre_tronc_id)
             not_pinyes = draft.mapped('pinya_line_ids').filtered(lambda x: not x.membre_pinya_id)
-            if not_troncs and not_pinyes:
-                names = (not_pinyes.mapped('muixeranga_pinya_id') | not_troncs.mapped('muixeranga_tronc_id')).mapped('name')
-                if len(names) == 1:
-                    names = names[0]
-                    error_msg = "La muixeranga '{}' no està 'Preparada'❗".format(names)
+            if not_troncs or not_pinyes:
+                names_t = not_troncs.mapped('muixeranga_tronc_id').sorted('name').mapped('name')
+                names_p = not_pinyes.mapped('muixeranga_pinya_id').sorted('name').mapped('name')
+                if len(names_t) == 1 and len(names_p) == 1 and names_p == names_t:
+                    falta = "el tronc i la pinya"
+                    names_t = names_t[0]
+                    error_msg = "La muixeranga '{}' li falta 'preparar' {}❗".format(names_t, falta)
+                elif len(names_t) == 1 and len(names_p) == 1 and names_p != names_t:
+                    falta_t = "li falta 'preparar' el tronc"
+                    falta_p = "li falta 'preparar' la pinya"
+                    names_t = names_t[0]
+                    names_p = names_p[0]
+                    error_msg = "La muixeranga '{}' {} i la muixeranga '{}' {}❗".format(names_t, falta_t, names_p, falta_p)
+                elif len(names_t) > 1 and len(names_p) > 1 and names_p == names_t:
+                    falta_t = "els falten 'preparar' els troncs i les pinyes"
+                    names_t = "'" + "', '".join(names_t[0:-1]) + "' i '" + names_t[-1] + "'"
+                    error_msg = "Les muixerangues {} {}❗".format(names_t, falta_t)
+                elif len(names_t) > 1 and len(names_p) > 1 and names_p != names_t:
+                    falta_t = "els falta 'preparar' els troncs"
+                    falta_p = "els falta 'preparar' les pinyes"
+                    names_t = "'" + "', '".join(names_t[0:-1]) + "' i '" + names_t[-1] + "'"
+                    names_p = "'" + "', '".join(names_p[0:-1]) + "' i '" + names_p[-1] + "'"
+                    error_msg = "Les muixerangues {} {} i les muixerangues {} {}❗".format(names_t, falta_t, names_p, falta_p)
+                elif len(names_t) > 1 and len(names_p) == 1 and names_p != names_t:
+                    falta_t = "els falta 'preparar' els troncs"
+                    falta_p = "li falta 'preparar' la pinya"
+                    names_t = "'" + "', '".join(names_t[0:-1]) + "' i '" + names_t[-1] + "'"
+                    names_p = names_p[0]
+                    error_msg = "Les muixerangues {} {} i la muixeranga '{}' {}❗".format(names_t, falta_t, names_p, falta_p)
+                elif len(names_t) == 1 and len(names_p) > 1 and names_p != names_t:
+                    falta_t = "li falta 'preparar' el tronc"
+                    falta_p = "els falta 'preparar' les pinyes"
+                    names_t = names_t[0]
+                    names_p = "'" + "', '".join(names_p[0:-1]) + "' i '" + names_p[-1] + "'"
+                    error_msg = "La muixeranga '{}' {} i les muixerangues {} {}❗".format(names_t, falta_t, names_p, falta_p)
                 else:
-                    names = "'" + "', '".join(names[0:-1]) + "' i '" + names[-1] + "'"
-                    error_msg = "Les muixerangues {} no estan 'Preparades'❗".format(names)
+                    error_msg = "Error❗"
                 raise ValidationError(error_msg)
             else:
                 for d in draft:

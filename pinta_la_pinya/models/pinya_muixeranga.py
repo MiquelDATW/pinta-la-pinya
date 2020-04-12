@@ -104,13 +104,14 @@ class PinyaMuixeranga(models.Model):
         self.state = 'cancel'
 
     def action_draft(self):
-        troncs = bool(self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id))
-        pinyes = bool(self.pinya_line_ids.filtered(lambda x: not x.membre_pinya_id))
-        action_draft = self.env.context.get('action_draft', False)
-        if not troncs and not pinyes and action_draft:
-            self.state = 'ready'
-        else:
-            self.state = 'draft'
+        self.state = 'draft'
+        # troncs = bool(self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id))
+        # pinyes = bool(self.pinya_line_ids.filtered(lambda x: not x.membre_pinya_id))
+        # action_draft = self.env.context.get('action_draft', False)
+        # if (not troncs and not pinyes) or not action_draft:
+        #     self.state = 'ready'
+        # else:
+        #     self.state = 'draft'
 
     def reset_muixeranga(self):
         self.state = 'draft'
@@ -249,7 +250,7 @@ class PinyaMuixeranga(models.Model):
 class PinyaMuixerangaPinya(models.Model):
     _name = "pinya.muixeranga.pinya"
     _description = "Pinya de muixeranga"
-    _order = "data, muixeranga_pinya_id, cordo, rengle, posicio_id asc"
+    _order = "data desc, muixeranga_pinya_id, cordo, rengle, posicio_id asc"
 
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
     cordo = fields.Selection([
@@ -340,7 +341,7 @@ class PinyaMuixerangaPinya(models.Model):
 class PinyaMuixerangaTronc(models.Model):
     _name = "pinya.muixeranga.tronc"
     _description = "Tronc de muixeranga"
-    _order = "data, muixeranga_tronc_id, pis, posicio_id asc"
+    _order = "data desc, muixeranga_tronc_id, pis, posicio_id asc"
 
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
     active = fields.Boolean(string="Actiu", default=True)

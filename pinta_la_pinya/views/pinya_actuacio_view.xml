@@ -43,6 +43,7 @@
                             <button class="oe_stat_button" type="object"
                                     context="{'actuacio_id': id}"
                                     name="pinya_muixeranga_wizard" icon="fas fa-plus-square"
+                                    attrs="{'invisible': [('state', '!=', 'draft')]}"
                                     string="Afegir muixerangues"/>
                             <button name="toggle_active" type="object" groups="base.group_user"
                                     class="oe_stat_button" icon="fa-archive">
@@ -64,18 +65,23 @@
                         <div class="oe_title">
                             <label for="name" class="oe_edit_only"/>
                             <h1>
-                                <field name="name" required="True" placeholder="Nom de l'actuació"/>
+                                <field name="name" required="True" placeholder="Nom de l'actuació"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             </h1>
                         </div>
                         <group name="actuacio">
                             <group name="info" string="Info">
                                 <field name="zip_id"
                                     context="{'show_address': 1}"
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}"
                                     options='{"always_reload": True, "highlight_first_line": True}'/>
-                                <field name="data"/>
-                                <field name="tipus"/>
+                                <field name="data"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="tipus"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="mestra_id"
                                        options="{'no_create_edit': True}"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"
                                        domain="[('id', 'in', membre_actuacio_ids), ('membre_at', '=', True)]"/>
                             </group>
                             <group name="persones" string="Persones">

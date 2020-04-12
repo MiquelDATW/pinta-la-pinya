@@ -68,7 +68,8 @@
                                 <field name="neta"
                                        attrs="{'invisible': [('neta', '=', False)]}"/>
                                 <field name="plantilla_id"/>
-                                <field name="actuacio_id"/>
+                                <field name="actuacio_id"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="actuacio_state" invisible="1"/>
                             </group>
                             <group name="persones" string="Persones">
@@ -88,26 +89,9 @@
                                         <field name="pis"/>
                                         <field name="posicio_id"/>
                                         <field name="tecnica" widget="priority" readonly="1"/>
-                                        <field name="membre_tronc_id"
-                                               options="{'no_create_edit': True}"
-                                               domain="[('muixeranguera', '=', True)]"/>
+                                        <field name="membre_tronc_id"/>
                                         <field name="muixeranga_tronc_id" invisible="1"/>
                                     </tree>
-                                    <form string="Tronc de muixeranga">
-                                        <group>
-                                            <group name="muixeranga_tronc">
-                                                <field name="pis" readonly="1"/>
-                                                <field name="posicio_id" readonly="1"/>
-                                                <field name="tecnica" widget="priority" readonly="1"/>
-                                                <field name="membre_tronc_id" readonly="1"/>
-                                            </group>
-                                            <group name="muixeranga_dades">
-                                                <field name="muixeranga_tronc_id" readonly="1"/>
-                                                <field name="actuacio_id" readonly="1"/>
-                                                <field name="data" readonly="1"/>
-                                            </group>
-                                        </group>
-                                    </form>
                                 </field>
                             </page>
                             <page name="pinya" string="Pinya"
@@ -119,27 +103,9 @@
                                         <field name="rengle"/>
                                         <field name="posicio_id"/>
                                         <field name="tecnica" widget="priority" readonly="1"/>
-                                        <field name="membre_pinya_id"
-                                               options="{'no_create_edit': True}"
-                                               domain="[('muixeranguera', '=', True)]"/>
+                                        <field name="membre_pinya_id"/>
                                         <field name="muixeranga_pinya_id" invisible="1"/>
                                     </tree>
-                                    <form string="Pinya de muixeranga">
-                                        <group>
-                                            <group name="muixeranga_pinya">
-                                                <field name="cordo" readonly="1"/>
-                                                <field name="rengle" readonly="1"/>
-                                                <field name="posicio_id" readonly="1"/>
-                                                <field name="tecnica" widget="priority" readonly="1"/>
-                                                <field name="membre_pinya_id" readonly="1"/>
-                                            </group>
-                                            <group name="muixeranga_dades">
-                                                <field name="muixeranga_pinya_id" readonly="1"/>
-                                                <field name="actuacio_id" readonly="1"/>
-                                                <field name="data" readonly="1"/>
-                                            </group>
-                                        </group>
-                                    </form>
                                 </field>
                             </page>
                             <page name="altra" string="Altra Informació">
@@ -274,27 +240,35 @@
                         <div class="oe_button_box" name="button_box">
                         </div>
                         <div class="oe_title">
+                            <label for="name" class="oe_edit_only"
+                                   attrs="{'invisible': [('muixeranga_state', '!=', 'draft')]}"/>
                             <h1>
-                                <field name="name"/>
+                                <field name="name"
+                                       attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
                             </h1>
                         </div>
                         <group>
                             <group name="muixeranga_tronc">
-                                <field name="pis"/>
+                                <field name="pis"
+                                       attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
                                 <field name="posicio_id"
                                        options="{'no_create_edit': True}"
+                                       attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                                        domain="[('tipus', '=', 'tronc')]"/>
-                                <field name="tecnica" widget="priority"/>
+                                <field name="tecnica" widget="priority"
+                                       attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
                                 <field name="membre_tronc_id" readonly="1"/>
+                                <field name="muixeranga_state" invisible="1"/>
                             </group>
                             <group name="muixeranga_dades">
                                 <field name="muixeranga_tronc_id"
+                                       attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                                        options="{'no_create_edit': True}"/>
                                 <field name="actuacio_id"/>
                                 <field name="data"/>
                             </group>
                             <group class="oe_edit_only"
-                                   attrs="{'invisible': [('muixeranga_tronc_id', '=', False)]}">
+                                   attrs="{'invisible': ['|', ('muixeranga_state', '!=', 'draft'), ('muixeranga_tronc_id', '=', False)]}">
                                 <field name="membre_tronc_level_id"
                                        options="{'no_create_edit': True}"
                                        domain="[('id', 'in', recomanats_ids)]"/>
@@ -334,9 +308,11 @@
                     <field name="membre_tronc_id" readonly="1"/>
                     <field name="membre_tronc_level_id"
                            options="{'no_create_edit': True}"
+                           attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                            domain="[('id', 'in', recomanats_ids)]"/>
                     <field name="muixeranga_tronc_id" invisible="1"/>
                     <field name="recomanats_ids" invisible="1"/>
+                    <field name="muixeranga_state" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -354,8 +330,8 @@
                     <field name="tecnica" widget="priority"/>
                     <field name="membre_tronc_id"/>
                     <separator/>
-                    <filter string="No establert" name="no_establert" domain="[('membre_tronc_id', '=', False)]"/>
-                    <filter string="Establert" name="establert" domain="[('membre_tronc_id', '!=', False)]"/>
+                    <filter string="Membre no establert" name="no_establert" domain="[('membre_tronc_id', '=', False)]"/>
+                    <filter string="Membre establert" name="establert" domain="[('membre_tronc_id', '!=', False)]"/>
                     <separator/>
                     <filter string="1r pis" name="1r_pis" domain="[('pis', '=', '1')]"/>
                     <filter string="2n pis" name="2n_pis" domain="[('pis', '=', '2')]"/>
@@ -398,28 +374,37 @@
                         <div class="oe_button_box" name="button_box">
                         </div>
                         <div class="oe_title">
+                            <label for="name" class="oe_edit_only"
+                                   attrs="{'invisible': [('muixeranga_state', '!=', 'draft')]}"/>
                             <h1>
-                                <field name="name"/>
+                                <field name="name"
+                                       attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
                             </h1>
                         </div>
                         <group>
                             <group name="muixeranga_pinya">
-                                <field name="cordo"/>
-                                <field name="rengle"/>
+                                <field name="cordo"
+                                       attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
+                                <field name="rengle"
+                                       attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
                                 <field name="posicio_id"
                                        options="{'no_create_edit': True}"
+                                       attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                                        domain="[('tipus', '=', 'pinya')]"/>
-                                <field name="tecnica" widget="priority"/>
+                                <field name="tecnica" widget="priority"
+                                       attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
                                 <field name="membre_pinya_id" readonly="1"/>
+                                <field name="muixeranga_state" invisible="1"/>
                             </group>
                             <group name="muixeranga_dades">
                                 <field name="muixeranga_pinya_id"
+                                       attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                                        options="{'no_create_edit': True}"/>
                                 <field name="actuacio_id"/>
                                 <field name="data"/>
                             </group>
                             <group class="oe_edit_only"
-                                   attrs="{'invisible': [('muixeranga_pinya_id', '=', False)]}">
+                                   attrs="{'invisible': ['|', ('muixeranga_state', '!=', 'draft'), ('muixeranga_pinya_id', '=', False)]}">
                                 <field name="membre_pinya_level_id"
                                        options="{'no_create_edit': True}"
                                        domain="[('id', 'in', recomanats_ids)]"/>
@@ -461,9 +446,11 @@
                     <field name="membre_pinya_id" readonly="1"/>
                     <field name="membre_pinya_level_id"
                            options="{'no_create_edit': True}"
+                           attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                            domain="[('id', 'in', recomanats_ids)]"/>
                     <field name="muixeranga_pinya_id" invisible="1"/>
                     <field name="recomanats_ids" invisible="1"/>
+                    <field name="muixeranga_state" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -482,8 +469,8 @@
                     <field name="tecnica" widget="priority"/>
                     <field name="membre_pinya_id"/>
                     <separator/>
-                    <filter string="No establert" name="no_establert" domain="[('membre_pinya_id', '=', False)]"/>
-                    <filter string="Establert" name="establert" domain="[('membre_pinya_id', '!=', False)]"/>
+                    <filter string="Membre no establert" name="no_establert" domain="[('membre_pinya_id', '=', False)]"/>
+                    <filter string="Membre establert" name="establert" domain="[('membre_pinya_id', '!=', False)]"/>
                     <separator/>
                     <filter string="0 cordó" name="0_cordo" domain="[('cordo', '=', '0')]"/>
                     <filter string="1r cordó" name="1r_cordo" domain="[('cordo', '=', '1')]"/>
