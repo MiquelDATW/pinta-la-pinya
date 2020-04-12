@@ -13,12 +13,9 @@
     "installable": True,
     'application': True,
     "depends": [
-        "hr",
         "hr_skill",
         "hr_gamification",
         "hr_employee_age",
-        "base_location",
-        "web_ir_actions_act_view_reload",
         "pinya_complements",
     ],
     "data": [
@@ -31,6 +28,7 @@
         "views/pinya_actuacio_view.xml",
         "views/pinya_muixeranga_view.xml",
         "views/pinya_plantilla_view.xml",
+        "views/res_partner_view.xml",
         "wizard/import_pinya_wizard_view.xml",
         "wizard/import_muixeranga_wizard_view.xml",
         "views/menus_views.xml",

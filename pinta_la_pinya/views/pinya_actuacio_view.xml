@@ -75,16 +75,24 @@
                                     context="{'show_address': 1}"
                                     attrs="{'readonly': [('state', '!=', 'draft')]}"
                                     options='{"always_reload": True, "highlight_first_line": True}'/>
-                                <field name="data"
+                                <field name="data_inici"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="data_final"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="tipus"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="event_id"
+                                       options="{'no_create_edit': True}"
+                                       attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('tipus', '=', 'assaig')]}"/>
+                                <field name="organizer_id"
+                                       readonly="1"
+                                       attrs="{'invisible': [('tipus', '=', 'assaig')]}"/>
+                            </group>
+                            <group name="persones" string="Persones">
                                 <field name="mestra_id"
                                        options="{'no_create_edit': True}"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
                                        domain="[('id', 'in', membre_actuacio_ids), ('membre_at', '=', True)]"/>
-                            </group>
-                            <group name="persones" string="Persones">
                                 <field name="membres_count"/>
                                 <field name="actives_count"/>
                             </group>
@@ -111,7 +119,8 @@
             <field name="arch" type="xml">
                 <tree string="Actuacions">
                     <field name="name"/>
-                    <field name="data"/>
+                    <field name="data_inici"/>
+                    <field name="data_final"/>
                     <field name="state"/>
                     <field name="zip_id"/>
                     <field name="tipus"/>

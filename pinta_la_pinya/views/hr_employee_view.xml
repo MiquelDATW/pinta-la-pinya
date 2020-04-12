@@ -103,7 +103,7 @@
                                     <field name="posicio_id"/>
                                     <field name="muixeranga_tronc_id"/>
                                     <field name="actuacio_id"/>
-                                    <field name="data"/>
+                                    <field name="data" widget="date"/>
                                 </tree>
                             </field>
                         </group>
@@ -118,7 +118,7 @@
                                     <field name="posicio_id"/>
                                     <field name="muixeranga_pinya_id"/>
                                     <field name="actuacio_id"/>
-                                    <field name="data"/>
+                                    <field name="data" widget="date"/>
                                 </tree>
                             </field>
                         </group>

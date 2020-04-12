@@ -36,7 +36,7 @@ class PinyaMuixeranga(models.Model):
 
     actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio", store=True)
     membre_count = fields.Integer(string='Total Membres', related='actuacio_id.membres_count', store=True)
-    data = fields.Date(string='Data', related='actuacio_id.data', store=True)
+    data = fields.Datetime(string='Data', related='actuacio_id.data_inici', store=True)
     actuacio_state = fields.Selection(string='Estat actuació', related='actuacio_id.state', store=True)
     lliure_ids = fields.Many2many('hr.employee', string="Lliures", compute="_compute_lliures")
     lliure_count = fields.Integer(compute='_compute_lliures', string='Total Lliures')
@@ -256,7 +256,7 @@ class PinyaMuixerangaPinya(models.Model):
         ('4', '4'),  ('5', '5'),  ('6', '6'),
     ], string="Rengle", required=True)
     active = fields.Boolean(string="Actiu", default=True)
-    data = fields.Date(string="Data", related="muixeranga_pinya_id.actuacio_id.data", readonly=True, store=True)
+    data = fields.Datetime(string="Data", related="muixeranga_pinya_id.actuacio_id.data_inici", readonly=True, store=True)
 
     tecnica = fields.Selection([
         ('0', 'Inicial'),
@@ -338,7 +338,7 @@ class PinyaMuixerangaTronc(models.Model):
 
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
     active = fields.Boolean(string="Actiu", default=True)
-    data = fields.Date(string="Data", related="muixeranga_tronc_id.actuacio_id.data", readonly=True, store=True)
+    data = fields.Datetime(string="Data", related="muixeranga_tronc_id.actuacio_id.data_inici", readonly=True, store=True)
 
     tecnica = fields.Selection([
         ('0', 'Inicial'),

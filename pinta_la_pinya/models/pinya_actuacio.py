@@ -14,8 +14,12 @@ class PinyaActuacio(models.Model):
 
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
     active = fields.Boolean(string="Actiu", default=True)
-    data = fields.Date(string="Data")
+    data_inici = fields.Datetime(string="Data inicial")
+    data_final = fields.Datetime(string="Data final")
     notes = fields.Text(string="Altra informació")
+    organizer_id = fields.Many2one(string="Organitzador", comodel_name="res.partner",
+                                      related="event_id.organizer_id", store=True)
+    event_id = fields.Many2one(string="Esdeveniment", comodel_name="event.event")
     zip_id = fields.Many2one(string="Lloc", comodel_name="res.better.zip")
     tipus = fields.Selection([
             ('actuacio', 'Actuació'),
