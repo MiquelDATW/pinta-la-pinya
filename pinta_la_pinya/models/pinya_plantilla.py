@@ -90,7 +90,6 @@ class PinyaPlantilla(models.Model):
 
         line_vals = {}
         line_vals['actuacio_id'] = actuacio
-        line_vals['data'] = obj_actua.browse(actuacio).data
         for aux in tronc:
             posicions = aux.posicio_ids
             line_vals['pis'] = str(aux.name)
@@ -119,7 +118,6 @@ class PinyaPlantilla(models.Model):
 
         line_vals = {}
         line_vals['actuacio_id'] = actuacio
-        line_vals['data'] = obj_actua.browse(actuacio).data
         for i in range(rengles):
             line_vals['rengle'] = str(i+1)
             for aux in pinya:

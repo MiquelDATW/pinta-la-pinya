@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import statistics
+import random
 from odoo import models, fields, api, exceptions, _
 from odoo.exceptions import ValidationError
 
@@ -118,6 +119,7 @@ class PinyaMuixeranga(models.Model):
 
     def calcular_muixeranga(self):
         self.state = 'ready'
+        emp_act_obj = self.env['hr.employee.actuacio']
         ocupats = self.env['hr.employee']
 
         troncs = self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id).sorted('tecnica', reverse=True)
@@ -158,7 +160,12 @@ class PinyaMuixeranga(models.Model):
                     alsada_aptes = aptes
                 membre = alsada_aptes[0]
             else:
-                membre = aptes[0]
+                aptes_emp = aptes.filtered(lambda x: x.level in ['3', '2']).mapped('employee_id')
+                data = [('employee_id', 'in', aptes_emp.ids), ('actuacio_id', '=', self.actuacio_id.id)]
+                emp_act_ids = emp_act_obj.search(data)
+                emp_act_void = emp_act_ids.filtered(lambda x: x.count_actuacio_tronc == '')
+                emp_ok = emp_act_void[random.randint(0, len(emp_act_void)-1)].employee_id
+                membre = aptes.filtered(lambda x: x.employee_id.id == emp_ok.id)
             ocupats += membre.employee_id
             tronc.membre_tronc_level_id = membre.id
 

@@ -105,10 +105,6 @@ class HrEmployeeActuacio(models.Model):
     pinya_line_ids = fields.One2many('pinya.muixeranga.pinya', 'employee_actuacio_id', string="Pinya de muixeranga")
     tronc_line_ids = fields.One2many('pinya.muixeranga.tronc', 'employee_actuacio_id', string="Tronc de muixeranga")
 
-    count_3stars = fields.Char(string="Habilitats expertes", related="employee_id.count_3stars", store=True)
-    count_2stars = fields.Char(string="Habilitats avançats", related="employee_id.count_2stars", store=True)
-    count_1stars = fields.Char(string="Habilitats mitjanes", related="employee_id.count_1stars", store=True)
-
     count_actuacio_total = fields.Char(string="Figures total", compute="_compute_actuacio", store=True)
     count_actuacio_pinya = fields.Char(string="Figures pinya", compute="_compute_actuacio", store=True)
     count_actuacio_tronc = fields.Char(string="Figures tronc", compute="_compute_actuacio", store=True)

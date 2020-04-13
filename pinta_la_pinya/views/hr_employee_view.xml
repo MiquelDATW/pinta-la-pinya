@@ -207,10 +207,6 @@
                     <field name="count_actuacio_tronc"/>
                     <field name="pinya_line_ids" widget="many2many_tags"/>
                     <field name="tronc_line_ids" widget="many2many_tags"/>
-                    <!--
-                    <field name="count_3stars"/>
-                    <field name="count_2stars"/>
-                    <field name="count_1stars"/>-->
                 </tree>
             </field>
         </record>
@@ -232,11 +228,6 @@
                                 <field name="count_actuacio_total"/>
                                 <field name="count_actuacio_pinya"/>
                                 <field name="count_actuacio_tronc"/>
-                            </group>
-                            <group name="habilitats" string="Habilitats">
-                                <field name="count_3stars"/>
-                                <field name="count_2stars"/>
-                                <field name="count_1stars"/>
                             </group>
                         </group>
                         <notebook>
@@ -263,9 +254,6 @@
                     <field name="count_actuacio_total"/>
                     <field name="count_actuacio_pinya"/>
                     <field name="count_actuacio_tronc"/>
-                    <field name="count_3stars"/>
-                    <field name="count_2stars"/>
-                    <field name="count_1stars"/>
                     <separator/>
                     <filter string="Buit total" name="count_actuacio_void" domain="[('count_actuacio_total', '=', '')]"/>
                     <filter string="Figures total" name="count_actuacio" domain="[('count_actuacio_total', '!=', '')]"/>
@@ -275,9 +263,6 @@
                     <filter string="Membre AT" name="membre_at" domain="[('membre_at', '=', True)]"/>
                     <separator/>
                     <group expand="0" string="Group By">
-                        <filter string="Habilitats expertes" name="group_count_3stars" domain="[]" context="{'group_by':'count_3stars'}"/>
-                        <filter string="Habilitats avançades" name="group_count_2stars" domain="[]" context="{'group_by':'count_2stars'}"/>
-                        <filter string="Habilitats mitjanes" name="group_count_1stars" domain="[]" context="{'group_by':'count_1stars'}"/>
                     </group>
                 </search>
             </field>
