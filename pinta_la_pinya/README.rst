@@ -9,9 +9,9 @@ Aquesta aplicació permet fer una gestió tècnica completa d'una colla muixeran
 Installation
 ============
 
-* hr
+* event
 * hr_skill
-* base_location
+* hr_employee_age
 * pinya_complements
 
 Configuration

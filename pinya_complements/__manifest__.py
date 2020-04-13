@@ -14,8 +14,6 @@
     'application': False,
     "depends": [
         "base_location_geonames_import",
-        "contacts",
-        "event",
         "database_cleanup",
         "web_no_bubble",
         "web_sheet_full_width"

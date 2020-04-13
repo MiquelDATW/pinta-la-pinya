@@ -3,7 +3,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import models, fields, api, exceptions, _
+from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from datetime import datetime
+import pytz
 
 
 class PinyaActuacio(models.Model):
@@ -63,18 +67,43 @@ class PinyaActuacio(models.Model):
         if bool(tipus):
             res['tipus'] = tipus
             if tipus == 'assaig':
+                partner = self.env.user.company_id.partner_id
+                assaig_dia = int(partner.assaig_dia)
+                hora_inici = partner.assaig_hora_inici
+                hora_final = partner.assaig_hora_final
+                today = datetime.today()
+                today_day = today.weekday()
+                dia_assaig = (today + relativedelta(days=(assaig_dia - today_day))).date()
+                inici = dia_assaig + relativedelta(hours=int(hora_inici), minutes=int((hora_inici - int(hora_inici))*60))
+                final = dia_assaig + relativedelta(hours=int(hora_final), minutes=int((hora_final - int(hora_final))*60))
+
+                res['data_inici'] = self._tz_to_utc(str(inici))
+                res['data_final'] = self._tz_to_utc(str(final))
                 res['name'] = tipus.capitalize()
+                res['zip_id'] = partner.zip_id.id
         return res
 
-    @api.onchange('data')
+    @api.onchange('event_id')
+    def onchange_event(self):
+        event = self.event_id
+        if bool(event):
+            self.data_inici = event.date_begin
+            self.data_final = event.date_end
+            self.zip_id = event.address_id.zip_id.id
+        elif self.tipus == 'actuacio':
+            self.data_inici = False
+            self.data_final = False
+            self.zip_id = False
+
+    @api.onchange('data_inici')
     def onchange_data(self):
         tipus = self.tipus
         if tipus != 'assaig':
             return False
-        data = self.data
+        data = self.data_inici
         if not bool(data):
             return False
-        data_str = str(data).replace('-', '/')
+        data_str = str(datetime.strptime(data, DEFAULT_SERVER_DATETIME_FORMAT).date()).replace('-', '/')
         self.name = tipus.capitalize() + ' ' + data_str
 
     def action_membres_import(self):
@@ -241,11 +270,46 @@ class PinyaActuacio(models.Model):
         for muix in muixes:
             muix.reset_muixeranga()
 
+    @api.model
+    def _tz_to_utc(self, date):
+        date_dt1 = datetime.strptime(date, DEFAULT_SERVER_DATETIME_FORMAT)
+        tz_info = fields.Datetime.context_timestamp(self, date_dt1).tzinfo
+        date_dt2 = tz_info.localize(date_dt1, is_dst=None)
+        date_dt3 = date_dt2.astimezone(pytz.utc)
+        return date_dt3.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+
     @api.multi
     def unlink(self):
         for actuacio in self:
             actuacio.muixeranga_ids.unlink()
             actuacio.membre_actuacio_ids.unlink()
         res = super(PinyaActuacio, self).unlink()
+        return res
+
+    @api.model
+    def create(self, vals):
+        event = vals.get('event_id', False)
+        if event:
+            event = self.env['event.event'].browse(event)
+            vals['data_inici'] = event.date_begin
+            vals['data_final'] = event.date_end
+            vals['zip_id'] = event.address_id.zip_id.id
+        res = super(PinyaActuacio, self).create(vals)
+        return res
+
+    @api.multi
+    def write(self, vals):
+        if 'event_id' in vals:
+            event = vals.get('event_id', False)
+            if event:
+                event = self.env['event.event'].browse(event)
+                vals['data_inici'] = event.date_begin
+                vals['data_final'] = event.date_end
+                vals['zip_id'] = event.address_id.zip_id.id
+            else:
+                vals['data_inici'] = False
+                vals['data_final'] = False
+                vals['zip_id'] = False
+        res = super(PinyaActuacio, self).write(vals)
         return res
 

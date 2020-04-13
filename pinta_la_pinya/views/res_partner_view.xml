@@ -17,7 +17,131 @@
                     <field name="colla"
                            attrs="{'invisible': [('is_company','=', False)]}"/>
                 </field>
+
+                <xpath expr="//page[@name='internal_notes']" position="after">
+                    <page name="info" string="Informació de la colla"
+                           attrs="{'invisible': [('colla','=', False)]}">
+                        <group name="info">
+                            <group name="assaig" string="Assaig">
+                                <field name="assaig_dia"/>
+                                <field name="assaig_hora_inici" widget="float_time"/>
+                                <field name="assaig_hora_final" widget="float_time"/>
+                            </group>
+                            <group name="fundacio" string="Fundació">
+                                <field name="fundacio_data"/>
+                                <field name="fundacio_anys"/>
+                            </group>
+                            <group name="junta" string="Junta Directiva">
+                                <field name="jd_presidencia"/>
+                                <field name="jd_secretaria"/>
+                                <field name="jd_tresoreria"/>
+                            </group>
+                            <group name="area_tecnica" string="Àrea Tècnica">
+                                <field name="at_mestra"/>
+                                <field name="at_cap_de_pinya"/>
+                                <field name="at_cap_de_tronc"/>
+                                <field name="at_cap_de_xicalla"/>
+                            </group>
+                            <group name="federacio" string="Federació">
+                                <field name="federacio"/>
+                                <field name="federacio_data"
+                                       attrs="{'invisible':[('federacio','=',False)]}"/>
+                                <field name="federacio_anys"
+                                       attrs="{'invisible':[('federacio','=',False)]}"/>
+                                <field name="federacio_tipus_colla"
+                                       attrs="{'invisible':[('federacio','=',False)]}"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
             </field>
         </record>
+
+        <record id="action_contactes_colles" model="ir.actions.act_window">
+            <field name="name">Colles muixerangueres</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('colla', '=', True)]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+        </record>
+
+        <record id="action_contactes_persones_colla" model="ir.actions.act_window">
+            <field name="name">Membres de la colla</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">['&amp;', ('muixeranguera', '=', True), ('parent_id', '=', 1)]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+        </record>
+
+        <record id="action_contactes_persones_altres_colles" model="ir.actions.act_window">
+            <field name="name">Membres d'altres colles</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">['&amp;', ('muixeranguera', '=', True), ('parent_id', '!=', 1)]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+        </record>
+
+        <record id="action_contactes_customer" model="ir.actions.act_window">
+            <field name="name">Clients</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('customer', '=', True)]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+        </record>
+
+        <record id="action_contactes_supplier" model="ir.actions.act_window">
+            <field name="name">Proveïdors</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('supplier', '=', True)]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+        </record>
+
+        <menuitem
+            id="menu_contactes_all"
+            action="contacts.action_contacts"
+            parent="contacts.res_partner_menu_contacts"
+            sequence="100"/>
+
+        <menuitem
+            id="menu_contactes_colles"
+            action="action_contactes_colles"
+            parent="contacts.res_partner_menu_contacts"
+            sequence="10"/>
+
+        <menuitem
+            id="menu_contactes_persones_colla"
+            action="action_contactes_persones_colla"
+            parent="contacts.res_partner_menu_contacts"
+            sequence="11"/>
+
+        <menuitem
+            id="menu_contactes_persones_altres_colles"
+            action="action_contactes_persones_altres_colles"
+            parent="contacts.res_partner_menu_contacts"
+            sequence="12"/>
+
+        <menuitem
+            id="menu_contactes_customer"
+            action="action_contactes_customer"
+            parent="contacts.res_partner_menu_contacts"
+            sequence="20"/>
+
+        <menuitem
+            id="menu_contactes_supplier"
+            action="action_contactes_supplier"
+            parent="contacts.res_partner_menu_contacts"
+            sequence="20"/>
+
     </data>
 </odoo>
