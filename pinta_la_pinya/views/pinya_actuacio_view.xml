@@ -72,9 +72,9 @@
                         <group name="actuacio">
                             <group name="info" string="Info">
                                 <field name="zip_id"
-                                    context="{'show_address': 1}"
-                                    attrs="{'readonly': ['|', ('state', '!=', 'draft'), ('event_id', '!=', False)]}"
-                                    options='{"always_reload": True, "highlight_first_line": True}'/>
+                                       context="{'show_address': 1}"
+                                       attrs="{'readonly': ['|', ('state', '!=', 'draft'), ('event_id', '!=', False)]}"
+                                       options='{"always_reload": True, "highlight_first_line": True}'/>
                                 <field name="data_inici"
                                        attrs="{'readonly': ['|', ('state', '!=', 'draft'), ('event_id', '!=', False)]}"/>
                                 <field name="data_final"
@@ -83,6 +83,7 @@
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="event_id"
                                        options="{'no_create_edit': True}"
+                                       domain="[('actuacio_id', '=', False)]"
                                        attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('tipus', '=', 'assaig')]}"/>
                                 <field name="organizer_id"
                                        readonly="1"

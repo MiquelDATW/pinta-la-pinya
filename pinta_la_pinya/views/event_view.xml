@@ -20,6 +20,11 @@
                 <field name="user_id" position="attributes">
                     <attribute name="options">{'no_create': True}</attribute>
                 </field>
+                <field name="date_begin" position="before">
+                    <field name="actuacio_id"
+                           options="{'no_create_edit': True}"
+                           domain="['&amp;', ('event_id', '=', False), ('tipus', '=', 'actuacio')]"/>
+                </field>
             </field>
         </record>
 

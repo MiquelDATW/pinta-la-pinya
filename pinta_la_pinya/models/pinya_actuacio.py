@@ -295,10 +295,13 @@ class PinyaActuacio(models.Model):
             vals['data_final'] = event.date_end
             vals['zip_id'] = event.address_id.zip_id.id
         res = super(PinyaActuacio, self).create(vals)
+        if event:
+            event.actuacio_id = res.id
         return res
 
     @api.multi
     def write(self, vals):
+        event = False
         if 'event_id' in vals:
             event = vals.get('event_id', False)
             if event:
@@ -311,5 +314,12 @@ class PinyaActuacio(models.Model):
                 vals['data_final'] = False
                 vals['zip_id'] = False
         res = super(PinyaActuacio, self).write(vals)
+        if 'event_id' in vals and event:
+            event.actuacio_id = self.id
+        elif 'event_id' in vals and not event:
+            event_obj = self.env['event.event']
+            event = event_obj.search([('actuacio_id', '=', self.id)])
+            if event:
+                event.actuacio_id = False
         return res
 
