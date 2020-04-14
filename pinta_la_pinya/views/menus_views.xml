@@ -115,22 +115,24 @@
 
         <record id="action_pinta_la_pinya_muixeranga_pinya_all" model="ir.actions.act_window">
             <field name="name">Pinya de Muixeranga</field>
-            <field name="res_model">pinya.muixeranga.pinya</field>
+            <field name="res_model">pinya.muixeranga.line</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('muixeranga_state', '!=', 'cancel')]</field>
+            <field name="domain">[('muixeranga_state', '!=', 'cancel'), ('tipus', '=', 'pinya')]</field>
             <field name="context">{}</field>
             <field name="view_id" eval="view_muixeranga_pinya_tree_all"/>
+            <field name="search_view_id" eval="view_muixeranga_pinya_search"/>
         </record>
 
         <record id="action_pinta_la_pinya_muixeranga_tronc_all" model="ir.actions.act_window">
             <field name="name">Tronc de Muixeranga</field>
-            <field name="res_model">pinya.muixeranga.tronc</field>
+            <field name="res_model">pinya.muixeranga.line</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('muixeranga_state', '!=', 'cancel')]</field>
+            <field name="domain">[('muixeranga_state', '!=', 'cancel'), ('tipus', '=', 'tronc')]</field>
             <field name="context">{}</field>
             <field name="view_id" eval="view_muixeranga_tronc_tree_all"/>
+            <field name="search_view_id" eval="view_muixeranga_tronc_search"/>
         </record>
 
         <menuitem

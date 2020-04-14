@@ -82,6 +82,7 @@
                             <field name="notes" placeholder="Altra informació..."/>
                         </group>
                         <notebook>
+                            <!--
                             <page name="tronc" string="Tronc">
                                 <field name="tronc_line_ids" nolabel="1">
                                     <tree string="Tronc de muixeranga"
@@ -107,7 +108,7 @@
                                         <field name="muixeranga_pinya_id" invisible="1"/>
                                     </tree>
                                 </field>
-                            </page>
+                            </page>-->
                             <page name="altra" string="Altra Informació">
                                 <group>
                                     <group name="altra" string="Altra Informació">
@@ -233,7 +234,7 @@
 
         <record id="view_muixeranga_tronc_form" model="ir.ui.view">
             <field name="name">pinya.muixeranga.tronc.form</field>
-            <field name="model">pinya.muixeranga.tronc</field>
+            <field name="model">pinya.muixeranga.line</field>
             <field name="arch" type="xml">
                 <form string="Tronc de muixeranga">
                     <sheet>
@@ -257,19 +258,19 @@
                                        domain="[('tipus', '=', 'tronc')]"/>
                                 <field name="tecnica" widget="priority"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
-                                <field name="membre_tronc_id" readonly="1"/>
+                                <field name="membre_id" readonly="1"/>
                                 <field name="muixeranga_state" invisible="1"/>
                             </group>
                             <group name="muixeranga_dades">
-                                <field name="muixeranga_tronc_id"
+                                <field name="muixeranga_id"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                                        options="{'no_create_edit': True}"/>
                                 <field name="actuacio_id"/>
                                 <field name="data" widget="date"/>
                             </group>
                             <group class="oe_edit_only"
-                                   attrs="{'invisible': ['|', ('muixeranga_state', '!=', 'draft'), ('muixeranga_tronc_id', '=', False)]}">
-                                <field name="membre_tronc_level_id"
+                                   attrs="{'invisible': ['|', ('muixeranga_state', '!=', 'draft'), ('muixeranga_id', '=', False)]}">
+                                <field name="membre_level_id"
                                        options="{'no_create_edit': True}"
                                        domain="[('id', 'in', recomanats_ids)]"/>
                                 <field name="recomanats_ids" invisible="1"/>
@@ -282,35 +283,35 @@
 
         <record id="view_muixeranga_tronc_tree_all" model="ir.ui.view">
             <field name="name">pinya.muixeranga.tronc.tree.all</field>
-            <field name="model">pinya.muixeranga.tronc</field>
+            <field name="model">pinya.muixeranga.line</field>
             <field name="arch" type="xml">
                 <tree string="Tronc de muixeranga">
                     <field name="data" widget="date"/>
                     <field name="actuacio_id"/>
-                    <field name="muixeranga_tronc_id"/>
+                    <field name="muixeranga_id"/>
                     <field name="plantilla_id"/>
                     <field name="pis"/>
                     <field name="posicio_id"/>
                     <field name="tecnica" widget="priority"/>
-                    <field name="membre_tronc_id"/>
+                    <field name="membre_id"/>
                 </tree>
             </field>
         </record>
 
         <record id="view_muixeranga_tronc_tree_selected" model="ir.ui.view">
             <field name="name">pinya.muixeranga.tronc.tree.selected</field>
-            <field name="model">pinya.muixeranga.tronc</field>
+            <field name="model">pinya.muixeranga.line</field>
             <field name="arch" type="xml">
                 <tree create="0" editable="bottom" string="Tronc de muixeranga">
                     <field name="pis" readonly="1"/>
                     <field name="posicio_id" readonly="1"/>
                     <field name="tecnica" widget="priority" readonly="1"/>
-                    <field name="membre_tronc_id" readonly="1"/>
-                    <field name="membre_tronc_level_id"
+                    <field name="membre_id" readonly="1"/>
+                    <field name="membre_level_id"
                            options="{'no_create_edit': True}"
                            attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                            domain="[('id', 'in', recomanats_ids)]"/>
-                    <field name="muixeranga_tronc_id" invisible="1"/>
+                    <field name="muixeranga_id" invisible="1"/>
                     <field name="recomanats_ids" invisible="1"/>
                     <field name="muixeranga_state" invisible="1"/>
                 </tree>
@@ -319,19 +320,19 @@
 
         <record id="view_muixeranga_tronc_search" model="ir.ui.view">
             <field name="name">pinya.muixeranga.tronc.search</field>
-            <field name="model">pinya.muixeranga.tronc</field>
+            <field name="model">pinya.muixeranga.line</field>
             <field name="arch" type="xml">
                 <search string="Tronc de muixeranga">
                     <field name="actuacio_id"/>
-                    <field name="muixeranga_tronc_id"/>
+                    <field name="muixeranga_id"/>
                     <field name="plantilla_id"/>
                     <field name="pis"/>
                     <field name="posicio_id"/>
                     <field name="tecnica" widget="priority"/>
-                    <field name="membre_tronc_id"/>
+                    <field name="membre_id"/>
                     <separator/>
-                    <filter string="Membre no establert" name="no_establert" domain="[('membre_tronc_id', '=', False)]"/>
-                    <filter string="Membre establert" name="establert" domain="[('membre_tronc_id', '!=', False)]"/>
+                    <filter string="Membre no establert" name="no_establert" domain="[('membre_id', '=', False)]"/>
+                    <filter string="Membre establert" name="establert" domain="[('membre_id', '!=', False)]"/>
                     <separator/>
                     <filter string="1r pis" name="1r_pis" domain="[('pis', '=', '1')]"/>
                     <filter string="2n pis" name="2n_pis" domain="[('pis', '=', '2')]"/>
@@ -353,13 +354,13 @@
                     <separator/>
                     <group expand="0" string="Group By">
                         <filter name="group_actuacio" string="Actuació" domain="[]" context="{'group_by':'actuacio_id'}"/>
-                        <filter name="group_muixeranga_tronc" string="Figura" domain="[]" context="{'group_by':'muixeranga_tronc_id'}"/>
+                        <filter name="group_muixeranga" string="Figura" domain="[]" context="{'group_by':'muixeranga_id'}"/>
                         <filter name="group_plantilla" string="Plantilla" domain="[]" context="{'group_by':'plantilla_id'}"/>
                         <filter name="group_data" string="Data" domain="[]" context="{'group_by':'data'}"/>
                         <filter name="group_pis" string="Pis" domain="[]" context="{'group_by':'pis'}"/>
                         <filter name="group_posicio" string="Posició" domain="[]" context="{'group_by':'posicio_id'}"/>
                         <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"/>
-                        <filter name="group_membre_tronc" string="Membre Tronc" domain="[]" context="{'group_by':'membre_tronc_id'}"/>
+                        <filter name="group_membre" string="Membre Tronc" domain="[]" context="{'group_by':'membre_id'}"/>
                     </group>
                 </search>
             </field>
@@ -367,7 +368,7 @@
 
         <record id="view_muixeranga_pinya_form" model="ir.ui.view">
             <field name="name">pinya.muixeranga.pinya.form</field>
-            <field name="model">pinya.muixeranga.pinya</field>
+            <field name="model">pinya.muixeranga.line</field>
             <field name="arch" type="xml">
                 <form string="Pinya de muixeranga">
                     <sheet>
@@ -393,19 +394,19 @@
                                        domain="[('tipus', '=', 'pinya')]"/>
                                 <field name="tecnica" widget="priority"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
-                                <field name="membre_pinya_id" readonly="1"/>
+                                <field name="membre_id" readonly="1"/>
                                 <field name="muixeranga_state" invisible="1"/>
                             </group>
                             <group name="muixeranga_dades">
-                                <field name="muixeranga_pinya_id"
+                                <field name="muixeranga_id"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                                        options="{'no_create_edit': True}"/>
                                 <field name="actuacio_id"/>
                                 <field name="data" widget="date"/>
                             </group>
                             <group class="oe_edit_only"
-                                   attrs="{'invisible': ['|', ('muixeranga_state', '!=', 'draft'), ('muixeranga_pinya_id', '=', False)]}">
-                                <field name="membre_pinya_level_id"
+                                   attrs="{'invisible': ['|', ('muixeranga_state', '!=', 'draft'), ('muixeranga_id', '=', False)]}">
+                                <field name="membre_level_id"
                                        options="{'no_create_edit': True}"
                                        domain="[('id', 'in', recomanats_ids)]"/>
                                 <field name="recomanats_ids" invisible="1"/>
@@ -418,37 +419,37 @@
 
         <record id="view_muixeranga_pinya_tree_all" model="ir.ui.view">
             <field name="name">pinya.muixeranga.pinya.tree.all</field>
-            <field name="model">pinya.muixeranga.pinya</field>
+            <field name="model">pinya.muixeranga.line</field>
             <field name="arch" type="xml">
                 <tree string="Pinya de muixeranga">
                     <field name="data" widget="date"/>
                     <field name="actuacio_id"/>
-                    <field name="muixeranga_pinya_id"/>
+                    <field name="muixeranga_id"/>
                     <field name="plantilla_id"/>
                     <field name="cordo"/>
                     <field name="rengle"/>
                     <field name="posicio_id"/>
                     <field name="tecnica" widget="priority"/>
-                    <field name="membre_pinya_id"/>
+                    <field name="membre_id"/>
                 </tree>
             </field>
         </record>
 
         <record id="view_muixeranga_pinya_tree_selected" model="ir.ui.view">
             <field name="name">pinya.muixeranga.pinya.tree.selected</field>
-            <field name="model">pinya.muixeranga.pinya</field>
+            <field name="model">pinya.muixeranga.line</field>
             <field name="arch" type="xml">
                 <tree create="0" editable="bottom" string="Pinya de muixeranga">
                     <field name="cordo" readonly="1"/>
                     <field name="rengle" readonly="1"/>
                     <field name="posicio_id" readonly="1"/>
                     <field name="tecnica" widget="priority" readonly="1"/>
-                    <field name="membre_pinya_id" readonly="1"/>
-                    <field name="membre_pinya_level_id"
+                    <field name="membre_id" readonly="1"/>
+                    <field name="membre_level_id"
                            options="{'no_create_edit': True}"
                            attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                            domain="[('id', 'in', recomanats_ids)]"/>
-                    <field name="muixeranga_pinya_id" invisible="1"/>
+                    <field name="muixeranga_id" invisible="1"/>
                     <field name="recomanats_ids" invisible="1"/>
                     <field name="muixeranga_state" invisible="1"/>
                 </tree>
@@ -457,20 +458,20 @@
 
         <record id="view_muixeranga_pinya_search" model="ir.ui.view">
             <field name="name">pinya.muixeranga.pinya.search</field>
-            <field name="model">pinya.muixeranga.pinya</field>
+            <field name="model">pinya.muixeranga.line</field>
             <field name="arch" type="xml">
                 <search string="Pinya de muixeranga">
                     <field name="actuacio_id"/>
-                    <field name="muixeranga_pinya_id"/>
+                    <field name="muixeranga_id"/>
                     <field name="plantilla_id"/>
                     <field name="cordo"/>
                     <field name="rengle"/>
                     <field name="posicio_id"/>
                     <field name="tecnica" widget="priority"/>
-                    <field name="membre_pinya_id"/>
+                    <field name="membre_id"/>
                     <separator/>
-                    <filter string="Membre no establert" name="no_establert" domain="[('membre_pinya_id', '=', False)]"/>
-                    <filter string="Membre establert" name="establert" domain="[('membre_pinya_id', '!=', False)]"/>
+                    <filter string="Membre no establert" name="no_establert" domain="[('membre_id', '=', False)]"/>
+                    <filter string="Membre establert" name="establert" domain="[('membre_id', '!=', False)]"/>
                     <separator/>
                     <filter string="0 cordó" name="0_cordo" domain="[('cordo', '=', '0')]"/>
                     <filter string="1r cordó" name="1r_cordo" domain="[('cordo', '=', '1')]"/>
@@ -500,14 +501,14 @@
                     <separator/>
                     <group expand="0" string="Group By">
                         <filter name="group_actuacio" string="Actuació" domain="[]" context="{'group_by':'actuacio_id'}"/>
-                        <filter name="group_muixeranga_pinya" string="Figura" domain="[]" context="{'group_by':'muixeranga_pinya_id'}"/>
+                        <filter name="group_muixeranga" string="Figura" domain="[]" context="{'group_by':'muixeranga_od'}"/>
                         <filter name="group_plantilla" string="Plantilla" domain="[]" context="{'group_by':'plantilla_id'}"/>
                         <filter name="group_data" string="Data" domain="[]" context="{'group_by':'data'}"/>
                         <filter name="group_cordo" string="Cordó" domain="[]" context="{'group_by':'cordo'}"/>
                         <filter name="group_rengle" string="Rengle" domain="[]" context="{'group_by':'rengle'}"/>
                         <filter name="group_posicio" string="Posició" domain="[]" context="{'group_by':'posicio_id'}"/>
                         <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"/>
-                        <filter name="group_membre_pinya" string="Membre Pinya" domain="[]" context="{'group_by':'membre_pinya_id'}"/>
+                        <filter name="group_membre" string="Membre Pinya" domain="[]" context="{'group_by':'membre_id'}"/>
                     </group>
                 </search>
             </field>

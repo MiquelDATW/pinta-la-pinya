@@ -188,11 +188,12 @@ class PinyaActuacio(models.Model):
             raise ValidationError(error_msg)
         draft = muixerangues.filtered(lambda x: x.state == 'draft')
         if bool(draft):
-            not_troncs = draft.mapped('tronc_line_ids').filtered(lambda x: not x.membre_tronc_id)
-            not_pinyes = draft.mapped('pinya_line_ids').filtered(lambda x: not x.membre_pinya_id)
+            not_membre = draft.mapped('m_line_ids').filtered(lambda x: not x.membre_id)
+            not_troncs = not_membre.filtered(lambda x: x.tipus == 'tronc')
+            not_pinyes = not_membre.filtered(lambda x: x.tipus == 'tronc')
             if not_troncs or not_pinyes:
-                names_t = not_troncs.mapped('muixeranga_tronc_id').sorted('name').mapped('name')
-                names_p = not_pinyes.mapped('muixeranga_pinya_id').sorted('name').mapped('name')
+                names_t = not_troncs.mapped('muixeranga_id').sorted('name').mapped('name')
+                names_p = not_pinyes.mapped('muixeranga_id').sorted('name').mapped('name')
                 if len(names_t) == 1 and len(names_p) == 1 and names_p == names_t:
                     falta = "el tronc i la pinya"
                     names_t = names_t[0]

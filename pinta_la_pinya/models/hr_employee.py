@@ -21,8 +21,7 @@ class HrEmployee(models.Model):
     alsada_bras = fields.Integer(string="Alçada de les mans")
     pes = fields.Float(string="Pes", digits=(4, 1))
 
-    muixeranga_tronc_ids = fields.One2many("pinya.muixeranga.tronc", "membre_tronc_id", string="Muixeranga")
-    muixeranga_pinya_ids = fields.One2many("pinya.muixeranga.pinya", "membre_pinya_id", string="Muixeranga")
+    m_line_ids = fields.One2many("pinya.muixeranga.line", "membre_id", string="Línees de muixeranga")
     membre_actuacio_ids = fields.One2many('hr.employee.actuacio', 'employee_id', string="Actuacions")
 
     posicio_ids = fields.Many2many(string="Posicions", comodel_name="hr.skill", compute="_compute_posicions", store=True)
@@ -102,8 +101,7 @@ class HrEmployeeActuacio(models.Model):
     employee_id = fields.Many2one('hr.employee', string="Membre")
     actuacio_id = fields.Many2one('pinya.actuacio', string="Actuació")
 
-    pinya_line_ids = fields.One2many('pinya.muixeranga.pinya', 'employee_actuacio_id', string="Pinya de muixeranga")
-    tronc_line_ids = fields.One2many('pinya.muixeranga.tronc', 'employee_actuacio_id', string="Tronc de muixeranga")
+    m_line_ids = fields.One2many("pinya.muixeranga.line", "membre_id", string="Línees de muixeranga")
 
     count_actuacio_total = fields.Char(string="Figures total", compute="_compute_actuacio", store=True)
     count_actuacio_pinya = fields.Char(string="Figures pinya", compute="_compute_actuacio", store=True)
@@ -115,15 +113,15 @@ class HrEmployeeActuacio(models.Model):
     ]
 
     @api.multi
-    @api.depends('pinya_line_ids.employee_actuacio_id', 'tronc_line_ids.employee_actuacio_id')
+    @api.depends('m_line_ids', 'm_line_ids.employee_actuacio_id')
     def _compute_actuacio(self):
         muix_act = self.filtered(lambda x: x)
         for m in muix_act:
-            pinyes = m.pinya_line_ids
-            troncs = m.tronc_line_ids
+            pinyes = m.m_line_ids.filtered(lambda x: x.tipus == 'pinya')
+            troncs = m.m_line_ids.filtered(lambda x: x.tipus == 'tronc')
 
             suma1 = [0, 0, 0, 0]
-            p1 = pinyes.filtered(lambda x: x.membre_pinya_id.id == m.employee_id.id)
+            p1 = pinyes.filtered(lambda x: x.membre_id.id == m.employee_id.id)
             if not bool(p1):
                 p4 = ""
             else:
@@ -139,7 +137,7 @@ class HrEmployeeActuacio(models.Model):
             m.count_actuacio_pinya = p4
 
             suma2 = [0, 0, 0, 0]
-            t1 = troncs.filtered(lambda x: x.membre_tronc_id.id == m.employee_id.id)
+            t1 = troncs.filtered(lambda x: x.membre_id.id == m.employee_id.id)
             if not bool(t1):
                 t4 = ""
             else:
