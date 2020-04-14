@@ -86,19 +86,25 @@ class PinyaPlantilla(models.Model):
         vals['actuacio_id'] = actuacio
 
         new_line = self.env['pinya.muixeranga.tronc']
-        tronc = self.plantilla_line_ids.filtered(lambda x: x.tipus == 'tronc')
+        troncs = self.plantilla_line_ids.filtered(lambda x: x.tipus == 'tronc')
 
         line_vals = {}
         line_vals['actuacio_id'] = actuacio
-        for aux in tronc:
-            posicions = aux.posicio_ids
-            line_vals['pis'] = str(aux.name)
+        for tronc in troncs:
+            posicions = tronc.posicio_ids
+            pis = str(tronc.name)
+            line_vals['pis'] = pis
             for pos in posicions:
+                i = 0
                 qty = pos.quantity
-                line_vals['name'] = pos.posicio_id.name + ' / ' + str(aux.name)
+                line_vals['name'] = pos.posicio_id.name + ' / ' + pis
                 line_vals['tecnica'] = pos.tecnica
                 line_vals['posicio_id'] = pos.posicio_id.id
                 for q in range(qty):
+                    i += 1
+                    jo = str(self.id).zfill(2) + '_' + str(pos.posicio_id.id).zfill(2)
+                    jo += '_P' + pis + '_T' + pos.tecnica + '__' + str(i) + '.de.' + str(qty)
+                    line_vals['quisocjo'] = jo
                     new_line += obj_tronc.create(line_vals)
 
         vals['tronc_line_ids'] = [(6, 0, new_line.ids)]
@@ -110,25 +116,32 @@ class PinyaPlantilla(models.Model):
             return res
 
         new_line = self.env['pinya.muixeranga.pinya']
-        pinya = self.plantilla_line_ids.filtered(lambda x: x.tipus == 'pinya')
-        rengles = max(pinya.mapped('rengles') or [0])
-        if not bool(pinya) or not bool(rengles):
+        pinyes = self.plantilla_line_ids.filtered(lambda x: x.tipus == 'pinya')
+        rengles = max(pinyes.mapped('rengles') or [0])
+        if not bool(pinyes) or not bool(rengles):
             error_msg = "A la figura '{}' li falta la pinya❗".format(self.name)
             raise ValidationError(error_msg)
 
         line_vals = {}
         line_vals['actuacio_id'] = actuacio
         for i in range(rengles):
-            line_vals['rengle'] = str(i+1)
-            for aux in pinya:
-                posicions = aux.posicio_ids
-                line_vals['cordo'] = str(aux.name)
+            rengle = str(i+1)
+            line_vals['rengle'] = rengle
+            for pinya in pinyes:
+                posicions = pinya.posicio_ids
+                cordo = str(pinya.name)
+                line_vals['cordo'] = cordo
                 for pos in posicions:
+                    j = 0
                     qty = pos.quantity
-                    line_vals['name'] = pos.posicio_id.name + ' / ' + str(aux.name)
+                    line_vals['name'] = pos.posicio_id.name + ' / ' + cordo
                     line_vals['tecnica'] = pos.tecnica
                     line_vals['posicio_id'] = pos.posicio_id.id
                     for q in range(qty):
+                        j += 1
+                        jo = str(self.id).zfill(2) + '_' + str(pos.posicio_id.id).zfill(2)
+                        jo += '_C' + cordo + '_T' + pos.tecnica + '__' + str(j) + '.de.' + str(qty)
+                        line_vals['quisocjo'] = jo
                         new_line += obj_pinya.create(line_vals)
 
         vals['pinya_line_ids'] = [(6, 0, new_line.ids)]
