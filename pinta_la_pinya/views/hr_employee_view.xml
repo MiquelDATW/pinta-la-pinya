@@ -167,6 +167,8 @@
             <field name="arch" type="xml">
                 <search string="Employees">
                     <field name="name"/>
+                    <field name="anys_inscrit"/>
+                    <field name="edat"/>
                     <field name="membre_at"/>
                     <field name="count_3stars"/>
                     <field name="count_2stars"/>
