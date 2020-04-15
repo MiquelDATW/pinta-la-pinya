@@ -11,6 +11,7 @@ class EventEvent(models.Model):
     _inherit = 'event.event'
 
     actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio")
+    zip_id = fields.Many2one('res.better.zip', 'Ubicació',  related='address_id.zip_id', store=True)
 
     @api.model
     def create(self, vals):

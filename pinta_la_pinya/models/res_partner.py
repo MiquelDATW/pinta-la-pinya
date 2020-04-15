@@ -27,11 +27,11 @@ class ResPartner(models.Model):
     assaig_hora_final = fields.Float(string="Hora de final d'assaig")
 
     fundacio_data = fields.Date(string="Data de fundació")
-    fundacio_anys = fields.Integer(string='Anys', readonly=True, compute='_compute_fundacio_anys')
+    fundacio_anys = fields.Integer(string='Anys', readonly=True)
 
     federacio = fields.Boolean(string="Membre de la FCM")
     federacio_data = fields.Date(string="Data de federació")
-    federacio_anys = fields.Integer(string='Anys de federació', readonly=True, compute='_compute_federacio_anys')
+    federacio_anys = fields.Integer(string='Anys de federació', readonly=True)
 
     federacio_tipus_colla = fields.Selection([
         ('0', 'Colla tradicional'),
@@ -51,21 +51,17 @@ class ResPartner(models.Model):
     at_cap_de_xicalla = fields.Char(string="Cap de xicalla")
 
     @api.multi
-    @api.depends('fundacio_data')
-    def _compute_fundacio_anys(self):
-        partners = self.filtered(lambda x: bool(x.fundacio_data))
-        for record in partners:
-            age = relativedelta(
-                fields.Date.from_string(fields.Date.today()),
-                fields.Date.from_string(record.fundacio_data)).years
-            record.fundacio_anys = age
+    def _compute_anys_colla(self):
+        date_now = fields.Date.from_string(fields.Date.today())
+        colles = self.search([('colla', '=', True)])
 
-    @api.multi
-    @api.depends('federacio_data')
-    def _compute_federacio_anys(self):
-        partners = self.filtered(lambda x: bool(x.federacio_data))
-        for record in partners:
-            age = relativedelta(
-                fields.Date.from_string(fields.Date.today()),
-                fields.Date.from_string(record.federacio_data)).years
-            record.federacio_anys = age
+        colles1 = colles.filtered(lambda x: bool(x.fundacio_data))
+        for colla in colles1:
+            age = relativedelta(date_now, fields.Date.from_string(colla.fundacio_data)).years
+            colla.fundacio_anys = age
+
+        colles2 = colles.filtered(lambda x: bool(x.federacio_data))
+        for colla in colles2:
+            age = relativedelta(date_now, fields.Date.from_string(colla.federacio_data)).years
+            colla.federacio_anys = age
+

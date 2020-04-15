@@ -28,6 +28,25 @@
             </field>
         </record>
 
+        <record id="view_event_event_colla_kanban" model="ir.ui.view">
+            <field name="name">event.event.colla.kanban</field>
+            <field name="model">event.event</field>
+            <field name="inherit_id" ref="event.view_event_kanban"/>
+            <field name="arch" type="xml">
+                <field name="country_id" position="after">
+                    <field name="zip_id"/>
+                </field>
+                <xpath expr="//div[@class='o_event_right']//div"  position="replace">
+                    <t t-if="record.zip_id">
+                        <span class="o_kanban_record_subtitle"> <field name="zip_id"/></span>
+                        <br/>
+                    </t>
+                    <i class="fa fa-clock-o"/>
+                    <b>a</b> <t t-esc="moment(record.date_end.raw_value).format('lll')"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="view_event_registration_colla_form" model="ir.ui.view">
             <field name="name">event.registration.colla.form</field>
             <field name="model">event.registration</field>

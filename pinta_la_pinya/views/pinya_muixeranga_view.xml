@@ -249,7 +249,7 @@
                         </div>
                         <group>
                             <group name="muixeranga_tronc">
-                                <field name="quisocjo"/>
+                                <field name="quisocjo" invisible="1"/>
                                 <field name="pis"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
                                 <field name="posicio_id"
@@ -384,7 +384,7 @@
                         </div>
                         <group>
                             <group name="muixeranga_pinya">
-                                <field name="quisocjo"/>
+                                <field name="quisocjo" invisible="1"/>
                                 <field name="cordo"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
                                 <field name="rengle"

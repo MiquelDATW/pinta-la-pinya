@@ -13,8 +13,10 @@ class HrEmployee(models.Model):
     membre_at = fields.Boolean(string="Membre Àrea Tècnica", default=False)
     muixeranguera = fields.Boolean(string="Muixeranguera", default=True)
     data_inscripcio = fields.Date(string="Data inscripció")
-    mesos_inscrit = fields.Char(string="Mesos inscrit", compute="_compute_mesos_inscrit")
+    anys_inscrit = fields.Integer(string="Anys inscrit", readonly=True)
     altres_noms = fields.Char(string="Altres noms", help="Altres noms pels que es coneix la persona")
+
+    edat = fields.Integer(string='Edat', readonly=True)
 
     alsada_cap = fields.Integer(string="Alçada")
     alsada_muscle = fields.Integer(string="Alçada del muscle")
@@ -70,15 +72,22 @@ class HrEmployee(models.Model):
             muixeranguer.count_1stars = (str(l1) + ' ⭐') if l1 > 0 else ''
 
     @api.multi
-    def _compute_mesos_inscrit(self):
-        date_now = fields.Date.today()
-        muixeranguers = self.filtered(lambda x: x.muixeranguera and bool(x.data_inscripcio))
+    def _compute_anys_inscrit(self):
+        date_now = fields.Date.from_string(fields.Date.today())
+        muixeranguers = self.search([('muixeranguera', '=', True), ('data_inscripcio', '!=', False)])
         for muixeranguer in muixeranguers:
-            to_date = fields.Date.from_string(date_now)
             from_dt = fields.Date.from_string(muixeranguer.data_inscripcio)
-            delta = relativedelta(to_date, from_dt)
-            mesos = delta.years * 12 + delta.months
-            muixeranguer.mesos_inscrit = str(mesos)
+            anys = relativedelta(date_now, from_dt).years
+            muixeranguer.anys_inscrit = anys
+
+    @api.multi
+    def _compute_edat(self):
+        date_now = fields.Date.from_string(fields.Date.today())
+        muixeranguers = self.search([('muixeranguera', '=', True), ('birthday', '!=', False)])
+        for muixeranguer in muixeranguers:
+            from_dt = fields.Date.from_string(muixeranguer.birthday)
+            edat = relativedelta(date_now, from_dt).years
+            muixeranguer.edat = edat
 
     @api.model
     def create(self, vals):

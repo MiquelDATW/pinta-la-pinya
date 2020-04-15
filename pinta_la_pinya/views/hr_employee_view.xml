@@ -11,13 +11,16 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
+                <field name='birthday' position="after">
+                    <field name="edat"/>
+                </field>
                 <field name="category_ids" position="after">
                     <group name="employee">
                         <group name="informacio" string="Info">
                             <field name="muixeranguera"/>
                             <field name="data_inscripcio"
                                    attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
-                            <field name="mesos_inscrit"
+                            <field name="anys_inscrit"
                                    attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
                             <field name="altres_noms"
                                    attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
@@ -142,7 +145,7 @@
             <field name="arch" type="xml">
                 <tree string="Employees" decoration-bf="message_needaction==True">
                     <field name="name"/>
-                    <field name="mesos_inscrit"/>
+                    <field name="anys_inscrit"/>
                     <field name="membre_at" string="Membre AT"/>
                     <field name="count_3stars"/>
                     <field name="count_2stars"/>

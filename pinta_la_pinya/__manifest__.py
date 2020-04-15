@@ -16,11 +16,11 @@
         "contacts",
         "event",
         "hr_skill",
-        "hr_employee_age",
         "pinya_complements",
     ],
     "data": [
         # 'security/ir.model.access.csv',
+        'data/cron.xml',
         'data/event_templates.xml',
         'data/hr_skill_templates.xml',
         'data/plantilla_0_templates.xml',
