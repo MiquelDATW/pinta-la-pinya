@@ -65,3 +65,49 @@ class ResPartner(models.Model):
             age = relativedelta(date_now, fields.Date.from_string(colla.federacio_data)).years
             colla.federacio_anys = age
 
+    @api.model
+    def create(self, vals):
+        if 'fundacio_data' in vals:
+            data = vals.get('fundacio_data', False)
+            if data:
+                date_now = fields.Date.from_string(fields.Date.today())
+                from_dt = fields.Date.from_string(data)
+                anys = relativedelta(date_now, from_dt).years
+                vals.update({'fundacio_anys': anys})
+            else:
+                vals.update({'fundacio_anys': 0})
+        if 'federacio_data' in vals:
+            data = vals.get('federacio_data', False)
+            if data:
+                date_now = fields.Date.from_string(fields.Date.today())
+                from_dt = fields.Date.from_string(data)
+                anys = relativedelta(date_now, from_dt).years
+                vals.update({'federacio_anys': anys})
+            else:
+                vals.update({'federacio_anys': 0})
+        res = super(ResPartner, self).create(vals)
+        return res
+
+    @api.multi
+    def write(self, vals):
+        if 'fundacio_data' in vals:
+            data = vals.get('fundacio_data', False)
+            if data:
+                date_now = fields.Date.from_string(fields.Date.today())
+                from_dt = fields.Date.from_string(data)
+                anys = relativedelta(date_now, from_dt).years
+                vals.update({'fundacio_anys': anys})
+            else:
+                vals.update({'fundacio_anys': 0})
+        if 'federacio_data' in vals:
+            data = vals.get('federacio_data', False)
+            if data:
+                date_now = fields.Date.from_string(fields.Date.today())
+                from_dt = fields.Date.from_string(data)
+                anys = relativedelta(date_now, from_dt).years
+                vals.update({'federacio_anys': anys})
+            else:
+                vals.update({'federacio_anys': 0})
+        res = super(ResPartner, self).write(vals)
+        return res
+

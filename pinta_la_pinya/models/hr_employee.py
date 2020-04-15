@@ -91,11 +91,47 @@ class HrEmployee(models.Model):
 
     @api.model
     def create(self, vals):
+        if 'data_inscripcio' in vals:
+            data = vals.get('data_inscripcio', False)
+            if data:
+                date_now = fields.Date.from_string(fields.Date.today())
+                from_dt = fields.Date.from_string(data)
+                anys = relativedelta(date_now, from_dt).years
+                vals.update({'anys_inscrit': anys})
+            else:
+                vals.update({'anys_inscrit': 0})
+        if 'birthday' in vals:
+            data = vals.get('birthday', False)
+            if data:
+                date_now = fields.Date.from_string(fields.Date.today())
+                from_dt = fields.Date.from_string(data)
+                anys = relativedelta(date_now, from_dt).years
+                vals.update({'edat': anys})
+            else:
+                vals.update({'edat': 0})
         res = super(HrEmployee, self).create(vals)
         return res
 
     @api.multi
     def write(self, vals):
+        if 'data_inscripcio' in vals:
+            data = vals.get('data_inscripcio', False)
+            if data:
+                date_now = fields.Date.from_string(fields.Date.today())
+                from_dt = fields.Date.from_string(data)
+                anys = relativedelta(date_now, from_dt).years
+                vals.update({'anys_inscrit': anys})
+            else:
+                vals.update({'anys_inscrit': 0})
+        if 'birthday' in vals:
+            data = vals.get('birthday', False)
+            if data:
+                date_now = fields.Date.from_string(fields.Date.today())
+                from_dt = fields.Date.from_string(data)
+                anys = relativedelta(date_now, from_dt).years
+                vals.update({'edat': anys})
+            else:
+                vals.update({'edat': 0})
         res = super(HrEmployee, self).write(vals)
         return res
 
