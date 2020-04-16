@@ -11,6 +11,14 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="object"
+                            name="pinya_muixeranga" icon="fas fa-users"
+                            string="Pinyes"/>
+                    <button class="oe_stat_button" type="object"
+                            name="tronc_muixeranga" icon="fas fa-cog"
+                            string="Troncs"/>
+                </div>
                 <field name='birthday' position="after">
                     <field name="edat"/>
                 </field>
@@ -55,6 +63,8 @@
                     </group>
                     <group name="notes" string="Altra informació">
                         <field name="membre_at"
+                               attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                        <field name="habilitats"
                                attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
                         <field name="notes" placeholder="Altra informació..."/>
                     </group>
@@ -105,35 +115,6 @@
                             </field>
                         </group>
                     </page>
-                    <page name="tronc" string="Troncs"
-                          attrs="{'invisible': [('muixeranguera', '=', False)]}">
-                       <group name="tronc">
-                            <field name="muixeranga_tronc_ids" nolabel="1">
-                                <tree string="Tronc de muixeranga">
-                                    <field name="pis"/>
-                                    <field name="posicio_id"/>
-                                    <field name="muixeranga_tronc_id"/>
-                                    <field name="actuacio_id"/>
-                                    <field name="data" widget="date"/>
-                                </tree>
-                            </field>
-                        </group>
-                    </page>
-                    <page name="pinya" string="Pinyes"
-                          attrs="{'invisible': [('muixeranguera', '=', False)]}">
-                        <group name="pinya">
-                            <field name="muixeranga_pinya_ids" nolabel="1">
-                                <tree string="Pinya de muixeranga">
-                                    <field name="cordo"/>
-                                    <field name="rengle"/>
-                                    <field name="posicio_id"/>
-                                    <field name="muixeranga_pinya_id"/>
-                                    <field name="actuacio_id"/>
-                                    <field name="data" widget="date"/>
-                                </tree>
-                            </field>
-                        </group>
-                    </page>
                 </page>
             </field>
         </record>
@@ -175,6 +156,7 @@
             <field name="arch" type="xml">
                 <search string="Employees">
                     <field name="name"/>
+                    <field name="habilitats"/>
                     <field name="anys_inscrit"/>
                     <field name="edat"/>
                     <field name="xicalla"/>

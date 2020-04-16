@@ -26,10 +26,12 @@ class HrSkill(models.Model):
         ('6', '6️⃣'),
     ], string='Prioritat', default="1", required=True)
 
+    pinya_line_ids = fields.One2many('pinya.muixeranga.pinya', 'posicio_id', string="Pinya")
+    tronc_line_ids = fields.One2many('pinya.muixeranga.tronc', 'posicio_id', string="Tronc")
     employee_level_ids = fields.One2many('hr.employee.level', 'skill_id', string="Employee Level")
     count_3stars = fields.Char(string="Membres experts", compute="_compute_millors", store=True)
     count_2stars = fields.Char(string="Membres avançats", compute="_compute_millors", store=True)
-    count_1stars = fields.Char(string="Membres mitjans", compute="_compute_millors", store=True)
+    count_1stars = fields.Char(string="Membres intermedis", compute="_compute_millors", store=True)
 
     @api.multi
     @api.depends('employee_level_ids', 'employee_level_ids.level')
@@ -43,6 +45,40 @@ class HrSkill(models.Model):
             skill.count_2stars = (str(l2) + ' ⭐⭐') if l2 > 0 else ''
             l1 = len(levels.filtered(lambda x: x.level == '1'))
             skill.count_1stars = (str(l1) + ' ⭐') if l1 > 0 else ''
+
+    def tronc_muixeranga(self):
+        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_all').id
+        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_form').id
+        name = self.name
+        domain = [('id', 'in', self.tronc_line_ids.ids)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': "Tronc de {}".format(name),
+            'target': 'current',
+            'res_model': 'pinya.muixeranga.tronc',
+            'context': {},
+            'domain': domain,
+        }
+        return action
+
+    def pinya_muixeranga(self):
+        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_tree_all').id
+        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_form').id
+        name = self.name
+        domain = [('id', 'in', self.pinya_line_ids.ids)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': "Pinya de {}".format(name),
+            'target': 'current',
+            'res_model': 'pinya.muixeranga.pinya',
+            'context': {},
+            'domain': domain,
+        }
+        return action
 
     def employee_skill(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_hr_employee_skill_tree').id
@@ -83,6 +119,10 @@ class HrEmployeeSkill(models.Model):
 
     active = fields.Boolean('Active', related='employee_id.active', default=True, store=True)
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
+
+    alsada_cap = fields.Integer(string="Alçada", related="employee_id.alsada_cap", store=True)
+    alsada_muscle = fields.Integer(string="Alçada muscle", related="employee_id.alsada_muscle", store=True)
+    alsada_bras = fields.Integer(string="Alçada braços", related="employee_id.alsada_bras", store=True)
 
     count_total = fields.Integer(string="Figures total", compute="_compute_figures", store=True)
     count_sismesos = fields.Integer(string="Figures 6 mesos", compute="_compute_figures", store=True)

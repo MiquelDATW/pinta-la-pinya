@@ -155,7 +155,11 @@
             <field name="name">pinya.muixeranga.tree.all</field>
             <field name="model">pinya.muixeranga</field>
             <field name="arch" type="xml">
-                <tree string="Muixerangues">
+                <tree string="Muixerangues"
+                      decoration-muted="state=='draft'"
+                      decoration-warning="state=='intent'"
+                      decoration-success="state=='ready'"
+                      decoration-danger="state in ['caigut', 'cancel']">
                     <field name="name"/>
                     <field name="actuacio_id"/>
                     <field name="data" widget="date"/>
@@ -174,7 +178,11 @@
             <field name="name">pinya.muixeranga.tree.selected</field>
             <field name="model">pinya.muixeranga</field>
             <field name="arch" type="xml">
-                <tree string="Muixerangues">
+                <tree string="Muixerangues"
+                      decoration-muted="state=='draft'"
+                      decoration-warning="state=='intent'"
+                      decoration-success="state=='ready'"
+                      decoration-danger="state in ['caigut', 'cancel']">
                     <field name="name"/>
                     <field name="actuacio_id"/>
                     <field name="data" widget="date"/>
@@ -285,10 +293,15 @@
             <field name="name">pinya.muixeranga.tronc.tree.all</field>
             <field name="model">pinya.muixeranga.tronc</field>
             <field name="arch" type="xml">
-                <tree string="Tronc de muixeranga">
+                <tree string="Tronc de muixeranga"
+                      decoration-muted="muixeranga_state=='draft'"
+                      decoration-warning="muixeranga_state=='intent'"
+                      decoration-success="muixeranga_state=='ready'"
+                      decoration-danger="muixeranga_state in ['caigut', 'cancel']">
                     <field name="data" widget="date"/>
                     <field name="actuacio_id"/>
                     <field name="muixeranga_tronc_id"/>
+                    <field name="muixeranga_state"/>
                     <field name="plantilla_id"/>
                     <field name="pis"/>
                     <field name="posicio_id"/>
@@ -325,6 +338,7 @@
                 <search string="Tronc de muixeranga">
                     <field name="actuacio_id"/>
                     <field name="muixeranga_tronc_id"/>
+                    <field name="muixeranga_state"/>
                     <field name="plantilla_id"/>
                     <field name="pis"/>
                     <field name="posicio_id"/>
@@ -334,6 +348,13 @@
                     <filter string="Membre no establert" name="no_establert" domain="[('membre_tronc_id', '=', False)]"/>
                     <filter string="Membre establert" name="establert" domain="[('membre_tronc_id', '!=', False)]"/>
                     <separator/>
+                    <filter string="Cancel·lat" name="cancel" domain="[('muixeranga_state', '=', 'cancel')]"/>
+                    <filter string="Esborrany" name="esborrany" domain="[('muixeranga_state', '=', 'draft')]"/>
+                    <filter string="Preparat" name="preparat" domain="[('muixeranga_state', '=', 'ready')]"/>
+                    <filter string="Descarregat" name="descarregat" domain="[('muixeranga_state', '=', 'descarregat')]"/>
+                    <filter string="Intent" name="intent" domain="[('muixeranga_state', '=', 'intent')]"/>
+                    <filter string="Caigut" name="caigut" domain="[('muixeranga_state', '=', 'caigut')]"/>
+                    <separator/>
                     <filter string="1r pis" name="1r_pis" domain="[('pis', '=', '1')]"/>
                     <filter string="2n pis" name="2n_pis" domain="[('pis', '=', '2')]"/>
                     <filter string="3r pis" name="3r_pis" domain="[('pis', '=', '3')]"/>
@@ -341,10 +362,10 @@
                     <filter string="5é pis" name="5e_pis" domain="[('pis', '=', '5')]"/>
                     <filter string="6é pis" name="6e_pis" domain="[('pis', '=', '6')]"/>
                     <separator/>
-                    <filter string="Tècnica ⭐⭐⭐" name="tecnica_3" domain="[('tecnica', '=', '3')]"/>
-                    <filter string="Tècnica ⭐⭐" name="tecnica_2" domain="[('tecnica', '=', '2')]"/>
-                    <filter string="Tècnica ⭐" name="tecnica_1" domain="[('tecnica', '=', '1')]"/>
-                    <filter string="Tècnica 🌑" name="tecnica_0" domain="[('tecnica', '=', '0')]"/>
+                    <filter string="Experte ⭐⭐⭐" name="tecnica_3" domain="[('tecnica', '=', '3')]"/>
+                    <filter string="Avançat ⭐⭐" name="tecnica_2" domain="[('tecnica', '=', '2')]"/>
+                    <filter string="Intermedi ⭐" name="tecnica_1" domain="[('tecnica', '=', '1')]"/>
+                    <filter string="Inicial" name="tecnica_0" domain="[('tecnica', '=', '0')]"/>
                     <separator/>
                     <filter string="Any anterior" name="previous_year" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-01-01')), ('data', '&lt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-12-31'))]"/>
                     <filter string="12 mesos anteriors" name="previous_12_months" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>
@@ -355,6 +376,7 @@
                     <group expand="0" string="Group By">
                         <filter name="group_actuacio" string="Actuació" domain="[]" context="{'group_by':'actuacio_id'}"/>
                         <filter name="group_muixeranga_tronc" string="Figura" domain="[]" context="{'group_by':'muixeranga_tronc_id'}"/>
+                        <filter name="group_muixeranga_state" string="Estat muixeranga" domain="[]" context="{'group_by':'muixeranga_state'}"/>
                         <filter name="group_plantilla" string="Plantilla" domain="[]" context="{'group_by':'plantilla_id'}"/>
                         <filter name="group_data" string="Data" domain="[]" context="{'group_by':'data'}"/>
                         <filter name="group_pis" string="Pis" domain="[]" context="{'group_by':'pis'}"/>
@@ -422,10 +444,15 @@
             <field name="name">pinya.muixeranga.pinya.tree.all</field>
             <field name="model">pinya.muixeranga.pinya</field>
             <field name="arch" type="xml">
-                <tree string="Pinya de muixeranga">
+                <tree string="Pinya de muixeranga"
+                      decoration-muted="muixeranga_state=='draft'"
+                      decoration-warning="muixeranga_state=='intent'"
+                      decoration-success="muixeranga_state=='ready'"
+                      decoration-danger="muixeranga_state in ['caigut', 'cancel']">
                     <field name="data" widget="date"/>
                     <field name="actuacio_id"/>
                     <field name="muixeranga_pinya_id"/>
+                    <field name="muixeranga_state"/>
                     <field name="plantilla_id"/>
                     <field name="cordo"/>
                     <field name="rengle"/>
@@ -464,6 +491,7 @@
                 <search string="Pinya de muixeranga">
                     <field name="actuacio_id"/>
                     <field name="muixeranga_pinya_id"/>
+                    <field name="muixeranga_state"/>
                     <field name="plantilla_id"/>
                     <field name="cordo"/>
                     <field name="rengle"/>
@@ -473,6 +501,13 @@
                     <separator/>
                     <filter string="Membre no establert" name="no_establert" domain="[('membre_pinya_id', '=', False)]"/>
                     <filter string="Membre establert" name="establert" domain="[('membre_pinya_id', '!=', False)]"/>
+                    <separator/>
+                    <filter string="Cancel·lat" name="cancel" domain="[('muixeranga_state', '=', 'cancel')]"/>
+                    <filter string="Esborrany" name="esborrany" domain="[('muixeranga_state', '=', 'draft')]"/>
+                    <filter string="Preparat" name="preparat" domain="[('muixeranga_state', '=', 'ready')]"/>
+                    <filter string="Descarregat" name="descarregat" domain="[('muixeranga_state', '=', 'descarregat')]"/>
+                    <filter string="Intent" name="intent" domain="[('muixeranga_state', '=', 'intent')]"/>
+                    <filter string="Caigut" name="caigut" domain="[('muixeranga_state', '=', 'caigut')]"/>
                     <separator/>
                     <filter string="0 cordó" name="0_cordo" domain="[('cordo', '=', '0')]"/>
                     <filter string="1r cordó" name="1r_cordo" domain="[('cordo', '=', '1')]"/>
@@ -489,10 +524,10 @@
                     <filter string="5é rengle" name="5e_rengle" domain="[('rengle', '=', '5')]"/>
                     <filter string="6é rengle" name="6e_rengle" domain="[('rengle', '=', '6')]"/>
                     <separator/>
-                    <filter string="Tècnica ⭐⭐⭐" name="tecnica_3" domain="[('tecnica', '=', '3')]"/>
-                    <filter string="Tècnica ⭐⭐" name="tecnica_2" domain="[('tecnica', '=', '2')]"/>
-                    <filter string="Tècnica ⭐" name="tecnica_1" domain="[('tecnica', '=', '1')]"/>
-                    <filter string="Tècnica 🌑" name="tecnica_0" domain="[('tecnica', '=', '0')]"/>
+                    <filter string="Experte ⭐⭐⭐" name="tecnica_3" domain="[('tecnica', '=', '3')]"/>
+                    <filter string="Avançat ⭐⭐" name="tecnica_2" domain="[('tecnica', '=', '2')]"/>
+                    <filter string="Intermedi ⭐" name="tecnica_1" domain="[('tecnica', '=', '1')]"/>
+                    <filter string="Inicial" name="tecnica_0" domain="[('tecnica', '=', '0')]"/>
                     <separator/>
                     <filter string="Any anterior" name="previous_year" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-01-01')), ('data', '&lt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-12-31'))]"/>
                     <filter string="12 mesos anteriors" name="previous_12_months" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>
@@ -503,6 +538,7 @@
                     <group expand="0" string="Group By">
                         <filter name="group_actuacio" string="Actuació" domain="[]" context="{'group_by':'actuacio_id'}"/>
                         <filter name="group_muixeranga_pinya" string="Figura" domain="[]" context="{'group_by':'muixeranga_pinya_id'}"/>
+                        <filter name="group_muixeranga_state" string="Estat muixeranga" domain="[]" context="{'group_by':'muixeranga_state'}"/>
                         <filter name="group_plantilla" string="Plantilla" domain="[]" context="{'group_by':'plantilla_id'}"/>
                         <filter name="group_data" string="Data" domain="[]" context="{'group_by':'data'}"/>
                         <filter name="group_cordo" string="Cordó" domain="[]" context="{'group_by':'cordo'}"/>

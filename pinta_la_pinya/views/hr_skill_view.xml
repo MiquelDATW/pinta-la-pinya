@@ -53,6 +53,14 @@
 
                 <div name="button_box" position="inside">
                     <button class="oe_stat_button" type="object"
+                            attrs="{'invisible': [('tipus', '=', 'tronc')]}"
+                            name="pinya_muixeranga" icon="fas fa-users"
+                            string="Pinyes"/>
+                    <button class="oe_stat_button" type="object"
+                            attrs="{'invisible': [('tipus', '=', 'pinya')]}"
+                            name="tronc_muixeranga" icon="fas fa-cog"
+                            string="Troncs"/>
+                    <button class="oe_stat_button" type="object"
                             name="employee_skill" icon="fas fa-star"
                             string="Posicions nivell"/>
                     <button class="oe_stat_button" type="object"
@@ -96,6 +104,9 @@
                     <field name="name" invisible="1"/>
                     <field name="employee_id"/>
                     <field name="level" widget="priority" readonly="1"/>
+                    <field name="alsada_cap"/>
+                    <field name="alsada_muscle"/>
+                    <field name="alsada_bras"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
                 </tree>
@@ -134,6 +145,9 @@
                 <search string="Posicions nivell">
                     <field name="employee_id"/>
                     <field name="level"/>
+                    <field name="alsada_cap"/>
+                    <field name="alsada_muscle"/>
+                    <field name="alsada_bras"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
                     <separator/>
@@ -201,6 +215,9 @@
                 <search string="Membres nivell">
                     <field name="employee_id"/>
                     <field name="level"/>
+                    <field name="alsada_cap"/>
+                    <field name="alsada_muscle"/>
+                    <field name="alsada_bras"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
                     <separator/>

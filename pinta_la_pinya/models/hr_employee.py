@@ -17,6 +17,7 @@ class HrEmployee(models.Model):
     anys_inscrit = fields.Integer(string="Anys inscrit", readonly=True)
     nom_croquis = fields.Char(string="Nom del croquis", help="Nom que apareix en els croquis")
     nom_altres = fields.Char(string="Altres noms", help="Altres noms pels que es coneix la persona")
+    habilitats = fields.Char(string="Habilitats", help="Habilitats de la muixeranguera", compute='_compute_habilitats', store=True)
 
     edat = fields.Integer(string='Edat', readonly=True)
 
@@ -83,6 +84,14 @@ class HrEmployee(models.Model):
             muixeranguer.imc = imc
 
     @api.multi
+    @api.depends('employee_skill_ids', 'employee_skill_ids.skill_id')
+    def _compute_habilitats(self):
+        muixeranguers = self.filtered(lambda x: bool(x.employee_skill_ids))
+        for muixeranguer in muixeranguers:
+            skills = muixeranguer.employee_skill_ids.mapped('skill_id').sorted('name').mapped('name')
+            muixeranguer.habilitats = ", ".join(skills)
+
+    @api.multi
     def _compute_anys_inscrit(self):
         date_now = fields.Date.from_string(fields.Date.today())
         muixeranguers = self.search([('muixeranguera', '=', True), ('data_inscripcio', '!=', False)])
@@ -100,6 +109,40 @@ class HrEmployee(models.Model):
             edat = relativedelta(date_now, from_dt).years
             muixeranguer.xicalla = edat < 16
             muixeranguer.edat = edat
+
+    def tronc_muixeranga(self):
+        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_all').id
+        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_form').id
+        name = self.name
+        domain = [('id', 'in', self.muixeranga_tronc_ids.ids)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': "Tronc de {}".format(name),
+            'target': 'current',
+            'res_model': 'pinya.muixeranga.tronc',
+            'context': {},
+            'domain': domain,
+        }
+        return action
+
+    def pinya_muixeranga(self):
+        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_tree_all').id
+        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_form').id
+        name = self.name
+        domain = [('id', 'in', self.muixeranga_pinya_ids.ids)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': "Pinya de {}".format(name),
+            'target': 'current',
+            'res_model': 'pinya.muixeranga.pinya',
+            'context': {},
+            'domain': domain,
+        }
+        return action
 
     @api.model
     def create(self, vals):

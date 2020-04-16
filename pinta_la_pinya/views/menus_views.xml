@@ -183,7 +183,7 @@
 
         <menuitem
             id="menu_pinta_la_configuracio"
-            name="Configuració"
+            name="Posicions"
             parent="menu_pinya_root"
             sequence="100"/>
 

@@ -118,7 +118,10 @@
             <field name="name">pinya.actuacio.tree</field>
             <field name="model">pinya.actuacio</field>
             <field name="arch" type="xml">
-                <tree string="Actuacions">
+                <tree string="Actuacions"
+                      decoration-muted="state=='draft'"
+                      decoration-success="state=='ready'"
+                      decoration-danger="state=='cancel'">
                     <field name="name"/>
                     <field name="data_inici"/>
                     <field name="data_final"/>
