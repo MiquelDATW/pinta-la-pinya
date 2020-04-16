@@ -18,11 +18,15 @@
                     <group name="employee">
                         <group name="informacio" string="Info">
                             <field name="muixeranguera"/>
+                            <field name="xicalla"
+                                   attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
                             <field name="data_inscripcio"
                                    attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
                             <field name="anys_inscrit"
                                    attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
-                            <field name="altres_noms"
+                            <field name="nom_croquis"
+                                   attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                            <field name="nom_altres"
                                    attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
                         </group>
                         <group name="mesures" string="Mesures"
@@ -42,6 +46,10 @@
                             <label for="pes" string="Pes"/>
                             <div>
                                 <field name="pes" nolabel="1" class="oe_inline"/> kg
+                            </div>
+                            <label for="imc" string="IMC"/>
+                            <div>
+                                <field name="imc" nolabel="1" class="oe_inline"/> kg/m²
                             </div>
                         </group>
                     </group>
@@ -169,6 +177,7 @@
                     <field name="name"/>
                     <field name="anys_inscrit"/>
                     <field name="edat"/>
+                    <field name="xicalla"/>
                     <field name="membre_at"/>
                     <field name="count_3stars"/>
                     <field name="count_2stars"/>
@@ -178,6 +187,11 @@
                     <field name="alsada_cap"/>
                     <field name="alsada_muscle"/>
                     <field name="alsada_bras"/>
+                    <field name="pes"/>
+                    <field name="imc"/>
+                    <separator/>
+                    <filter string="Xicalla" name="xicalla" domain="[('xicalla', '=', True)]"/>
+                    <filter string="Adulta" name="adulta" domain="[('xicalla', '=', False)]"/>
                     <separator/>
                     <filter string="Membre AT" name="membre_at" domain="[('membre_at', '=', True)]"/>
                     <separator/>

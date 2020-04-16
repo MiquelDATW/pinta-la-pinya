@@ -137,10 +137,10 @@
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
                     <separator/>
-                    <filter string="Nivell ⭐⭐⭐" name="level_3" domain="[('level', '=', '3')]"/>
-                    <filter string="Nivell ⭐⭐" name="level_2" domain="[('level', '=', '2')]"/>
-                    <filter string="Nivell ⭐" name="level_1" domain="[('level', '=', '1')]"/>
-                    <filter string="Nivell 🌑" name="level_0" domain="[('level', '=', '0')]"/>
+                    <filter string="Experte ⭐⭐⭐" name="level_3" domain="[('level', '=', '3')]"/>
+                    <filter string="Avançat ⭐⭐" name="level_2" domain="[('level', '=', '2')]"/>
+                    <filter string="Intermedi ⭐" name="level_1" domain="[('level', '=', '1')]"/>
+                    <filter string="Inicial" name="level_0" domain="[('level', '=', '0')]"/>
                     <separator/>
                     <group expand="0" string="Group By">
                         <filter name="group_level" string="Nivell" domain="[]" context="{'group_by':'level'}"/>
@@ -159,6 +159,9 @@
                     <field name="name" invisible="1"/>
                     <field name="employee_id"/>
                     <field name="level" widget="priority" readonly="1"/>
+                    <field name="alsada_cap"/>
+                    <field name="alsada_muscle"/>
+                    <field name="alsada_bras"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
                     <field name="employee_skill_id"/>
@@ -201,10 +204,10 @@
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
                     <separator/>
-                    <filter string="Nivell ⭐⭐⭐" name="level_3" domain="[('level', '=', '3')]"/>
-                    <filter string="Nivell ⭐⭐" name="level_2" domain="[('level', '=', '2')]"/>
-                    <filter string="Nivell ⭐" name="level_1" domain="[('level', '=', '1')]"/>
-                    <filter string="Nivell 🌑" name="level_0" domain="[('level', '=', '0')]"/>
+                    <filter string="Experte ⭐⭐⭐" name="level_3" domain="[('level', '=', '3')]"/>
+                    <filter string="Avançat ⭐⭐" name="level_2" domain="[('level', '=', '2')]"/>
+                    <filter string="Intermedi ⭐" name="level_1" domain="[('level', '=', '1')]"/>
+                    <filter string="Inicial" name="level_0" domain="[('level', '=', '0')]"/>
                     <separator/>
                     <group expand="0" string="Group By">
                         <filter name="group_level" string="Nivell" domain="[]" context="{'group_by':'level'}"/>

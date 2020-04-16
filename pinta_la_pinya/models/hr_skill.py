@@ -21,6 +21,9 @@ class HrSkill(models.Model):
         ('1', '1️⃣'),
         ('2', '2️⃣'),
         ('3', '3️⃣'),
+        ('4', '4️⃣'),
+        ('5', '5️⃣'),
+        ('6', '6️⃣'),
     ], string='Prioritat', default="1", required=True)
 
     employee_level_ids = fields.One2many('hr.employee.level', 'skill_id', string="Employee Level")
@@ -133,7 +136,8 @@ class HrEmployeeSkill(models.Model):
             name = self.skill_id.name
             vals['name'] = name + star
 
-            emp_level = self.env['hr.employee.level'].search([('employee_id', '=', self.employee_id.id), ('skill_id', '=', self.skill_id.id)])
+            emp_level_obj = self.env['hr.employee.level']
+            emp_level = emp_level_obj.search([('employee_id', '=', self.employee_id.id), ('skill_id', '=', self.skill_id.id)])
             data_level = {
                 'name': self.employee_id.name + star,
             }
@@ -153,6 +157,9 @@ class HrEmployeeLevel(models.Model):
     employee_id = fields.Many2one('hr.employee', string="Membre", related="employee_skill_id.employee_id", store=True)
     skill_id = fields.Many2one('hr.skill', string="Habilitat", related="employee_skill_id.skill_id", store=True)
     level = fields.Selection(string='Nivell', related="employee_skill_id.level", store=True)
+    alsada_cap = fields.Integer(string="Alçada", related="employee_skill_id.employee_id.alsada_cap", store=True)
+    alsada_muscle = fields.Integer(string="Alçada muscle", related="employee_skill_id.employee_id.alsada_muscle", store=True)
+    alsada_bras = fields.Integer(string="Alçada braços", related="employee_skill_id.employee_id.alsada_bras", store=True)
 
     count_total = fields.Integer(string="Figures total", related="employee_skill_id.count_total", store=True)
     count_sismesos = fields.Integer(string="Figures 6 mesos", related="employee_skill_id.count_sismesos", store=True)

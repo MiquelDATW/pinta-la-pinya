@@ -12,16 +12,19 @@ class HrEmployee(models.Model):
 
     membre_at = fields.Boolean(string="Membre Àrea Tècnica", default=False)
     muixeranguera = fields.Boolean(string="Muixeranguera", default=True)
+    xicalla = fields.Boolean(string="Xicalla", default=False, readonly=True)
     data_inscripcio = fields.Date(string="Data inscripció")
     anys_inscrit = fields.Integer(string="Anys inscrit", readonly=True)
-    altres_noms = fields.Char(string="Altres noms", help="Altres noms pels que es coneix la persona")
+    nom_croquis = fields.Char(string="Nom del croquis", help="Nom que apareix en els croquis")
+    nom_altres = fields.Char(string="Altres noms", help="Altres noms pels que es coneix la persona")
 
     edat = fields.Integer(string='Edat', readonly=True)
 
     alsada_cap = fields.Integer(string="Alçada")
-    alsada_muscle = fields.Integer(string="Alçada del muscle")
-    alsada_bras = fields.Integer(string="Alçada de les mans")
+    alsada_muscle = fields.Integer(string="Alçada muscle")
+    alsada_bras = fields.Integer(string="Alçada braços")
     pes = fields.Float(string="Pes", digits=(4, 1))
+    imc = fields.Float(string="IMC", digits=(4, 1), compute='_compute_imc', store=True)
 
     muixeranga_tronc_ids = fields.One2many("pinya.muixeranga.tronc", "membre_tronc_id", string="Muixeranga")
     muixeranga_pinya_ids = fields.One2many("pinya.muixeranga.pinya", "membre_pinya_id", string="Muixeranga")
@@ -72,6 +75,14 @@ class HrEmployee(models.Model):
             muixeranguer.count_1stars = (str(l1) + ' ⭐') if l1 > 0 else ''
 
     @api.multi
+    @api.depends('pes', 'alsada_cap')
+    def _compute_imc(self):
+        muixeranguers = self.filtered(lambda x: bool(x.pes) and bool(x.alsada_cap))
+        for muixeranguer in muixeranguers:
+            imc = muixeranguer.pes/((muixeranguer.alsada_cap/100)**2)
+            muixeranguer.imc = imc
+
+    @api.multi
     def _compute_anys_inscrit(self):
         date_now = fields.Date.from_string(fields.Date.today())
         muixeranguers = self.search([('muixeranguera', '=', True), ('data_inscripcio', '!=', False)])
@@ -87,6 +98,7 @@ class HrEmployee(models.Model):
         for muixeranguer in muixeranguers:
             from_dt = fields.Date.from_string(muixeranguer.birthday)
             edat = relativedelta(date_now, from_dt).years
+            muixeranguer.xicalla = edat < 16
             muixeranguer.edat = edat
 
     @api.model
@@ -106,7 +118,7 @@ class HrEmployee(models.Model):
                 date_now = fields.Date.from_string(fields.Date.today())
                 from_dt = fields.Date.from_string(data)
                 anys = relativedelta(date_now, from_dt).years
-                vals.update({'edat': anys})
+                vals.update({'edat': anys, 'xicalla': anys < 16})
             else:
                 vals.update({'edat': 0})
         res = super(HrEmployee, self).create(vals)
@@ -129,7 +141,7 @@ class HrEmployee(models.Model):
                 date_now = fields.Date.from_string(fields.Date.today())
                 from_dt = fields.Date.from_string(data)
                 anys = relativedelta(date_now, from_dt).years
-                vals.update({'edat': anys})
+                vals.update({'edat': anys, 'xicalla': anys < 16})
             else:
                 vals.update({'edat': 0})
         res = super(HrEmployee, self).write(vals)
