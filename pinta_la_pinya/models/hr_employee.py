@@ -10,7 +10,8 @@ from dateutil.relativedelta import relativedelta
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    membre_at = fields.Boolean(string="Membre Àrea Tècnica", default=False)
+    membre_at = fields.Boolean(string="Membre AT", compute='_compute_at_jd', store=True, help="Membre Àrea Tècnica")
+    membre_jd = fields.Boolean(string="Membre JD", compute='_compute_at_jd', store=True, help="Membre Junta Directiva")
     muixeranguera = fields.Boolean(string="Muixeranguera", default=True)
     xicalla = fields.Boolean(string="Xicalla", default=False, readonly=True)
     data_inscripcio = fields.Date(string="Data inscripció")
@@ -35,8 +36,31 @@ class HrEmployee(models.Model):
     count_3stars = fields.Char(string="Habilitats expertes", compute="_compute_millors", store=True)
     count_2stars = fields.Char(string="Habilitats avançats", compute="_compute_millors", store=True)
     count_1stars = fields.Char(string="Habilitats mitjanes", compute="_compute_millors", store=True)
+    count_pinya = fields.Integer(string="Pinyes total", compute="_compute_count_pinya", store=True)
+    count_tronc = fields.Integer(string="Troncs total", compute="_compute_count_tronc", store=True)
     count_total = fields.Integer(string="Figures total", compute="_compute_count_total", store=True)
     count_sismesos = fields.Integer(string="Figures 6 mesos", compute="_compute_count_sismesos", store=True)
+
+    count_teams = fields.Integer(string="Equips total", compute="_compute_count_teams", store=True)
+    teams = fields.Char(string="Teams", compute='_compute_teams', store=True)
+
+    @api.depends('team_ids')
+    def _compute_teams(self):
+        teams = self.filtered(lambda x: bool(x.team_ids))
+        for team in teams:
+            names = team.team_ids.sorted('name').mapped('name')
+            team.teams = ", ".join(names)
+
+    @api.multi
+    @api.depends('team_ids', 'team_ids.at_actual', 'team_ids.jd_actual')
+    def _compute_at_jd(self):
+        muixeranguers = self.filtered(lambda x: bool(x.team_ids))
+        for muixeranguer in muixeranguers:
+            teams = muixeranguer.team_ids
+            at = teams.filtered(lambda x: x.at_actual)
+            jd = teams.filtered(lambda x: x.jd_actual)
+            muixeranguer.membre_at = bool(at)
+            muixeranguer.membre_jd = bool(jd)
 
     @api.multi
     @api.depends('employee_skill_ids', 'employee_skill_ids.skill_id')
@@ -45,6 +69,30 @@ class HrEmployee(models.Model):
         for muixeranguer in muixeranguers:
             posicions = muixeranguer.employee_skill_ids.mapped('skill_id')
             muixeranguer.posicio_ids = [(6, 0, posicions.ids)]
+
+    @api.multi
+    @api.depends('muixeranga_pinya_ids')
+    def _compute_count_pinya(self):
+        muixeranguers = self.filtered(lambda x: bool(x.muixeranga_pinya_ids))
+        for muixeranguer in muixeranguers:
+            pinyes = muixeranguer.muixeranga_pinya_ids
+            muixeranguer.count_pinya = len(pinyes.ids)
+
+    @api.multi
+    @api.depends('muixeranga_tronc_ids')
+    def _compute_count_tronc(self):
+        muixeranguers = self.filtered(lambda x: bool(x.muixeranga_tronc_ids))
+        for muixeranguer in muixeranguers:
+            troncs = muixeranguer.muixeranga_tronc_ids
+            muixeranguer.count_tronc = len(troncs.ids)
+
+    @api.multi
+    @api.depends('team_ids')
+    def _compute_count_teams(self):
+        muixeranguers = self.filtered(lambda x: bool(x.team_ids))
+        for muixeranguer in muixeranguers:
+            teams = muixeranguer.team_ids
+            muixeranguer.count_teams = len(teams.ids)
 
     @api.multi
     @api.depends('employee_skill_ids', 'employee_skill_ids.count_total')
@@ -139,6 +187,23 @@ class HrEmployee(models.Model):
             'name': "Pinya de {}".format(name),
             'target': 'current',
             'res_model': 'pinya.muixeranga.pinya',
+            'context': {},
+            'domain': domain,
+        }
+        return action
+
+    def pinya_teams(self):
+        view_tree_id = self.env.ref('hr_team.view_hr_team_tree').id
+        view_form_id = self.env.ref('hr_team.view_hr_team_form').id
+        name = self.name
+        domain = [('id', 'in', self.team_ids.ids)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': "Equips de {}".format(name),
+            'target': 'current',
+            'res_model': 'hr.team',
             'context': {},
             'domain': domain,
         }

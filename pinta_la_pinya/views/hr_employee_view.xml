@@ -13,11 +13,21 @@
             <field name="arch" type="xml">
                 <div name="button_box" position="inside">
                     <button class="oe_stat_button" type="object"
+                            name="pinya_teams" icon="fas fa-sitemap"
+                            attrs="{'invisible': [('count_teams', '=', 0)]}">
+                        <field string="Equips" name="count_teams" widget="statinfo"/>
+                    </button>
+                    <br/>
+                    <button class="oe_stat_button" type="object"
                             name="pinya_muixeranga" icon="fas fa-users"
-                            string="Pinyes"/>
+                            attrs="{'invisible': [('count_pinya', '=', 0)]}">
+                        <field string="Pinyes" name="count_pinya" widget="statinfo"/>
+                    </button>
                     <button class="oe_stat_button" type="object"
                             name="tronc_muixeranga" icon="fas fa-cog"
-                            string="Troncs"/>
+                            attrs="{'invisible': [('count_tronc', '=', 0)]}">
+                        <field string="Troncs" name="count_tronc" widget="statinfo"/>
+                    </button>
                 </div>
                 <field name='birthday' position="after">
                     <field name="edat"/>
@@ -63,6 +73,8 @@
                     </group>
                     <group name="notes" string="Altra informació">
                         <field name="membre_at"
+                               attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                        <field name="membre_jd"
                                attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
                         <field name="habilitats"
                                attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
@@ -135,7 +147,8 @@
                 <tree string="Employees" decoration-bf="message_needaction==True">
                     <field name="name"/>
                     <field name="anys_inscrit"/>
-                    <field name="membre_at" string="Membre AT"/>
+                    <field name="membre_at" string="AT"/>
+                    <field name="membre_jd" string="JD"/>
                     <field name="count_3stars"/>
                     <field name="count_2stars"/>
                     <field name="count_1stars"/>
@@ -161,6 +174,7 @@
                     <field name="edat"/>
                     <field name="xicalla"/>
                     <field name="membre_at"/>
+                    <field name="membre_jd"/>
                     <field name="count_3stars"/>
                     <field name="count_2stars"/>
                     <field name="count_1stars"/>
@@ -175,6 +189,7 @@
                     <filter string="Xicalla" name="xicalla" domain="[('xicalla', '=', True)]"/>
                     <filter string="Adulta" name="adulta" domain="[('xicalla', '=', False)]"/>
                     <separator/>
+                    <filter string="Membre JD" name="membre_jd" domain="[('membre_jd', '=', True)]"/>
                     <filter string="Membre AT" name="membre_at" domain="[('membre_at', '=', True)]"/>
                     <separator/>
                     <filter string="Habilitats expertes" name="count_3stars" domain="[('count_3stars', '!=', '')]"/>

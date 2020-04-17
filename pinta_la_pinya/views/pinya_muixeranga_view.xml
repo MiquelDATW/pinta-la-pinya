@@ -47,12 +47,14 @@
                             </button>
                             <button class="oe_stat_button" type="object"
                                     name="tronc_muixeranga" icon="fas fa-cog"
-                                    attrs="{'invisible': [('membre_count', '=', 0)]}"
-                                    string="Tronc"/>
+                                    attrs="{'invisible': [('membre_count', '=', 0)]}">
+                                <field name="tronc_count2" widget="statinfo"/>
+                            </button>
                             <button class="oe_stat_button" type="object"
                                     name="pinya_muixeranga" icon="fas fa-users"
-                                    attrs="{'invisible': ['|', ('membre_count', '=', 0), ('neta', '=', True)]}"
-                                    string="Pinya"/>
+                                    attrs="{'invisible': ['|', ('membre_count', '=', 0), ('neta', '=', True)]}">
+                                <field name="pinya_count2" widget="statinfo"/>
+                            </button>
                         </div>
                         <field name="image" widget='image' class="oe_avatar"/>
                         <div class="oe_title">

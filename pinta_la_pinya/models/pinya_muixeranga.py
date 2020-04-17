@@ -34,6 +34,8 @@ class PinyaMuixeranga(models.Model):
     total_count = fields.Integer(compute='_compute_total_count', string='Total persones', store=True)
     pinya_count = fields.Integer(compute='_compute_total_count', string='Persones pinya', store=True)
     tronc_count = fields.Integer(compute='_compute_total_count', string='Persones tronc', store=True)
+    pinya_count2 = fields.Integer(compute='_compute_total_count', string='Pinya', store=True)
+    tronc_count2 = fields.Integer(compute='_compute_total_count', string='Tronc', store=True)
 
     actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio", store=True)
     membre_count = fields.Integer(string='Total Membres', related='actuacio_id.membres_count', store=True)
@@ -82,6 +84,8 @@ class PinyaMuixeranga(models.Model):
             muix.tronc_count = t
             muix.pinya_count = p
             muix.total_count = t + p
+            muix.tronc_count2 = t
+            muix.pinya_count2 = p
 
     def action_descarregat(self):
         self.state = 'descarregat'

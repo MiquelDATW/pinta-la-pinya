@@ -23,7 +23,9 @@
                             </button>
                             <button class="oe_stat_button" type="object"
                                     name="mostrar_muixerangues" icon="fas fa-list-ol"
-                                    string="Muixerangues"/>
+                                    attrs="{'invisible': [('total_muix2', '=', 0)]}">
+                                <field string="Muixerangues" name="total_muix2" widget="statinfo"/>
+                            </button>
                         </div>
                         <field name="image" widget='image' class="oe_avatar"/>
                         <div class="oe_title">

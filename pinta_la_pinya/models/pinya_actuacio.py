@@ -41,6 +41,7 @@ class PinyaActuacio(models.Model):
     membre_actuacio_ids = fields.One2many('hr.employee.actuacio', 'actuacio_id', string="Membres")
     muixeranga_ids = fields.One2many('pinya.muixeranga', 'actuacio_id', string="Muixerangues")
     membres_count = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
+    membres_count2 = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
     actives_count = fields.Integer(compute='_compute_membres_count', string='Total actives', store=True)
     muixerangues_count = fields.Integer(compute='_compute_muixerangues_count', string='Total muixerangues', store=True)
 
@@ -52,6 +53,7 @@ class PinyaActuacio(models.Model):
             actives = membres.filtered(lambda x: bool(x.count_actuacio_total))
             actuacio.actives_count = len(actives)
             actuacio.membres_count = len(membres)
+            actuacio.membres_count2 = len(membres)
 
     @api.multi
     @api.depends('muixeranga_ids')

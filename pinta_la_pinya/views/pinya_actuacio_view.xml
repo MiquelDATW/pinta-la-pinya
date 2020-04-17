@@ -13,10 +13,10 @@
                 <form string="Actuació">
                     <header>
                         <button string="Preparar" name="action_ready"
-                                attrs="{'invisible': ['|', '|', ('membre_actuacio_ids', '=', []), ('muixeranga_ids', '=', []), ('state', '!=', 'draft')]}"
+                                attrs="{'invisible': ['|', '|', ('membres_count', '=', 0), ('muixerangues_count', '=', 0), ('state', '!=', 'draft')]}"
                                 type="object" class="btn-success"/>
                         <button string="Fer" name="action_done"
-                                attrs="{'invisible': ['|', ('membre_actuacio_ids', '=', []), ('state', '!=', 'ready')]}"
+                                attrs="{'invisible': ['|', ('membres_count', '=', 0), ('state', '!=', 'ready')]}"
                                 type="object" class="btn-success"/>
                         <button string="Cancel·lar" name="action_cancel"
                                 attrs="{'invisible': [('state', 'not in', ['draft', 'ready'])]}"
@@ -30,11 +30,11 @@
                                 type="object" class="oe_highlight"/>
                         <button class="oe_highlight" type="object"
                                 name="calcular_muixerangues"
-                                attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('muixeranga_ids', '=', []), ('membre_actuacio_ids', '=', [])]}"
+                                attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('muixerangues_count', '=', 0), ('membres_count', '=', 0)]}"
                                 string="Calcular muixerangues"/>
                         <button class="oe_highlight" type="object"
                                 name="reset_muixerangues"
-                                attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('muixeranga_ids', '=', []), ('membre_actuacio_ids', '=', [])]}"
+                                attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('muixerangues_count', '=', 0), ('membres_count', '=', 0)]}"
                                 string="Reset muixerangues"/>
                         <field name="state" widget="statusbar" statusbar_visible="done"/>
                     </header>
@@ -53,13 +53,13 @@
                             <br/>
                             <button class="oe_stat_button" type="object"
                                     name="mostrar_muixerangues" icon="fas fa-list-ol"
-                                    attrs="{'invisible': [('muixeranga_ids', '=', [])]}"
-                                    string="Muixerangues"/>
+                                    attrs="{'invisible': [('muixerangues_count', '=', 0)]}">
+                                <field string="Muixerangues" name="muixerangues_count" widget="statinfo"/>
+                            </button>
                             <button class="oe_stat_button" type="object"
                                     name="mostrar_membres" icon="fas fa-users"
-                                    attrs="{'invisible': [('membre_actuacio_ids', '=', [])]}"
-                                    string="Membres">
-                                    <field name="membre_actuacio_ids" invisible="1"/>
+                                    attrs="{'invisible': [('membres_count', '=', 0)]}">
+                                <field string="Membres" name="membres_count2" widget="statinfo"/>
                             </button>
                         </div>
                         <div class="oe_title">
@@ -96,10 +96,10 @@
                                        domain="[('id', 'in', membre_actuacio_ids), ('membre_at', '=', True)]"/>
                                 <field name="membres_count"/>
                                 <field name="actives_count"/>
+                                <field name="membre_actuacio_ids" invisible="1"/>
                             </group>
                         </group>
                         <group name="muixerangues" string="Muixerangues">
-                            <field name="muixerangues_count"/>
                             <field name="muixeranga_ids" readonly="1" widget="many2many_tags"/>
                         </group>
                         <group name="notes" string="Altra informació">

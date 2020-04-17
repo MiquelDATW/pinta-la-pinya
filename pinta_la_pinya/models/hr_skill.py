@@ -32,6 +32,38 @@ class HrSkill(models.Model):
     count_3stars = fields.Char(string="Membres experts", compute="_compute_millors", store=True)
     count_2stars = fields.Char(string="Membres avançats", compute="_compute_millors", store=True)
     count_1stars = fields.Char(string="Membres intermedis", compute="_compute_millors", store=True)
+    pinya_count = fields.Integer(compute='_compute_pinya_count', string='Pinyes', store=True)
+    tronc_count = fields.Integer(compute='_compute_tronc_count', string='Troncs', store=True)
+    employee_skill_count = fields.Integer(compute='_compute_employee_skill', string='Posicions nivell', store=True)
+    employee_level_count = fields.Integer(compute='_compute_employee_level', string='Membres nivell', store=True)
+
+    @api.multi
+    @api.depends('employee_level_ids')
+    def _compute_employee_level(self):
+        for actuacio in self:
+            skills = actuacio.employee_level_ids
+            actuacio.employee_level_count = len(skills)
+
+    @api.multi
+    @api.depends('employee_skill_ids')
+    def _compute_employee_skill(self):
+        for actuacio in self:
+            skills = actuacio.employee_skill_ids
+            actuacio.employee_skill_count = len(skills)
+
+    @api.multi
+    @api.depends('pinya_line_ids')
+    def _compute_pinya_count(self):
+        for actuacio in self:
+            pinyes = actuacio.pinya_line_ids
+            actuacio.pinya_count = len(pinyes)
+
+    @api.multi
+    @api.depends('tronc_line_ids')
+    def _compute_tronc_count(self):
+        for actuacio in self:
+            troncs = actuacio.tronc_line_ids
+            actuacio.tronc_count = len(troncs)
 
     @api.multi
     @api.depends('employee_level_ids', 'employee_level_ids.level')

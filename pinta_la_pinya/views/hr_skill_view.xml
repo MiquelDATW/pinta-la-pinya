@@ -54,19 +54,23 @@
                 <div name="button_box" position="inside">
                     <button class="oe_stat_button" type="object"
                             attrs="{'invisible': [('tipus', '=', 'tronc')]}"
-                            name="pinya_muixeranga" icon="fas fa-users"
-                            string="Pinyes"/>
+                            name="pinya_muixeranga" icon="fas fa-users">
+                        <field name="pinya_count" widget="statinfo"/>
+                    </button>
                     <button class="oe_stat_button" type="object"
                             attrs="{'invisible': [('tipus', '=', 'pinya')]}"
-                            name="tronc_muixeranga" icon="fas fa-cog"
-                            string="Troncs"/>
+                            name="tronc_muixeranga" icon="fas fa-cog">
+                        <field name="tronc_count" widget="statinfo"/>
+                    </button>
                     <button class="oe_stat_button" type="object"
-                            name="employee_skill" icon="fas fa-star"
-                            string="Posicions nivell"/>
+                            name="employee_skill" icon="fas fa-star">
+                        <field name="employee_skill_count" widget="statinfo"/>
+                    </button>
                     <button class="oe_stat_button" type="object"
                             groups="base.group_no_one"
-                            name="employee_level" icon="fas fa-user"
-                            string="Membres nivell"/>
+                            name="employee_level" icon="fas fa-user">
+                        <field name="employee_level_count" widget="statinfo"/>
+                    </button>
                 </div>
                 <button name="toggle_active" position="attributes">
                     <attribute name="invisible">1</attribute>

@@ -38,6 +38,7 @@ class PinyaPlantilla(models.Model):
 
     muixeranga_ids = fields.One2many('pinya.muixeranga', 'plantilla_id', string="Muixerangues")
     total_muix = fields.Integer(compute='_compute_muixeranga_count', string='Total muix.', store=True)
+    total_muix2 = fields.Integer(compute='_compute_muixeranga_count', string='Muixerangues', store=True)
     esborrany_muix = fields.Integer(compute='_compute_muixeranga_count', string='Muix. esborrany', store=True)
     descarrega_muix = fields.Integer(compute='_compute_muixeranga_count', string='Muix. descarregades', store=True)
     intent_muix = fields.Integer(compute='_compute_muixeranga_count', string='Muix. intents', store=True)
@@ -66,6 +67,7 @@ class PinyaPlantilla(models.Model):
             intent = plantilla.muixeranga_ids.filtered(lambda x: x.state == 'intent')
             fail = plantilla.muixeranga_ids.filtered(lambda x: x.state == 'caigut')
             plantilla.total_muix = len(plantilla.muixeranga_ids)
+            plantilla.total_muix2 = len(plantilla.muixeranga_ids)
             plantilla.esborrany_muix = len(draft)
             plantilla.descarrega_muix = len(desca)
             plantilla.intent_muix = len(intent)
