@@ -9,7 +9,7 @@
             <field name="name">hr.team.form</field>
             <field name="model">hr.team</field>
             <field name="arch" type="xml">
-                <form string="Plantilles">
+                <form string="Team">
                     <header/>
                     <sheet>
                         <div class="oe_button_box" name="button_box">

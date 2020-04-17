@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="view_hr_team_form" model="ir.ui.view">
+            <field name="name">hr.team.form</field>
+            <field name="model">hr.team</field>
+            <field name="inherit_id" ref="hr_team.view_hr_team_form"/>
+            <field name="arch" type="xml">
+                <field name='date_to' position="after">
+                    <field name="at_actual"/>
+                    <field name="jd_actual"/>
+                </field>
+                <field name='member_ids' position="replace">
+                    <field name="member_ids" nolabel="1"
+                           domain="[('muixeranguera', '=', True)]">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="birthday"/>
+                            <field name="edat"/>
+                            <field name="data_inscripcio"/>
+                            <field name="anys_inscrit"/>
+                            <field name="membre_at"/>
+                            <field name="membre_jd"/>
+                            <field name="teams"/>
+                        </tree>
+                    </field>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_hr_team_tree" model="ir.ui.view">
+            <field name="name">hr.team.tree</field>
+            <field name="model">hr.team</field>
+            <field name="inherit_id" ref="hr_team.view_hr_team_tree"/>
+            <field name="arch" type="xml">
+                <field name='date_to' position="after">
+                    <field name="at_actual"/>
+                    <field name="jd_actual"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_hr_team_search" model="ir.ui.view">
+            <field name="name">hr.team.search</field>
+            <field name="model">hr.team</field>
+            <field name="inherit_id" ref="hr_team.view_hr_team_search"/>
+            <field name="arch" type="xml">
+                <field name='department_ids' position="after">
+                    <field name="at_actual"/>
+                    <field name="jd_actual"/>
+                </field>
+            </field>
+        </record>
+    </data>
+
+</odoo>
