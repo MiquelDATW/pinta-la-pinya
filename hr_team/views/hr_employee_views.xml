@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="view_employee_hr_team_form" model="ir.ui.view">
+            <field name="name">hr.employee.hr.team.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='public']//group" position="inside">
+                    <group name="team" string="Teams">
+                        <field name="team_ids" nolabel="0"
+                               widget="many2many_tags"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_employee_hr_team_tree" model="ir.ui.view">
+            <field name="name">hr.employee.hr.team.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='coach_id']" position="after">
+                    <field name="team_ids" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>

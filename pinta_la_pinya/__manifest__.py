@@ -16,6 +16,7 @@
         "contacts",
         "event",
         "hr_skill",
+        "hr_team",
         "pinya_complements",
     ],
     "data": [
