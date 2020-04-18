@@ -13,13 +13,11 @@
     "application": True,
     "installable": True,
     "depends": [
-        "hr", "product"
+        "hr"
     ],
     "data": [
         "security/ir.model.access.csv",
         "data/nutrition_diet.xml",
-        "data/product_uom_categ.xml",
-        "data/product_uom.xml",
         "views/hr_employee_view.xml",
     ],
 }

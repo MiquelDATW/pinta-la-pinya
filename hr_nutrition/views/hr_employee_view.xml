@@ -13,45 +13,11 @@
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='hr_settings']" position="before">
                     <page name="nutrition" string="Health &amp; Nutrition">
-                        <group name="personal_information_group">
+                        <group name="nutrition">
                             <group name="height_and_weight" string="Height and Weight">
-                                <label for="height"/>
-                                <div>
-                                    <field name='height' class="oe_inline"/>
-                                    <field name='height_uom' class="oe_inline" placeholder="UoM"/>
-                                </div>
-                                <label for="weight"/>
-                                <div>
-                                    <field name='weight' class="oe_inline"/>
-                                    <field name='weight_uom' class="oe_inline" placeholder="UoM"/>
-                                </div>
-                                <label for="bmi" string="Body mass index"/>
-                                <div>
-                                    <field name='bmi' class="oe_inline"/>
-                                    <field name='bmi_uom' class="oe_inline" placeholder="UoM"/>
-                                </div>
-                            </group>
-                            <group name="intake" string="Intake">
-                                <label for="caloric_intake"/>
-                                <div>
-                                    <field name='caloric_intake' class="oe_inline"/>
-                                    <field name='caloric_intake_uom' class="oe_inline" placeholder="UoM"/>
-                                </div>
-                                <label for="carbohydrate_intake"/>
-                                <div>
-                                    <field name='carbohydrate_intake' class="oe_inline"/>
-                                    <field name='carbohydrate_intake_uom' class="oe_inline" placeholder="UoM"/>
-                                </div>
-                                <label for="fat_intake"/>
-                                <div>
-                                    <field name='fat_intake' class="oe_inline"/>
-                                    <field name='fat_intake_uom' class="oe_inline" placeholder="UoM"/>
-                                </div>
-                                <label for="protein_intake"/>
-                                <div>
-                                    <field name='protein_intake' class="oe_inline"/>
-                                    <field name='protein_intake_uom' class="oe_inline" placeholder="UoM"/>
-                                </div>
+                                <field name='height' string="Height (cm)"/>
+                                <field name='weight' string="Weight (kg)"/>
+                                <field name='bmi' string="BMI (kg/m²)"/>
                             </group>
                             <group name="other_info" string="Other info">
                                 <field name="activity_level"/>

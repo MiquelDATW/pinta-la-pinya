@@ -23,7 +23,7 @@
 
      <record id="nutrition_diet_pescatarian" model="nutrition.diet">
          <field name="name">Pescatarian</field>
-         <field name="description">The pescatarian diet eliminates meat and poultry but allows fish and sometimes eggs and dairy products.</field>
+         <field name="description">The pescatarian diet eliminates meat and poultry but allows fish and shellfish.</field>
      </record>
 
      <record id="nutrition_diet_vegetarian" model="nutrition.diet">
