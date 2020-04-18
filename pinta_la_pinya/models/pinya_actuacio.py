@@ -69,8 +69,8 @@ class PinyaActuacio(models.Model):
         for actuacio in actuacions:
             inici = fields.Datetime.from_string(actuacio.data_inici)
             final = fields.Datetime.from_string(actuacio.data_final)
-            if final > inici:
-                raise ValidationError("No és possible una data final major que la data inicial❗")
+            if inici > final:
+                raise ValidationError("No és possible una data inicial major que la data final❗")
 
     @api.model
     def default_get(self, fields_list):
