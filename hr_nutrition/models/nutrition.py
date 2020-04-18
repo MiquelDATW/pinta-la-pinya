@@ -20,6 +20,7 @@ class NutritionFood(models.Model):
     _description = "Food"
 
     name = fields.Char("Name", required=True)
+    allergen = fields.Boolean("Allergen")
     category_id = fields.Many2one('nutrition.food.category', 'Category', required=True)
 
 

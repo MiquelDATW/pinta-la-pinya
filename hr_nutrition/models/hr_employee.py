@@ -30,6 +30,7 @@ class HrEmployee(models.Model):
 
     nutrition_allergen_ids = fields.Many2many(
         comodel_name='nutrition.food',
+        domain=[('allergen', '=', True)],
         string='Allergens')
 
     nutrition_exclusion_ids = fields.Many2many(

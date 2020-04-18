@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+    <!-- Food Category -->
+    <record id="nutrition_food_cat_cereals" model="nutrition.food.category">
+        <field name="name">Cereals</field>
+    </record>
+
+    <!-- Food Allergens -->
+    <record id="nutrition_food_gluten" model="nutrition.food">
+        <field name="name">Gluten</field>
+        <field name="allergen">True</field>
+        <field name="category_id" eval="ref('hr_nutrition.nutrition_food_cat_cereals')"/>
+    </record>
+
+    <!-- Foods -->
+    <record id="nutrition_food_bread" model="nutrition.food">
+        <field name="name">Bread</field>
+        <field name="allergen">False</field>
+        <field name="category_id" eval="ref('hr_nutrition.nutrition_food_cat_cereals')"/>
+    </record>
+ </odoo>
