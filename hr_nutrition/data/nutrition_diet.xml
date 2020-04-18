@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# Copyright 2016 Ursa Information Systems <http://ursainfosystems.com>
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo noupdate="1">
+
+     <record id="nutrition_diet_omnivorous" model="nutrition.diet">
+         <field name="name">Omnivorous</field>
+         <field name="description">An omnivorous diet includes both plant (fruits, vegetables, legumes, grains, nuts, and seeds) and animal foods (meat, fish, poultry, eggs, dairy products and honey).</field>
+     </record>
+
+     <record id="nutrition_diet_carnivore" model="nutrition.diet">
+         <field name="name">Carnivore</field>
+         <field name="description">The carnivore diet is a restrictive diet that only includes meat, fish, and other animal foods like eggs and certain dairy products. It excludes all other plant foods.</field>
+     </record>
+
+     <record id="nutrition_diet_flexitarian" model="nutrition.diet">
+         <field name="name">Flexitarian</field>
+         <field name="description">A mostly vegetarian diet that incorporates occasional meat, fish or poultry.</field>
+     </record>
+
+     <record id="nutrition_diet_pescatarian" model="nutrition.diet">
+         <field name="name">Pescatarian</field>
+         <field name="description">The pescatarian diet eliminates meat and poultry but allows fish and sometimes eggs and dairy products.</field>
+     </record>
+
+     <record id="nutrition_diet_vegetarian" model="nutrition.diet">
+         <field name="name">Vegetarian</field>
+         <field name="description">The vegetarian diet involves abstaining from eating meat, fish and poultry, but allows eggs and dairy products.</field>
+     </record>
+
+     <record id="nutrition_diet_vegan" model="nutrition.diet">
+         <field name="name">Vegan</field>
+         <field name="description">The vegan diet eliminates meat, fish, poultry, eggs and dairy products, as well as other animal-derived products, such as honey.</field>
+     </record>
+
+ </odoo>

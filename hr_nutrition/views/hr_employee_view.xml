@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# Copyright 2016 Ursa Information Systems <http://ursainfosystems.com>
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="view_hr_employee_nutrition" model="ir.ui.view">
+            <field name="name">Employee Nutrition</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='hr_settings']" position="before">
+                    <page name="nutrition" string="Health &amp; Nutrition">
+                        <group name="personal_information_group">
+                            <group name="height_and_weight" string="Height and Weight">
+                                <label for="height"/>
+                                <div>
+                                    <field name='height' class="oe_inline"/>
+                                    <field name='height_uom' class="oe_inline" placeholder="UoM"/>
+                                </div>
+                                <label for="weight"/>
+                                <div>
+                                    <field name='weight' class="oe_inline"/>
+                                    <field name='weight_uom' class="oe_inline" placeholder="UoM"/>
+                                </div>
+                                <label for="bmi" string="Body mass index"/>
+                                <div>
+                                    <field name='bmi' class="oe_inline"/>
+                                    <field name='bmi_uom' class="oe_inline" placeholder="UoM"/>
+                                </div>
+                            </group>
+                            <group name="intake" string="Intake">
+                                <label for="caloric_intake"/>
+                                <div>
+                                    <field name='caloric_intake' class="oe_inline"/>
+                                    <field name='caloric_intake_uom' class="oe_inline" placeholder="UoM"/>
+                                </div>
+                                <label for="carbohydrate_intake"/>
+                                <div>
+                                    <field name='carbohydrate_intake' class="oe_inline"/>
+                                    <field name='carbohydrate_intake_uom' class="oe_inline" placeholder="UoM"/>
+                                </div>
+                                <label for="fat_intake"/>
+                                <div>
+                                    <field name='fat_intake' class="oe_inline"/>
+                                    <field name='fat_intake_uom' class="oe_inline" placeholder="UoM"/>
+                                </div>
+                                <label for="protein_intake"/>
+                                <div>
+                                    <field name='protein_intake' class="oe_inline"/>
+                                    <field name='protein_intake_uom' class="oe_inline" placeholder="UoM"/>
+                                </div>
+                            </group>
+                            <group name="other_info" string="Other info">
+                                <field name="activity_level"/>
+                                <field name="weight_goal"/>
+                                <field name="nutrition_diet_id"/>
+                            </group>
+                            <group name="allergen" string="Allergens">
+                                <field name="nutrition_allergen_ids" nolabel="1"
+                                       widget="many2many_tags"/>
+                            </group>
+                            <group name="exclusion" string="Exclusions">
+                                <field name="nutrition_exclusion_ids" nolabel="1"
+                                       widget="many2many_tags"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
