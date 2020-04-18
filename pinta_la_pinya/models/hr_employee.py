@@ -5,6 +5,7 @@
 from odoo import models, fields, api, exceptions, _
 from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
+from datetime import datetime
 
 
 class HrEmployee(models.Model):
@@ -157,6 +158,23 @@ class HrEmployee(models.Model):
             edat = relativedelta(date_now, from_dt).years
             muixeranguer.xicalla = edat < 16
             muixeranguer.edat = edat
+
+    @api.multi
+    @api.constrains('birthday', 'data_inscripcio')
+    def _check_future_dates(self):
+        today = datetime.today().date()
+        employees = self.filtered(lambda x: bool(x.birthday) or bool(x.data_inscripcio))
+        for employee in employees:
+            birthday = fields.Date.from_string(employee.birthday)
+            if bool(birthday) and birthday > today:
+                raise ValidationError("No és possible una data de naixement en el futur❗")
+            inscripcio = fields.Date.from_string(employee.data_inscripcio)
+            if bool(inscripcio) and inscripcio > today:
+                raise ValidationError("No és possible una data d'inscripció en el futur❗")
+            colla_str = self.env.user.company_id.partner_id.fundacio_data
+            colla_data = fields.Date.from_string(colla_str)
+            if bool(inscripcio) and inscripcio < colla_data:
+                raise ValidationError("No és possible una data d'inscripció anterior a la colla: {}❗".format(colla_str))
 
     def tronc_muixeranga(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_all').id

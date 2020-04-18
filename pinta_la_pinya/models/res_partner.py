@@ -5,6 +5,7 @@
 from odoo import models, fields, api, exceptions, _
 from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
+from datetime import datetime
 
 
 class ResPartner(models.Model):
@@ -64,6 +65,23 @@ class ResPartner(models.Model):
         for colla in colles2:
             age = relativedelta(date_now, fields.Date.from_string(colla.federacio_data)).years
             colla.federacio_anys = age
+
+    @api.multi
+    @api.constrains('fundacio_data', 'federacio_data')
+    def _check_future_dates(self):
+        today = datetime.today().date()
+        colles = self.filtered(lambda x: bool(x.fundacio_data) or bool(x.federacio_data))
+        for colla in colles:
+            fundacio = fields.Date.from_string(colla.fundacio_data)
+            if bool(fundacio) and fundacio > today:
+                raise ValidationError("No és possible una data de fundació en el futur❗")
+            federacio = fields.Date.from_string(colla.federacio_data)
+            if bool(federacio) and federacio > today:
+                raise ValidationError("No és possible una data de federació en el futur❗")
+            fcm_str = '2018-01-20'
+            fcm_data = fields.Date.from_string(fcm_str)
+            if bool(federacio) and federacio < fcm_data:
+                raise ValidationError("No és possible una data de federació anterior a la Federació: {}❗".format(fcm_str))
 
     @api.model
     def create(self, vals):

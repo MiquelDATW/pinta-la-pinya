@@ -62,6 +62,16 @@ class PinyaActuacio(models.Model):
             muixeranga = actuacio.muixeranga_ids
             actuacio.muixerangues_count = len(muixeranga)
 
+    @api.multi
+    @api.constrains('data_inici', 'data_final')
+    def _check_future_dates(self):
+        actuacions = self.filtered(lambda x: bool(x.data_inici) and bool(x.data_final))
+        for actuacio in actuacions:
+            inici = fields.Datetime.from_string(actuacio.data_inici)
+            final = fields.Datetime.from_string(actuacio.data_final)
+            if final > inici:
+                raise ValidationError("No és possible una data final major que la data inicial❗")
+
     @api.model
     def default_get(self, fields_list):
         res = super(PinyaActuacio, self).default_get(fields_list)
