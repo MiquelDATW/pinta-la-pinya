@@ -85,7 +85,9 @@ class PinyaActuacio(models.Model):
                 hora_final = partner.assaig_hora_final
                 today = datetime.today()
                 today_day = today.weekday()
-                dia_assaig = (today + relativedelta(days=(assaig_dia - today_day))).date()
+                dies_que_falten = assaig_dia - today_day
+                dies_fins_assaig = relativedelta(days=(dies_que_falten)) if dies_que_falten > 0 else relativedelta(days=(dies_que_falten+7))
+                dia_assaig = (today + dies_fins_assaig).date()
                 inici = dia_assaig + relativedelta(hours=int(hora_inici), minutes=int((hora_inici - int(hora_inici))*60))
                 final = dia_assaig + relativedelta(hours=int(hora_final), minutes=int((hora_final - int(hora_final))*60))
 
