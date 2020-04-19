@@ -20,7 +20,7 @@
         "pinya_complements",
     ],
     "data": [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'data/cron.xml',
         'data/event_templates.xml',
         'data/hr_skill_templates.xml',

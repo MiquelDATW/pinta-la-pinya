@@ -11,7 +11,7 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
-                <div name="button_box" position="inside">
+                <xpath expr="//div[@name='button_box']" position="inside">
                     <button class="oe_stat_button" type="object"
                             name="pinya_teams" icon="fas fa-sitemap"
                             attrs="{'invisible': [('count_teams', '=', 0)]}">
@@ -28,11 +28,11 @@
                             attrs="{'invisible': [('count_tronc', '=', 0)]}">
                         <field string="Troncs" name="count_tronc" widget="statinfo"/>
                     </button>
-                </div>
-                <field name='birthday' position="after">
+                </xpath>
+                <xpath expr="//field[@name='birthday']" position="after">
                     <field name="edat"/>
-                </field>
-                <field name="category_ids" position="after">
+                </xpath>
+                <xpath expr="//field[@name='category_ids']" position="after">
                     <group name="employee">
                         <group name="informacio" string="Info">
                             <field name="muixeranguera"/>
@@ -80,8 +80,8 @@
                                attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
                         <field name="notes" placeholder="Altra informació..."/>
                     </group>
-                </field>
-                <page name="public" position="before">
+                </xpath>
+                <xpath expr="//page[@name='public']" position="before">
                     <page name="habilitats" string="Habilitats"
                           attrs="{'invisible': [('muixeranguera', '=', False)]}">
                         <group name="habilitats">
@@ -127,7 +127,22 @@
                             </field>
                         </group>
                     </page>
-                </page>
+                </xpath>
+                <xpath expr="//page[@name='personal_information']//group//group[1]" position="attributes">
+                    <attribute name="groups">hr.group_hr_manager</attribute>
+                </xpath>
+                <xpath expr="//page[@name='personal_information']//group//group[2]" position="attributes">
+                    <attribute name="groups">hr.group_hr_manager</attribute>
+                </xpath>
+                <xpath expr="//group[@name='work_permit']" position="attributes">
+                    <attribute name="groups">hr.group_hr_manager</attribute>
+                </xpath>
+                <xpath expr="//page[@name='hr_settings']" position="attributes">
+                    <attribute name="groups">hr.group_hr_manager</attribute>
+                </xpath>
+                <xpath expr="//page[@name='public']" position="attributes">
+                    <attribute name="groups">hr.group_hr_manager</attribute>
+                </xpath>
             </field>
         </record>
 
