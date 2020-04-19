@@ -5,7 +5,7 @@
 {
     "name": "HR Nutrition",
     "summary": "Manage your employees' nutrition",
-    "version": "11.0.1.0.1",
+    "version": "11.0.1.0.2",
     "category": "Health",
     'website': 'http://www.pintalapinya.cat/',
     "author": "Ursa Information Systems, Miquel March",

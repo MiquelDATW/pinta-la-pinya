@@ -25,11 +25,11 @@
                                 <field name="nutrition_diet_id"/>
                             </group>
                             <group name="allergen" string="Allergens">
-                                <field name="nutrition_allergen_ids" nolabel="1"
+                                <field name="nutrition_allergen_ids" nolabel="0"
                                        widget="many2many_tags"/>
                             </group>
                             <group name="exclusion" string="Exclusions">
-                                <field name="nutrition_exclusion_ids" nolabel="1"
+                                <field name="nutrition_exclusion_ids" nolabel="0"
                                        widget="many2many_tags"/>
                             </group>
                         </group>

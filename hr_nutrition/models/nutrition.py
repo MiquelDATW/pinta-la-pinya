@@ -10,6 +10,7 @@ from odoo import models, fields, api, exceptions, _
 class NutritionDiet(models.Model):
     _name = 'nutrition.diet'
     _description = "Diet"
+    _order = "name"
 
     name = fields.Char("Name", required=True)
     description = fields.Char("Description")
@@ -18,6 +19,7 @@ class NutritionDiet(models.Model):
 class NutritionFood(models.Model):
     _name = 'nutrition.food'
     _description = "Food"
+    _order = "name"
 
     name = fields.Char("Name", required=True)
     allergen = fields.Boolean("Allergen")
@@ -27,6 +29,7 @@ class NutritionFood(models.Model):
 class NutritionFoodCategory(models.Model):
     _name = 'nutrition.food.category'
     _description = "Food Category"
+    _order = "name"
 
     name = fields.Char("Name", required=True)
 

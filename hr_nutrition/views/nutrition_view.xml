@@ -27,5 +27,60 @@
                 </form>
             </field>
         </record>
+
+        <record id="view_nutrition_food_form" model="ir.ui.view">
+            <field name="name">nutrition.food.form</field>
+            <field name="model">nutrition.food</field>
+            <field name="arch" type="xml">
+                <form string="Food">
+                    <header/>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" required="True"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="category_id" required="True"/>
+                            <field name="allergen"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_nutrition_food_tree" model="ir.ui.view">
+            <field name="name">nutrition.food.tree</field>
+            <field name="model">nutrition.food</field>
+            <field name="arch" type="xml">
+                <tree string="Food">
+                    <field name="name"/>
+                    <field name="allergen"/>
+                    <field name="category_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_nutrition_food_search" model="ir.ui.view">
+            <field name="name">nutrition.food.search</field>
+            <field name="model">nutrition.food</field>
+            <field name="arch" type="xml">
+                <search string="Food">
+                    <field name="name"/>
+                    <field name="category_id"/>
+                    <filter name="not_allergen" string="Not allergen"
+                        domain="[('allergen', '=', False)]" />
+                    <filter name="allergen" string="Allergen"
+                        domain="[('allergen', '=', True)]" />
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_category_id" string="Category" context="{'group_by':'category_id'}"/>
+                        <filter name="group_by_allergen" string="Allergen" context="{'group_by':'allergen'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
     </data>
 </odoo>
