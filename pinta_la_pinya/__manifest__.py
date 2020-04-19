@@ -28,6 +28,7 @@
         'data/plantilla_1_templates.xml',
         "views/event_view.xml",
         "views/hr_employee_view.xml",
+        "views/hr_family_view.xml",
         "views/hr_skill_view.xml",
         "views/hr_team_view.xml",
         "views/pinya_actuacio_view.xml",

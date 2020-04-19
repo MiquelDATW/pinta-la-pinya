@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="view_employee_family_form" model="ir.ui.view">
+            <field name="name">hr.employee.family.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='personal_information']" position="inside">
+                    <group name="family" string="Família">
+                        <field name="family_ids"/>
+                    </group>
+                </xpath>
+                <xpath expr="//group[@name='work_permit']" position="before">
+                    <group name="parella" string="Parella">
+                        <field name="fam_parella_colla"/>
+                        <field name="fam_parella_id"
+                               attrs="{'invisible': [('fam_parella_colla', '=', False)]}"/>
+                        <field name="fam_parella_birthday"
+                               attrs="{'invisible': [('fam_parella_colla', '=', False)]}"/>
+                    </group>
+                    <group name="parents" string="Pare/mare">
+                        <field name="fam_pare_colla"/>
+                        <field name="fam_pare_id"
+                               attrs="{'invisible': [('fam_pare_colla', '=', False)]}"/>
+                        <field name="fam_pare_birthday"
+                               attrs="{'invisible': [('fam_pare_colla', '=', False)]}"/>
+                        <field name="fam_mare_colla"/>
+                        <field name="fam_mare_id"
+                               attrs="{'invisible': [('fam_mare_colla', '=', False)]}"/>
+                        <field name="fam_mare_birthday"
+                               attrs="{'invisible': [('fam_mare_colla', '=', False)]}"/>
+                    </group>
+                    <group name="children" string="Fills/es">
+                        <field name="fam_filles_colla"/>
+                        <field name="fam_filles_ids" widget="many2many_tags"
+                               attrs="{'invisible': [('fam_filles_colla', '=', False)]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_family_form" model="ir.ui.view">
+            <field name="name">hr.employee.family.form</field>
+            <field name="model">hr.employee.family</field>
+            <field name="arch" type="xml">
+                <form string="Membres">
+                    <header/>
+                    <sheet>
+                        <group>
+                            <group name="family" string="Família">
+                                <field name="name" invisible="1"/>
+                                <field name="is_relation"/>
+                                <field name="employee_id"/>
+                                <field name="family"/>
+                                <field name="relation_name"
+                                       attrs="{'invisible': [('is_relation', '=', True)]}"/>
+                                <field name="relation_id"
+                                       attrs="{'invisible': [('is_relation', '=', False)]}"/>
+                            </group>
+                            <group>
+                                <field name="inverse_family" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_family_tree" model="ir.ui.view">
+            <field name="name">hr.employee.family.tree</field>
+            <field name="model">hr.employee.family</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" invisible="1"/>
+                    <field name="employee_id"/>
+                    <field name="family"/>
+                    <field name="relation_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--
+        <record id="hr_employee_family_tree" model="ir.ui.view">
+            <field name="name">hr.employee.family.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_employee_membre_tree"/>
+            <field name="arch" type="xml"/>
+        </record>
+
+        <record id="hr_employee_family_search" model="ir.ui.view">
+            <field name="name">hr.employee.family.search</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_employee_membre_search"/>
+            <field name="arch" type="xml"/>
+        </record>-->
+    </data>
+</odoo>
