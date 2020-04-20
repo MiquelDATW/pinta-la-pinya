@@ -4,7 +4,10 @@
 Pinta la Pinya
 ==============
 
-Aquesta aplicació instal·la plantilles de Muixerangues
+Aquesta aplicació instal·la plantilles i croquis de Muixerangues.
+
+
+* Torreta (desplegada)
 
 Installation
 ============

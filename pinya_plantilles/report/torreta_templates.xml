@@ -10,6 +10,7 @@
                  style="z-index: -1;" alt="Torreta"/>
         </div>
         <div>
+            <!-- TRONCS -->
             <t t-set="bases" t-value="o._get_tronc_posicio('base')"/>
             <t t-set="segones" t-value="o._get_tronc_posicio('segones')"/>
             <t t-set="alsadora" t-value="o._get_tronc_posicio('alsadora')"/>
@@ -34,6 +35,68 @@
 
             <div class="posicions" t-esc="xicalla[0].membre_tronc_id.nom_croquis"
                  style="left: 205px;top: 560px;-webkit-transform:rotate(0deg);border: 1px solid black;"/>
+
+            <!-- PINYES -->
+            <t t-set="vents" t-value="o._get_pinya_posicio('vent', ['1', '2', '3'])"/>
+            <t t-set="mans" t-value="o._get_pinya_posicio('mans', ['1', '2', '3'])"/>
+
+            <div class="posicions" t-esc="vents[0].membre_pinya_id.nom_croquis"
+                 style="left: 670px;top: 225px;-webkit-transform:rotate(180deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="vents[1].membre_pinya_id.nom_croquis"
+                 style="left: 670px;top: 500px;-webkit-transform:rotate(0deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="vents[2].membre_pinya_id.nom_croquis"
+                 style="left: 670px;top: 190px;-webkit-transform:rotate(180deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="vents[3].membre_pinya_id.nom_croquis"
+                 style="left: 670px;top: 535px;-webkit-transform:rotate(0deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="vents[4].membre_pinya_id.nom_croquis"
+                 style="left: 670px;top: 153px;-webkit-transform:rotate(180deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="vents[5].membre_pinya_id.nom_croquis"
+                 style="left: 670px;top: 572px;-webkit-transform:rotate(0deg);border: 1px solid black;"/>
+
+            <div class="posicions" t-esc="mans[0].membre_pinya_id.nom_croquis"
+                 style="left: 575px;top: 360px;-webkit-transform:rotate(90deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="mans[1].membre_pinya_id.nom_croquis"
+                 style="left: 760px;top: 360px;-webkit-transform:rotate(270deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="mans[2].membre_pinya_id.nom_croquis"
+                 style="left: 525px;top: 360px;-webkit-transform:rotate(90deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="mans[3].membre_pinya_id.nom_croquis"
+                 style="left: 810px;top: 360px;-webkit-transform:rotate(270deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="mans[4].membre_pinya_id.nom_croquis"
+                 style="left: 475px;top: 360px;-webkit-transform:rotate(90deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="mans[5].membre_pinya_id.nom_croquis"
+                 style="left: 860px;top: 360px;-webkit-transform:rotate(270deg);border: 1px solid black;"/>
+
+            <t t-set="peus" t-value="o._get_pinya_posicio('peu', ['1'])"/>
+            <t t-set="pinyerista" t-value="o._get_pinya_posicio('pinyerista', ['1'])"/>
+
+            <div class="posicions" t-esc="peus[0].membre_pinya_id.nom_croquis"
+                 style="left: 770px;top: 255px;-webkit-transform:rotate(225deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="peus[1].membre_pinya_id.nom_croquis"
+                 style="left: 770px;top: 465px;-webkit-transform:rotate(-45deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="peus[2].membre_pinya_id.nom_croquis"
+                 style="left: 565px;top: 255px;-webkit-transform:rotate(135deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="peus[3].membre_pinya_id.nom_croquis"
+                 style="left: 565px;top: 470px;-webkit-transform:rotate(45deg);border: 1px solid black;"/>
+
+            <div class="posicions" t-esc="pinyerista[1].membre_pinya_id.nom_croquis"
+                 style="left: 790px;top: 235px;-webkit-transform:rotate(225deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="pinyerista[0].membre_pinya_id.nom_croquis"
+                 style="left: 790px;top: 485px;-webkit-transform:rotate(-45deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="pinyerista[2].membre_pinya_id.nom_croquis"
+                 style="left: 545px;top: 235px;-webkit-transform:rotate(135deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="pinyerista[3].membre_pinya_id.nom_croquis"
+                 style="left: 545px;top: 490px;-webkit-transform:rotate(45deg);border: 1px solid black;"/>
+
+            <t t-set="lateral" t-value="o._get_pinya_posicio('lateral', ['2'])"/>
+            
+            <div class="posicions" t-esc="lateral[1].membre_pinya_id.nom_croquis"
+                 style="left: 820px;top: 205px;-webkit-transform:rotate(225deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="lateral[0].membre_pinya_id.nom_croquis"
+                 style="left: 815px;top: 515px;-webkit-transform:rotate(-45deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="lateral[3].membre_pinya_id.nom_croquis"
+                 style="left: 520px;top: 205px;-webkit-transform:rotate(135deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="lateral[2].membre_pinya_id.nom_croquis"
+                 style="left: 520px;top: 515px;-webkit-transform:rotate(45deg);border: 1px solid black;"/>
         </div>
     </template>
 </odoo>

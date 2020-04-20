@@ -4,7 +4,7 @@
 
 {
     "name": "Pinya Plantilles",
-    "summary": "Plantilles de Muixerangues",
+    "summary": "Plantilles i croquis de Muixerangues.",
     "version": "11.0.1.0.1",
     "category": "Custom",
     'website': 'http://www.pintalapinya.cat/',
@@ -16,8 +16,8 @@
         "pinta_la_pinya",
     ],
     "data": [
-        'data/plantilla_skill_templates.xml',
-        'data/plantilla_torreta_templates.xml',
+        "data/plantilla_skill_templates.xml",
+        "data/plantilla_torreta_templates.xml",
         "report/pinya_reports.xml",
         "report/pinya_muixeranga_templates.xml",
         "report/torreta_templates.xml",

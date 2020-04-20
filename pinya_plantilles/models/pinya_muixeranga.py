@@ -31,3 +31,12 @@ class PinyaMuixeranga(models.Model):
         for t in troncs:
             res.append(t)
         return res
+
+    def _get_pinya_posicio(self, posicio, cordons):
+        res = []
+        pos = self.env.ref('pinta_la_pinya.' + posicio).id
+        pinyes = self.pinya_line_ids.filtered(lambda x: x.posicio_id.id == pos and x.cordo in cordons)
+        for p in pinyes:
+            res.append(p.sorted('cordo'))
+        return res
+

@@ -229,6 +229,13 @@ class HrEmployee(models.Model):
 
     @api.model
     def create(self, vals):
+        croquis = vals.get('nom_croquis', False)
+        name = vals.get('name', False)
+        if croquis:
+            vals.update({'nom_croquis': croquis.upper()})
+        elif name:
+            vals.update({'nom_croquis': name.upper()})
+
         if 'data_inscripcio' in vals:
             data = vals.get('data_inscripcio', False)
             if data:
@@ -252,6 +259,14 @@ class HrEmployee(models.Model):
 
     @api.multi
     def write(self, vals):
+        if 'nom_croquis' in vals:
+            nom = vals.get('nom_croquis', False)
+            name = vals.get('name', False) or self.name
+            if nom:
+                vals.update({'nom_croquis': nom.upper()})
+            elif name:
+                vals.update({'nom_croquis': name.upper()})
+
         if 'data_inscripcio' in vals:
             data = vals.get('data_inscripcio', False)
             if data:
