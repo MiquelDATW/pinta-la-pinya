@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <template id="torreta_template">
+        <div class="text-center">
+            <img src="/pinya_plantilles/static/pinyes/torreta.jpg"
+                 style="z-index: -1;" alt="Torreta"/>
+        </div>
+        <div>
+            <t t-set="bases" t-value="o._get_tronc_posicio('base')"/>
+            <t t-set="segones" t-value="o._get_tronc_posicio('segones')"/>
+            <t t-set="alsadora" t-value="o._get_tronc_posicio('alsadora')"/>
+            <t t-set="xicalla" t-value="o._get_tronc_posicio('xicalla')"/>
+
+            <div class="posicions" t-esc="bases[0].membre_tronc_id.nom_croquis"
+                 style="left: 630px;top: 305px;-webkit-transform:rotate(90deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="bases[1].membre_tronc_id.nom_croquis"
+                 style="left: 630px;top: 415px;-webkit-transform:rotate(90deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="bases[2].membre_tronc_id.nom_croquis"
+                 style="left: 710px;top: 415px;-webkit-transform:rotate(270deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="bases[3].membre_tronc_id.nom_croquis"
+                 style="left: 710px;top: 305px;-webkit-transform:rotate(270deg);border: 1px solid black;"/>
+
+            <div class="posicions" t-esc="segones[0].membre_tronc_id.nom_croquis"
+                 style="left: 135px;top: 595px;-webkit-transform:rotate(90deg);border: 1px solid black;"/>
+            <div class="posicions" t-esc="segones[1].membre_tronc_id.nom_croquis"
+                 style="left: 275px;top: 595px;-webkit-transform:rotate(270deg);border: 1px solid black;"/>
+
+            <div class="posicions" t-esc="alsadora[0].membre_tronc_id.nom_croquis"
+                 style="left: 205px;top: 600px;-webkit-transform:rotate(0deg);border: 1px solid black;"/>
+
+            <div class="posicions" t-esc="xicalla[0].membre_tronc_id.nom_croquis"
+                 style="left: 205px;top: 560px;-webkit-transform:rotate(0deg);border: 1px solid black;"/>
+        </div>
+    </template>
+</odoo>

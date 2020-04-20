@@ -5,7 +5,7 @@
 {
     "name": "Pinta la Pinya",
     "summary": "Permet fer una gestió tècnica completa d'una colla muixeranguera",
-    "version": "11.0.1.0.4",
+    "version": "11.0.1.0.5",
     "category": "Custom",
     'website': 'http://www.pintalapinya.cat/',
     "author": "Miquel March",
@@ -24,8 +24,6 @@
         'data/cron.xml',
         'data/event_templates.xml',
         'data/hr_skill_templates.xml',
-        'data/plantilla_0_templates.xml',
-        'data/plantilla_1_templates.xml',
         "views/event_view.xml",
         "views/hr_employee_view.xml",
         "views/hr_family_view.xml",
@@ -39,4 +37,5 @@
         "wizard/import_muixeranga_wizard_view.xml",
         "views/menus_views.xml",
     ],
+    "post_init_hook": "post_init_hook",
 }

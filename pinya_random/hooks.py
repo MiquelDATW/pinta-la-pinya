@@ -18,7 +18,6 @@ def post_init_hook(cr, registry):
         skills = env['hr.skill'].search([])
         employee = env['hr.employee']
         emp_skill = env['hr.employee.skill']
-        # level_skill = env['hr.employee.level']
 
         sequence = [i for i in range(len(skills))]
 
@@ -28,6 +27,7 @@ def post_init_hook(cr, registry):
             als = random.randint(145, 201)
             data = {
                 'name': name + ' ' + str(i).zfill(3),
+                'nom_croquis': name,
                 'alsada_cap': als,
                 'alsada_muscle': als - random.randint(20, 30),
                 'alsada_bras': als + random.randint(45, 55),
@@ -46,7 +46,6 @@ def post_init_hook(cr, registry):
                     'employee_id': muixo.id,
                     'skill_id': skills[len_s[j]].id,
                 }
-                # level_skill.create(data)
                 aux += emp_skill.create(data)
 
 

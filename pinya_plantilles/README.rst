@@ -4,16 +4,12 @@
 Pinta la Pinya
 ==============
 
-Aquesta aplicació permet fer una gestió tècnica completa d'una colla muixeranguera
+Aquesta aplicació instal·la plantilles de Muixerangues
 
 Installation
 ============
 
-* contacts
-* event
-* hr_skill
-* hr_team
-* pinya_complements
+* pinta_la_pinya
 
 Configuration
 =============

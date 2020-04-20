@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data noupdate="1">
+        <!-- Plantilla line (Troncs) -->
+        <record id="torreta_tronc_1" model="pinya.plantilla.line">
+            <field name="name">1</field>
+            <field name="tipus">tronc</field>
+            <field name="posicio_ids" eval="[(6,0,[ref('base_4_2star')])]"/>
+        </record>
+        <record id="torreta_tronc_2" model="pinya.plantilla.line">
+            <field name="name">2</field>
+            <field name="tipus">tronc</field>
+            <field name="posicio_ids" eval="[(6,0,[ref('segones_2_2star')])]"/>
+        </record>
+        <record id="torreta_tronc_3" model="pinya.plantilla.line">
+            <field name="name">3</field>
+            <field name="tipus">tronc</field>
+            <field name="posicio_ids" eval="[(6,0,[ref('alsadora_1_2star')])]"/>
+        </record>
+        <record id="torreta_tronc_4" model="pinya.plantilla.line">
+            <field name="name">4</field>
+            <field name="tipus">tronc</field>
+            <field name="posicio_ids" eval="[(6,0,[ref('xicalla_1_2star')])]"/>
+        </record>
+
+        <!-- Plantilla line (Pinyes) -->
+        <record id="torreta_pinya_1" model="pinya.plantilla.line">
+            <field name="name">1</field>
+            <field name="rengles">2</field>
+            <field name="tipus">pinya</field>
+            <field name="posicio_ids" eval="[(6,0,[ref('vent_1_2star'), ref('mans_1_2star'), ref('pinyerista_2_2star'), ref('peu_2_1star')])]"/>
+        </record>
+        <record id="torreta_pinya_2" model="pinya.plantilla.line">
+            <field name="name">2</field>
+            <field name="rengles">2</field>
+            <field name="tipus">pinya</field>
+            <field name="posicio_ids" eval="[(6,0,[ref('vent_1_1star'), ref('mans_1_1star'), ref('lateral_2_1star')])]"/>
+        </record>
+        <record id="torreta_pinya_3" model="pinya.plantilla.line">
+            <field name="name">3</field>
+            <field name="rengles">2</field>
+            <field name="tipus">pinya</field>
+            <field name="posicio_ids" eval="[(6,0,[ref('vent_1_1star'), ref('mans_1_1star'), ref('lateral_2_1star'), ref('tap_4_1star')])]"/>
+        </record>
+        <record id="torreta_pinya_4" model="pinya.plantilla.line">
+            <field name="name">4</field>
+            <field name="rengles">2</field>
+            <field name="tipus">pinya</field>
+            <field name="posicio_ids" eval="[(6,0,[ref('pinyerista_4_1star'), ref('tap_4_1star')])]"/>
+        </record>
+        <record id="torreta_pinya_5" model="pinya.plantilla.line">
+            <field name="name">5</field>
+            <field name="rengles">2</field>
+            <field name="tipus">pinya</field>
+            <field name="posicio_ids" eval="[(6,0,[ref('pinyerista_4_1star'), ref('tap_4_1star')])]"/>
+        </record>
+
+        <!-- Plantilla -->
+        <record id="torreta" model="pinya.plantilla">
+            <field name="name">Torreta</field>
+            <field name="pisos">4</field>
+            <field name="tipus">desplega</field>
+            <field name="neta">False</field>
+            <field name="plantilla_line_ids" eval="[(6,0,[ref('torreta_tronc_1'), ref('torreta_tronc_2'), ref('torreta_tronc_3'), ref('torreta_tronc_4'), ref('torreta_pinya_1'), ref('torreta_pinya_2'), ref('torreta_pinya_3'), ref('torreta_pinya_4'), ref('torreta_pinya_5')])]"/>
+        </record>
+    </data>
+</odoo>

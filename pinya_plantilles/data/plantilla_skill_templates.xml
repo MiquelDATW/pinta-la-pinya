@@ -212,6 +212,12 @@
             <field name="tecnica">1</field>
             <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
         </record>
+        <record id="pinyerista_2_2star" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="quantity">2</field>
+            <field name="tecnica">2</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+        </record>
         <record id="pinyerista_4_1star" model="pinya.plantilla.skill">
             <field name="tipus">pinya</field>
             <field name="quantity">4</field>
@@ -227,6 +233,12 @@
         <record id="tap_2_1star" model="pinya.plantilla.skill">
             <field name="tipus">pinya</field>
             <field name="quantity">2</field>
+            <field name="tecnica">1</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+        </record>
+        <record id="tap_4_1star" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="quantity">4</field>
             <field name="tecnica">1</field>
             <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
         </record>
