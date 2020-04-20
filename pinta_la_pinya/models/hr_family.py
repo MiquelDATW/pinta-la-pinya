@@ -11,34 +11,6 @@ from datetime import datetime
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    fam_parella_colla = fields.Boolean('Parella dins la colla')
-    fam_parella_id = fields.Many2one('hr.employee', string="Parella")
-    fam_parella_birthday = fields.Date(
-        string="Data de naixement",
-        related='fam_parella_id.birthday'
-    )
-
-    fam_filles_colla = fields.Boolean('Fills/es dins la colla')
-    fam_filles_ids = fields.Many2many(
-        'hr.employee',
-        'parent_child_rel', 'parent_id', 'child_id',
-        string="Fill/es",
-    )
-
-    fam_pare_colla = fields.Boolean('Pare dins la colla')
-    fam_pare_id = fields.Many2one('hr.employee', string="Pare")
-    fam_pare_birthday = fields.Date(
-        string="Data de naixement",
-        related='fam_pare_id.birthday'
-    )
-
-    fam_mare_colla = fields.Boolean('Mare dins la colla')
-    fam_mare_id = fields.Many2one('hr.employee', string="Mare")
-    fam_mare_birthday = fields.Date(
-        string="Data de naixement",
-        related='fam_mare_id.birthday'
-    )
-
     family_ids = fields.One2many('hr.employee.family', 'employee_id', string="Família")
 
 
@@ -74,7 +46,7 @@ class HrEmployeeFamily(models.Model):
 
     _sql_constraints = [
         ('employee_relation_uniq', 'unique(employee_id, relation_id)',
-         "Aquests membres ja tenen una relació familiar❗"),
+         "Aquestes membres ja tenen una relació familiar❗"),
     ]
 
     @api.onchange('is_relation')
@@ -103,6 +75,11 @@ class HrEmployeeFamily(models.Model):
 
     @api.model
     def create(self, vals):
+        employee = vals.get('employee_id', False)
+        relation = vals.get('relation_id', False)
+        if employee == relation:
+            raise ValidationError("No és possible tindre una relació con una mateixa❗")
+
         family = vals.get('family', False)
         if family:
             family_ = family.split('_')
@@ -147,6 +124,11 @@ class HrEmployeeFamily(models.Model):
 
     @api.multi
     def write(self, vals):
+        employee = vals.get('employee_id', False) or self.employee_id.id
+        relation = vals.get('relation_id', False) or self.relation_id.id
+        if employee == relation:
+            raise ValidationError("No és possible tindre una relació con una mateixa❗")
+
         family = vals.get('family', False)
         if family:
             family_ = family.split('_')

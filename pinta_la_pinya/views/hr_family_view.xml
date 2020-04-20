@@ -10,36 +10,22 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@name='personal_information']" position="inside">
-                    <group name="family" string="Família">
-                        <field name="family_ids"/>
-                    </group>
-                </xpath>
-                <xpath expr="//group[@name='work_permit']" position="before">
-                    <group name="parella" string="Parella">
-                        <field name="fam_parella_colla"/>
-                        <field name="fam_parella_id"
-                               attrs="{'invisible': [('fam_parella_colla', '=', False)]}"/>
-                        <field name="fam_parella_birthday"
-                               attrs="{'invisible': [('fam_parella_colla', '=', False)]}"/>
-                    </group>
-                    <group name="parents" string="Pare/mare">
-                        <field name="fam_pare_colla"/>
-                        <field name="fam_pare_id"
-                               attrs="{'invisible': [('fam_pare_colla', '=', False)]}"/>
-                        <field name="fam_pare_birthday"
-                               attrs="{'invisible': [('fam_pare_colla', '=', False)]}"/>
-                        <field name="fam_mare_colla"/>
-                        <field name="fam_mare_id"
-                               attrs="{'invisible': [('fam_mare_colla', '=', False)]}"/>
-                        <field name="fam_mare_birthday"
-                               attrs="{'invisible': [('fam_mare_colla', '=', False)]}"/>
-                    </group>
-                    <group name="children" string="Fills/es">
-                        <field name="fam_filles_colla"/>
-                        <field name="fam_filles_ids" widget="many2many_tags"
-                               attrs="{'invisible': [('fam_filles_colla', '=', False)]}"/>
-                    </group>
+                <xpath expr="//page[@name='personal_information']" position="after">
+                    <page name="familia" string="Informació personal">
+                        <group>
+                            <group name="status" string="Estat">
+                                <field name="gender"/>
+                                <field name="marital"/>
+                            </group>
+                            <group name="birth_age" string="Edat">
+                                <field name="birthday"/>
+                                <field name="edat"/>
+                            </group>
+                        </group>
+                        <group name="familia" string="Família">
+                            <field name="family_ids"/>
+                        </group>
+                    </page>
                 </xpath>
             </field>
         </record>

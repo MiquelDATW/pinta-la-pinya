@@ -29,9 +29,6 @@
                         <field string="Troncs" name="count_tronc" widget="statinfo"/>
                     </button>
                 </xpath>
-                <xpath expr="//field[@name='birthday']" position="after">
-                    <field name="edat"/>
-                </xpath>
                 <xpath expr="//field[@name='category_ids']" position="after">
                     <group name="employee">
                         <group name="informacio" string="Info">
@@ -128,13 +125,9 @@
                         </group>
                     </page>
                 </xpath>
-                <xpath expr="//page[@name='personal_information']//group//group[1]" position="attributes">
-                    <attribute name="groups">hr.group_hr_manager</attribute>
-                </xpath>
-                <xpath expr="//page[@name='personal_information']//group//group[2]" position="attributes">
-                    <attribute name="groups">hr.group_hr_manager</attribute>
-                </xpath>
-                <xpath expr="//group[@name='work_permit']" position="attributes">
+                <xpath expr="//page[@name='personal_information']//group//group[3]" position="replace"/>
+                <xpath expr="//page[@name='personal_information']//group//group[3]" position="replace"/>
+                <xpath expr="//page[@name='personal_information']" position="attributes">
                     <attribute name="groups">hr.group_hr_manager</attribute>
                 </xpath>
                 <xpath expr="//page[@name='hr_settings']" position="attributes">
