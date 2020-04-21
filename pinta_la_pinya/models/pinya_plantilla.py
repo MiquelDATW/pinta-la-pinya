@@ -216,7 +216,7 @@ class PinyaPlantillaSkill(models.Model):
 
     tecnica = fields.Selection([
         ('0', 'Inicial'),
-        ('1', 'Mitjana'),
+        ('1', 'Intermedia'),
         ('2', 'Avançada'),
         ('3', 'Experta'),
     ], string='Tècnica', default="1", required=True)

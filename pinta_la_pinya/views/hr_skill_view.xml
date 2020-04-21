@@ -89,9 +89,9 @@
                     <filter string="Tronc" name="tronc" domain="[('tipus', '=', 'tronc')]"/>
                     <filter string="Pinya" name="pinya" domain="[('tipus', '=', 'pinya')]"/>
                     <separator/>
-                    <filter string="Baixa" name="baixa" domain="[('prioritat', '=', '1')]"/>
-                    <filter string="Mitjana" name="mitjana" domain="[('prioritat', '=', '2')]"/>
-                    <filter string="Alta" name="alta" domain="[('prioritat', '=', '3')]"/>
+                    <filter string="Prioritat: Baixa" name="baixa" domain="[('prioritat', '=', '1')]"/>
+                    <filter string="Prioritat: Mitjana" name="mitjana" domain="[('prioritat', '=', '2')]"/>
+                    <filter string="Prioritat: Alta" name="alta" domain="[('prioritat', '=', '3')]"/>
                     <separator/>
                     <group expand="0" string="Group By">
                         <filter string="Tipus" name="group_tipus" domain="[]" context="{'group_by':'tipus'}"/>
@@ -122,8 +122,7 @@
             <field name="model">hr.employee.skill</field>
             <field name="arch" type="xml">
                 <form string="Posicions nivell">
-                    <header>
-                    </header>
+                    <header/>
                     <sheet>
                         <group name="posicions_nivell">
                             <group name="info" string="Info">
@@ -192,8 +191,7 @@
             <field name="model">hr.employee.level</field>
             <field name="arch" type="xml">
                 <form string="Membres nivell">
-                    <header>
-                    </header>
+                    <header/>
                     <sheet>
                         <group name="membres_nivell">
                             <group name="info" string="Info">

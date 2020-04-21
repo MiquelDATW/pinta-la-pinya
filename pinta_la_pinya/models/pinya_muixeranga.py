@@ -335,7 +335,7 @@ class PinyaMuixerangaPinya(models.Model):
 
     tecnica = fields.Selection([
         ('0', 'Inicial'),
-        ('1', 'Mitjana'),
+        ('1', 'Intermedia'),
         ('2', 'Avançada'),
         ('3', 'Experta'),
     ], string='Tècnica', default="1", required=True)
@@ -418,7 +418,7 @@ class PinyaMuixerangaTronc(models.Model):
 
     tecnica = fields.Selection([
         ('0', 'Inicial'),
-        ('1', 'Mitjana'),
+        ('1', 'Intermedia'),
         ('2', 'Avançada'),
         ('3', 'Experta'),
     ], string='Tècnica', default="1", required=True)

@@ -36,7 +36,7 @@ class HrEmployee(models.Model):
     posicio_ids = fields.Many2many(string="Posicions", comodel_name="hr.skill", compute="_compute_posicions", store=True)
     count_3stars = fields.Char(string="Habilitats expertes", compute="_compute_millors", store=True)
     count_2stars = fields.Char(string="Habilitats avançats", compute="_compute_millors", store=True)
-    count_1stars = fields.Char(string="Habilitats mitjanes", compute="_compute_millors", store=True)
+    count_1stars = fields.Char(string="Habilitats intermedies", compute="_compute_millors", store=True)
     count_pinya = fields.Integer(string="Pinyes total", compute="_compute_count_pinya", store=True)
     count_tronc = fields.Integer(string="Troncs total", compute="_compute_count_tronc", store=True)
     count_total = fields.Integer(string="Figures total", compute="_compute_count_total", store=True)

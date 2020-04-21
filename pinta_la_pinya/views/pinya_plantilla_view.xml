@@ -11,9 +11,7 @@
             <field name="model">pinya.plantilla</field>
             <field name="arch" type="xml">
                 <form string="Plantilles">
-                    <header>
-
-                    </header>
+                    <header/>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button name="toggle_active" type="object" groups="base.group_user"
@@ -193,7 +191,7 @@
                     <filter string="Pinya" name="pinya" domain="[('tipus', '=', 'pinya')]"/>
                     <separator/>
                     <filter string="Inicial" name="inicial" domain="[('tecnica', '=', '0')]"/>
-                    <filter string="Mitjana" name="mitjana" domain="[('tecnica', '=', '1')]"/>
+                    <filter string="Intermedia" name="intermedia" domain="[('tecnica', '=', '1')]"/>
                     <filter string="Avançada" name="avansada" domain="[('tecnica', '=', '2')]"/>
                     <filter string="Experta" name="experta" domain="[('tecnica', '=', '3')]"/>
                     <separator/>

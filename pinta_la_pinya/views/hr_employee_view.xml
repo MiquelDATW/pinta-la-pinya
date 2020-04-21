@@ -90,8 +90,7 @@
                                     <field name="count_sismesos"/>
                                 </tree>
                                 <form string="Posicions nivell">
-                                    <header>
-                                    </header>
+                                    <header/>
                                     <sheet>
                                         <group>
                                             <group>
@@ -202,7 +201,7 @@
                     <separator/>
                     <filter string="Habilitats expertes" name="count_3stars" domain="[('count_3stars', '!=', '')]"/>
                     <filter string="Habilitats avançades" name="count_2stars" domain="[('count_2stars', '!=', '')]"/>
-                    <filter string="Habilitats mitjanes" name="count_1stars" domain="[('count_1stars', '!=', '')]"/>
+                    <filter string="Habilitats intermedies" name="count_1stars" domain="[('count_1stars', '!=', '')]"/>
                     <separator/>
                     <filter string="Alçada 190+" name="alsada_190" domain="[('alsada_cap', '&gt;=', 190)]"/>
                     <filter string="Alçada 180, 190" name="alsada_180" domain="[('alsada_cap', '&gt;=', 180), ('alsada_cap', '&lt;', 190)]"/>
@@ -213,7 +212,7 @@
                     <group expand="0" string="Group By">
                         <filter string="Habilitats expertes" name="group_count_3stars" domain="[]" context="{'group_by':'count_3stars'}"/>
                         <filter string="Habilitats avançades" name="group_count_2stars" domain="[]" context="{'group_by':'count_2stars'}"/>
-                        <filter string="Habilitats mitjanes" name="group_count_1stars" domain="[]" context="{'group_by':'count_1stars'}"/>
+                        <filter string="Habilitats intermedies" name="group_count_1stars" domain="[]" context="{'group_by':'count_1stars'}"/>
                     </group>
                 </search>
             </field>
@@ -240,8 +239,7 @@
             <field name="model">hr.employee.actuacio</field>
             <field name="arch" type="xml">
                 <form string="Membres">
-                    <header>
-                    </header>
+                    <header/>
                     <sheet>
                         <group name="membres">
                             <group name="info" string="Info">
