@@ -30,13 +30,13 @@
                 </div>
             </div>
 
-            <div class="article" style="border:1px solid black;">
+            <div class="article">
                 <t t-raw="0"/>
             </div>
 
             <div class="footer o_background_footer">
                 <div class="text-center">
-                    <ul class="list-inline" style="border:1px solid black;">
+                    <ul class="list-inline" style="border:1px solid white;">
                         <t t-set="company" t-value="o._get_company()"/>
                         <li t-if="company.phone"><i class="fa fa-phone" style="color: black;"/> <span style="color: black;" t-field="company.phone"/></li>
                         <li t-if="company.email"><i class="fa fa-at" style="color: black;"/> <span style="color: black;" t-field="company.email"/></li>

@@ -15,6 +15,12 @@
                             text-align: center;
                             width: 10%;
                             }
+                            div.menudes {
+                            position: absolute;
+                            text-align: center;
+                            width: 8%;
+                            font-size: x-small;
+                            }
                         </style>
                         <t t-set="plantilla" t-value="o._get_plantilla()"/>
                         <t t-if="plantilla == 'torreta'">
