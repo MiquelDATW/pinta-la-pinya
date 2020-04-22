@@ -519,13 +519,6 @@
                     <filter string="5é cordó" name="5e_cordo" domain="[('cordo', '=', '5')]"/>
                     <filter string="6é cordó" name="6e_cordo" domain="[('cordo', '=', '6')]"/>
                     <separator/>
-                    <filter string="1r rengle" name="1r_rengle" domain="[('rengle', '=', '1')]"/>
-                    <filter string="2n rengle" name="2n_rengle" domain="[('rengle', '=', '2')]"/>
-                    <filter string="3r rengle" name="3r_rengle" domain="[('rengle', '=', '3')]"/>
-                    <filter string="4t rengle" name="4t_rengle" domain="[('rengle', '=', '4')]"/>
-                    <filter string="5é rengle" name="5e_rengle" domain="[('rengle', '=', '5')]"/>
-                    <filter string="6é rengle" name="6e_rengle" domain="[('rengle', '=', '6')]"/>
-                    <separator/>
                     <filter string="Experte ⭐⭐⭐" name="tecnica_3" domain="[('tecnica', '=', '3')]"/>
                     <filter string="Avançat ⭐⭐" name="tecnica_2" domain="[('tecnica', '=', '2')]"/>
                     <filter string="Intermedi ⭐" name="tecnica_1" domain="[('tecnica', '=', '1')]"/>

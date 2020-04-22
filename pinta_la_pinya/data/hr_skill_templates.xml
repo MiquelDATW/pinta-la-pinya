@@ -44,6 +44,12 @@
             <field name="prioritat">2</field>
             <field name="description">En figures de 5 i amunt, es col·loca dins del perímetre format per les bases i agafa les cuixes de les segones des de davant.</field>
         </record>
+        <record id="colze" model="hr.skill">
+            <field name="name">Colze</field>
+            <field name="tipus">pinya</field>
+            <field name="prioritat">1</field>
+            <field name="description">Agafa pel colze un dels braços de qui fa de primeres mans i l’ajuda a desplegar-lo en figures com la Torreta.</field>
+        </record>
         <record id="contrafort" model="hr.skill">
             <field name="name">Contrafort</field>
             <field name="tipus">pinya</field>

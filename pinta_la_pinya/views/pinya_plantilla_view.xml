@@ -123,9 +123,7 @@
                                 <field name="plantilla_id" invisible="1"/>
                                 <field name="tipus"/>
                                 <field name="name"/>
-                                <field name="rengles"
-                                       attrs="{'invisible': [('tipus', '!=', 'pinya')]}"/>
-                                <field name="posicions_qty"/>
+                                <field name="rengles"/>
                             </group>
                         </group>
                         <group>
@@ -146,7 +144,6 @@
                     <field name="tipus"/>
                     <field name="name"/>
                     <field name="rengles"/>
-                    <field name="posicions_qty"/>
                     <field name="posicio_ids" widget="many2many_tags"/>
                 </tree>
             </field>
@@ -161,7 +158,7 @@
                         <group>
                             <field name="tipus" invisible="0"/>
                             <field name="posicio_id" domain="[('tipus', '=', tipus)]"/>
-                            <field name="quantity"/>
+                            <field name="rengle"/>
                             <field name="tecnica"/>
                         </group>
                     </sheet>
@@ -174,9 +171,10 @@
             <field name="model">pinya.plantilla.skill</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="line_id"/>
                     <field name="tipus" invisible="0"/>
                     <field name="posicio_id" domain="[('tipus', '=', tipus)]"/>
-                    <field name="quantity"/>
+                    <field name="rengle"/>
                     <field name="tecnica"/>
                 </tree>
             </field>
@@ -198,7 +196,7 @@
                     <group expand="0" string="Group By">
                         <filter name="group_tipus" string="Tipus" domain="[]" context="{'group_by':'tipus'}"/>
                         <filter name="group_posicio" string="Posició" domain="[]" context="{'group_by':'posicio_id'}"/>
-                        <filter name="group_quantitat" string="Quantitat" domain="[]" context="{'group_by':'quantity'}"/>
+                        <filter name="group_rengle" string="Rengle" domain="[]" context="{'group_by':'rengle'}"/>
                         <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"/>
                     </group>
                 </search>

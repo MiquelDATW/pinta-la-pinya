@@ -47,13 +47,13 @@ class PinyaPlantilla(models.Model):
     image = fields.Binary("Image", attachment=True, help="Limitat a 1024x1024px.")
 
     @api.multi
-    @api.depends('plantilla_line_ids', 'plantilla_line_ids.posicions_qty', 'plantilla_line_ids.rengles')
+    @api.depends('plantilla_line_ids', 'plantilla_line_ids.rengles')
     def _compute_total_count(self):
         for plantilla in self:
             tronc = plantilla.plantilla_line_ids.filtered(lambda x: x.tipus == 'tronc')
             pinya = plantilla.plantilla_line_ids.filtered(lambda x: x.tipus == 'pinya')
-            t = sum(t.posicions_qty for t in tronc)
-            p = sum(p.posicions_qty * p.rengles for p in pinya)
+            t = sum(t.rengles for t in tronc)
+            p = sum(p.rengles for p in pinya)
             plantilla.tronc_count = t
             plantilla.pinya_count = p
             plantilla.total_count = t + p
@@ -72,6 +72,18 @@ class PinyaPlantilla(models.Model):
             plantilla.descarrega_muix = len(desca)
             plantilla.intent_muix = len(intent)
             plantilla.caigut_muix = len(fail)
+
+    @api.multi
+    def unlink(self):
+        for plantilla in self:
+            lines = plantilla.plantilla_line_ids
+            for line in lines:
+                line.posicio_ids.unlink()
+            lines.unlink()
+            lines = plantilla.muixeranga_ids
+            lines.unlink()
+        res = super(PinyaPlantilla, self).unlink()
+        return res
 
     def crear_muixeranga(self, actuacio):
         obj_actua = self.env['pinya.actuacio']
@@ -97,17 +109,15 @@ class PinyaPlantilla(models.Model):
             pis = str(tronc.name)
             line_vals['pis'] = pis
             for pos in posicions:
-                i = 0
-                qty = pos.quantity
+                qty = len(posicions.filtered(lambda x: x.posicio_id.id == pos.posicio_id.id).ids)
                 line_vals['name'] = pos.posicio_id.name + ' / ' + pis
+                line_vals['rengle'] = pos.rengle
                 line_vals['tecnica'] = pos.tecnica
                 line_vals['posicio_id'] = pos.posicio_id.id
-                for q in range(qty):
-                    i += 1
-                    jo = str(self.id).zfill(2) + '_' + str(pos.posicio_id.id).zfill(2)
-                    jo += '_P' + pis + '_T' + pos.tecnica + '__' + str(i) + '.de.' + str(qty)
-                    line_vals['quisocjo'] = jo
-                    new_line += obj_tronc.create(line_vals)
+                jo = str(self.id).zfill(2) + '_' + str(pos.posicio_id.id).zfill(2)
+                jo += '_P' + pis + '_T' + pos.tecnica + '__' + str(pos.rengle) + '.de.' + str(qty)
+                line_vals['quisocjo'] = jo
+                new_line += obj_tronc.create(line_vals)
 
         vals['tronc_line_ids'] = [(6, 0, new_line.ids)]
 
@@ -126,25 +136,23 @@ class PinyaPlantilla(models.Model):
 
         line_vals = {}
         line_vals['actuacio_id'] = actuacio
-        for i in range(rengles):
-            rengle = str(i+1)
-            line_vals['rengle'] = rengle
-            for pinya in pinyes:
-                posicions = pinya.posicio_ids
-                cordo = str(pinya.name)
-                line_vals['cordo'] = cordo
-                for pos in posicions:
-                    j = 0
-                    qty = pos.quantity
-                    line_vals['name'] = pos.posicio_id.name + ' / ' + cordo
-                    line_vals['tecnica'] = pos.tecnica
-                    line_vals['posicio_id'] = pos.posicio_id.id
-                    for q in range(qty):
-                        j += 1
-                        jo = str(self.id).zfill(2) + '_' + str(pos.posicio_id.id).zfill(2)
-                        jo += '_C' + cordo + '_T' + pos.tecnica + '__' + str(j) + '.de.' + str(qty)
-                        line_vals['quisocjo'] = jo
-                        new_line += obj_pinya.create(line_vals)
+        for pinya in pinyes:
+            posicions = pinya.posicio_ids
+            cordo = str(pinya.name)
+            line_vals['cordo'] = cordo
+            for pos in posicions:
+                qty = len(posicions.filtered(lambda x: x.posicio_id.id == pos.posicio_id.id).ids)
+                line_vals['name'] = pos.posicio_id.name + ' / ' + cordo
+                line_vals['rengle'] = pos.rengle
+                #line_vals['rengle'] = str(pos.rengle).zfill(2)
+                #line_vals['rengle'] = str(round(((pos.rengle - 1) / rengles) * 60)).zfill(2) + "'"
+                #line_vals['rengle'] = str(round(((pos.rengle - 1) / rengles) * 360)).zfill(3) + "º"
+                line_vals['tecnica'] = pos.tecnica
+                line_vals['posicio_id'] = pos.posicio_id.id
+                jo = str(self.id).zfill(2) + '_' + str(pos.posicio_id.id).zfill(2)
+                jo += '_C' + cordo + '_T' + pos.tecnica + '__' + str(pos.rengle) + '.de.' + str(qty)
+                line_vals['quisocjo'] = jo
+                new_line += obj_pinya.create(line_vals)
 
         vals['pinya_line_ids'] = [(6, 0, new_line.ids)]
         mestra = obj_actua.browse(actuacio).mestra_id.employee_id.id
@@ -181,10 +189,9 @@ class PinyaPlantillaLine(models.Model):
         ('1', '1'), ('2', '2'), ('3', '3'),
         ('4', '4'),  ('5', '5'),  ('6', '6'),
     ], string="Pis/Cordó")
-    rengles = fields.Integer(string="Rengles de pinya")
 
-    posicio_ids = fields.Many2many("pinya.plantilla.skill", string="Posicions")
-    posicions_qty = fields.Integer(string="Total pis/rengle", compute="_compute_posicions_qty", store=True)
+    posicio_ids = fields.One2many("pinya.plantilla.skill", "line_id", string="Posicions")
+    rengles = fields.Integer(string="Rengles", compute="_compute_rengles", store=True)
     plantilla_id = fields.Many2one(string="Plantilla", comodel_name="pinya.plantilla")
 
     tipus = fields.Selection([
@@ -193,21 +200,22 @@ class PinyaPlantillaLine(models.Model):
     ], string='Tipus', required=True)
 
     @api.multi
-    @api.depends('posicio_ids', 'posicio_ids.quantity')
-    def _compute_posicions_qty(self):
+    @api.depends('posicio_ids')
+    def _compute_rengles(self):
         for line in self:
             posicions = line.posicio_ids
-            line.posicions_qty = sum(posicions.mapped('quantity'))
+            line.rengles = len(list(set(posicions.mapped('rengle'))))
 
 
 class PinyaPlantillaSkill(models.Model):
     _name = "pinya.plantilla.skill"
     _description = "Posicions de línea de plantilla"
-    _order = "tipus desc, posicio_id asc, quantity asc"
+    _order = "tipus desc, rengle asc, posicio_id asc"
 
     name = fields.Char(string="Nom", related="posicio_id.name", index=True)
+    line_id = fields.Many2one(string="Línea de plantilla", comodel_name="pinya.plantilla.line", required=True)
     posicio_id = fields.Many2one(string="Posicions", comodel_name="hr.skill", required=True)
-    quantity = fields.Integer(string="Quantitat", default=1)
+    rengle = fields.Integer(string="Rengle")
 
     tipus = fields.Selection([
         ('pinya', 'Pinya'),

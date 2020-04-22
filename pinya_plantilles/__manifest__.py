@@ -16,7 +16,6 @@
         "pinta_la_pinya",
     ],
     "data": [
-        "data/plantilla_skill_templates.xml",
         "data/plantilla_torreta_templates.xml",
         "report/pinya_reports.xml",
         "report/pinya_muixeranga_templates.xml",

@@ -326,10 +326,8 @@ class PinyaMuixerangaPinya(models.Model):
         ('1', '1'), ('2', '2'), ('3', '3'),
         ('4', '4'),  ('5', '5'),  ('6', '6'),
     ], string="Cordó", required=True)
-    rengle = fields.Selection([
-        ('1', '1'), ('2', '2'), ('3', '3'),
-        ('4', '4'),  ('5', '5'),  ('6', '6'),
-    ], string="Rengle", required=True)
+
+    rengle = fields.Integer(string="Rengle", required=True)
     active = fields.Boolean(string="Actiu", default=True)
     data = fields.Datetime(string="Data", related="muixeranga_pinya_id.actuacio_id.data_inici", readonly=True, store=True)
 
@@ -409,7 +407,7 @@ class PinyaMuixerangaPinya(models.Model):
 class PinyaMuixerangaTronc(models.Model):
     _name = "pinya.muixeranga.tronc"
     _description = "Tronc de muixeranga"
-    _order = "data desc, muixeranga_tronc_id, pis, posicio_id asc"
+    _order = "data desc, muixeranga_tronc_id, pis, rengle, posicio_id asc"
 
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
     quisocjo = fields.Char(string="Qui sòc jo")
@@ -427,6 +425,7 @@ class PinyaMuixerangaTronc(models.Model):
         ('1', '1'), ('2', '2'), ('3', '3'),
         ('4', '4'),  ('5', '5'),  ('6', '6'),
     ], string="Pis", required=True)
+    rengle = fields.Integer(string="Rengle", required=True)
     posicio_id = fields.Many2one(string="Posició", comodel_name="hr.skill", required=True)
     muixeranga_tronc_id = fields.Many2one(string="Figura", comodel_name="pinya.muixeranga")
     membre_tronc_id = fields.Many2one(string="Membre Tronc", comodel_name="hr.employee",

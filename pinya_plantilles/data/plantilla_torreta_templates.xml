@@ -5,58 +5,585 @@
 -->
 <odoo>
     <data noupdate="1">
+
         <!-- Plantilla line (Troncs) -->
         <record id="torreta_tronc_1" model="pinya.plantilla.line">
             <field name="name">1</field>
             <field name="tipus">tronc</field>
-            <field name="posicio_ids" eval="[(6,0,[ref('base_4_2star')])]"/>
         </record>
         <record id="torreta_tronc_2" model="pinya.plantilla.line">
             <field name="name">2</field>
             <field name="tipus">tronc</field>
-            <field name="posicio_ids" eval="[(6,0,[ref('segones_2_2star')])]"/>
         </record>
         <record id="torreta_tronc_3" model="pinya.plantilla.line">
             <field name="name">3</field>
             <field name="tipus">tronc</field>
-            <field name="posicio_ids" eval="[(6,0,[ref('alsadora_1_2star')])]"/>
         </record>
         <record id="torreta_tronc_4" model="pinya.plantilla.line">
             <field name="name">4</field>
             <field name="tipus">tronc</field>
-            <field name="posicio_ids" eval="[(6,0,[ref('xicalla_1_2star')])]"/>
+        </record>
+
+        <!-- Plantilla skill (Tronc) -->
+        <record id="base_torreta_1" model="pinya.plantilla.skill">
+            <field name="tipus">tronc</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.base')"/>
+            <field name="line_id" eval="ref('torreta_tronc_1')"/>
+            <field name="rengle">1</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="base_torreta_2" model="pinya.plantilla.skill">
+            <field name="tipus">tronc</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.base')"/>
+            <field name="line_id" eval="ref('torreta_tronc_1')"/>
+            <field name="rengle">2</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="base_torreta_3" model="pinya.plantilla.skill">
+            <field name="tipus">tronc</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.base')"/>
+            <field name="line_id" eval="ref('torreta_tronc_1')"/>
+            <field name="rengle">3</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="base_torreta_4" model="pinya.plantilla.skill">
+            <field name="tipus">tronc</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.base')"/>
+            <field name="line_id" eval="ref('torreta_tronc_1')"/>
+            <field name="rengle">4</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="segones_torreta_1" model="pinya.plantilla.skill">
+            <field name="tipus">tronc</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.segones')"/>
+            <field name="line_id" eval="ref('torreta_tronc_2')"/>
+            <field name="rengle">1</field>
+            <field name="tecnica">2</field>
+        </record>
+        <record id="segones_torreta_2" model="pinya.plantilla.skill">
+            <field name="tipus">tronc</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.segones')"/>
+            <field name="line_id" eval="ref('torreta_tronc_2')"/>
+            <field name="rengle">2</field>
+            <field name="tecnica">2</field>
+        </record>
+        <record id="alsadora_torreta_1" model="pinya.plantilla.skill">
+            <field name="tipus">tronc</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.alsadora')"/>
+            <field name="line_id" eval="ref('torreta_tronc_3')"/>
+            <field name="rengle">1</field>
+            <field name="tecnica">2</field>
+        </record>
+        <record id="xicalla_torreta_1" model="pinya.plantilla.skill">
+            <field name="tipus">tronc</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.xicalla')"/>
+            <field name="line_id" eval="ref('torreta_tronc_4')"/>
+            <field name="rengle">1</field>
+            <field name="tecnica">2</field>
         </record>
 
         <!-- Plantilla line (Pinyes) -->
+        <record id="torreta_pinya_0" model="pinya.plantilla.line">
+            <field name="name">0</field>
+            <field name="tipus">pinya</field>
+        </record>
         <record id="torreta_pinya_1" model="pinya.plantilla.line">
             <field name="name">1</field>
-            <field name="rengles">2</field>
             <field name="tipus">pinya</field>
-            <field name="posicio_ids" eval="[(6,0,[ref('vent_1_2star'), ref('mans_1_2star'), ref('pinyerista_2_2star'), ref('peu_2_1star')])]"/>
         </record>
         <record id="torreta_pinya_2" model="pinya.plantilla.line">
             <field name="name">2</field>
-            <field name="rengles">2</field>
             <field name="tipus">pinya</field>
-            <field name="posicio_ids" eval="[(6,0,[ref('vent_1_1star'), ref('mans_1_1star'), ref('lateral_2_1star')])]"/>
         </record>
         <record id="torreta_pinya_3" model="pinya.plantilla.line">
             <field name="name">3</field>
-            <field name="rengles">2</field>
             <field name="tipus">pinya</field>
-            <field name="posicio_ids" eval="[(6,0,[ref('vent_1_1star'), ref('mans_1_1star'), ref('lateral_2_1star'), ref('tap_4_1star')])]"/>
         </record>
         <record id="torreta_pinya_4" model="pinya.plantilla.line">
             <field name="name">4</field>
-            <field name="rengles">2</field>
             <field name="tipus">pinya</field>
-            <field name="posicio_ids" eval="[(6,0,[ref('pinyerista_4_1star'), ref('tap_4_1star')])]"/>
         </record>
         <record id="torreta_pinya_5" model="pinya.plantilla.line">
             <field name="name">5</field>
-            <field name="rengles">2</field>
             <field name="tipus">pinya</field>
-            <field name="posicio_ids" eval="[(6,0,[ref('pinyerista_4_1star'), ref('tap_4_1star')])]"/>
+        </record>
+
+        <!-- Plantilla skill (Pinyes) -->
+        <record id="peus_torreta_0_3" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.peu')"/>
+            <field name="line_id" eval="ref('torreta_pinya_0')"/>
+            <field name="rengle">3</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="peus_torreta_0_7" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.peu')"/>
+            <field name="line_id" eval="ref('torreta_pinya_0')"/>
+            <field name="rengle">7</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="peus_torreta_0_11" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.peu')"/>
+            <field name="line_id" eval="ref('torreta_pinya_0')"/>
+            <field name="rengle">11</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="peus_torreta_0_15" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.peu')"/>
+            <field name="line_id" eval="ref('torreta_pinya_0')"/>
+            <field name="rengle">15</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="vent_torreta_1_1" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.vent')"/>
+            <field name="line_id" eval="ref('torreta_pinya_1')"/>
+            <field name="rengle">1</field>
+            <field name="tecnica">2</field>
+        </record>
+        <record id="vent_torreta_1_9" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.vent')"/>
+            <field name="line_id" eval="ref('torreta_pinya_1')"/>
+            <field name="rengle">9</field>
+            <field name="tecnica">2</field>
+        </record>
+        <record id="mans_torreta_1_5" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.mans')"/>
+            <field name="line_id" eval="ref('torreta_pinya_1')"/>
+            <field name="rengle">5</field>
+            <field name="tecnica">2</field>
+        </record>
+        <record id="mans_torreta_1_13" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.mans')"/>
+            <field name="line_id" eval="ref('torreta_pinya_1')"/>
+            <field name="rengle">13</field>
+            <field name="tecnica">2</field>
+        </record>
+        <record id="colze_torreta_1_3" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.colze')"/>
+            <field name="line_id" eval="ref('torreta_pinya_1')"/>
+            <field name="rengle">3</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="colze_torreta_1_7" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.colze')"/>
+            <field name="line_id" eval="ref('torreta_pinya_1')"/>
+            <field name="rengle">7</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="colze_torreta_1_11" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.colze')"/>
+            <field name="line_id" eval="ref('torreta_pinya_1')"/>
+            <field name="rengle">11</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="colze_torreta_1_15" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.colze')"/>
+            <field name="line_id" eval="ref('torreta_pinya_1')"/>
+            <field name="rengle">15</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="vent_torreta_2_1" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.vent')"/>
+            <field name="line_id" eval="ref('torreta_pinya_2')"/>
+            <field name="rengle">1</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="vent_torreta_2_9" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.vent')"/>
+            <field name="line_id" eval="ref('torreta_pinya_2')"/>
+            <field name="rengle">9</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="mans_torreta_2_5" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.mans')"/>
+            <field name="line_id" eval="ref('torreta_pinya_2')"/>
+            <field name="rengle">5</field>
+            <field name="tecnica">2</field>
+        </record>
+        <record id="mans_torreta_2_13" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.mans')"/>
+            <field name="line_id" eval="ref('torreta_pinya_2')"/>
+            <field name="rengle">13</field>
+            <field name="tecnica">2</field>
+        </record>
+        <record id="lateral_torreta_2_3" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.lateral')"/>
+            <field name="line_id" eval="ref('torreta_pinya_2')"/>
+            <field name="rengle">3</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="lateral_torreta_2_7" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.lateral')"/>
+            <field name="line_id" eval="ref('torreta_pinya_2')"/>
+            <field name="rengle">7</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="lateral_torreta_2_11" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.lateral')"/>
+            <field name="line_id" eval="ref('torreta_pinya_2')"/>
+            <field name="rengle">11</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="lateral_torreta_2_15" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.lateral')"/>
+            <field name="line_id" eval="ref('torreta_pinya_2')"/>
+            <field name="rengle">15</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="vent_torreta_3_1" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.vent')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">1</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="vent_torreta_3_9" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.vent')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">9</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="mans_torreta_3_5" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.mans')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">5</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="mans_torreta_3_13" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.mans')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">13</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="lateral_torreta_3_3" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.lateral')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">3</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="lateral_torreta_3_7" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.lateral')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">7</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="lateral_torreta_3_11" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.lateral')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">11</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="lateral_torreta_3_15" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.lateral')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">15</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_3_2" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">2</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_3_4" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">4</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_3_6" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">6</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_3_8" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">8</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_3_10" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">10</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_3_12" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">12</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_3_14" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">14</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_3_16" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_3')"/>
+            <field name="rengle">16</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_4_1" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">1</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_4_3" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">3</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_4_5" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">5</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_4_7" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">7</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_4_9" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">9</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_4_11" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">11</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_4_13" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">13</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_4_15" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">15</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_4_2" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">2</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_4_4" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">4</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_4_6" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">6</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_4_8" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">8</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_4_10" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">10</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_4_12" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">12</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_4_14" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">14</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_4_16" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_4')"/>
+            <field name="rengle">16</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_5_1" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">1</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_5_3" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">3</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_5_5" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">5</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_5_7" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">7</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_5_9" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">9</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_5_11" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">11</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_5_13" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">13</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="pinyerista_torreta_5_15" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.pinyerista')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">15</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_5_2" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">2</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_5_4" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">4</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_5_6" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">6</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_5_8" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">8</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_5_10" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">10</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_5_12" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">12</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_5_14" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">14</field>
+            <field name="tecnica">1</field>
+        </record>
+        <record id="tap_torreta_5_16" model="pinya.plantilla.skill">
+            <field name="tipus">pinya</field>
+            <field name="posicio_id" eval="ref('pinta_la_pinya.tap')"/>
+            <field name="line_id" eval="ref('torreta_pinya_5')"/>
+            <field name="rengle">16</field>
+            <field name="tecnica">1</field>
         </record>
 
         <!-- Plantilla -->
@@ -65,7 +592,7 @@
             <field name="pisos">4</field>
             <field name="tipus">desplega</field>
             <field name="neta">False</field>
-            <field name="plantilla_line_ids" eval="[(6,0,[ref('torreta_tronc_1'), ref('torreta_tronc_2'), ref('torreta_tronc_3'), ref('torreta_tronc_4'), ref('torreta_pinya_1'), ref('torreta_pinya_2'), ref('torreta_pinya_3'), ref('torreta_pinya_4'), ref('torreta_pinya_5')])]"/>
+            <field name="plantilla_line_ids" eval="[(6,0,[ref('torreta_tronc_1'), ref('torreta_tronc_2'), ref('torreta_tronc_3'), ref('torreta_tronc_4'), ref('torreta_pinya_0'), ref('torreta_pinya_1'), ref('torreta_pinya_2'), ref('torreta_pinya_3'), ref('torreta_pinya_4'), ref('torreta_pinya_5')])]"/>
         </record>
     </data>
 </odoo>
