@@ -4,9 +4,56 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
+
+    <!-- Plantilla Pinya la pinya -->
+    <template id="pinya_template">
+        <div class="header">
+            <style>
+                div.v-align {
+                float: none;
+                display: inline-block;
+                vertical-align: middle;
+                }
+            </style>
+            <div class="row">
+                <div class="col-xs-1">
+                    <img t-attf-src="data:image/*;base64,{{res_company.logo}}" t-att-alt="res_company.name" width="60px" height="60px"/>
+                </div>
+                <div class="col-xs-4 v-align">
+                    <h3 t-if="quisocjo == 'actuacio'" t-field="o.name"/>
+                    <h3 t-if="quisocjo == 'muixeranga'" t-field="o.actuacio_id.name"/>
+                </div>
+                <div class="col-xs-3 v-align">
+                    <h3 t-if="quisocjo == 'actuacio'" t-field="o.data_inici" t-field-options="{'widget': 'date'}"/>
+                    <h3 t-if="quisocjo == 'muixeranga'" t-field="o.data" t-field-options="{'widget': 'date'}"/>
+                </div>
+                <div class="col-xs-3 v-align">
+                    <h3 t-if="quisocjo == 'muixeranga'" t-field="o.name"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="article">
+            <t t-raw="0"/>
+        </div>
+
+        <div class="footer o_background_footer">
+            <div class="text-center">
+                <ul class="list-inline" style="border:1px solid white;">
+                    <t t-set="company" t-value="o._get_company()"/>
+                    <li t-if="company.phone"><i class="fa fa-phone" style="color: black;"/> <span style="color: black;" t-field="company.phone"/></li>
+                    <li t-if="company.email"><i class="fa fa-at" style="color: black;"/> <span style="color: black;" t-field="company.email"/></li>
+                    <li t-if="company.website"><i class="fa fa-globe" style="color: black;"/> <span style="color: black;" t-field="company.website"/></li>
+                    <li style="color: black;">Pàgina: <span class="page"/> de <span class="topage"/></li>
+                </ul>
+            </div>
+        </div>
+    </template>
+
     <template id="pinya_muixeranga_report_template">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
+                <t t-set="quisocjo" t-value="'muixeranga'"/>
                 <t t-call="pinya_plantilles.pinya_template">
                     <div class="page">
                         <style>
@@ -24,7 +71,40 @@
                         </style>
                         <t t-set="plantilla" t-value="o._get_plantilla()"/>
                         <t t-if="plantilla == 'torreta'">
+                            <t t-set="m" t-value="o"/>
                             <t t-call="pinya_plantilles.torreta_template"/>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="pinya_actuacio_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="quisocjo" t-value="'actuacio'"/>
+                <t t-call="pinya_plantilles.pinya_template">
+                    <div class="page">
+                        <style>
+                            div.posicions {
+                            position: absolute;
+                            text-align: center;
+                            width: 10%;
+                            }
+                            div.menudes {
+                            position: absolute;
+                            text-align: center;
+                            width: 8%;
+                            font-size: x-small;
+                            }
+                        </style>
+                        <t t-foreach="o.muixeranga_ids" t-as="muixeranga">
+                            <t t-set="plantilla" t-value="muixeranga._get_plantilla()"/>
+                            <t t-if="plantilla == 'torreta'">
+                                <t t-set="m" t-value="muixeranga"/>
+                                <t t-call="pinya_plantilles.torreta_template"/>
+                            </t>
                         </t>
                     </div>
                 </t>

@@ -5,48 +5,6 @@
 -->
 <odoo>
 
-        <!-- Plantilla Pinya la pinya -->
-        <template id="pinya_template">
-            <div class="header">
-                <style>
-                    div.v-align {
-                    float: none;
-                    display: inline-block;
-                    vertical-align: middle;
-                    }
-                </style>
-                <div class="row">
-                    <div class="col-xs-1">
-                        <img t-attf-src="data:image/*;base64,{{res_company.logo}}" t-att-alt="res_company.name" width="60px" height="60px"/>
-                    </div>
-                    <div class="col-xs-1"/>
-                    <div class="col-xs-4 v-align">
-                        <h3 t-field="o.name"/>
-                    </div>
-                    <div class="col-xs-3 v-align">
-                        <h3 t-field="o.actuacio_id.name"/>
-                        <!--<h3 t-field="o.data" t-field-options="{'widget': 'date'}"/>-->
-                    </div>
-                </div>
-            </div>
-
-            <div class="article">
-                <t t-raw="0"/>
-            </div>
-
-            <div class="footer o_background_footer">
-                <div class="text-center">
-                    <ul class="list-inline" style="border:1px solid white;">
-                        <t t-set="company" t-value="o._get_company()"/>
-                        <li t-if="company.phone"><i class="fa fa-phone" style="color: black;"/> <span style="color: black;" t-field="company.phone"/></li>
-                        <li t-if="company.email"><i class="fa fa-at" style="color: black;"/> <span style="color: black;" t-field="company.email"/></li>
-                        <li t-if="company.website"><i class="fa fa-globe" style="color: black;"/> <span style="color: black;" t-field="company.website"/></li>
-                        <li style="color: black;">Pàgina: <span class="page"/> de <span class="topage"/></li>
-                    </ul>
-                </div>
-            </div>
-        </template>
-
     <record id="paperformat_euro_landscape" model="report.paperformat">
         <field name="name">European A4</field>
         <field name="default" eval="True" />
@@ -72,6 +30,17 @@
         file="pinya_plantilles.pinya_muixeranga_report_template"
         paperformat="pinya_plantilles.paperformat_euro_landscape"
         print_report_name="'Muixeranga - %s' % (object.name)"
+    />
+
+    <report
+        id="report_pinya_actuacio"
+        model="pinya.actuacio"
+        string="Assaig/actuació"
+        report_type="qweb-pdf"
+        name="pinya_plantilles.pinya_actuacio_report_template"
+        file="pinya_plantilles.pinya_actuacio_report_template"
+        paperformat="pinya_plantilles.paperformat_euro_landscape"
+        print_report_name="(object.tipus == 'assaig' and 'Assaig - %s' % (object.name)) or (object.tipus == 'actuacio' and 'Actuació - %s' % (object.name))"
     />
 
 </odoo>
