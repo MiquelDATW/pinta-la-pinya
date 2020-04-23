@@ -54,20 +54,20 @@
                  style="left: 670px;top: 572px;-webkit-transform:rotate(0deg);"/>
 
             <div class="posicions" t-esc="mans[0].membre_pinya_id.nom_croquis"
-                 style="left: 575px;top: 360px;-webkit-transform:rotate(90deg);"/>
-            <div class="posicions" t-esc="mans[1].membre_pinya_id.nom_croquis"
                  style="left: 760px;top: 360px;-webkit-transform:rotate(270deg);"/>
+            <div class="posicions" t-esc="mans[1].membre_pinya_id.nom_croquis"
+                 style="left: 575px;top: 360px;-webkit-transform:rotate(90deg);"/>
             <div class="posicions" t-esc="mans[2].membre_pinya_id.nom_croquis"
-                 style="left: 525px;top: 360px;-webkit-transform:rotate(90deg);"/>
-            <div class="posicions" t-esc="mans[3].membre_pinya_id.nom_croquis"
                  style="left: 810px;top: 360px;-webkit-transform:rotate(270deg);"/>
+            <div class="posicions" t-esc="mans[3].membre_pinya_id.nom_croquis"
+                 style="left: 525px;top: 360px;-webkit-transform:rotate(90deg);"/>
             <div class="posicions" t-esc="mans[4].membre_pinya_id.nom_croquis"
-                 style="left: 475px;top: 360px;-webkit-transform:rotate(90deg);"/>
-            <div class="posicions" t-esc="mans[5].membre_pinya_id.nom_croquis"
                  style="left: 860px;top: 360px;-webkit-transform:rotate(270deg);"/>
+            <div class="posicions" t-esc="mans[5].membre_pinya_id.nom_croquis"
+                 style="left: 475px;top: 360px;-webkit-transform:rotate(90deg);"/>
 
-            <t t-set="peus" t-value="m._get_pinya_posicio('peu', ['1'])"/>
-            <t t-set="pinyerista" t-value="m._get_pinya_posicio('pinyerista', ['1'])"/>
+            <t t-set="peus" t-value="m._get_pinya_posicio('peu', ['0'])"/>
+            <t t-set="colze" t-value="m._get_pinya_posicio('colze', ['1'])"/>
 
             <div class="menudes" t-esc="peus[0].membre_pinya_id.nom_croquis"
                  style="left: 780px;top: 255px;-webkit-transform:rotate(45deg);"/>
@@ -78,13 +78,13 @@
             <div class="menudes" t-esc="peus[3].membre_pinya_id.nom_croquis"
                  style="left: 580px;top: 255px;-webkit-transform:rotate(-45deg);"/>
 
-            <div class="posicions" t-esc="pinyerista[0].membre_pinya_id.nom_croquis"
+            <div class="posicions" t-esc="colze[0].membre_pinya_id.nom_croquis"
                  style="left: 790px;top: 235px;-webkit-transform:rotate(45deg);"/>
-            <div class="posicions" t-esc="pinyerista[1].membre_pinya_id.nom_croquis"
+            <div class="posicions" t-esc="colze[1].membre_pinya_id.nom_croquis"
                  style="left: 790px;top: 485px;-webkit-transform:rotate(-45deg);"/>
-            <div class="posicions" t-esc="pinyerista[2].membre_pinya_id.nom_croquis"
+            <div class="posicions" t-esc="colze[2].membre_pinya_id.nom_croquis"
                  style="left: 545px;top: 490px;-webkit-transform:rotate(45deg);"/>
-            <div class="posicions" t-esc="pinyerista[3].membre_pinya_id.nom_croquis"
+            <div class="posicions" t-esc="colze[3].membre_pinya_id.nom_croquis"
                  style="left: 545px;top: 235px;-webkit-transform:rotate(-45deg);"/>
 
             <t t-set="lateral" t-value="m._get_pinya_posicio('lateral', ['2', '3'])"/>
@@ -94,17 +94,17 @@
             <div class="posicions" t-esc="lateral[1].membre_pinya_id.nom_croquis"
                  style="left: 815px;top: 515px;-webkit-transform:rotate(-45deg);"/>
             <div class="posicions" t-esc="lateral[2].membre_pinya_id.nom_croquis"
-                 style="left: 520px;top: 205px;-webkit-transform:rotate(-45deg);"/>
-            <div class="posicions" t-esc="lateral[3].membre_pinya_id.nom_croquis"
                  style="left: 520px;top: 515px;-webkit-transform:rotate(45deg);"/>
+            <div class="posicions" t-esc="lateral[3].membre_pinya_id.nom_croquis"
+                 style="left: 520px;top: 205px;-webkit-transform:rotate(-45deg);"/>
             <div class="posicions" t-esc="lateral[4].membre_pinya_id.nom_croquis"
                  style="left: 850px;top: 170px;-webkit-transform:rotate(45deg);"/>
             <div class="posicions" t-esc="lateral[5].membre_pinya_id.nom_croquis"
                  style="left: 850px;top: 550px;-webkit-transform:rotate(-45deg);"/>
             <div class="posicions" t-esc="lateral[6].membre_pinya_id.nom_croquis"
-                 style="left: 480px;top: 170px;-webkit-transform:rotate(-45deg);"/>
-            <div class="posicions" t-esc="lateral[7].membre_pinya_id.nom_croquis"
                  style="left: 480px;top: 550px;-webkit-transform:rotate(45deg);"/>
+            <div class="posicions" t-esc="lateral[7].membre_pinya_id.nom_croquis"
+                 style="left: 480px;top: 170px;-webkit-transform:rotate(-45deg);"/>
 
             <t t-set="taps" t-value="m._get_pinya_posicio('tap', ['3'])"/>
 

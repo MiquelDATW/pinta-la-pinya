@@ -29,7 +29,7 @@ class PinyaMuixeranga(models.Model):
         pos = self.env.ref('pinta_la_pinya.' + posicio).id
         troncs = self.tronc_line_ids.filtered(lambda x: x.posicio_id.id == pos)
         for t in troncs:
-            res.append(t)
+            res.append(t.sorted('rengle'))
         return res
 
     def _get_pinya_posicio(self, posicio, cordons):
@@ -37,6 +37,6 @@ class PinyaMuixeranga(models.Model):
         pos = self.env.ref('pinta_la_pinya.' + posicio).id
         pinyes = self.pinya_line_ids.filtered(lambda x: x.posicio_id.id == pos and x.cordo in cordons)
         for p in pinyes:
-            res.append(p.sorted('cordo'))
+            res.append(p.sorted('rengle'))
         return res
 
