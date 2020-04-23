@@ -30,11 +30,17 @@ class HrEmployee(models.Model):
 
     nutrition_allergen_ids = fields.Many2many(
         comodel_name='nutrition.food',
+        relation='nutrition_allergen_food_rel',
+        column1='allergen_id',
+        column2='food_id',
         domain=[('allergen', '=', True)],
         string='Allergens')
 
     nutrition_exclusion_ids = fields.Many2many(
         comodel_name='nutrition.food',
+        relation='nutrition_exclusion_food_rel',
+        column1='exclusion_id',
+        column2='food_id',
         string='Exclusions')
 
     nutrition_diet_id = fields.Many2one('nutrition.diet', 'Diet')
