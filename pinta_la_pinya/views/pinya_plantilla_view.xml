@@ -73,7 +73,7 @@
             <field name="name">pinya.plantilla.tree</field>
             <field name="model">pinya.plantilla</field>
             <field name="arch" type="xml">
-                <tree string="Plantilles">
+                <tree string="Plantilles" decoration-muted="muixeranga_count == 0">
                     <field name="name"/>
                     <field name="tipus"/>
                     <field name="pisos"/>

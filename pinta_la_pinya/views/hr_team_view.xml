@@ -49,10 +49,11 @@
             <field name="model">hr.team</field>
             <field name="inherit_id" ref="hr_team.view_hr_team_search"/>
             <field name="arch" type="xml">
-                <field name='department_ids' position="after">
-                    <field name="at_actual"/>
-                    <field name="jd_actual"/>
-                </field>
+                <xpath expr="//filter[@name='active']" position="before">
+                    <filter string="AT actual" name="at_actual" domain="[('at_actual', '=', True)]"/>
+                    <filter string="JD actual" name="jd_actual" domain="[('jd_actual', '=', True)]"/>
+                    <separator/>
+                </xpath>
             </field>
         </record>
     </data>

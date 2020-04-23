@@ -27,6 +27,21 @@ class ResPartner(models.Model):
     assaig_hora_inici = fields.Float(string="Hora d'inici d'assaig")
     assaig_hora_final = fields.Float(string="Hora de final d'assaig")
 
+    temporada_inici = fields.Selection([
+        ('0', 'Gener'),
+        ('1', 'Febrer'),
+        ('2', 'Març'),
+        ('3', 'Abril'),
+        ('4', 'Maig'),
+        ('5', 'Juny'),
+        ('6', 'Juliol'),
+        ('7', 'Agost'),
+        ('8', 'Setembre'),
+        ('9', 'Octubre'),
+        ('10', 'Novembre'),
+        ('11', 'Desembre')
+    ], string="Inici de temporada")
+
     fundacio_data = fields.Date(string="Data de fundació")
     fundacio_anys = fields.Integer(string='Anys', readonly=True)
 
@@ -42,14 +57,58 @@ class ResPartner(models.Model):
         ('6', 'Colla de 6'),
     ], string="Tipus de colla")
 
-    jd_presidencia = fields.Char(string="Presidència")
-    jd_secretaria = fields.Char(string="Secretaria")
-    jd_tresoreria = fields.Char(string="Tresoreria")
+    jd_presidencia_ids = fields.Many2many(
+        comodel_name='hr.employee',
+        relation='partner_presidencia_employee_rel',
+        column1='presidencia_id',
+        column2='employee_id',
+        string="Presidència",
+        domain=[('membre_jd', '=', True)]
+    )
+    jd_secretaria_ids = fields.Many2many(
+        comodel_name='hr.employee',
+        relation='partner_secretaria_employee_rel',
+        column1='secretaria_id',
+        column2='employee_id',
+        string="Secretaria",
+        domain=[('membre_jd', '=', True)])
+    jd_tresoreria_ids = fields.Many2many(
+        comodel_name='hr.employee',
+        relation='partner_tresoreria_employee_rel',
+        column1='tresoreria_id',
+        column2='employee_id',
+        string="Tresoreria",
+        domain=[('membre_jd', '=', True)])
 
-    at_mestra = fields.Char(string="Mestra")
-    at_cap_de_pinya = fields.Char(string="Cap de pinya")
-    at_cap_de_tronc = fields.Char(string="Cap de tronc")
-    at_cap_de_xicalla = fields.Char(string="Cap de xicalla")
+    at_mestra_ids = fields.Many2many(
+        comodel_name='hr.employee',
+        relation='partner_mestra_employee_rel',
+        column1='mestra_id',
+        column2='employee_id',
+        string="Mestra",
+        domain=[('membre_at', '=', True)]
+    )
+    at_cap_de_pinya_ids = fields.Many2many(
+        comodel_name='hr.employee',
+        relation='partner_cap_de_pinya_employee_rel',
+        column1='cap_de_pinya_id',
+        column2='employee_id',
+        string="Cap de pinya",
+        domain=[('membre_at', '=', True)])
+    at_cap_de_tronc_ids = fields.Many2many(
+        comodel_name='hr.employee',
+        relation='partner_cap_de_tronc_employee_rel',
+        column1='cap_de_tronc_id',
+        column2='employee_id',
+        string="Cap de tronc",
+        domain=[('membre_at', '=', True)])
+    at_cap_de_xicalla_ids = fields.Many2many(
+        comodel_name='hr.employee',
+        relation='partner_cap_de_xicalla_employee_rel',
+        column1='cap_de_xicalla_id',
+        column2='employee_id',
+        string="Cap de xicalla",
+        domain=[('membre_at', '=', True)])
 
     @api.multi
     def _compute_anys_colla(self):

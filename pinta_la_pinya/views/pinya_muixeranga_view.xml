@@ -87,6 +87,7 @@
                             <page name="tronc" string="Tronc">
                                 <field name="tronc_line_ids" nolabel="1">
                                     <tree string="Tronc de muixeranga"
+                                          decoration-muted="membre_tronc_id == False"
                                           create="false" edit="false" delete="false">
                                         <field name="pis"/>
                                         <field name="posicio_id"/>
@@ -100,6 +101,7 @@
                                   attrs="{'invisible': [('neta', '=', True)]}">
                                 <field name="pinya_line_ids" nolabel="1">
                                     <tree string="Pinya de muixeranga"
+                                          decoration-muted="membre_pinya_id == False"
                                           create="false" edit="false" delete="false">
                                         <field name="cordo"/>
                                         <field name="rengle"/>
@@ -296,10 +298,10 @@
             <field name="model">pinya.muixeranga.tronc</field>
             <field name="arch" type="xml">
                 <tree string="Tronc de muixeranga"
-                      decoration-muted="muixeranga_state=='draft'"
-                      decoration-warning="muixeranga_state=='intent'"
-                      decoration-success="muixeranga_state=='ready'"
-                      decoration-danger="muixeranga_state in ['caigut', 'cancel']">
+                      decoration-muted="muixeranga_state=='draft' or muixeranga_tronc_id==False"
+                      decoration-warning="muixeranga_state=='intent' and muixeranga_tronc_id!=False"
+                      decoration-success="muixeranga_state=='ready' and muixeranga_tronc_id!=False"
+                      decoration-danger="muixeranga_state in ['caigut', 'cancel'] and muixeranga_tronc_id!=False">
                     <field name="data" widget="date"/>
                     <field name="actuacio_id"/>
                     <field name="muixeranga_tronc_id"/>
@@ -317,7 +319,9 @@
             <field name="name">pinya.muixeranga.tronc.tree.selected</field>
             <field name="model">pinya.muixeranga.tronc</field>
             <field name="arch" type="xml">
-                <tree create="0" editable="bottom" string="Tronc de muixeranga">
+                <tree create="0" editable="bottom"
+                      decoration-muted="membre_tronc_id == False"
+                      string="Tronc de muixeranga">
                     <field name="pis" readonly="1"/>
                     <field name="posicio_id" readonly="1"/>
                     <field name="tecnica" widget="priority" readonly="1"/>
@@ -447,10 +451,10 @@
             <field name="model">pinya.muixeranga.pinya</field>
             <field name="arch" type="xml">
                 <tree string="Pinya de muixeranga"
-                      decoration-muted="muixeranga_state=='draft'"
-                      decoration-warning="muixeranga_state=='intent'"
-                      decoration-success="muixeranga_state=='ready'"
-                      decoration-danger="muixeranga_state in ['caigut', 'cancel']">
+                      decoration-muted="muixeranga_state=='draft' or muixeranga_pinya_id==False"
+                      decoration-warning="muixeranga_state=='intent' and muixeranga_pinya_id!=False"
+                      decoration-success="muixeranga_state=='ready' and muixeranga_pinya_id!=False"
+                      decoration-danger="muixeranga_state in ['caigut', 'cancel'] and muixeranga_pinya_id!=False">
                     <field name="data" widget="date"/>
                     <field name="actuacio_id"/>
                     <field name="muixeranga_pinya_id"/>
@@ -469,7 +473,9 @@
             <field name="name">pinya.muixeranga.pinya.tree.selected</field>
             <field name="model">pinya.muixeranga.pinya</field>
             <field name="arch" type="xml">
-                <tree create="0" editable="bottom" string="Pinya de muixeranga">
+                <tree create="0" editable="bottom"
+                      decoration-muted="membre_pinya_id == False"
+                      string="Pinya de muixeranga">
                     <field name="cordo" readonly="1"/>
                     <field name="rengle" readonly="1"/>
                     <field name="posicio_id" readonly="1"/>

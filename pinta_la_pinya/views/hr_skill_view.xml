@@ -10,6 +10,9 @@
             <field name="model">hr.skill</field>
             <field name="inherit_id" ref="hr_skill.view_hr_skill_tree"/>
             <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-muted">count_3stars == '' and count_2stars == '' and count_1stars == ''</attribute>
+                </xpath>
                 <field name="display_name" position="before">
                     <field name="tipus"/>
                     <field name="prioritat" readonly="1"/>
@@ -81,7 +84,6 @@
         <record id="view_skill_search" model="ir.ui.view">
             <field name="name">hr.skill.search</field>
             <field name="model">hr.skill</field>
-            <field name="field_parent">child_ids</field>
             <field name="arch" type="xml">
                 <search string="Skills">
                     <field name="name"/>
@@ -104,7 +106,8 @@
             <field name="name">hr.employee.skill.tree</field>
             <field name="model">hr.employee.skill</field>
             <field name="arch" type="xml">
-                <tree string="Posicions nivell">
+                <tree string="Posicions nivell"
+                      decoration-muted="level == '0'">
                     <field name="name" invisible="1"/>
                     <field name="employee_id"/>
                     <field name="level" widget="priority" readonly="1"/>
@@ -172,7 +175,8 @@
             <field name="name">hr.employee.level.tree</field>
             <field name="model">hr.employee.level</field>
             <field name="arch" type="xml">
-                <tree string="Membres nivell">
+                <tree string="Membres nivell"
+                      decoration-muted="level == '0'">
                     <field name="name" invisible="1"/>
                     <field name="employee_id"/>
                     <field name="level" widget="priority" readonly="1"/>

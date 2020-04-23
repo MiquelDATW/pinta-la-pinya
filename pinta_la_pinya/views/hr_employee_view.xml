@@ -83,7 +83,8 @@
                           attrs="{'invisible': [('muixeranguera', '=', False)]}">
                         <group name="habilitats">
                             <field name="employee_skill_ids" nolabel="1">
-                                <tree>
+                                <tree default_order="skill_id"
+                                      decoration-muted="level == '0'">
                                     <field name="skill_id"/>
                                     <field name="level" widget="priority"/>
                                     <field name="count_total"/>
@@ -112,7 +113,7 @@
                           attrs="{'invisible': [('muixeranguera', '=', False)]}">
                         <group name="actuacions">
                             <field name="membre_actuacio_ids" nolabel="1">
-                                <tree string="Actuacions">
+                                <tree string="Actuacions" decoration-muted="count_actuacio_total == ''">
                                     <field name="actuacio_id"/>
                                     <field name="count_actuacio_total"/>
                                     <field name="count_actuacio_pinya"/>
@@ -151,7 +152,8 @@
             <field name="name">hr.employee.membre.tree</field>
             <field name="model">hr.employee</field>
             <field name="arch" type="xml">
-                <tree string="Employees" decoration-bf="message_needaction==True">
+                <tree string="Employees"
+                      decoration-muted="count_3stars == '' and count_2stars == '' and count_1stars == ''">
                     <field name="name"/>
                     <field name="anys_inscrit"/>
                     <field name="membre_at" string="AT"/>
@@ -165,7 +167,6 @@
                     <field name="alsada_muscle" invisible="1"/>
                     <field name="alsada_bras" invisible="1"/>
                     <field name="pes" invisible="1"/>
-                    <field name="message_needaction" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -222,7 +223,7 @@
             <field name="name">hr.employee.actuacio.tree</field>
             <field name="model">hr.employee.actuacio</field>
             <field name="arch" type="xml">
-                <tree string="Membres">
+                <tree string="Membres" decoration-muted="count_actuacio_total == ''">
                     <field name="name"/>
                     <field name="membre_at"/>
                     <field name="count_actuacio_total"/>
