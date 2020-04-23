@@ -34,7 +34,7 @@
                                 <field name="date_to"/>
                             </group>
                             <group name="notes" string="Other information">
-                                <field name="department_ids" widget="many2many_tags"/>
+                                <field name="department_id"/>
                                 <field name="notes" placeholder="Other information..."/>
                             </group>
                         </group>
@@ -68,7 +68,8 @@
                     <field name="name"/>
                     <field name="manager_id"/>
                     <field name="member_ids"/>
-                    <field name="department_ids"/>
+                    <field name="department_id"/>
+                    <filter string="Archived" name="active" domain="[('active', '=', False)]"/>
                     <group expand="0" string="Group By">
                         <filter name="group_manager" string="Manager" domain="[]" context="{'group_by':'manager_id'}"/>
                     </group>
