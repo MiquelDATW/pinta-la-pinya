@@ -19,7 +19,7 @@
             <field name="res_model">pinya.actuacio</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('tipus', '=', 'actuacio')]</field>
+            <field name="domain">[('tipus', '=', 'actuacio'), ('temporada_id.actual', '=', True)]</field>
             <field name="context">{'tipus': 'actuacio'}</field>
             <field name="view_id" eval="False"/>
             <field name="help" type="html">
@@ -38,7 +38,7 @@
             <field name="res_model">pinya.actuacio</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('tipus', '=', 'assaig')]</field>
+            <field name="domain">[('tipus', '=', 'assaig'), ('temporada_id.actual', '=', True)]</field>
             <field name="context">{'tipus': 'assaig'}</field>
             <field name="view_id" eval="False"/>
             <field name="help" type="html">
@@ -52,12 +52,31 @@
             </field>
         </record>
 
+        <record id="action_pinta_la_pinya_temporades" model="ir.actions.act_window">
+            <field name="name">Temporades</field>
+            <field name="res_model">pinya.temporada</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Feu clic per afegir una nova temporada.
+              </p><p>
+                Amb una vista ràpida a la pantalla de temporades podrà trobar fàcilment
+                tota la informació que necessite sobre cada temporada: actuacions,
+                muixerangues, estadístiques, etc...
+              </p>
+            </field>
+        </record>
+
         <record id="action_pinta_la_pinya_muixeranga" model="ir.actions.act_window">
             <field name="name">Muixerangues</field>
             <field name="res_model">pinya.muixeranga</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[]</field>
+            <field name="domain">[('temporada_id.actual', '=', True)]</field>
             <field name="context">{}</field>
             <field name="view_id" eval="view_muixeranga_tree_all"/>
             <field name="help" type="html">
@@ -71,7 +90,7 @@
         </record>
 
         <record id="action_pinta_la_pinya_plantilla" model="ir.actions.act_window">
-            <field name="name">Plantilla</field>
+            <field name="name">Plantilles</field>
             <field name="res_model">pinya.plantilla</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -118,7 +137,7 @@
             <field name="res_model">pinya.muixeranga.pinya</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('muixeranga_state', '!=', 'cancel')]</field>
+            <field name="domain">[('muixeranga_state', '!=', 'cancel'), ('muixeranga_pinya_id.temporada_id.actual', '=', True)]</field>
             <field name="context">{}</field>
             <field name="view_id" eval="view_muixeranga_pinya_tree_all"/>
         </record>
@@ -128,7 +147,7 @@
             <field name="res_model">pinya.muixeranga.tronc</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('muixeranga_state', '!=', 'cancel')]</field>
+            <field name="domain">[('muixeranga_state', '!=', 'cancel'), ('muixeranga_tronc_id.temporada_id.actual', '=', True)]</field>
             <field name="context">{}</field>
             <field name="view_id" eval="view_muixeranga_tronc_tree_all"/>
         </record>
@@ -152,52 +171,34 @@
             sequence="20"/>
 
         <menuitem
-            id="menu_pinta_la_muixeranga"
-            name="Muixeranga"
-            parent="menu_pinya_root"
-            sequence="2"/>
-
-        <menuitem
             id="menu_pinta_la_pinya_muixeranga"
             action="action_pinta_la_pinya_muixeranga"
-            parent="menu_pinta_la_muixeranga"
-            sequence="10"/>
-
-        <menuitem
-            id="menu_pinta_la_pinya_plantilla"
-            action="action_pinta_la_pinya_plantilla"
-            parent="menu_pinta_la_muixeranga"
-            sequence="20"/>
-
-        <menuitem
-            id="menu_pinta_la_membre"
-            name="Membres"
-            parent="menu_pinya_root"
-            sequence="3"/>
+            parent="menu_pinta_la_pinya"
+            sequence="30"/>
 
         <menuitem
             id="menu_pinta_la_pinya_membres"
             action="action_pinta_la_pinya_membres"
-            parent="menu_pinta_la_membre"
-            sequence="10"/>
+            parent="menu_pinta_la_pinya"
+            sequence="40"/>
 
         <menuitem
-            id="menu_pinta_la_configuracio"
-            name="Posicions"
-            parent="menu_pinya_root"
-            sequence="100"/>
+            id="menu_pinta_la_pinya_plantilla"
+            action="action_pinta_la_pinya_plantilla"
+            parent="menu_pinta_la_pinya"
+            sequence="50"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_posicions"
-            action="action_pinta_la_pinya_posicions"
-            parent="menu_pinta_la_configuracio"
-            sequence="10"/>
+            id="menu_pinta_la_pinya_temporades"
+            action="action_pinta_la_pinya_temporades"
+            parent="menu_pinta_la_pinya"
+            sequence="60"/>
 
         <menuitem
             id="menu_pinta_la_tecnica"
             name="Tècnica"
             parent="menu_pinya_root"
-            sequence="4"/>
+            sequence="2"/>
 
         <menuitem
             id="menu_pinta_la_pinya_muixeranga_pinya"
@@ -210,5 +211,103 @@
             action="action_pinta_la_pinya_muixeranga_tronc_all"
             parent="menu_pinta_la_tecnica"
             sequence="20"/>
+
+        <menuitem
+            id="menu_pinta_la_posicio"
+            name="Posicions"
+            parent="menu_pinya_root"
+            sequence="3"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_posicions"
+            action="action_pinta_la_pinya_posicions"
+            parent="menu_pinta_la_posicio"
+            sequence="10"/>
+
+        <record id="action_pinta_la_pinya_actuacions_anterior" model="ir.actions.act_window">
+            <field name="name">Actuacions Anteriors</field>
+            <field name="res_model">pinya.actuacio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('tipus', '=', 'actuacio'), ('temporada_id.actual', '=', False)]</field>
+            <field name="context">{'tipus': 'actuacio'}</field>
+            <field name="view_id" eval="False"/>
+        </record>
+        
+        <record id="action_pinta_la_pinya_assajos_anterior" model="ir.actions.act_window">
+            <field name="name">Assajos Anteriors</field>
+            <field name="res_model">pinya.actuacio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('tipus', '=', 'assaig'), ('temporada_id.actual', '=', False)]</field>
+            <field name="context">{'tipus': 'assaig'}</field>
+            <field name="view_id" eval="False"/>
+        </record>
+
+        <record id="action_pinta_la_pinya_muixeranga_anterior" model="ir.actions.act_window">
+            <field name="name">Muixerangues Anteriors</field>
+            <field name="res_model">pinya.muixeranga</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('temporada_id.actual', '=', False)]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="view_muixeranga_tree_all"/>
+        </record>
+
+        <record id="action_pinta_la_pinya_muixeranga_pinya_anterior" model="ir.actions.act_window">
+            <field name="name">Pinyes Muix. Anteriors</field>
+            <field name="res_model">pinya.muixeranga.pinya</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('muixeranga_pinya_id.temporada_id.actual', '=', False)]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="view_muixeranga_pinya_tree_all"/>
+        </record>
+
+        <record id="action_pinta_la_pinya_muixeranga_tronc_anterior" model="ir.actions.act_window">
+            <field name="name">Troncs Muix. Anteriors</field>
+            <field name="res_model">pinya.muixeranga.tronc</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('muixeranga_tronc_id.temporada_id.actual', '=', False)]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="view_muixeranga_tronc_tree_all"/>
+        </record>
+        
+        <menuitem
+            id="menu_pinta_la_anterior"
+            name="Temp. Anteriors"
+            parent="menu_pinya_root"
+            sequence="4"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_actuacions_anterior"
+            action="action_pinta_la_pinya_actuacions_anterior"
+            parent="menu_pinta_la_anterior"
+            sequence="10"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_assajos_anterior"
+            action="action_pinta_la_pinya_assajos_anterior"
+            parent="menu_pinta_la_anterior"
+            sequence="20"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_muixeranga_anterior"
+            action="action_pinta_la_pinya_muixeranga_anterior"
+            parent="menu_pinta_la_anterior"
+            sequence="30"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_muixeranga_pinya_anterior"
+            action="action_pinta_la_pinya_muixeranga_pinya_anterior"
+            parent="menu_pinta_la_anterior"
+            sequence="40"/>
+
+        <menuitem
+            id="menu_pinta_la_pinya_muixeranga_tronc_anterior"
+            action="action_pinta_la_pinya_muixeranga_tronc_anterior"
+            parent="menu_pinta_la_anterior"
+            sequence="50"/>
     </data>
 </odoo>

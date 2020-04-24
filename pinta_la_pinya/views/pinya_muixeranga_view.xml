@@ -72,6 +72,7 @@
                                 <field name="plantilla_id"/>
                                 <field name="actuacio_id"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="temporada_id" readonly="1"/>
                                 <field name="actuacio_state" invisible="1"/>
                             </group>
                             <group name="persones" string="Persones">

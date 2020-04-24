@@ -24,6 +24,7 @@ class PinyaActuacio(models.Model):
     organizer_id = fields.Many2one(string="Organitzador", comodel_name="res.partner",
                                       related="event_id.organizer_id", store=True)
     event_id = fields.Many2one(string="Esdeveniment", comodel_name="event.event")
+    temporada_id = fields.Many2one(string="Temporada", comodel_name="pinya.temporada", required=True)
     zip_id = fields.Many2one(string="Lloc", comodel_name="res.better.zip")
     tipus = fields.Selection([
             ('actuacio', 'Actuació'),
@@ -75,6 +76,7 @@ class PinyaActuacio(models.Model):
     @api.model
     def default_get(self, fields_list):
         res = super(PinyaActuacio, self).default_get(fields_list)
+        res['temporada_id'] = self.env['pinya.temporada'].search([('actual', '=', True)]).id
         tipus = self.env.context.get('tipus', False)
         if bool(tipus):
             res['tipus'] = tipus

@@ -41,6 +41,8 @@ class PinyaMuixeranga(models.Model):
     membre_count = fields.Integer(string='Total Membres', related='actuacio_id.membres_count', store=True)
     data = fields.Datetime(string='Data', related='actuacio_id.data_inici', store=True)
     actuacio_state = fields.Selection(string='Estat actuació', related='actuacio_id.state', store=True)
+    temporada_id = fields.Many2one(string="Temporada", comodel_name="pinya.temporada", related='actuacio_id.temporada_id', store=True)
+
     lliure_ids = fields.Many2many('hr.employee', string="Lliures", compute="_compute_lliures")
     lliure_count = fields.Integer(compute='_compute_lliures', string='Total Lliures')
 

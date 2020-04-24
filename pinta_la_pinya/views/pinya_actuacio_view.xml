@@ -81,6 +81,9 @@
                                        attrs="{'readonly': ['|', ('state', '!=', 'draft'), ('event_id', '!=', False)]}"/>
                                 <field name="tipus"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="temporada_id"
+                                       options="{'no_create_edit': True}"
+                                       attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="event_id"
                                        options="{'no_create_edit': True}"
                                        domain="[('actuacio_id', '=', False)]"

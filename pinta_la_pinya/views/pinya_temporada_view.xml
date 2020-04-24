@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+        <record id="view_temporada_form" model="ir.ui.view">
+            <field name="name">pinya.temporada.form</field>
+            <field name="model">pinya.temporada</field>
+            <field name="arch" type="xml">
+                <form string="Temporada">
+                    <header/>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object"
+                                    name="mostrar_oficials" icon="fas fa-list-ol"
+                                    attrs="{'invisible': [('oficials_count', '=', 0)]}">
+                                <field string="Muix. Oficials" name="oficials_count" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object"
+                                    name="mostrar_no_oficials" icon="fas fa-filter"
+                                    attrs="{'invisible': [('no_oficials_count', '=', 0)]}">
+                                <field string="Muix. Assajos" name="no_oficials_count" widget="statinfo"/>
+                            </button>
+                            <br/>
+                            <button class="oe_stat_button" type="object"
+                                    name="mostrar_actuacions" icon="fas fa-camera"
+                                    attrs="{'invisible': [('actuacions_count', '=', 0)]}">
+                                <field string="Actuacions" name="actuacions_count" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object"
+                                    name="mostrar_assajos" icon="fas fa-book"
+                                    attrs="{'invisible': [('assajos_count', '=', 0)]}">
+                                <field string="Assajos" name="assajos_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" required="True"/>
+                            </h1>
+                        </div>
+                        <group name="temporada">
+                            <group name="info" string="Info">
+                                <field name="temp_inici"/>
+                                <field name="temp_final"/>
+                                <field name="actual"/>
+                            </group>
+                            <group name="group2"/>
+                        </group>
+                        <group name="notes" string="Altra informació">
+                            <field name="notes" placeholder="Altra informació..."/>
+                        </group>
+                        <group name="figures" string="Figures">
+                            <field name="figura_ids" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_temporada_tree" model="ir.ui.view">
+            <field name="name">pinya.temporada.tree</field>
+            <field name="model">pinya.temporada</field>
+            <field name="arch" type="xml">
+                <tree string="Temporades"
+                      decoration-muted="actual==False">
+                    <field name="name"/>
+                    <field name="temp_inici" string="Inici"/>
+                    <field name="temp_final" string="Final"/>
+                    <field name="actuacions_count"/>
+                    <field name="assajos_count"/>
+                    <field name="muixerangues_count"/>
+                    <field name="oficials_count"/>
+                    <field name="no_oficials_count"/>
+                    <field name="actual" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_temporada_filter" model="ir.ui.view">
+            <field name="name">pinya.temporada.search</field>
+            <field name="model">pinya.temporada</field>
+            <field name="arch" type="xml">
+                <search string="Temporades">
+                    <field name="name"/>
+                    <field name="actuacions_count"/>
+                    <field name="assajos_count"/>
+                    <field name="muixerangues_count"/>
+                    <field name="oficials_count"/>
+                    <filter string="Actual" name="actual" domain="[('actual', '=', True)]"/>
+                    <filter string="Anteriors" name="not_actual" domain="[('actual', '=', False)]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_actual" string="Actual" domain="[]" context="{'group_by':'actual'}"/>
+                    </group>
+                </search>
+             </field>
+         </record>
+    </data>
+</odoo>

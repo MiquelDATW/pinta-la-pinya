@@ -12,6 +12,7 @@ access_pinya_plantilla_user,pinya.plantilla.user,model_pinya_plantilla,hr.group_
 access_pinya_plantilla_line_user,pinya.plantilla.line.user,model_pinya_plantilla_line,hr.group_hr_user,1,1,1,1
 access_pinya_plantilla_skill_user,pinya.plantilla.skill.user,model_pinya_plantilla_skill,hr.group_hr_user,1,1,1,1
 access_pinya_actuacio_user,pinya.actuacio.user,model_pinya_actuacio,hr.group_hr_user,1,1,1,1
+access_pinya_temporada_user,pinya.temporada.user,model_pinya_temporada,hr.group_hr_user,1,1,1,1
 access_hr_employee_actuacio_base,hr.employee.actuacio.base,model_hr_employee_actuacio,base.group_user,1,0,0,0
 access_hr_employee_skill_base,hr.employee.skill.base,model_hr_employee_skill,base.group_user,1,0,0,0
 access_hr_employee_level_base,hr.employee.level.base,model_hr_employee_level,base.group_user,1,0,0,0
@@ -23,3 +24,4 @@ access_pinya_plantilla_base,pinya.plantilla.base,model_pinya_plantilla,base.grou
 access_pinya_plantilla_line_base,pinya.plantilla.line.base,model_pinya_plantilla_line,base.group_user,1,0,0,0
 access_pinya_plantilla_skill_base,pinya.plantilla.skill.base,model_pinya_plantilla_skill,base.group_user,1,0,0,0
 access_pinya_actuacio_base,pinya.actuacio.base,model_pinya_actuacio,base.group_user,1,0,0,0
+access_pinya_temporada_base,pinya.temporada.base,model_pinya_temporada,base.group_user,1,0,0,0
