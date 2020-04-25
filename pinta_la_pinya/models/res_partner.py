@@ -71,14 +71,16 @@ class ResPartner(models.Model):
         column1='secretaria_id',
         column2='employee_id',
         string="Secretaria",
-        domain=[('membre_jd', '=', True)])
+        domain=[('membre_jd', '=', True)]
+    )
     jd_tresoreria_ids = fields.Many2many(
         comodel_name='hr.employee',
         relation='partner_tresoreria_employee_rel',
         column1='tresoreria_id',
         column2='employee_id',
         string="Tresoreria",
-        domain=[('membre_jd', '=', True)])
+        domain=[('membre_jd', '=', True)]
+    )
 
     at_mestra_ids = fields.Many2many(
         comodel_name='hr.employee',
@@ -94,21 +96,24 @@ class ResPartner(models.Model):
         column1='cap_de_pinya_id',
         column2='employee_id',
         string="Cap de pinya",
-        domain=[('membre_at', '=', True)])
+        domain=[('membre_at', '=', True)]
+    )
     at_cap_de_tronc_ids = fields.Many2many(
         comodel_name='hr.employee',
         relation='partner_cap_de_tronc_employee_rel',
         column1='cap_de_tronc_id',
         column2='employee_id',
         string="Cap de tronc",
-        domain=[('membre_at', '=', True)])
+        domain=[('membre_at', '=', True)]
+    )
     at_cap_de_xicalla_ids = fields.Many2many(
         comodel_name='hr.employee',
         relation='partner_cap_de_xicalla_employee_rel',
         column1='cap_de_xicalla_id',
         column2='employee_id',
         string="Cap de xicalla",
-        domain=[('membre_at', '=', True)])
+        domain=[('membre_at', '=', True)]
+    )
 
     @api.multi
     def _compute_anys_colla(self):
