@@ -130,6 +130,16 @@ class PinyaTemporada(models.Model):
             altra_actual = self.env['pinya.temporada'].search([('actual', '=', True)])
             if bool(altra_actual):
                 raise ValidationError("Ja hi ha una temporada actual❗")
+        if 'actual' in vals and not vals.get('actual', False):
+            draft_ready = self.actuacio_ids.filtered(lambda x: x.state in ['draft', 'ready'])
+            if bool(draft_ready):
+                if len(draft_ready) == 1:
+                    actuacio = "L'actuació {} està".format(draft_ready.name)
+                else:
+                    names = ", ".join(draft_ready.mapped('name')[0:-1]) + " i " + draft_ready.mapped('name')[-1]
+                    actuacio = "Les actuacions {} estan".format(names)
+                error_msg = "{} sense resoldre en la temporada actual❗".format(actuacio)
+                raise ValidationError(error_msg)
         res = super(PinyaTemporada, self).write(vals)
         return res
 
