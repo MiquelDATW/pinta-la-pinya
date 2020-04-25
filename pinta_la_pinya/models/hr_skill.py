@@ -8,6 +8,20 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 
+def _get_action(view_tree_id, view_form_id, name, model, domain):
+    action = {
+        'type': 'ir.actions.act_window',
+        'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+        'view_mode': 'form',
+        'name': name,
+        'target': 'current',
+        'res_model': model,
+        'context': {},
+        'domain': domain,
+    }
+    return action
+
+
 class HrSkill(models.Model):
     _inherit = 'hr.skill'
     _order = 'tipus desc, name asc'
@@ -40,30 +54,34 @@ class HrSkill(models.Model):
     @api.multi
     @api.depends('employee_level_ids')
     def _compute_employee_level(self):
-        for actuacio in self:
-            skills = actuacio.employee_level_ids
-            actuacio.employee_level_count = len(skills)
+        skills = self.filtered(lambda x: bool(x))
+        for skill in skills:
+            levels = skill.employee_level_ids
+            skill.employee_level_count = len(levels)
 
     @api.multi
     @api.depends('employee_skill_ids')
     def _compute_employee_skill(self):
-        for actuacio in self:
-            skills = actuacio.employee_skill_ids
-            actuacio.employee_skill_count = len(skills)
+        skills = self.filtered(lambda x: bool(x))
+        for skill in skills:
+            levels = skill.employee_skill_ids
+            skill.employee_skill_count = len(levels)
 
     @api.multi
     @api.depends('pinya_line_ids')
     def _compute_pinya_count(self):
-        for actuacio in self:
-            pinyes = actuacio.pinya_line_ids
-            actuacio.pinya_count = len(pinyes)
+        skills = self.filtered(lambda x: bool(x))
+        for skill in skills:
+            pinyes = skill.pinya_line_ids
+            skill.pinya_count = len(pinyes)
 
     @api.multi
     @api.depends('tronc_line_ids')
     def _compute_tronc_count(self):
-        for actuacio in self:
-            troncs = actuacio.tronc_line_ids
-            actuacio.tronc_count = len(troncs)
+        skills = self.filtered(lambda x: bool(x))
+        for skill in skills:
+            troncs = skill.tronc_line_ids
+            skill.tronc_count = len(troncs)
 
     @api.multi
     @api.depends('employee_level_ids', 'employee_level_ids.level')
@@ -81,67 +99,37 @@ class HrSkill(models.Model):
     def tronc_muixeranga(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_all').id
         view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_form').id
-        name = self.name
+        name = "Tronc de {}".format(self.name)
+        model = "pinya.muixeranga.tronc"
         domain = [('id', 'in', self.tronc_line_ids.ids)]
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            'view_mode': 'form',
-            'name': "Tronc de {}".format(name),
-            'target': 'current',
-            'res_model': 'pinya.muixeranga.tronc',
-            'context': {},
-            'domain': domain,
-        }
+        action = _get_action(view_tree_id, view_form_id, name, model, domain)
         return action
 
     def pinya_muixeranga(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_tree_all').id
         view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_form').id
-        name = self.name
+        name = "Pinya de {}".format(self.name)
+        model = "pinya.muixeranga.pinya"
         domain = [('id', 'in', self.pinya_line_ids.ids)]
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            'view_mode': 'form',
-            'name': "Pinya de {}".format(name),
-            'target': 'current',
-            'res_model': 'pinya.muixeranga.pinya',
-            'context': {},
-            'domain': domain,
-        }
+        action = _get_action(view_tree_id, view_form_id, name, model, domain)
         return action
 
     def employee_skill(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_hr_employee_skill_tree').id
         view_form_id = self.env.ref('pinta_la_pinya.view_hr_employee_skill_form').id
+        name = "Posicions nivell"
+        model = "hr.employee.skill"
         domain = [('id', 'in', self.employee_skill_ids.ids)]
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            'view_mode': 'form',
-            'name': "Posicions nivell",
-            'target': 'current',
-            'res_model': 'hr.employee.skill',
-            'context': {},
-            'domain': domain,
-        }
+        action = _get_action(view_tree_id, view_form_id, name, model, domain)
         return action
 
     def employee_level(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_hr_employee_level_tree').id
         view_form_id = self.env.ref('pinta_la_pinya.view_hr_employee_level_form').id
+        name = "Membres nivell"
+        model = "hr.employee.level"
         domain = [('id', 'in', self.employee_level_ids.ids)]
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            'view_mode': 'form',
-            'name': "Membres nivell",
-            'target': 'current',
-            'res_model': 'hr.employee.level',
-            'context': {},
-            'domain': domain,
-        }
+        action = _get_action(view_tree_id, view_form_id, name, model, domain)
         return action
 
 

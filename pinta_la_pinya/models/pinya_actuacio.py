@@ -10,6 +10,34 @@ from datetime import datetime
 import pytz
 
 
+def _get_action(view_tree_id, view_form_id, view_search_id, name, model, domain, ctx):
+    action = {
+        'type': 'ir.actions.act_window',
+        'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+        'search_view_id': view_search_id,
+        'view_mode': 'form',
+        'name': name,
+        'target': 'current',
+        'res_model': model,
+        'context': ctx,
+        'domain': domain,
+    }
+    return action
+
+
+def _get_wizard(view_form_id, name, model):
+    action = {
+        'type': 'ir.actions.act_window',
+        'views': [(view_form_id, 'form')],
+        'view_mode': 'form',
+        'name': name,
+        'target': 'new',
+        'res_model': model,
+        'context': {}
+    }
+    return action
+
+
 class PinyaActuacio(models.Model):
     _name = "pinya.actuacio"
     _description = "Actuació o Assaig muixeranguer"
@@ -124,67 +152,39 @@ class PinyaActuacio(models.Model):
 
     def action_membres_import(self):
         view_form_id = self.env.ref('pinta_la_pinya.pinya_import_wizard_form_view').id
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_form_id, 'form')],
-            'view_mode': 'form',
-            'name': "Importar membres per a l'actuació",
-            'target': 'new',
-            'res_model': 'pinya.import.wizard',
-            'context': {}
-        }
+        name = "Importar membres per a l'actuació"
+        model = "pinya.import.wizard"
+        action = _get_wizard(view_form_id, name, model)
         return action
 
     def pinya_muixeranga_wizard(self):
         view_form_id = self.env.ref('pinta_la_pinya.pinya_muixeranga_wizard_form_view').id
-        tipus = self.tipus.replace("actuacio", "actuació")
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_form_id, 'form')],
-            'view_mode': 'form',
-            'name': "Afegir figures a l'{}".format(tipus),
-            'target': 'new',
-            'res_model': 'pinya.muixeranga.wizard',
-            'context': {}
-        }
+        name = "Afegir figures a l'{}".format(self.tipus.replace("actuacio", "actuació"))
+        model = "pinya.muixeranga.wizard"
+        action = _get_wizard(view_form_id, name, model)
         return action
 
     def mostrar_muixerangues(self):
+        view_search_id = self.env.ref('pinta_la_pinya.view_muixeranga_search').id
         view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tree_all').id
         view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_form').id
+        name = "Muixerangues"
+        model = "pinya.muixeranga"
         domain = [('id', 'in', self.muixeranga_ids.ids)]
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            'view_mode': 'form',
-            'name': "Muixerangues",
-            'target': 'current',
-            'res_model': 'pinya.muixeranga',
-            'context': {},
-            'domain': domain,
-        }
+        ctx = {}
+        action = _get_action(view_tree_id, view_form_id, view_search_id, name, model, domain, ctx)
         return action
 
     def mostrar_membres(self):
         view_search_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_search').id
         view_tree_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_tree').id
         view_form_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_form').id
+        name = "Membres"
+        model = "hr.employee.actuacio"
         domain = [('id', 'in', self.membre_actuacio_ids.ids)]
         ctx = dict(self.env.context)
-        ctx.update({
-            'actuacio_id': self.id,
-        })
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            'search_view_id': view_search_id,
-            'view_mode': 'form',
-            'name': "Membres",
-            'target': 'current',
-            'res_model': 'hr.employee.actuacio',
-            'context': ctx,
-            'domain': domain,
-        }
+        ctx.update({'actuacio_id': self.id})
+        action = _get_action(view_tree_id, view_form_id, view_search_id, name, model, domain, ctx)
         return action
 
     def action_ready(self):

@@ -6,6 +6,20 @@ from odoo import models, fields, api, exceptions, _
 from odoo.exceptions import ValidationError
 
 
+def _get_action(view_tree_id, view_form_id, name, model, domain):
+    action = {
+        'type': 'ir.actions.act_window',
+        'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+        'view_mode': 'form',
+        'name': name,
+        'target': 'current',
+        'res_model': model,
+        'context': {},
+        'domain': domain,
+    }
+    return action
+
+
 class PinyaPlantilla(models.Model):
     _name = "pinya.plantilla"
     _description = "Plantilla"
@@ -165,17 +179,10 @@ class PinyaPlantilla(models.Model):
     def mostrar_muixerangues(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tree_selected').id
         view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_form').id
+        name = "Muixerangues"
+        model = "pinya.muixeranga"
         domain = [('id', 'in', self.muixeranga_ids.ids)]
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            'view_mode': 'form',
-            'name': "Muixerangues",
-            'target': 'current',
-            'res_model': 'pinya.muixeranga',
-            'context': {},
-            'domain': domain,
-        }
+        action = _get_action(view_tree_id, view_form_id, name, model, domain)
         return action
 
 

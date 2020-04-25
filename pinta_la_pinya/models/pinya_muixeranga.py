@@ -8,6 +8,20 @@ from odoo import models, fields, api, exceptions, _
 from odoo.exceptions import ValidationError
 
 
+def _get_action(view_tree_id, view_form_id, name, model, domain):
+    action = {
+        'type': 'ir.actions.act_window',
+        'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+        'view_mode': 'form',
+        'name': name,
+        'target': 'current',
+        'res_model': model,
+        'context': {},
+        'domain': domain,
+    }
+    return action
+
+
 class PinyaMuixeranga(models.Model):
     _name = "pinya.muixeranga"
     _description = "Muixeranga"
@@ -276,35 +290,19 @@ class PinyaMuixeranga(models.Model):
     def tronc_muixeranga(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_selected').id
         view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_form').id
-        name = self.name
+        name = "Tronc de {}".format(self.name)
+        model = "pinya.muixeranga.tronc"
         domain = [('id', 'in', self.tronc_line_ids.ids)]
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            'view_mode': 'form',
-            'name': "Tronc de {}".format(name),
-            'target': 'current',
-            'res_model': 'pinya.muixeranga.tronc',
-            'context': {},
-            'domain': domain,
-        }
+        action = _get_action(view_tree_id, view_form_id, name, model, domain)
         return action
 
     def pinya_muixeranga(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_tree_selected').id
         view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_form').id
-        name = self.name
+        name = "Pinya de {}".format(self.name)
+        model = "pinya.muixeranga.pinya"
         domain = [('id', 'in', self.pinya_line_ids.ids)]
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            'view_mode': 'form',
-            'name': "Pinya de {}".format(name),
-            'target': 'current',
-            'res_model': 'pinya.muixeranga.pinya',
-            'context': {},
-            'domain': domain,
-        }
+        action = _get_action(view_tree_id, view_form_id, name, model, domain)
         return action
 
     @api.multi

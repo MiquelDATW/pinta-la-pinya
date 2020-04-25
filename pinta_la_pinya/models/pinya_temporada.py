@@ -6,6 +6,20 @@ from odoo import models, fields, api, exceptions, _
 from odoo.exceptions import ValidationError
 
 
+def _get_action(view_tree_id, view_form_id, name, model, domain):
+    action = {
+        'type': 'ir.actions.act_window',
+        'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+        'view_mode': 'form',
+        'name': name,
+        'target': 'current',
+        'res_model': model,
+        'context': {},
+        'domain': domain,
+    }
+    return action
+
+
 class PinyaTemporada(models.Model):
     _name = "pinya.temporada"
     _description = "Temporada muixeranguera"
@@ -69,18 +83,9 @@ class PinyaTemporada(models.Model):
         view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_form').id
         pinya_muixeranga = self.muixeranga_ids.filtered(lambda x: x.actuacio_id.tipus == tipus)
         domain = [('id', 'in', pinya_muixeranga.ids)]
-        tipus2 = "Oficials" if tipus == 'actuacio' else "Assajos"
-        name = "Muix. {} {}".format(tipus2, self.name)
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            'view_mode': 'form',
-            'name': name,
-            'target': 'current',
-            'res_model': 'pinya.muixeranga',
-            'context': {},
-            'domain': domain,
-        }
+        name = "Muix. " + ("Oficials" if tipus == 'actuacio' else "Assajos") + " " + self.name
+        model = "pinya.muixeranga"
+        action = _get_action(view_tree_id, view_form_id, name, model, domain)
         return action
 
     def mostrar_actuacions(self):
@@ -96,18 +101,9 @@ class PinyaTemporada(models.Model):
         view_form_id = self.env.ref('pinta_la_pinya.view_actuacio_form').id
         actuacions = self.actuacio_ids.filtered(lambda x: x.tipus == tipus)
         domain = [('id', 'in', actuacions.ids)]
-        tipus2 = "Actuacions" if tipus == 'actuacio' else "Assajos"
-        name = "{} {}".format(tipus2, self.name)
-        action = {
-            'type': 'ir.actions.act_window',
-            'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
-            'view_mode': 'form',
-            'name': name,
-            'target': 'current',
-            'res_model': 'pinya.actuacio',
-            'context': {},
-            'domain': domain,
-        }
+        name = ("Actuacions" if tipus == 'actuacio' else "Assajos") + " " + self.name
+        model = "pinya.actuacio"
+        action = _get_action(view_tree_id, view_form_id, name, model, domain)
         return action
 
     @api.model
