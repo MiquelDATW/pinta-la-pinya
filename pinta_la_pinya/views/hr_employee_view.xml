@@ -153,7 +153,7 @@
             <field name="model">hr.employee</field>
             <field name="arch" type="xml">
                 <tree string="Employees"
-                      decoration-muted="posicions_3stars == '' and posicions_2stars == '' and posicions_1star == ''">
+                      decoration-muted="count_pinya == 0 and count_tronc == 0">
                     <field name="name"/>
                     <field name="anys_inscrit"/>
                     <field name="membre_at" string="AT"/>
@@ -163,6 +163,8 @@
                     <field name="posicions_1star" string="Pos. intermedies"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
+                    <field name="count_pinya" invisible="1"/>
+                    <field name="count_tronc" invisible="1"/>
                     <field name="alsada_cap" string="Alçada (cm)"/>
                     <field name="alsada_muscle" invisible="1"/>
                     <field name="alsada_bras" invisible="1"/>
@@ -196,6 +198,10 @@
                     <separator/>
                     <filter string="Membre JD" name="membre_jd" domain="[('membre_jd', '=', True)]"/>
                     <filter string="Membre AT" name="membre_at" domain="[('membre_at', '=', True)]"/>
+                    <separator/>
+                    <filter string="Troncs" name="count_tronc" domain="[('count_tronc', '!=', 0)]"/>
+                    <filter string="Pinyes" name="count_pinya" domain="[('count_pinya', '!=', 0)]"/>
+                    <filter string="Buit" name="count_buit" domain="['&amp;', ('count_tronc', '=', 0), ('count_pinya', '=', 0)]"/>
                     <separator/>
                     <filter string="Posicions expertes" name="posicions_3stars" domain="[('posicions_3stars', '!=', '')]"/>
                     <filter string="Posicions avançades" name="posicions_2stars" domain="[('posicions_2stars', '!=', '')]"/>
