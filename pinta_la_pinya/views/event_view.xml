@@ -11,20 +11,20 @@
             <field name="model">event.event</field>
             <field name="inherit_id" ref="event.view_event_form"/>
             <field name="arch" type="xml">
-                <field name="organizer_id" position="attributes">
+                <xpath expr="//field[@name='organizer_id']" position="attributes">
                     <attribute name="options">{'no_create': True}</attribute>
-                </field>
-                <field name="address_id" position="attributes">
+                </xpath>
+                <xpath expr="//field[@name='address_id']" position="attributes">
                     <attribute name="options">{'no_create': True}</attribute>
-                </field>
-                <field name="user_id" position="attributes">
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
                     <attribute name="options">{'no_create': True}</attribute>
-                </field>
-                <field name="date_begin" position="before">
+                </xpath>
+                <xpath expr="//field[@name='date_begin']" position="before">
                     <field name="actuacio_id"
                            options="{'no_create_edit': True}"
                            domain="['&amp;', ('event_id', '=', False), ('tipus', '=', 'actuacio')]"/>
-                </field>
+                </xpath>
             </field>
         </record>
 
@@ -33,9 +33,9 @@
             <field name="model">event.event</field>
             <field name="inherit_id" ref="event.view_event_kanban"/>
             <field name="arch" type="xml">
-                <field name="country_id" position="after">
+                <xpath expr="//field[@name='country_id']" position="after">
                     <field name="zip_id"/>
-                </field>
+                </xpath>
                 <xpath expr="//div[@class='o_event_right']//div"  position="replace">
                     <t t-if="record.zip_id">
                         <span class="o_kanban_record_subtitle"> <field name="zip_id"/></span>
@@ -52,10 +52,10 @@
             <field name="model">event.registration</field>
             <field name="inherit_id" ref="event.view_event_registration_form"/>
             <field name="arch" type="xml">
-                <field name="partner_id" position="attributes">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
                     <attribute name="domain">[('colla', '=', True)]</attribute>
                     <attribute name="options">{'no_create': True}</attribute>
-                </field>
+                </xpath>
             </field>
         </record>
     </data>

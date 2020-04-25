@@ -73,20 +73,20 @@
                                attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
                         <field name="membre_jd"
                                attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
-                        <field name="habilitats"
+                        <field name="posicions"
                                attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
                         <field name="notes" placeholder="Altra informació..."/>
                     </group>
                 </xpath>
                 <xpath expr="//page[@name='public']" position="before">
-                    <page name="habilitats" string="Habilitats"
+                    <page name="posicions" string="Posicions"
                           attrs="{'invisible': [('muixeranguera', '=', False)]}">
-                        <group name="habilitats">
+                        <group name="posicions">
                             <field name="employee_skill_ids" nolabel="1">
                                 <tree default_order="skill_id"
                                       decoration-muted="level == '0'">
-                                    <field name="skill_id"/>
-                                    <field name="level" widget="priority"/>
+                                    <field name="skill_id" string="Posició"/>
+                                    <field name="level" widget="priority" string="Nivell"/>
                                     <field name="count_total"/>
                                     <field name="count_sismesos"/>
                                 </tree>
@@ -153,14 +153,14 @@
             <field name="model">hr.employee</field>
             <field name="arch" type="xml">
                 <tree string="Employees"
-                      decoration-muted="count_3stars == '' and count_2stars == '' and count_1stars == ''">
+                      decoration-muted="posicions_3stars == '' and posicions_2stars == '' and posicions_1star == ''">
                     <field name="name"/>
                     <field name="anys_inscrit"/>
                     <field name="membre_at" string="AT"/>
                     <field name="membre_jd" string="JD"/>
-                    <field name="count_3stars"/>
-                    <field name="count_2stars"/>
-                    <field name="count_1stars"/>
+                    <field name="posicions_3stars" string="Pos. expertes"/>
+                    <field name="posicions_2stars" string="Pos. avançades"/>
+                    <field name="posicions_1star" string="Pos. intermedies"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
                     <field name="alsada_cap" string="Alçada (cm)"/>
@@ -177,15 +177,12 @@
             <field name="arch" type="xml">
                 <search string="Employees">
                     <field name="name"/>
-                    <field name="habilitats"/>
+                    <field name="posicions"/>
                     <field name="anys_inscrit"/>
                     <field name="edat"/>
                     <field name="xicalla"/>
                     <field name="membre_at"/>
                     <field name="membre_jd"/>
-                    <field name="count_3stars"/>
-                    <field name="count_2stars"/>
-                    <field name="count_1stars"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
                     <field name="alsada_cap"/>
@@ -200,9 +197,9 @@
                     <filter string="Membre JD" name="membre_jd" domain="[('membre_jd', '=', True)]"/>
                     <filter string="Membre AT" name="membre_at" domain="[('membre_at', '=', True)]"/>
                     <separator/>
-                    <filter string="Habilitats expertes" name="count_3stars" domain="[('count_3stars', '!=', '')]"/>
-                    <filter string="Habilitats avançades" name="count_2stars" domain="[('count_2stars', '!=', '')]"/>
-                    <filter string="Habilitats intermedies" name="count_1stars" domain="[('count_1stars', '!=', '')]"/>
+                    <filter string="Posicions expertes" name="posicions_3stars" domain="[('posicions_3stars', '!=', '')]"/>
+                    <filter string="Posicions avançades" name="posicions_2stars" domain="[('posicions_2stars', '!=', '')]"/>
+                    <filter string="Posicions intermedies" name="posicions_1star" domain="[('posicions_1star', '!=', '')]"/>
                     <separator/>
                     <filter string="Alçada 190+" name="alsada_190" domain="[('alsada_cap', '&gt;=', 190)]"/>
                     <filter string="Alçada 180, 190" name="alsada_180" domain="[('alsada_cap', '&gt;=', 180), ('alsada_cap', '&lt;', 190)]"/>
@@ -211,9 +208,9 @@
                     <filter string="Alçada 159-" name="alsada_150" domain="[('alsada_cap', '&lt;', 160)]"/>
                     <separator/>
                     <group expand="0" string="Group By">
-                        <filter string="Habilitats expertes" name="group_count_3stars" domain="[]" context="{'group_by':'count_3stars'}"/>
-                        <filter string="Habilitats avançades" name="group_count_2stars" domain="[]" context="{'group_by':'count_2stars'}"/>
-                        <filter string="Habilitats intermedies" name="group_count_1stars" domain="[]" context="{'group_by':'count_1stars'}"/>
+                        <filter string="Posicions expertes" name="group_posicions_3stars" domain="[]" context="{'group_by':'posicions_3stars'}"/>
+                        <filter string="Posicions avançades" name="group_posicions_2stars" domain="[]" context="{'group_by':'posicions_2stars'}"/>
+                        <filter string="Posicions intermedies" name="group_posicions_1star" domain="[]" context="{'group_by':'posicions_1star'}"/>
                     </group>
                 </search>
             </field>

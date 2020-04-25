@@ -19,7 +19,7 @@ class HrEmployee(models.Model):
     anys_inscrit = fields.Integer(string="Anys inscrit", readonly=True)
     nom_croquis = fields.Char(string="Nom del croquis", help="Nom que apareix en els croquis")
     nom_altres = fields.Char(string="Altres noms", help="Altres noms pels que es coneix la persona")
-    habilitats = fields.Char(string="Habilitats", help="Habilitats de la muixeranguera", compute='_compute_habilitats', store=True)
+    posicions = fields.Char(string="Posicions", help="Posicions de la muixeranguera", compute='_compute_posicions', store=True)
 
     edat = fields.Integer(string='Edat', readonly=True)
 
@@ -34,9 +34,9 @@ class HrEmployee(models.Model):
     membre_actuacio_ids = fields.One2many('hr.employee.actuacio', 'employee_id', string="Actuacions")
 
     posicio_ids = fields.Many2many(string="Posicions", comodel_name="hr.skill", compute="_compute_posicions", store=True)
-    count_3stars = fields.Char(string="Habilitats expertes", compute="_compute_millors", store=True)
-    count_2stars = fields.Char(string="Habilitats avançats", compute="_compute_millors", store=True)
-    count_1stars = fields.Char(string="Habilitats intermedies", compute="_compute_millors", store=True)
+    posicions_3stars = fields.Char(string="Posicions expertes", compute="_compute_millors", store=True)
+    posicions_2stars = fields.Char(string="Posicions avançats", compute="_compute_millors", store=True)
+    posicions_1star = fields.Char(string="Posicions intermedies", compute="_compute_millors", store=True)
     count_pinya = fields.Integer(string="Pinyes total", compute="_compute_count_pinya", store=True)
     count_tronc = fields.Integer(string="Troncs total", compute="_compute_count_tronc", store=True)
     count_total = fields.Integer(string="Figures total", compute="_compute_count_total", store=True)
@@ -118,11 +118,11 @@ class HrEmployee(models.Model):
         for muixeranguer in muixeranguers:
             levels = muixeranguer.employee_skill_ids
             l3 = len(levels.filtered(lambda x: x.level == '3'))
-            muixeranguer.count_3stars = (str(l3) + ' ⭐⭐⭐') if l3 > 0 else ''
+            muixeranguer.posicions_3stars = (str(l3) + ' ⭐⭐⭐') if l3 > 0 else ''
             l2 = len(levels.filtered(lambda x: x.level == '2'))
-            muixeranguer.count_2stars = (str(l2) + ' ⭐⭐') if l2 > 0 else ''
+            muixeranguer.posicions_2stars = (str(l2) + ' ⭐⭐') if l2 > 0 else ''
             l1 = len(levels.filtered(lambda x: x.level == '1'))
-            muixeranguer.count_1stars = (str(l1) + ' ⭐') if l1 > 0 else ''
+            muixeranguer.posicions_1star = (str(l1) + ' ⭐') if l1 > 0 else ''
 
     @api.multi
     @api.depends('pes', 'alsada_cap')
@@ -134,11 +134,11 @@ class HrEmployee(models.Model):
 
     @api.multi
     @api.depends('employee_skill_ids', 'employee_skill_ids.skill_id')
-    def _compute_habilitats(self):
+    def _compute_posicions(self):
         muixeranguers = self.filtered(lambda x: bool(x.employee_skill_ids))
         for muixeranguer in muixeranguers:
             skills = muixeranguer.employee_skill_ids.mapped('skill_id').sorted('name').mapped('name')
-            muixeranguer.habilitats = ", ".join(skills)
+            muixeranguer.posicions = ", ".join(skills)
 
     @api.multi
     def _compute_anys_inscrit(self):

@@ -11,23 +11,26 @@
             <field name="inherit_id" ref="hr_skill.view_hr_skill_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//tree" position="attributes">
-                    <attribute name="decoration-muted">count_3stars == '' and count_2stars == '' and count_1stars == ''</attribute>
+                    <attribute name="decoration-muted">membres_3stars == '' and membres_2stars == '' and membres_1star == ''</attribute>
                 </xpath>
-                <field name="display_name" position="before">
+                <xpath expr="//field[@name='display_name']" position="attributes">
+                    <attribute name="string">Nom</attribute>
+                </xpath>
+                <xpath expr="//field[@name='display_name']" position="before">
                     <field name="tipus"/>
                     <field name="prioritat" readonly="1"/>
-                </field>
-                <field name="color" position="before">
-                    <field name="count_3stars"/>
-                    <field name="count_2stars"/>
-                    <field name="count_1stars"/>
-                </field>
-                <field name="color" position="attributes">
+                </xpath>
+                <xpath expr="//field[@name='color']" position="before">
+                    <field name="membres_3stars"/>
+                    <field name="membres_2stars"/>
+                    <field name="membres_1star"/>
+                </xpath>
+                <xpath expr="//field[@name='color']" position="attributes">
                     <attribute name="invisible">1</attribute>
-                </field>
-                <field name="description" position="attributes">
+                </xpath>
+                <xpath expr="//field[@name='description']" position="attributes">
                     <attribute name="invisible">1</attribute>
-                </field>
+                </xpath>
             </field>
         </record>
 
@@ -43,18 +46,18 @@
                             <field name="prioritat"/>
                         </group>
                         <group name="membres" string="Membres">
-                            <field name="count_3stars"/>
-                            <field name="count_2stars"/>
-                            <field name="count_1stars"/>
+                            <field name="membres_3stars"/>
+                            <field name="membres_2stars"/>
+                            <field name="membres_1star"/>
                         </group>
                     </group>
                     <group name="descripcio" string="Descripció">
                         <field name="description"/>
                     </group>
                 </xpath>
-                <field name="child_ids" position="replace"/>
+                <xpath expr="//field[@name='child_ids']" position="replace"/>
 
-                <div name="button_box" position="inside">
+                <xpath expr="//div[@name='button_box']" position="inside">
                     <button class="oe_stat_button" type="object"
                             attrs="{'invisible': [('tipus', '=', 'tronc')]}"
                             name="pinya_muixeranga" icon="fas fa-users">
@@ -74,10 +77,10 @@
                             name="employee_level" icon="fas fa-user">
                         <field name="employee_level_count" widget="statinfo"/>
                     </button>
-                </div>
-                <button name="toggle_active" position="attributes">
+                </xpath>
+                <xpath expr="//button[@name='toggle_active']" position="attributes">
                     <attribute name="invisible">1</attribute>
-                </button>
+                </xpath>
             </field>
         </record>
 
@@ -108,14 +111,14 @@
             <field name="arch" type="xml">
                 <tree string="Posicions nivell"
                       decoration-muted="level == '0'">
-                    <field name="name" invisible="1"/>
-                    <field name="employee_id"/>
-                    <field name="level" widget="priority" readonly="1"/>
+                    <field name="employee_id" string="Membre"/>
+                    <field name="level" widget="priority" readonly="1" string="Nivell"/>
                     <field name="alsada_cap"/>
                     <field name="alsada_muscle"/>
                     <field name="alsada_bras"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
+                    <field name="name" string="Posició/nivell"/>
                 </tree>
             </field>
         </record>
@@ -149,7 +152,8 @@
             <field name="model">hr.employee.skill</field>
             <field name="arch" type="xml">
                 <search string="Posicions nivell">
-                    <field name="employee_id"/>
+                    <field name="employee_id" string="Membre"/>
+                    <field name="skill_id" string="Posició"/>
                     <field name="level"/>
                     <field name="alsada_cap"/>
                     <field name="alsada_muscle"/>
@@ -185,7 +189,7 @@
                     <field name="alsada_bras"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
-                    <field name="employee_skill_id"/>
+                    <field name="employee_skill_id" string="Posició/nivell"/>
                 </tree>
             </field>
         </record>
@@ -220,6 +224,7 @@
             <field name="arch" type="xml">
                 <search string="Membres nivell">
                     <field name="employee_id"/>
+                    <field name="skill_id"/>
                     <field name="level"/>
                     <field name="alsada_cap"/>
                     <field name="alsada_muscle"/>

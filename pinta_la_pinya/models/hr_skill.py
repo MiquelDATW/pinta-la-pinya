@@ -29,9 +29,9 @@ class HrSkill(models.Model):
     pinya_line_ids = fields.One2many('pinya.muixeranga.pinya', 'posicio_id', string="Pinya")
     tronc_line_ids = fields.One2many('pinya.muixeranga.tronc', 'posicio_id', string="Tronc")
     employee_level_ids = fields.One2many('hr.employee.level', 'skill_id', string="Employee Level")
-    count_3stars = fields.Char(string="Membres experts", compute="_compute_millors", store=True)
-    count_2stars = fields.Char(string="Membres avançats", compute="_compute_millors", store=True)
-    count_1stars = fields.Char(string="Membres intermedis", compute="_compute_millors", store=True)
+    membres_3stars = fields.Char(string="Membres experts", compute="_compute_millors", store=True)
+    membres_2stars = fields.Char(string="Membres avançats", compute="_compute_millors", store=True)
+    membres_1star = fields.Char(string="Membres intermedis", compute="_compute_millors", store=True)
     pinya_count = fields.Integer(compute='_compute_pinya_count', string='Pinyes', store=True)
     tronc_count = fields.Integer(compute='_compute_tronc_count', string='Troncs', store=True)
     employee_skill_count = fields.Integer(compute='_compute_employee_skill', string='Posicions nivell', store=True)
@@ -72,11 +72,11 @@ class HrSkill(models.Model):
         for skill in skills:
             levels = skill.employee_level_ids
             l3 = len(levels.filtered(lambda x: x.level == '3'))
-            skill.count_3stars = (str(l3) + ' ⭐⭐⭐') if l3 > 0 else ''
+            skill.membres_3stars = (str(l3) + ' ⭐⭐⭐') if l3 > 0 else ''
             l2 = len(levels.filtered(lambda x: x.level == '2'))
-            skill.count_2stars = (str(l2) + ' ⭐⭐') if l2 > 0 else ''
+            skill.membres_2stars = (str(l2) + ' ⭐⭐') if l2 > 0 else ''
             l1 = len(levels.filtered(lambda x: x.level == '1'))
-            skill.count_1stars = (str(l1) + ' ⭐') if l1 > 0 else ''
+            skill.membres_1star = (str(l1) + ' ⭐') if l1 > 0 else ''
 
     def tronc_muixeranga(self):
         view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_all').id
@@ -224,10 +224,10 @@ class HrEmployeeLevel(models.Model):
 
     active = fields.Boolean('Active', related='employee_skill_id.active', default=True, store=True)
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
-    employee_skill_id = fields.Many2one('hr.employee.skill', string="Membre/habilitat")
+    employee_skill_id = fields.Many2one('hr.employee.skill', string="Posició/nivell")
 
     employee_id = fields.Many2one('hr.employee', string="Membre", related="employee_skill_id.employee_id", store=True)
-    skill_id = fields.Many2one('hr.skill', string="Habilitat", related="employee_skill_id.skill_id", store=True)
+    skill_id = fields.Many2one('hr.skill', string="Posició", related="employee_skill_id.skill_id", store=True)
     level = fields.Selection(string='Nivell', related="employee_skill_id.level", store=True)
     alsada_cap = fields.Integer(string="Alçada", related="employee_skill_id.employee_id.alsada_cap", store=True)
     alsada_muscle = fields.Integer(string="Alçada muscle", related="employee_skill_id.employee_id.alsada_muscle", store=True)
