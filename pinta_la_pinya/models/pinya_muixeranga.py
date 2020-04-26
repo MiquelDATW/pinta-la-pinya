@@ -56,6 +56,7 @@ class PinyaMuixeranga(models.Model):
     data = fields.Datetime(string='Data', related='actuacio_id.data_inici', store=True)
     actuacio_state = fields.Selection(string='Estat actuació', related='actuacio_id.state', store=True)
     temporada_id = fields.Many2one(string="Temporada", comodel_name="pinya.temporada", related='actuacio_id.temporada_id', store=True)
+    actual = fields.Boolean(string="Actual", related="temporada_id.actual", store=True)
 
     lliure_ids = fields.Many2many('hr.employee', string="Lliures", compute="_compute_lliures")
     lliure_count = fields.Integer(compute='_compute_lliures', string='Total Lliures')
@@ -377,7 +378,7 @@ class PinyaMuixerangaPinya(models.Model):
         pinyes = muixeranga.pinya_line_ids
         for pinya in pinyes:
             levels = pinya.posicio_id.employee_level_ids
-            mu1 = muixers.filtered(lambda x: pinya.posicio_id.id in x.posicio_ids.ids)
+            mu1 = muixers.filtered(lambda x: pinya.posicio_id.id in x.employee_skill_ids.mapped('skill_id').ids)
             recomanats = levels.filtered(lambda x: x.employee_id.id in mu1.ids).sorted('level', reverse=True)
             pinya.recomanats_ids = [(6, 0, recomanats.ids)]
 
@@ -465,7 +466,7 @@ class PinyaMuixerangaTronc(models.Model):
         troncs = muixeranga.tronc_line_ids
         for tronc in troncs:
             levels = tronc.posicio_id.employee_level_ids
-            mu1 = muixers.filtered(lambda x: tronc.posicio_id.id in x.posicio_ids.ids)
+            mu1 = muixers.filtered(lambda x: tronc.posicio_id.id in x.employee_skill_ids.mapped('skill_id').ids)
             recomanats = levels.filtered(lambda x: x.employee_id.id in mu1.ids).sorted('level', reverse=True)
             tronc.recomanats_ids = [(6, 0, recomanats.ids)]
 

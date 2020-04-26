@@ -53,6 +53,7 @@ class PinyaActuacio(models.Model):
                                       related="event_id.organizer_id", store=True)
     event_id = fields.Many2one(string="Esdeveniment", comodel_name="event.event")
     temporada_id = fields.Many2one(string="Temporada", comodel_name="pinya.temporada", required=True)
+    actual = fields.Boolean(string="Actual", related="temporada_id.actual", store=True)
     zip_id = fields.Many2one(string="Lloc", comodel_name="res.better.zip")
     tipus = fields.Selection([
             ('actuacio', 'Actuació'),
@@ -212,32 +213,32 @@ class PinyaActuacio(models.Model):
                 if len(names_t) == 1 and len(names_p) == 1 and names_p == names_t:
                     falta = "el tronc i la pinya"
                     names_t = names_t[0]
-                    error_msg = "La muixeranga '{}' li falta 'preparar' {}❗".format(names_t, falta)
+                    error_msg = "La muixeranga '{}' li falta preparar {}❗".format(names_t, falta)
                 elif len(names_t) == 1 and len(names_p) == 1 and names_p != names_t:
-                    falta_t = "li falta 'preparar' el tronc"
-                    falta_p = "li falta 'preparar' la pinya"
+                    falta_t = "li falta preparar el tronc"
+                    falta_p = "li falta preparar la pinya"
                     names_t = names_t[0]
                     names_p = names_p[0]
                     error_msg = "La muixeranga '{}' {} i la muixeranga '{}' {}❗".format(names_t, falta_t, names_p, falta_p)
                 elif len(names_t) > 1 and len(names_p) > 1 and names_p == names_t:
-                    falta_t = "els falten 'preparar' els troncs i les pinyes"
+                    falta_t = "els falten preparar els troncs i les pinyes"
                     names_t = "'" + "', '".join(names_t[0:-1]) + "' i '" + names_t[-1] + "'"
                     error_msg = "Les muixerangues {} {}❗".format(names_t, falta_t)
                 elif len(names_t) > 1 and len(names_p) > 1 and names_p != names_t:
-                    falta_t = "els falta 'preparar' els troncs"
-                    falta_p = "els falta 'preparar' les pinyes"
+                    falta_t = "els falta preparar els troncs"
+                    falta_p = "els falta preparar les pinyes"
                     names_t = "'" + "', '".join(names_t[0:-1]) + "' i '" + names_t[-1] + "'"
                     names_p = "'" + "', '".join(names_p[0:-1]) + "' i '" + names_p[-1] + "'"
                     error_msg = "Les muixerangues {} {} i les muixerangues {} {}❗".format(names_t, falta_t, names_p, falta_p)
                 elif len(names_t) > 1 and len(names_p) == 1 and names_p != names_t:
-                    falta_t = "els falta 'preparar' els troncs"
-                    falta_p = "li falta 'preparar' la pinya"
+                    falta_t = "els falta preparar els troncs"
+                    falta_p = "li falta preparar la pinya"
                     names_t = "'" + "', '".join(names_t[0:-1]) + "' i '" + names_t[-1] + "'"
                     names_p = names_p[0]
                     error_msg = "Les muixerangues {} {} i la muixeranga '{}' {}❗".format(names_t, falta_t, names_p, falta_p)
                 elif len(names_t) == 1 and len(names_p) > 1 and names_p != names_t:
-                    falta_t = "li falta 'preparar' el tronc"
-                    falta_p = "els falta 'preparar' les pinyes"
+                    falta_t = "li falta preparar el tronc"
+                    falta_p = "els falta preparar les pinyes"
                     names_t = names_t[0]
                     names_p = "'" + "', '".join(names_p[0:-1]) + "' i '" + names_p[-1] + "'"
                     error_msg = "La muixeranga '{}' {} i les muixerangues {} {}❗".format(names_t, falta_t, names_p, falta_p)

@@ -12,35 +12,36 @@
                 <form string="Muixerangues">
                     <header>
                         <button string="Descarregat" name="action_descarregat"
-                                attrs="{'invisible': ['|', ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
+                                attrs="{'invisible': ['|', '|', ('actual', '=', False), ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
                                 type="object" class="btn-success"/>
                         <button string="Intent" name="action_intent"
-                                attrs="{'invisible': ['|', ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
+                                attrs="{'invisible': ['|', '|', ('actual', '=', False), ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
                                 type="object" class="btn-warning"/>
                         <button string="Caigut" name="action_caigut"
-                                attrs="{'invisible': ['|', ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
+                                attrs="{'invisible': ['|', '|', ('actual', '=', False), ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
                                 type="object" class="btn-danger"/>
                         <button string="Cancel·lat" name="action_cancel"
-                                attrs="{'invisible': [('state', 'not in', ['draft', 'ready'])]}"
+                                attrs="{'invisible': ['|', ('actual', '=', False), ('state', 'not in', ['draft', 'ready'])]}"
                                 context="{'action_cancel': 1}"
                                 type="object" class="btn-danger"/>
                         <button string="Esborrany" name="action_draft"
-                                attrs="{'invisible': ['|', ('actuacio_state', '=', 'done'), ('state', 'not in', ['cancel', 'ready'])]}"
+                                attrs="{'invisible': ['|', '|', ('actual', '=', False), ('actuacio_state', '=', 'done'), ('state', 'not in', ['cancel', 'ready'])]}"
                                 context="{'action_draft': 1}"
                                 type="object" class="btn-warning"/>
                         <button class="oe_highlight" type="object"
                                 name="calcular_muixeranga"
-                                attrs="{'invisible': ['|', ('membre_count', '=', 0), ('state', '!=', 'draft')]}"
+                                attrs="{'invisible': ['|', '|', ('actual', '=', False), ('membre_count', '=', 0), ('state', '!=', 'draft')]}"
                                 string="Calcular muixeranga"/>
                         <button class="oe_highlight" type="object"
                                 name="reset_muixeranga"
-                                attrs="{'invisible': ['|', ('membre_count', '=', 0), ('state', '!=', 'draft')]}"
+                                attrs="{'invisible': ['|', '|', ('actual', '=', False), ('membre_count', '=', 0), ('state', '!=', 'draft')]}"
                                 string="Reset muixeranga"/>
                         <field name="state" widget="statusbar" statusbar_visible="descarregat"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button name="toggle_active" type="object" groups="base.group_user"
+                                    attrs="{'invisible': [('actual', '=', False)]}"
                                     class="oe_stat_button" icon="fa-archive">
                                 <field name="active" widget="boolean_button"
                                     options='{"terminology": "archive"}'/>
@@ -72,6 +73,7 @@
                                 <field name="plantilla_id"/>
                                 <field name="actuacio_id"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="actual" invisible="1"/>
                                 <field name="temporada_id" readonly="1"/>
                                 <field name="actuacio_state" invisible="1"/>
                             </group>

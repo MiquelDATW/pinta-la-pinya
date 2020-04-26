@@ -124,7 +124,7 @@ class PinyaTemporada(models.Model):
     def write(self, vals):
         if 'actual' in vals and vals.get('actual', False):
             altra_actual = self.env['pinya.temporada'].search([('actual', '=', True)])
-            if bool(altra_actual):
+            if bool(altra_actual) and self.id != altra_actual.id:
                 raise ValidationError("Ja hi ha una temporada actual❗")
         if 'actual' in vals and not vals.get('actual', False):
             draft_ready = self.actuacio_ids.filtered(lambda x: x.state in ['draft', 'ready'])

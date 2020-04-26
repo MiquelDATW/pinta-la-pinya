@@ -47,7 +47,6 @@ class HrEmployee(models.Model):
     muixeranga_pinya_ids = fields.One2many("pinya.muixeranga.pinya", "membre_pinya_id", string="Muixeranga")
     membre_actuacio_ids = fields.One2many('hr.employee.actuacio', 'employee_id', string="Actuacions")
 
-    posicio_ids = fields.Many2many(string="Posicions", comodel_name="hr.skill", compute="_compute_posicions", store=True)
     posicions_3stars = fields.Char(string="Posicions expertes", compute="_compute_millors", store=True)
     posicions_2stars = fields.Char(string="Posicions avançats", compute="_compute_millors", store=True)
     posicions_1star = fields.Char(string="Posicions intermedies", compute="_compute_millors", store=True)
@@ -76,14 +75,6 @@ class HrEmployee(models.Model):
             jd = teams.filtered(lambda x: x.jd_actual)
             muixeranguer.membre_at = bool(at)
             muixeranguer.membre_jd = bool(jd)
-
-    @api.multi
-    @api.depends('employee_skill_ids', 'employee_skill_ids.skill_id')
-    def _compute_posicions(self):
-        muixeranguers = self.filtered(lambda x: x.muixeranguera)
-        for muixeranguer in muixeranguers:
-            posicions = muixeranguer.employee_skill_ids.mapped('skill_id')
-            muixeranguer.posicio_ids = [(6, 0, posicions.ids)]
 
     @api.multi
     @api.depends('muixeranga_pinya_ids')

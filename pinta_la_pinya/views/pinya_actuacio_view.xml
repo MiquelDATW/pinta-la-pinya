@@ -13,28 +13,28 @@
                 <form string="Actuació">
                     <header>
                         <button string="Preparar" name="action_ready"
-                                attrs="{'invisible': ['|', '|', ('membres_count', '=', 0), ('muixerangues_count', '=', 0), ('state', '!=', 'draft')]}"
+                                attrs="{'invisible': ['|', '|', '|', ('actual', '=', False), ('membres_count', '=', 0), ('muixerangues_count', '=', 0), ('state', '!=', 'draft')]}"
                                 type="object" class="btn-success"/>
                         <button string="Fer" name="action_done"
-                                attrs="{'invisible': ['|', ('membres_count', '=', 0), ('state', '!=', 'ready')]}"
+                                attrs="{'invisible': ['|', '|', ('actual', '=', False), ('membres_count', '=', 0), ('state', '!=', 'ready')]}"
                                 type="object" class="btn-success"/>
                         <button string="Cancel·lar" name="action_cancel"
-                                attrs="{'invisible': [('state', 'not in', ['draft', 'ready'])]}"
+                                attrs="{'invisible': ['|', ('actual', '=', False), ('state', 'not in', ['draft', 'ready'])]}"
                                 type="object" class="btn-danger"/>
                         <button string="Esborrany" name="action_draft"
-                                attrs="{'invisible': [('state', 'not in', ['cancel', 'ready'])]}"
+                                attrs="{'invisible': ['|', ('actual', '=', False), ('state', 'not in', ['cancel', 'ready'])]}"
                                 type="object" class="btn-warning"/>
                         <button string="Importar membres" name="action_membres_import"
-                                attrs="{'invisible': [('state', '!=', 'draft')]}"
+                                attrs="{'invisible': ['|', ('actual', '=', False), ('state', '!=', 'draft')]}"
                                 context="{'actuacio': id}"
                                 type="object" class="oe_highlight"/>
                         <button class="oe_highlight" type="object"
                                 name="calcular_muixerangues"
-                                attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('muixerangues_count', '=', 0), ('membres_count', '=', 0)]}"
+                                attrs="{'invisible': ['|', '|', '|', ('actual', '=', False), ('state', '!=', 'draft'), ('muixerangues_count', '=', 0), ('membres_count', '=', 0)]}"
                                 string="Calcular muixerangues"/>
                         <button class="oe_highlight" type="object"
                                 name="reset_muixerangues"
-                                attrs="{'invisible': ['|', '|', ('state', '!=', 'draft'), ('muixerangues_count', '=', 0), ('membres_count', '=', 0)]}"
+                                attrs="{'invisible': ['|', '|', '|', ('actual', '=', False), ('state', '!=', 'draft'), ('muixerangues_count', '=', 0), ('membres_count', '=', 0)]}"
                                 string="Reset muixerangues"/>
                         <field name="state" widget="statusbar" statusbar_visible="done"/>
                     </header>
@@ -43,9 +43,10 @@
                             <button class="oe_stat_button" type="object"
                                     context="{'actuacio_id': id}"
                                     name="pinya_muixeranga_wizard" icon="fas fa-plus-square"
-                                    attrs="{'invisible': [('state', '!=', 'draft')]}"
+                                    attrs="{'invisible': ['|', ('actual', '=', False), ('state', '!=', 'draft')]}"
                                     string="Afegir muixerangues"/>
                             <button name="toggle_active" type="object" groups="base.group_user"
+                                    attrs="{'invisible': [('actual', '=', False)]}"
                                     class="oe_stat_button" icon="fa-archive">
                                 <field name="active" widget="boolean_button"
                                     options='{"terminology": "archive"}'/>
@@ -81,6 +82,7 @@
                                        attrs="{'readonly': ['|', ('state', '!=', 'draft'), ('event_id', '!=', False)]}"/>
                                 <field name="tipus"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="actual" invisible="1"/>
                                 <field name="temporada_id"
                                        options="{'no_create_edit': True}"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
