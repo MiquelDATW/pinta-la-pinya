@@ -40,11 +40,23 @@ class PinyaImportWizard(models.TransientModel):
 
         actuacio = self.env['pinya.actuacio'].browse(actuacio)
 
+        actuals = actuacio.membre_actuacio_ids.mapped('employee_id')
+        eliminats = actuacio.membre_actuacio_ids.filtered(lambda x: x.employee_id.id not in membres.ids)
+        if bool(eliminats):
+            troncs = actuacio.muixeranga_ids.mapped('tronc_line_ids').filtered(lambda x: x.employee_actuacio_id.id in eliminats.ids)
+            for tronc in troncs:
+                tronc.membre_tronc_level_id = False
+            pinyes = actuacio.muixeranga_ids.mapped('pinya_line_ids').filtered(lambda x: x.employee_actuacio_id.id in eliminats.ids)
+            for pinya in pinyes:
+                pinya.membre_pinya_level_id = False
+            eliminats.unlink()
+
         muix_act_obj = self.env['hr.employee.actuacio']
         data = {
             'actuacio_id': actuacio.id,
         }
-        for membre in membres:
+        nous = membres.filtered(lambda x: x.id not in actuals.ids)
+        for membre in nous:
             data['employee_id'] = membre.id
             data['name'] = membre.name
             muix_act_obj.create(data)
