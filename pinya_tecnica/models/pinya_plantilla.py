@@ -177,8 +177,8 @@ class PinyaPlantilla(models.Model):
         return res
 
     def mostrar_muixerangues(self):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tree_selected').id
-        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_form').id
+        view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_tree_selected').id
+        view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_form').id
         name = "Muixerangues"
         model = "pinya.muixeranga"
         domain = [('id', 'in', self.muixeranga_ids.ids)]

@@ -1,8 +1,8 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-Pinta la Pinya
-==============
+Pinya Plantilles
+================
 
 Aquesta aplicació instal·la plantilles i croquis de Muixerangues.
 
@@ -12,7 +12,7 @@ Aquesta aplicació instal·la plantilles i croquis de Muixerangues.
 Installation
 ============
 
-* pinta_la_pinya
+* pinya_tecnica
 
 Configuration
 =============

@@ -97,8 +97,8 @@ class HrSkill(models.Model):
             skill.membres_1star = (str(l1) + ' ⭐') if l1 > 0 else ''
 
     def tronc_muixeranga(self):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_all').id
-        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_form').id
+        view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_tronc_tree_all').id
+        view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_tronc_form').id
         name = "Tronc de {}".format(self.name)
         model = "pinya.muixeranga.tronc"
         domain = [('id', 'in', self.tronc_line_ids.ids)]
@@ -106,8 +106,8 @@ class HrSkill(models.Model):
         return action
 
     def pinya_muixeranga(self):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_tree_all').id
-        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_form').id
+        view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_pinya_tree_all').id
+        view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_pinya_form').id
         name = "Pinya de {}".format(self.name)
         model = "pinya.muixeranga.pinya"
         domain = [('id', 'in', self.pinya_line_ids.ids)]
@@ -115,8 +115,8 @@ class HrSkill(models.Model):
         return action
 
     def employee_skill(self):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_hr_employee_skill_tree').id
-        view_form_id = self.env.ref('pinta_la_pinya.view_hr_employee_skill_form').id
+        view_tree_id = self.env.ref('pinya_tecnica.view_hr_employee_skill_tree').id
+        view_form_id = self.env.ref('pinya_tecnica.view_hr_employee_skill_form').id
         name = "Posicions nivell"
         model = "hr.employee.skill"
         domain = [('id', 'in', self.employee_skill_ids.ids)]
@@ -124,8 +124,8 @@ class HrSkill(models.Model):
         return action
 
     def employee_level(self):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_hr_employee_level_tree').id
-        view_form_id = self.env.ref('pinta_la_pinya.view_hr_employee_level_form').id
+        view_tree_id = self.env.ref('pinya_tecnica.view_hr_employee_level_tree').id
+        view_form_id = self.env.ref('pinya_tecnica.view_hr_employee_level_form').id
         name = "Membres nivell"
         model = "hr.employee.level"
         domain = [('id', 'in', self.employee_level_ids.ids)]

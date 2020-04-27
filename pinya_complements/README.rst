@@ -5,7 +5,7 @@
 Pinya Complements
 =================
 
-Mòduls complementaris a "Pinta la Pinya"
+Mòduls complementaris a "Pinya Tècnica"
 
 Installation
 ============

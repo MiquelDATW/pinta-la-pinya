@@ -9,12 +9,12 @@
         <!-- Top menu item -->
         <menuitem
             id="menu_pinya_root"
-            name="Pinta la Pinya"
+            name="Enfaixa't"
             groups="base.group_user"
-            web_icon="pinta_la_pinya,static/description/icon.png"
+            web_icon="pinya_tecnica,static/description/icon.png"
             sequence="70"/>
 
-        <record id="action_pinta_la_pinya_actuacions" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_actuacions" model="ir.actions.act_window">
             <field name="name">Actuacions</field>
             <field name="res_model">pinya.actuacio</field>
             <field name="view_type">form</field>
@@ -33,7 +33,7 @@
             </field>
         </record>
 
-        <record id="action_pinta_la_pinya_assajos" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_assajos" model="ir.actions.act_window">
             <field name="name">Assajos</field>
             <field name="res_model">pinya.actuacio</field>
             <field name="view_type">form</field>
@@ -52,7 +52,7 @@
             </field>
         </record>
 
-        <record id="action_pinta_la_pinya_temporades" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_temporades" model="ir.actions.act_window">
             <field name="name">Temporades</field>
             <field name="res_model">pinya.temporada</field>
             <field name="view_type">form</field>
@@ -71,7 +71,7 @@
             </field>
         </record>
 
-        <record id="action_pinta_la_pinya_muixeranga" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_muixeranga" model="ir.actions.act_window">
             <field name="name">Muixerangues</field>
             <field name="res_model">pinya.muixeranga</field>
             <field name="view_type">form</field>
@@ -89,7 +89,7 @@
             </field>
         </record>
 
-        <record id="action_pinta_la_pinya_plantilla" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_plantilla" model="ir.actions.act_window">
             <field name="name">Plantilles</field>
             <field name="res_model">pinya.plantilla</field>
             <field name="view_type">form</field>
@@ -107,7 +107,7 @@
             </field>
         </record>
 
-        <record id="action_pinta_la_pinya_membres" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_membres" model="ir.actions.act_window">
             <field name="name">Membres</field>
             <field name="res_model">hr.employee</field>
             <field name="view_type">form</field>
@@ -125,14 +125,14 @@
             </field>
         </record>
 
-        <record id="action_pinta_la_pinya_posicions" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_posicions" model="ir.actions.act_window">
             <field name="name">Posicions</field>
             <field name="res_model">hr.skill</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record id="action_pinta_la_pinya_posicions_nivell" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_posicions_nivell" model="ir.actions.act_window">
             <field name="name">Posicions nivell</field>
             <field name="res_model">hr.employee.skill</field>
             <field name="view_type">form</field>
@@ -140,14 +140,14 @@
             <field name="view_id" eval="view_hr_employee_skill_tree"/>
         </record>
 
-        <record id="action_pinta_la_pinya_membres_nivell" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_membres_nivell" model="ir.actions.act_window">
             <field name="name">Membres nivell</field>
             <field name="res_model">hr.employee.level</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record id="action_pinta_la_pinya_muixeranga_pinya_all" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_muixeranga_pinya_all" model="ir.actions.act_window">
             <field name="name">Pinya de Muixeranga</field>
             <field name="res_model">pinya.muixeranga.pinya</field>
             <field name="view_type">form</field>
@@ -157,7 +157,7 @@
             <field name="view_id" eval="view_muixeranga_pinya_tree_all"/>
         </record>
 
-        <record id="action_pinta_la_pinya_muixeranga_tronc_all" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_muixeranga_tronc_all" model="ir.actions.act_window">
             <field name="name">Tronc de Muixeranga</field>
             <field name="res_model">pinya.muixeranga.tronc</field>
             <field name="view_type">form</field>
@@ -168,45 +168,45 @@
         </record>
 
         <menuitem
-            id="menu_pinta_la_pinya"
-            name="Pinta la Pinya"
+            id="menu_pinya_tecnica"
+            name="Enfaixa't"
             parent="menu_pinya_root"
             sequence="1"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_actuacions"
-            action="action_pinta_la_pinya_actuacions"
-            parent="menu_pinta_la_pinya"
+            id="menu_pinya_tecnica_actuacions"
+            action="action_pinya_tecnica_actuacions"
+            parent="menu_pinya_tecnica"
             sequence="10"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_assajos"
-            action="action_pinta_la_pinya_assajos"
-            parent="menu_pinta_la_pinya"
+            id="menu_pinya_tecnica_assajos"
+            action="action_pinya_tecnica_assajos"
+            parent="menu_pinya_tecnica"
             sequence="20"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_muixeranga"
-            action="action_pinta_la_pinya_muixeranga"
-            parent="menu_pinta_la_pinya"
+            id="menu_pinya_tecnica_muixeranga"
+            action="action_pinya_tecnica_muixeranga"
+            parent="menu_pinya_tecnica"
             sequence="30"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_membres"
-            action="action_pinta_la_pinya_membres"
-            parent="menu_pinta_la_pinya"
+            id="menu_pinya_tecnica_membres"
+            action="action_pinya_tecnica_membres"
+            parent="menu_pinya_tecnica"
             sequence="40"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_plantilla"
-            action="action_pinta_la_pinya_plantilla"
-            parent="menu_pinta_la_pinya"
+            id="menu_pinya_tecnica_plantilla"
+            action="action_pinya_tecnica_plantilla"
+            parent="menu_pinya_tecnica"
             sequence="50"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_temporades"
-            action="action_pinta_la_pinya_temporades"
-            parent="menu_pinta_la_pinya"
+            id="menu_pinya_tecnica_temporades"
+            action="action_pinya_tecnica_temporades"
+            parent="menu_pinya_tecnica"
             sequence="60"/>
 
         <menuitem
@@ -216,14 +216,14 @@
             sequence="2"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_muixeranga_pinya"
-            action="action_pinta_la_pinya_muixeranga_pinya_all"
+            id="menu_pinya_tecnica_muixeranga_pinya"
+            action="action_pinya_tecnica_muixeranga_pinya_all"
             parent="menu_pinta_la_tecnica"
             sequence="10"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_muixeranga_tronc"
-            action="action_pinta_la_pinya_muixeranga_tronc_all"
+            id="menu_pinya_tecnica_muixeranga_tronc"
+            action="action_pinya_tecnica_muixeranga_tronc_all"
             parent="menu_pinta_la_tecnica"
             sequence="20"/>
 
@@ -234,25 +234,25 @@
             sequence="3"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_posicions"
-            action="action_pinta_la_pinya_posicions"
+            id="menu_pinya_tecnica_posicions"
+            action="action_pinya_tecnica_posicions"
             parent="menu_pinta_la_posicio"
             sequence="10"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_posicions_nivell"
-            action="action_pinta_la_pinya_posicions_nivell"
+            id="menu_pinya_tecnica_posicions_nivell"
+            action="action_pinya_tecnica_posicions_nivell"
             parent="menu_pinta_la_posicio"
             sequence="20"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_membres_nivell"
-            action="action_pinta_la_pinya_membres_nivell"
+            id="menu_pinya_tecnica_membres_nivell"
+            action="action_pinya_tecnica_membres_nivell"
             parent="menu_pinta_la_posicio"
             groups="base.group_no_one"
             sequence="30"/>
 
-        <record id="action_pinta_la_pinya_actuacions_anterior" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_actuacions_anterior" model="ir.actions.act_window">
             <field name="name">Actuacions Anteriors</field>
             <field name="res_model">pinya.actuacio</field>
             <field name="view_type">form</field>
@@ -262,7 +262,7 @@
             <field name="view_id" eval="False"/>
         </record>
         
-        <record id="action_pinta_la_pinya_assajos_anterior" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_assajos_anterior" model="ir.actions.act_window">
             <field name="name">Assajos Anteriors</field>
             <field name="res_model">pinya.actuacio</field>
             <field name="view_type">form</field>
@@ -272,7 +272,7 @@
             <field name="view_id" eval="False"/>
         </record>
 
-        <record id="action_pinta_la_pinya_muixeranga_anterior" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_muixeranga_anterior" model="ir.actions.act_window">
             <field name="name">Muixerangues Anteriors</field>
             <field name="res_model">pinya.muixeranga</field>
             <field name="view_type">form</field>
@@ -282,7 +282,7 @@
             <field name="view_id" eval="view_muixeranga_tree_all"/>
         </record>
 
-        <record id="action_pinta_la_pinya_muixeranga_pinya_anterior" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_muixeranga_pinya_anterior" model="ir.actions.act_window">
             <field name="name">Pinyes Muix. Anteriors</field>
             <field name="res_model">pinya.muixeranga.pinya</field>
             <field name="view_type">form</field>
@@ -292,7 +292,7 @@
             <field name="view_id" eval="view_muixeranga_pinya_tree_all"/>
         </record>
 
-        <record id="action_pinta_la_pinya_muixeranga_tronc_anterior" model="ir.actions.act_window">
+        <record id="action_pinya_tecnica_muixeranga_tronc_anterior" model="ir.actions.act_window">
             <field name="name">Troncs Muix. Anteriors</field>
             <field name="res_model">pinya.muixeranga.tronc</field>
             <field name="view_type">form</field>
@@ -309,32 +309,32 @@
             sequence="4"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_actuacions_anterior"
-            action="action_pinta_la_pinya_actuacions_anterior"
+            id="menu_pinya_tecnica_actuacions_anterior"
+            action="action_pinya_tecnica_actuacions_anterior"
             parent="menu_pinta_la_anterior"
             sequence="10"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_assajos_anterior"
-            action="action_pinta_la_pinya_assajos_anterior"
+            id="menu_pinya_tecnica_assajos_anterior"
+            action="action_pinya_tecnica_assajos_anterior"
             parent="menu_pinta_la_anterior"
             sequence="20"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_muixeranga_anterior"
-            action="action_pinta_la_pinya_muixeranga_anterior"
+            id="menu_pinya_tecnica_muixeranga_anterior"
+            action="action_pinya_tecnica_muixeranga_anterior"
             parent="menu_pinta_la_anterior"
             sequence="30"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_muixeranga_pinya_anterior"
-            action="action_pinta_la_pinya_muixeranga_pinya_anterior"
+            id="menu_pinya_tecnica_muixeranga_pinya_anterior"
+            action="action_pinya_tecnica_muixeranga_pinya_anterior"
             parent="menu_pinta_la_anterior"
             sequence="40"/>
 
         <menuitem
-            id="menu_pinta_la_pinya_muixeranga_tronc_anterior"
-            action="action_pinta_la_pinya_muixeranga_tronc_anterior"
+            id="menu_pinya_tecnica_muixeranga_tronc_anterior"
+            action="action_pinya_tecnica_muixeranga_tronc_anterior"
             parent="menu_pinta_la_anterior"
             sequence="50"/>
     </data>

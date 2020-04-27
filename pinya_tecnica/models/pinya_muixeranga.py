@@ -289,8 +289,8 @@ class PinyaMuixeranga(models.Model):
                     pinya.membre_pinya_level_id = membre.id
 
     def tronc_muixeranga(self):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_selected').id
-        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_form').id
+        view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_tronc_tree_selected').id
+        view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_tronc_form').id
         name = "Tronc de {}".format(self.name)
         model = "pinya.muixeranga.tronc"
         domain = [('id', 'in', self.tronc_line_ids.ids)]
@@ -298,8 +298,8 @@ class PinyaMuixeranga(models.Model):
         return action
 
     def pinya_muixeranga(self):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_tree_selected').id
-        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_form').id
+        view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_pinya_tree_selected').id
+        view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_pinya_form').id
         name = "Pinya de {}".format(self.name)
         model = "pinya.muixeranga.pinya"
         domain = [('id', 'in', self.pinya_line_ids.ids)]

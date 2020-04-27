@@ -7,7 +7,7 @@
     "summary": "Manage your employees' nutrition",
     "version": "11.0.1.0.3",
     "category": "Health",
-    'website': 'http://www.pintalapinya.cat/',
+    "website": "http://www.enfaixat.cat/",
     "author": "Ursa Information Systems, Miquel March",
     "license": "AGPL-3",
     "application": True,

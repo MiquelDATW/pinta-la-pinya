@@ -21,7 +21,7 @@ def post_init_hook(cr, registry):
 
         sequence = [i for i in range(len(skills))]
 
-        for i in range(120):
+        for i in range(80):
             j = random.randint(0, 1)
             name = ''.join([random.choice(string.ascii_lowercase) for n in range(12)]).capitalize()
             als = random.randint(145, 201)

@@ -152,23 +152,23 @@ class PinyaActuacio(models.Model):
         self.name = tipus.capitalize() + ' ' + data_str
 
     def action_membres_import(self):
-        view_form_id = self.env.ref('pinta_la_pinya.pinya_import_wizard_form_view').id
+        view_form_id = self.env.ref('pinya_tecnica.pinya_import_wizard_form_view').id
         name = "Importar membres per a l'actuació"
         model = "pinya.import.wizard"
         action = _get_wizard(view_form_id, name, model)
         return action
 
     def pinya_muixeranga_wizard(self):
-        view_form_id = self.env.ref('pinta_la_pinya.pinya_muixeranga_wizard_form_view').id
+        view_form_id = self.env.ref('pinya_tecnica.pinya_muixeranga_wizard_form_view').id
         name = "Afegir figures a l'{}".format(self.tipus.replace("actuacio", "actuació"))
         model = "pinya.muixeranga.wizard"
         action = _get_wizard(view_form_id, name, model)
         return action
 
     def mostrar_muixerangues(self):
-        view_search_id = self.env.ref('pinta_la_pinya.view_muixeranga_search').id
-        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tree_all').id
-        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_form').id
+        view_search_id = self.env.ref('pinya_tecnica.view_muixeranga_search').id
+        view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_tree_all').id
+        view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_form').id
         name = "Muixerangues"
         model = "pinya.muixeranga"
         domain = [('id', 'in', self.muixeranga_ids.ids)]
@@ -177,9 +177,9 @@ class PinyaActuacio(models.Model):
         return action
 
     def mostrar_membres(self):
-        view_search_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_search').id
-        view_tree_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_tree').id
-        view_form_id = self.env.ref('pinta_la_pinya.hr_employee_actuacio_form').id
+        view_search_id = self.env.ref('pinya_tecnica.hr_employee_actuacio_search').id
+        view_tree_id = self.env.ref('pinya_tecnica.hr_employee_actuacio_tree').id
+        view_form_id = self.env.ref('pinya_tecnica.hr_employee_actuacio_form').id
         name = "Membres"
         model = "hr.employee.actuacio"
         domain = [('id', 'in', self.membre_actuacio_ids.ids)]

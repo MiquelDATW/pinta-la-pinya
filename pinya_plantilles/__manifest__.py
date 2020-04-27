@@ -7,13 +7,13 @@
     "summary": "Plantilles i croquis de Muixerangues.",
     "version": "11.0.1.0.1",
     "category": "Custom",
-    'website': 'http://www.pintalapinya.cat/',
+    "website": "http://www.enfaixat.cat/",
     "author": "Miquel March",
     "license": "AGPL-3",
     "installable": True,
     'application': False,
     "depends": [
-        "pinta_la_pinya",
+        "pinya_tecnica",
     ],
     "data": [
         "data/plantilla_torreta_templates.xml",

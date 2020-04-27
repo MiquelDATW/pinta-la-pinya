@@ -4,10 +4,10 @@
 
 {
     "name": "Pinya Complements",
-    "summary": "Mòduls complementaris a 'Pinta la Pinya'",
+    "summary": "Mòduls complementaris a 'Pinya Tècnica'",
     "version": "11.0.1.0.1",
     "category": "Custom",
-    'website': 'http://www.pintalapinya.cat/',
+    "website": "http://www.enfaixat.cat/",
     "author": "Miquel March",
     "license": "AGPL-3",
     "installable": True,

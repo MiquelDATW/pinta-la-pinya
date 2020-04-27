@@ -3,11 +3,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Pinta la Pinya",
+    "name": "Pinya Tècnica",
     "summary": "Permet fer una gestió tècnica completa d'una colla muixeranguera",
     "version": "11.0.1.0.7",
     "category": "Custom",
-    'website': 'http://www.pintalapinya.cat/',
+    "website": "http://www.enfaixat.cat/",
     "author": "Miquel March",
     "license": "AGPL-3",
     "installable": True,

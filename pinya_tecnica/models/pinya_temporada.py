@@ -79,8 +79,8 @@ class PinyaTemporada(models.Model):
         return res
 
     def mostrar_pinya_muixeranga(self, tipus):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tree_all').id
-        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_form').id
+        view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_tree_all').id
+        view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_form').id
         pinya_muixeranga = self.muixeranga_ids.filtered(lambda x: x.actuacio_id.tipus == tipus)
         domain = [('id', 'in', pinya_muixeranga.ids)]
         name = "Muix. " + ("Oficials" if tipus == 'actuacio' else "Assajos") + " " + self.name
@@ -97,8 +97,8 @@ class PinyaTemporada(models.Model):
         return res
 
     def mostrar_pinya_actuacio(self, tipus):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_actuacio_tree').id
-        view_form_id = self.env.ref('pinta_la_pinya.view_actuacio_form').id
+        view_tree_id = self.env.ref('pinya_tecnica.view_actuacio_tree').id
+        view_form_id = self.env.ref('pinya_tecnica.view_actuacio_form').id
         actuacions = self.actuacio_ids.filtered(lambda x: x.tipus == tipus)
         domain = [('id', 'in', actuacions.ids)]
         name = ("Actuacions" if tipus == 'actuacio' else "Assajos") + " " + self.name

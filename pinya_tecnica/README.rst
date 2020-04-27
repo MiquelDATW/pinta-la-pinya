@@ -1,7 +1,7 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-Pinta la Pinya
+Pinya Tècnica
 ==============
 
 Aquesta aplicació permet fer una gestió tècnica completa d'una colla muixeranguera

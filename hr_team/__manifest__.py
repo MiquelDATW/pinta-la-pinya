@@ -7,7 +7,7 @@
     "summary": "Manage your employee teams",
     "version": "11.0.1.0.1",
     "category": "Human Resources",
-    'website': 'http://www.pintalapinya.cat/',
+    "website": "http://www.enfaixat.cat/",
     "author": "Miquel March",
     "license": "AGPL-3",
     "installable": True,

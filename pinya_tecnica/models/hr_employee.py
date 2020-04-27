@@ -182,8 +182,8 @@ class HrEmployee(models.Model):
                 raise ValidationError("No és possible una data d'inscripció anterior a la colla: {}❗".format(colla_str))
 
     def tronc_muixeranga(self):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_tree_all').id
-        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_tronc_form').id
+        view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_tronc_tree_all').id
+        view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_tronc_form').id
         name = "Tronc de {}".format(self.name)
         model = "pinya.muixeranga.tronc"
         domain = [('id', 'in', self.muixeranga_tronc_ids.ids)]
@@ -191,8 +191,8 @@ class HrEmployee(models.Model):
         return action
 
     def pinya_muixeranga(self):
-        view_tree_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_tree_all').id
-        view_form_id = self.env.ref('pinta_la_pinya.view_muixeranga_pinya_form').id
+        view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_pinya_tree_all').id
+        view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_pinya_form').id
         name = "Pinya de {}".format(self.name)
         model = "pinya.muixeranga.pinya"
         domain = [('id', 'in', self.muixeranga_pinya_ids.ids)]
