@@ -168,7 +168,7 @@
         </record>
 
         <menuitem
-            id="menu_pinya_tecnica"
+            id="menu_pinya_tecnica_enfaixat"
             name="Enfaixa't"
             parent="menu_pinya_root"
             sequence="1"/>
@@ -176,41 +176,41 @@
         <menuitem
             id="menu_pinya_tecnica_actuacions"
             action="action_pinya_tecnica_actuacions"
-            parent="menu_pinya_tecnica"
+            parent="menu_pinya_tecnica_enfaixat"
             sequence="10"/>
 
         <menuitem
             id="menu_pinya_tecnica_assajos"
             action="action_pinya_tecnica_assajos"
-            parent="menu_pinya_tecnica"
+            parent="menu_pinya_tecnica_enfaixat"
             sequence="20"/>
 
         <menuitem
             id="menu_pinya_tecnica_muixeranga"
             action="action_pinya_tecnica_muixeranga"
-            parent="menu_pinya_tecnica"
+            parent="menu_pinya_tecnica_enfaixat"
             sequence="30"/>
 
         <menuitem
             id="menu_pinya_tecnica_membres"
             action="action_pinya_tecnica_membres"
-            parent="menu_pinya_tecnica"
+            parent="menu_pinya_tecnica_enfaixat"
             sequence="40"/>
 
         <menuitem
             id="menu_pinya_tecnica_plantilla"
             action="action_pinya_tecnica_plantilla"
-            parent="menu_pinya_tecnica"
+            parent="menu_pinya_tecnica_enfaixat"
             sequence="50"/>
 
         <menuitem
             id="menu_pinya_tecnica_temporades"
             action="action_pinya_tecnica_temporades"
-            parent="menu_pinya_tecnica"
+            parent="menu_pinya_tecnica_enfaixat"
             sequence="60"/>
 
         <menuitem
-            id="menu_pinta_la_tecnica"
+            id="menu_pinya_tecnica_tecnica"
             name="Tècnica"
             parent="menu_pinya_root"
             sequence="2"/>
@@ -218,17 +218,17 @@
         <menuitem
             id="menu_pinya_tecnica_muixeranga_pinya"
             action="action_pinya_tecnica_muixeranga_pinya_all"
-            parent="menu_pinta_la_tecnica"
+            parent="menu_pinya_tecnica_tecnica"
             sequence="10"/>
 
         <menuitem
             id="menu_pinya_tecnica_muixeranga_tronc"
             action="action_pinya_tecnica_muixeranga_tronc_all"
-            parent="menu_pinta_la_tecnica"
+            parent="menu_pinya_tecnica_tecnica"
             sequence="20"/>
 
         <menuitem
-            id="menu_pinta_la_posicio"
+            id="menu_pinya_tecnica_posicio"
             name="Posicions"
             parent="menu_pinya_root"
             sequence="3"/>
@@ -236,19 +236,19 @@
         <menuitem
             id="menu_pinya_tecnica_posicions"
             action="action_pinya_tecnica_posicions"
-            parent="menu_pinta_la_posicio"
+            parent="menu_pinya_tecnica_posicio"
             sequence="10"/>
 
         <menuitem
             id="menu_pinya_tecnica_posicions_nivell"
             action="action_pinya_tecnica_posicions_nivell"
-            parent="menu_pinta_la_posicio"
+            parent="menu_pinya_tecnica_posicio"
             sequence="20"/>
 
         <menuitem
             id="menu_pinya_tecnica_membres_nivell"
             action="action_pinya_tecnica_membres_nivell"
-            parent="menu_pinta_la_posicio"
+            parent="menu_pinya_tecnica_posicio"
             groups="base.group_no_one"
             sequence="30"/>
 
@@ -303,7 +303,7 @@
         </record>
         
         <menuitem
-            id="menu_pinta_la_anterior"
+            id="menu_pinya_tecnica_anterior"
             name="Temp. Anteriors"
             parent="menu_pinya_root"
             sequence="4"/>
@@ -311,31 +311,31 @@
         <menuitem
             id="menu_pinya_tecnica_actuacions_anterior"
             action="action_pinya_tecnica_actuacions_anterior"
-            parent="menu_pinta_la_anterior"
+            parent="menu_pinya_tecnica_anterior"
             sequence="10"/>
 
         <menuitem
             id="menu_pinya_tecnica_assajos_anterior"
             action="action_pinya_tecnica_assajos_anterior"
-            parent="menu_pinta_la_anterior"
+            parent="menu_pinya_tecnica_anterior"
             sequence="20"/>
 
         <menuitem
             id="menu_pinya_tecnica_muixeranga_anterior"
             action="action_pinya_tecnica_muixeranga_anterior"
-            parent="menu_pinta_la_anterior"
+            parent="menu_pinya_tecnica_anterior"
             sequence="30"/>
 
         <menuitem
             id="menu_pinya_tecnica_muixeranga_pinya_anterior"
             action="action_pinya_tecnica_muixeranga_pinya_anterior"
-            parent="menu_pinta_la_anterior"
+            parent="menu_pinya_tecnica_anterior"
             sequence="40"/>
 
         <menuitem
             id="menu_pinya_tecnica_muixeranga_tronc_anterior"
             action="action_pinya_tecnica_muixeranga_tronc_anterior"
-            parent="menu_pinta_la_anterior"
+            parent="menu_pinya_tecnica_anterior"
             sequence="50"/>
     </data>
 </odoo>

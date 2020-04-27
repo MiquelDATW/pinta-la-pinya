@@ -5,7 +5,7 @@
 {
     "name": "Pinya Tècnica",
     "summary": "Permet fer una gestió tècnica completa d'una colla muixeranguera",
-    "version": "11.0.1.0.7",
+    "version": "11.0.1.0.8",
     "category": "Custom",
     "website": "http://www.enfaixat.cat/",
     "author": "Miquel March",
