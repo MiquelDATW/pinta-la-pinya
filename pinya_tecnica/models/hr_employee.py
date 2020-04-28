@@ -357,3 +357,15 @@ class HrEmployeeActuacio(models.Model):
         res = super(HrEmployeeActuacio, self).write(vals)
         return res
 
+    @api.multi
+    def unlink(self):
+        muixerangues = self.mapped('actuacio_id').muixeranga_ids
+        troncs = muixerangues.mapped('tronc_line_ids').filtered(lambda x: x.employee_actuacio_id.id in self.ids)
+        for tronc in troncs:
+            tronc.membre_tronc_level_id = False
+        pinyes = muixerangues.mapped('pinya_line_ids').filtered(lambda x: x.employee_actuacio_id.id in self.ids)
+        for pinya in pinyes:
+            pinya.membre_pinya_level_id = False
+        res = super(HrEmployeeActuacio, self).unlink()
+        return res
+
