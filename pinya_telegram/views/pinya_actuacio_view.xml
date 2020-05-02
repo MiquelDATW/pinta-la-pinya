@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+        <record id="view_actuacio_form" model="ir.ui.view">
+            <field name="name">pinya.actuacio.form</field>
+            <field name="model">pinya.actuacio</field>
+            <field name="inherit_id" ref="pinya_tecnica.view_actuacio_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='pinya_muixeranga_wizard']" position="after">
+                    <button class="oe_stat_button" type="object"
+                            attrs="{'invisible': ['|', ('actual', '=', False), ('state', '!=', 'ready')]}"
+                            string="Enviar Telegram"
+                            name="telegram_msg" icon="fab fa-telegram"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

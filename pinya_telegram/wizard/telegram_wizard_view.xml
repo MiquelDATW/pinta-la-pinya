@@ -13,7 +13,9 @@
                     <sheet>
                         <group>
                             <field name="partner_id" readonly="1"/>
+                            <field name="telegram_id" readonly="1"/>
                             <field name="msg_text" required="True"/>
+                            <field name="msg_image"/>
                         </group>
                     </sheet>
                     <footer>

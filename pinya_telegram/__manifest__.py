@@ -20,6 +20,7 @@
         'telegram',
     ], "bin": []},
     "data": [
+        "views/pinya_actuacio_view.xml",
         "views/res_telegram_view.xml",
         "wizard/telegram_wizard_view.xml",
         "security/ir.model.access.csv",

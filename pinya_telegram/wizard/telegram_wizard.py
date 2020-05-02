@@ -12,7 +12,10 @@ class TelegramWizard(models.TransientModel):
     _name = "telegram.wizard"
 
     partner_id = fields.Many2one('res.partner', string='Contacte', required=True)
+    telegram_id = fields.Many2one("res.telegram", related="partner_id.telegram_id", string="Telegram")
     msg_text = fields.Text(string="Text del missatge", required=True)
+
+    msg_image = fields.Binary("Imatge del missatge", attachment=True, help="Limitat a 1024x1024px.")
 
     @api.model
     def default_get(self, fields_list):
@@ -26,7 +29,8 @@ class TelegramWizard(models.TransientModel):
 
         msg = self.msg_text
         partner = self.partner_id.id
-        res = telegram_obj.send_telegram(msg, partner)
+        imatge = self.msg_image if bool(self.msg_image) else False
+        res = telegram_obj.send_telegram(msg, partner, imatge)
 
         return res
 

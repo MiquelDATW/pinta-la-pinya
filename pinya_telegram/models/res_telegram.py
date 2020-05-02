@@ -3,7 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import telegram
-import requests
 from odoo import models, fields, api, exceptions, _
 from odoo.exceptions import ValidationError
 import logging
@@ -102,7 +101,7 @@ class ResTelegram(models.Model):
         return res
 
     @api.multi
-    def send_telegram(self, bot_message, partner_id):
+    def send_telegram(self, bot_message, partner_id, imatge):
         bot_token = self.env.user.company_id.bot_token
         if not bot_token:
             raise ValidationError("Error. No existeix l'identificador del Bot❗")
@@ -115,7 +114,10 @@ class ResTelegram(models.Model):
         _logger.info('Enviant telegram a {} de {}'.format(partner.telegram_id.name, partner.name))
 
         bot = telegram.Bot(token=bot_token)
-        res = bot.sendMessage(chat_id=bot_chat_id, text=bot_message)
+        res = bot.send_message(chat_id=bot_chat_id, text=bot_message)
+
+        # if bool(imatge):
+        #     res = bot.send_photo(chat_id=bot_chat_id, photo=imatge)
 
         return res
 
