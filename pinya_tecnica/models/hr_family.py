@@ -21,7 +21,7 @@ class HrEmployeeFamily(models.Model):
     name = fields.Char(string="Nom", index=True, required=True, translate=True, default=".")
 
     employee_id = fields.Many2one('hr.employee', string="Membre", required=True)
-    is_relation = fields.Boolean(string="Relació dins la colla", default="True")
+    is_relation = fields.Boolean(string="Relació dins la colla", default=True)
     relation_name = fields.Char(string="Relació amb")
     relation_id = fields.Many2one('hr.employee', string="Relació amb")
 
@@ -61,6 +61,12 @@ class HrEmployeeFamily(models.Model):
             self.relation_name = relation.name
         else:
             self.relation_name = False
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super(HrEmployeeFamily, self).default_get(fields_list)
+        res.update({'employee_id': self.env.context.get('employee_id')})
+        return res
 
     @api.multi
     def unlink(self):
