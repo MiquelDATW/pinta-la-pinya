@@ -13,13 +13,15 @@
     "installable": True,
     'application': True,
     "depends": [
+        "contacts",
         "pinya_tecnica",
     ],
     "external_dependencies": {"python": [
-        'telebot',
-        'emoji',
+        'telegram',
     ], "bin": []},
     "data": [
-        "views/res_partner_view.xml",
+        "views/res_telegram_view.xml",
+        "wizard/telegram_wizard_view.xml",
+        "security/ir.model.access.csv",
     ],
 }
