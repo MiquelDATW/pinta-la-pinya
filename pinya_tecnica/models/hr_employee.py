@@ -278,8 +278,13 @@ class HrEmployeeActuacio(models.Model):
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
     membre_at = fields.Boolean(string="Membre AT", related="employee_id.membre_at", store=True)
 
+    assistencia = fields.Boolean(string="Assistència")
+
     employee_id = fields.Many2one('hr.employee', string="Membre")
     actuacio_id = fields.Many2one('pinya.actuacio', string="Actuació")
+    data = fields.Datetime(string='Data', related='actuacio_id.data_inici', store=True)
+    actuacio_name = fields.Char(string='Nom', related='actuacio_id.name', store=True)
+    tipus = fields.Selection(string='Tipus', related='actuacio_id.tipus', store=True)
 
     pinya_line_ids = fields.One2many('pinya.muixeranga.pinya', 'employee_actuacio_id', string="Pinya de muixeranga")
     tronc_line_ids = fields.One2many('pinya.muixeranga.tronc', 'employee_actuacio_id', string="Tronc de muixeranga")

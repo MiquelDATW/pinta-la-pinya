@@ -228,6 +228,7 @@
             <field name="arch" type="xml">
                 <tree string="Membres" decoration-muted="count_actuacio_total == ''">
                     <field name="name"/>
+                    <field name="assistencia"/>
                     <field name="membre_at"/>
                     <field name="count_actuacio_total"/>
                     <field name="count_actuacio_pinya"/>
@@ -249,6 +250,7 @@
                             <group name="info" string="Info">
                                 <field name="name" invisible="1"/>
                                 <field name="employee_id"/>
+                                <field name="assistencia"/>
                                 <field name="membre_at"/>
                                 <field name="actuacio_id"/>
                                 <field name="count_actuacio_total"/>
@@ -281,6 +283,7 @@
                     <field name="count_actuacio_pinya"/>
                     <field name="count_actuacio_tronc"/>
                     <separator/>
+                    <filter string="Assistència" name="assistencia" domain="[('assistencia', '=', True)]"/>
                     <filter string="Buit total" name="count_actuacio_void" domain="[('count_actuacio_total', '=', '')]"/>
                     <filter string="Figures total" name="count_actuacio" domain="[('count_actuacio_total', '!=', '')]"/>
                     <filter string="Figures pinya" name="count_actuacio_pinya" domain="[('count_actuacio_pinya', '!=', '')]"/>

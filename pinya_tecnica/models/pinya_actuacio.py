@@ -70,20 +70,10 @@ class PinyaActuacio(models.Model):
     mestra_id = fields.Many2one('hr.employee.actuacio', string="Mestra")
     membre_actuacio_ids = fields.One2many('hr.employee.actuacio', 'actuacio_id', string="Membres")
     muixeranga_ids = fields.One2many('pinya.muixeranga', 'actuacio_id', string="Muixerangues")
-    membres_count = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
-    membres_count2 = fields.Integer(compute='_compute_membres_count', string='Total persones', store=True)
-    actives_count = fields.Integer(compute='_compute_membres_count', string='Total actives', store=True)
+    membres_count_calc = fields.Integer(compute='_compute_assistencia', string='Total persones')
+    membres_count = fields.Integer(string='Total persones', readonly=True)
+    actives_count = fields.Integer(string='Total actives', readonly=True)
     muixerangues_count = fields.Integer(compute='_compute_muixerangues_count', string='Total muixerangues', store=True)
-
-    @api.multi
-    @api.depends('membre_actuacio_ids', 'membre_actuacio_ids.count_actuacio_total')
-    def _compute_membres_count(self):
-        for actuacio in self:
-            membres = actuacio.membre_actuacio_ids
-            actives = membres.filtered(lambda x: bool(x.count_actuacio_total))
-            actuacio.actives_count = len(actives)
-            actuacio.membres_count = len(membres)
-            actuacio.membres_count2 = len(membres)
 
     @api.multi
     @api.depends('muixeranga_ids')
@@ -91,6 +81,14 @@ class PinyaActuacio(models.Model):
         for actuacio in self:
             muixeranga = actuacio.muixeranga_ids
             actuacio.muixerangues_count = len(muixeranga)
+
+    @api.multi
+    def _compute_assistencia(self):
+        for actuacio in self:
+            membres = actuacio.membre_actuacio_ids.filtered(lambda x: x.assistencia)
+            actives = membres.filtered(lambda x: bool(x.count_actuacio_total))
+            actuacio.write({'membres_count': len(membres), 'actives_count': len(actives)})
+            actuacio.membres_count_calc = len(membres)
 
     @api.multi
     @api.constrains('data_inici', 'data_final')
@@ -182,7 +180,8 @@ class PinyaActuacio(models.Model):
         view_form_id = self.env.ref('pinya_tecnica.hr_employee_actuacio_form').id
         name = "Membres"
         model = "hr.employee.actuacio"
-        domain = [('id', 'in', self.membre_actuacio_ids.ids)]
+        people = self.membre_actuacio_ids.filtered(lambda x: x.assistencia)
+        domain = [('id', 'in', people.ids)]
         ctx = dict(self.env.context)
         ctx.update({'actuacio_id': self.id})
         action = _get_action(view_tree_id, view_form_id, view_search_id, name, model, domain, ctx)
@@ -312,6 +311,17 @@ class PinyaActuacio(models.Model):
             vals['data_final'] = event.date_end
             vals['zip_id'] = event.address_id.zip_id.id
         res = super(PinyaActuacio, self).create(vals)
+
+        empls = self.env['hr.employee'].search([('muixeranguera', '=', True)])
+        muix_act_obj = self.env['hr.employee.actuacio']
+        data = {
+            'actuacio_id': res.id,
+        }
+        for membre in empls:
+            data['employee_id'] = membre.id
+            data['name'] = membre.name
+            muix_act_obj.create(data)
+
         if event:
             event.actuacio_id = res.id
         return res

@@ -5,6 +5,8 @@
 import logging
 from odoo import api, models, fields
 
+import requests, json
+
 _logger = logging.getLogger(__name__)
 
 
@@ -31,6 +33,25 @@ class TelegramWizard(models.TransientModel):
         partner = self.partner_id.id
         imatge = self.msg_image if bool(self.msg_image) else False
         res = telegram_obj.send_telegram(msg, partner, imatge)
+
+        # headers = {
+        #     'content-type': 'application/x-www-form-urlencoded',
+        #     'charset': 'utf-8'
+        # }
+        #
+        # data = {
+        #     'login': 'admin',
+        #     'password': '1234',
+        #     'db': 'pinya_0428'
+        # }
+        # base_url = 'http://localhost:8069'
+        #
+        # req = requests.get('{}/api/auth/token'.format(base_url), data=data, headers=headers)
+        #
+        # content = json.loads(req.content.decode('utf-8'))
+        #
+        # headers['access-token'] = content.get('access_token')  # add the access token to the header
+        # print(headers)
 
         return res
 
