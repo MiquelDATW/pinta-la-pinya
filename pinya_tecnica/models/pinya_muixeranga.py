@@ -74,7 +74,8 @@ class PinyaMuixeranga(models.Model):
 
     @api.multi
     def _compute_lliures(self):
-        membres = self.actuacio_id.membre_actuacio_ids.filtered(lambda x: x.assistencia).mapped('employee_id')
+        #membres = self.actuacio_id.membre_actuacio_ids.filtered(lambda x: x.assistencia).mapped('employee_id')
+        membres = self.actuacio_id.membre_actuacio_ids.mapped('employee_id')
         troncs = self.tronc_line_ids.mapped('membre_tronc_id')
         pinyes = self.pinya_line_ids.mapped('membre_pinya_id')
         altres = self.mestra_id + self.passadora_id + self.estiradora_id

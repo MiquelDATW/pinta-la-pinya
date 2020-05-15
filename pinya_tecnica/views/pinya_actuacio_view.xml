@@ -24,11 +24,10 @@
                         <button string="Esborrany" name="action_draft"
                                 attrs="{'invisible': ['|', ('actual', '=', False), ('state', 'not in', ['cancel', 'ready'])]}"
                                 type="object" class="btn-warning"/>
-                        <!--
                         <button string="Importar membres" name="action_membres_import"
                                 attrs="{'invisible': ['|', ('actual', '=', False), ('state', '!=', 'draft')]}"
                                 context="{'actuacio': id}"
-                                type="object" class="oe_highlight"/>-->
+                                type="object" class="oe_highlight"/>
                         <button class="oe_highlight" type="object"
                                 name="calcular_muixerangues"
                                 attrs="{'invisible': ['|', '|', '|', ('actual', '=', False), ('state', '!=', 'draft'), ('muixerangues_count', '=', 0), ('membres_count', '=', 0)]}"

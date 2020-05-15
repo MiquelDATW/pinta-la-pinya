@@ -85,7 +85,8 @@ class PinyaActuacio(models.Model):
     @api.multi
     def _compute_assistencia(self):
         for actuacio in self:
-            membres = actuacio.membre_actuacio_ids.filtered(lambda x: x.assistencia)
+            #membres = actuacio.membre_actuacio_ids.filtered(lambda x: x.assistencia)
+            membres = actuacio.membre_actuacio_ids
             actives = membres.filtered(lambda x: bool(x.count_actuacio_total))
             actuacio.write({'membres_count': len(membres), 'actives_count': len(actives)})
             actuacio.membres_count_calc = len(membres)
@@ -180,7 +181,8 @@ class PinyaActuacio(models.Model):
         view_form_id = self.env.ref('pinya_tecnica.hr_employee_actuacio_form').id
         name = "Membres"
         model = "hr.employee.actuacio"
-        people = self.membre_actuacio_ids.filtered(lambda x: x.assistencia)
+        #people = self.membre_actuacio_ids.filtered(lambda x: x.assistencia)
+        people = self.membre_actuacio_ids
         domain = [('id', 'in', people.ids)]
         ctx = dict(self.env.context)
         ctx.update({'actuacio_id': self.id})
@@ -312,15 +314,15 @@ class PinyaActuacio(models.Model):
             vals['zip_id'] = event.address_id.zip_id.id
         res = super(PinyaActuacio, self).create(vals)
 
-        empls = self.env['hr.employee'].search([('muixeranguera', '=', True)])
-        muix_act_obj = self.env['hr.employee.actuacio']
-        data = {
-            'actuacio_id': res.id,
-        }
-        for membre in empls:
-            data['employee_id'] = membre.id
-            data['name'] = membre.name
-            muix_act_obj.create(data)
+        # empls = self.env['hr.employee'].search([('muixeranguera', '=', True)])
+        # muix_act_obj = self.env['hr.employee.actuacio']
+        # data = {
+        #     'actuacio_id': res.id,
+        # }
+        # for membre in empls:
+        #     data['employee_id'] = membre.id
+        #     data['name'] = membre.name
+        #     muix_act_obj.create(data)
 
         if event:
             event.actuacio_id = res.id
