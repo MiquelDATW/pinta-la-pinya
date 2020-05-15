@@ -23,7 +23,8 @@ class HrEmployeeFamily(models.Model):
     employee_id = fields.Many2one('hr.employee', string="Membre", required=True)
     is_relation = fields.Boolean(string="Relació dins la colla", default=True)
     relation_name = fields.Char(string="Relació amb")
-    relation_id = fields.Many2one('hr.employee', string="Relació amb")
+    relation_id = fields.Many2one('hr.employee', string="Relació amb",
+                                  domain=[('muixeranguera', '=', True)])
 
     FAMILY_SELECTION = [
         ('parella', 'És parella de'),
