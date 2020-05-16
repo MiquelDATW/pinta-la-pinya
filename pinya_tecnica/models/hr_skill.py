@@ -140,7 +140,7 @@ class HrEmployeeSkill(models.Model):
     active = fields.Boolean('Active', related='employee_id.active', default=True, store=True)
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
 
-    alsada_cap = fields.Integer(string="Alçada", related="employee_id.alsada_cap", store=True)
+    alsada_cap = fields.Integer(string="Alçada", related="employee_id.height", store=True)
     alsada_muscle = fields.Integer(string="Alçada muscle", related="employee_id.alsada_muscle", store=True)
     alsada_bras = fields.Integer(string="Alçada braços", related="employee_id.alsada_bras", store=True)
 
@@ -217,7 +217,7 @@ class HrEmployeeLevel(models.Model):
     employee_id = fields.Many2one('hr.employee', string="Membre", related="employee_skill_id.employee_id", store=True)
     skill_id = fields.Many2one('hr.skill', string="Posició", related="employee_skill_id.skill_id", store=True)
     level = fields.Selection(string='Nivell', related="employee_skill_id.level", store=True)
-    alsada_cap = fields.Integer(string="Alçada", related="employee_skill_id.employee_id.alsada_cap", store=True)
+    alsada_cap = fields.Integer(string="Alçada", related="employee_skill_id.employee_id.height", store=True)
     alsada_muscle = fields.Integer(string="Alçada muscle", related="employee_skill_id.employee_id.alsada_muscle", store=True)
     alsada_bras = fields.Integer(string="Alçada braços", related="employee_skill_id.employee_id.alsada_bras", store=True)
 

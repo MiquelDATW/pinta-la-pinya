@@ -37,11 +37,8 @@ class HrEmployee(models.Model):
 
     edat = fields.Integer(string='Edat', readonly=True)
 
-    alsada_cap = fields.Integer(string="Alçada")
     alsada_muscle = fields.Integer(string="Alçada muscle")
     alsada_bras = fields.Integer(string="Alçada braços")
-    pes = fields.Float(string="Pes", digits=(4, 1))
-    imc = fields.Float(string="IMC", digits=(4, 1), compute='_compute_imc', store=True)
 
     muixeranga_tronc_ids = fields.One2many("pinya.muixeranga.tronc", "membre_tronc_id", string="Muixeranga")
     muixeranga_pinya_ids = fields.One2many("pinya.muixeranga.pinya", "membre_pinya_id", string="Muixeranga")
@@ -128,14 +125,6 @@ class HrEmployee(models.Model):
             muixeranguer.posicions_2stars = (str(l2) + ' ⭐⭐') if l2 > 0 else ''
             l1 = len(levels.filtered(lambda x: x.level == '1'))
             muixeranguer.posicions_1star = (str(l1) + ' ⭐') if l1 > 0 else ''
-
-    @api.multi
-    @api.depends('pes', 'alsada_cap')
-    def _compute_imc(self):
-        muixeranguers = self.filtered(lambda x: bool(x.pes) and bool(x.alsada_cap))
-        for muixeranguer in muixeranguers:
-            imc = muixeranguer.pes/((muixeranguer.alsada_cap/100)**2)
-            muixeranguer.imc = imc
 
     @api.multi
     @api.depends('employee_skill_ids', 'employee_skill_ids.skill_id')

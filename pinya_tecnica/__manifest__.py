@@ -17,9 +17,11 @@
         "event",
         "hr_skill",
         "hr_team",
+        "hr_nutrition",
         "pinya_complements",
     ],
     "data": [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'data/cron.xml',
         'data/event_templates.xml',

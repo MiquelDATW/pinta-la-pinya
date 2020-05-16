@@ -11,63 +11,8 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//div[@name='button_box']" position="inside">
-                    <button class="oe_stat_button" type="object"
-                            name="pinya_teams" icon="fas fa-sitemap"
-                            attrs="{'invisible': [('count_teams', '=', 0)]}">
-                        <field string="Equips" name="count_teams" widget="statinfo"/>
-                    </button>
-                    <br/>
-                    <button class="oe_stat_button" type="object"
-                            name="pinya_muixeranga" icon="fas fa-users"
-                            attrs="{'invisible': [('count_pinya', '=', 0)]}">
-                        <field string="Pinyes" name="count_pinya" widget="statinfo"/>
-                    </button>
-                    <button class="oe_stat_button" type="object"
-                            name="tronc_muixeranga" icon="fas fa-cog"
-                            attrs="{'invisible': [('count_tronc', '=', 0)]}">
-                        <field string="Troncs" name="count_tronc" widget="statinfo"/>
-                    </button>
-                </xpath>
                 <xpath expr="//field[@name='category_ids']" position="after">
-                    <group name="employee">
-                        <group name="informacio" string="Info">
-                            <field name="muixeranguera"/>
-                            <field name="xicalla"
-                                   attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
-                            <field name="data_inscripcio"
-                                   attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
-                            <field name="anys_inscrit"
-                                   attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
-                            <field name="nom_croquis"
-                                   attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
-                            <field name="nom_altres"
-                                   attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
-                        </group>
-                        <group name="mesures" string="Mesures"
-                               attrs="{'invisible': [('muixeranguera', '=', False)]}">
-                            <label for="alsada_cap" string="Alçada"/>
-                            <div>
-                                <field name="alsada_cap" nolabel="1" class="oe_inline"/> cm
-                            </div>
-                            <label for="alsada_muscle" string="Alçada del muscle"/>
-                            <div>
-                                <field name="alsada_muscle" nolabel="1" class="oe_inline"/> cm
-                            </div>
-                            <label for="alsada_bras" string="Alçada dels braços"/>
-                            <div>
-                                <field name="alsada_bras" nolabel="1" class="oe_inline"/> cm
-                            </div>
-                            <label for="pes" string="Pes"/>
-                            <div>
-                                <field name="pes" nolabel="1" class="oe_inline"/> kg
-                            </div>
-                            <label for="imc" string="IMC"/>
-                            <div>
-                                <field name="imc" nolabel="1" class="oe_inline"/> kg/m²
-                            </div>
-                        </group>
-                    </group>
+                    <field name="muixeranguera" invisible="1"/>
                     <group name="notes" string="Altra informació">
                         <field name="membre_at"
                                attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
@@ -78,53 +23,8 @@
                         <field name="notes" placeholder="Altra informació..."/>
                     </group>
                 </xpath>
-                <xpath expr="//page[@name='public']" position="before">
-                    <page name="posicions" string="Posicions"
-                          attrs="{'invisible': [('muixeranguera', '=', False)]}">
-                        <group name="posicions">
-                            <field name="employee_skill_ids" nolabel="1">
-                                <tree default_order="skill_id"
-                                      decoration-muted="level == '0'">
-                                    <field name="skill_id" string="Posició"/>
-                                    <field name="level" widget="priority" string="Nivell"/>
-                                    <field name="count_total"/>
-                                    <field name="count_sismesos"/>
-                                </tree>
-                                <form string="Posicions nivell">
-                                    <header/>
-                                    <sheet>
-                                        <group>
-                                            <group>
-                                                <field name="employee_id"/>
-                                                <field name="skill_id"/>
-                                                <field name="level"/>
-                                            </group>
-                                            <group>
-                                                <field name="count_total"/>
-                                                <field name="count_sismesos"/>
-                                            </group>
-                                        </group>
-                                    </sheet>
-                                </form>
-                            </field>
-                        </group>
-                    </page>
-                    <page name="actuacions" string="Actuacions"
-                          attrs="{'invisible': [('muixeranguera', '=', False)]}">
-                        <group name="actuacions">
-                            <field name="membre_actuacio_ids" nolabel="1">
-                                <tree string="Actuacions" decoration-muted="count_actuacio_total == ''">
-                                    <field name="actuacio_id"/>
-                                    <field name="count_actuacio_total"/>
-                                    <field name="count_actuacio_pinya"/>
-                                    <field name="count_actuacio_tronc"/>
-                                    <field name="pinya_line_ids" widget="many2many_tags"/>
-                                    <field name="tronc_line_ids" widget="many2many_tags"/>
-                                </tree>
-                            </field>
-                        </group>
-                    </page>
-                </xpath>
+
+                <!--
                 <xpath expr="//page[@name='personal_information']//group//group[3]" position="replace"/>
                 <xpath expr="//page[@name='personal_information']//group//group[3]" position="replace"/>
                 <xpath expr="//page[@name='personal_information']" position="attributes">
@@ -135,7 +35,7 @@
                 </xpath>
                 <xpath expr="//page[@name='public']" position="attributes">
                     <attribute name="groups">hr.group_hr_manager</attribute>
-                </xpath>
+                </xpath>-->
             </field>
         </record>
 
@@ -144,7 +44,152 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr_skill.view_employee_skill_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[last()]" position="replace"/>
+                <xpath expr="//field[@name='employee_skill_ids']/ancestor::page" position="replace"/>
+            </field>
+        </record>
+
+
+        <record id="hr_employee_membre_form" model="ir.ui.view">
+            <field name="name">hr.employee.membre.form</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <form string="Employee">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object"
+                                    name="pinya_teams" icon="fas fa-sitemap"
+                                    attrs="{'invisible': [('count_teams', '=', 0)]}">
+                                <field string="Equips" name="count_teams" widget="statinfo"/>
+                            </button>
+                            <button name="toggle_active" type="object" groups="hr.group_hr_user"
+                                    class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                    options='{"terminology": "archive"}'/>
+                            </button>
+                            <br/>
+                            <button class="oe_stat_button" type="object"
+                                    name="pinya_muixeranga" icon="fas fa-users"
+                                    attrs="{'invisible': [('count_pinya', '=', 0)]}">
+                                <field string="Pinyes" name="count_pinya" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object"
+                                    name="tronc_muixeranga" icon="fas fa-cog"
+                                    attrs="{'invisible': [('count_tronc', '=', 0)]}">
+                                <field string="Troncs" name="count_tronc" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div id="o_employee_container">
+                            <div id="o_employee_main">
+                                <field name="image" widget='image' class="oe_avatar" options='{"preview_image":"image_medium"}'/>
+                                <div class="oe_title">
+                                    <label for="name" class="oe_edit_only"/>
+                                    <h1>
+                                        <field name="name" placeholder="Employee's Name" required="True"/>
+                                    </h1>
+                                </div>
+                                <group name="employee">
+                                    <group name="informacio" string="Info">
+                                        <field name="muixeranguera"/>
+                                        <field name="xicalla"
+                                               attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                                        <field name="data_inscripcio"
+                                               attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                                        <field name="anys_inscrit"
+                                               attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                                        <field name="nom_croquis"
+                                               attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                                        <field name="nom_altres"
+                                               attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                                    </group>
+                                    <group name="mesures" string="Mesures"
+                                           attrs="{'invisible': [('muixeranguera', '=', False)]}">
+                                        <label for="height" string="Alçada"/>
+                                        <div>
+                                            <field name="height" nolabel="1" class="oe_inline"/> cm
+                                        </div>
+                                        <label for="alsada_muscle" string="Alçada del muscle"/>
+                                        <div>
+                                            <field name="alsada_muscle" nolabel="1" class="oe_inline"/> cm
+                                        </div>
+                                        <label for="alsada_bras" string="Alçada dels braços"/>
+                                        <div>
+                                            <field name="alsada_bras" nolabel="1" class="oe_inline"/> cm
+                                        </div>
+                                        <label for="weight" string="Pes"/>
+                                        <div>
+                                            <field name="weight" nolabel="1" class="oe_inline"/> kg
+                                        </div>
+                                        <label for="bmi" string="IMC"/>
+                                        <div>
+                                            <field name="bmi" nolabel="1" class="oe_inline"/> kg/m²
+                                        </div>
+                                        <field name='bmi_type' readonly="True"/>
+                                    </group>
+                                </group>
+                                <group name="notes" string="Altra informació">
+                                    <field name="membre_at"
+                                           attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                                    <field name="membre_jd"
+                                           attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                                    <field name="posicions"
+                                           attrs="{'invisible': [('muixeranguera', '=', False)]}"/>
+                                    <field name="notes" placeholder="Altra informació..."/>
+                                </group>
+                            </div>
+                        </div>
+                        <notebook>
+                            <page name="posicions" string="Posicions"
+                                  attrs="{'invisible': [('muixeranguera', '=', False)]}">
+                                <group name="posicions">
+                                    <field name="employee_skill_ids" nolabel="1">
+                                        <tree default_order="skill_id"
+                                              decoration-muted="level == '0'">
+                                            <field name="skill_id" string="Posició"/>
+                                            <field name="level" widget="priority" string="Nivell"/>
+                                            <field name="count_total"/>
+                                            <field name="count_sismesos"/>
+                                        </tree>
+                                        <form string="Posicions nivell">
+                                            <header/>
+                                            <sheet>
+                                                <group>
+                                                    <group>
+                                                        <field name="employee_id"/>
+                                                        <field name="skill_id"/>
+                                                        <field name="level"/>
+                                                    </group>
+                                                    <group>
+                                                        <field name="count_total"/>
+                                                        <field name="count_sismesos"/>
+                                                    </group>
+                                                </group>
+                                            </sheet>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="actuacions" string="Actuacions"
+                                  attrs="{'invisible': [('muixeranguera', '=', False)]}">
+                                <group name="actuacions">
+                                    <field name="membre_actuacio_ids" nolabel="1">
+                                        <tree string="Actuacions" decoration-muted="count_actuacio_total == ''">
+                                            <field name="actuacio_id"/>
+                                            <field name="count_actuacio_total"/>
+                                            <field name="count_actuacio_pinya"/>
+                                            <field name="count_actuacio_tronc"/>
+                                            <field name="pinya_line_ids" widget="many2many_tags"/>
+                                            <field name="tronc_line_ids" widget="many2many_tags"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
             </field>
         </record>
 
@@ -165,10 +210,10 @@
                     <field name="count_sismesos"/>
                     <field name="count_pinya" invisible="1"/>
                     <field name="count_tronc" invisible="1"/>
-                    <field name="alsada_cap" string="Alçada (cm)"/>
+                    <field name="height" string="Alçada (cm)"/>
                     <field name="alsada_muscle" invisible="1"/>
                     <field name="alsada_bras" invisible="1"/>
-                    <field name="pes" invisible="1"/>
+                    <field name="weight" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -187,11 +232,11 @@
                     <field name="membre_jd"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
-                    <field name="alsada_cap"/>
+                    <field name="height"/>
                     <field name="alsada_muscle"/>
                     <field name="alsada_bras"/>
-                    <field name="pes"/>
-                    <field name="imc"/>
+                    <field name="weight"/>
+                    <field name="bmi"/>
                     <separator/>
                     <filter string="Xicalla" name="xicalla" domain="[('xicalla', '=', True)]"/>
                     <filter string="Adulta" name="adulta" domain="[('xicalla', '=', False)]"/>
@@ -207,11 +252,11 @@
                     <filter string="Posicions avançades" name="posicions_2stars" domain="[('posicions_2stars', '!=', '')]"/>
                     <filter string="Posicions intermedies" name="posicions_1star" domain="[('posicions_1star', '!=', '')]"/>
                     <separator/>
-                    <filter string="Alçada 190+" name="alsada_190" domain="[('alsada_cap', '&gt;=', 190)]"/>
-                    <filter string="Alçada 180, 190" name="alsada_180" domain="[('alsada_cap', '&gt;=', 180), ('alsada_cap', '&lt;', 190)]"/>
-                    <filter string="Alçada 170, 180" name="alsada_170" domain="[('alsada_cap', '&gt;=', 170), ('alsada_cap', '&lt;', 180)]"/>
-                    <filter string="Alçada 160, 170" name="alsada_160" domain="[('alsada_cap', '&gt;=', 160), ('alsada_cap', '&lt;', 170)]"/>
-                    <filter string="Alçada 159-" name="alsada_150" domain="[('alsada_cap', '&lt;', 160)]"/>
+                    <filter string="Alçada 190+" name="alsada_190" domain="[('height', '&gt;=', 190)]"/>
+                    <filter string="Alçada 180, 190" name="alsada_180" domain="[('height', '&gt;=', 180), ('height', '&lt;', 190)]"/>
+                    <filter string="Alçada 170, 180" name="alsada_170" domain="[('height', '&gt;=', 170), ('height', '&lt;', 180)]"/>
+                    <filter string="Alçada 160, 170" name="alsada_160" domain="[('height', '&gt;=', 160), ('height', '&lt;', 170)]"/>
+                    <filter string="Alçada 159-" name="alsada_150" domain="[('height', '&lt;', 160)]"/>
                     <separator/>
                     <group expand="0" string="Group By">
                         <filter string="Posicions expertes" name="group_posicions_3stars" domain="[]" context="{'group_by':'posicions_3stars'}"/>

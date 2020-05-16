@@ -17,7 +17,8 @@
                             <group name="height_and_weight" string="Height and Weight">
                                 <field name='height' string="Height (cm)"/>
                                 <field name='weight' string="Weight (kg)"/>
-                                <field name='bmi' string="BMI (kg/m²)"/>
+                                <field name='bmi' string="BMI (kg/m²)" readonly="True"/>
+                                <field name='bmi_type' readonly="True"/>
                             </group>
                             <group name="other_info" string="Other info">
                                 <field name="activity_level"/>

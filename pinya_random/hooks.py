@@ -28,7 +28,7 @@ def post_init_hook(cr, registry):
             data = {
                 'name': name + ' ' + str(i).zfill(3),
                 'nom_croquis': name,
-                'alsada_cap': als,
+                'height': als,
                 'alsada_muscle': als - random.randint(20, 30),
                 'alsada_bras': als + random.randint(45, 55),
                 'gender': 'male' if j == 0 else 'female'

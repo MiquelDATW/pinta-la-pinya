@@ -88,7 +88,9 @@ class PinyaActuacio(models.Model):
             #membres = actuacio.membre_actuacio_ids.filtered(lambda x: x.assistencia)
             membres = actuacio.membre_actuacio_ids
             actives = membres.filtered(lambda x: bool(x.count_actuacio_total))
-            actuacio.write({'membres_count': len(membres), 'actives_count': len(actives)})
+            # actuacio.write({'membres_count': len(membres), 'actives_count': len(actives)})
+            actuacio.membres_count = len(membres)
+            actuacio.actives_count = len(actives)
             actuacio.membres_count_calc = len(membres)
 
     @api.multi
