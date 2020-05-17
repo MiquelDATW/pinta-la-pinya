@@ -21,9 +21,12 @@
                     <field name="prioritat" readonly="1"/>
                 </xpath>
                 <xpath expr="//field[@name='color']" position="before">
-                    <field name="membres_3stars"/>
-                    <field name="membres_2stars"/>
-                    <field name="membres_1star"/>
+                    <field name="membres_3stars"
+                           groups="pinya_tecnica.group_pinya_manager"/>
+                    <field name="membres_2stars"
+                           groups="pinya_tecnica.group_pinya_manager"/>
+                    <field name="membres_1star"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                 </xpath>
                 <xpath expr="//field[@name='color']" position="attributes">
                     <attribute name="invisible">1</attribute>
@@ -45,7 +48,8 @@
                             <field name="tipus"/>
                             <field name="prioritat"/>
                         </group>
-                        <group name="membres" string="Membres">
+                        <group name="membres" string="Membres"
+                               groups="pinya_tecnica.group_pinya_manager">
                             <field name="membres_3stars"/>
                             <field name="membres_2stars"/>
                             <field name="membres_1star"/>
@@ -69,6 +73,7 @@
                         <field name="tronc_count" widget="statinfo"/>
                     </button>
                     <button class="oe_stat_button" type="object"
+                            groups="pinya_tecnica.group_pinya_manager"
                             name="employee_skill" icon="fas fa-star">
                         <field name="employee_skill_count" widget="statinfo"/>
                     </button>
@@ -112,13 +117,15 @@
                 <tree string="Posicions nivell"
                       decoration-muted="level == '0'">
                     <field name="employee_id" string="Membre"/>
-                    <field name="level" widget="priority" readonly="1" string="Nivell"/>
+                    <field name="level" widget="priority" readonly="1" string="Nivell"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                     <field name="alsada_cap"/>
                     <field name="alsada_muscle"/>
                     <field name="alsada_bras"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
-                    <field name="name" string="Posició/nivell"/>
+                    <field name="name" string="Posició/nivell"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                 </tree>
             </field>
         </record>
@@ -135,7 +142,8 @@
                                 <field name="name" invisible="1"/>
                                 <field name="skill_id" readonly="1"/>
                                 <field name="employee_id"/>
-                                <field name="level"/>
+                                <field name="level"
+                                       groups="pinya_tecnica.group_pinya_manager"/>
                             </group>
                             <group name="figures" string="Figures">
                                 <field name="count_total"/>
@@ -154,20 +162,26 @@
                 <search string="Posicions nivell">
                     <field name="employee_id" string="Membre"/>
                     <field name="skill_id" string="Posició"/>
-                    <field name="level"/>
+                    <field name="level"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                     <field name="alsada_cap"/>
                     <field name="alsada_muscle"/>
                     <field name="alsada_bras"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
                     <separator/>
-                    <filter string="Experte ⭐⭐⭐" name="level_3" domain="[('level', '=', '3')]"/>
-                    <filter string="Avançat ⭐⭐" name="level_2" domain="[('level', '=', '2')]"/>
-                    <filter string="Intermedi ⭐" name="level_1" domain="[('level', '=', '1')]"/>
-                    <filter string="Inicial" name="level_0" domain="[('level', '=', '0')]"/>
+                    <filter string="Experte ⭐⭐⭐" name="level_3" domain="[('level', '=', '3')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Avançat ⭐⭐" name="level_2" domain="[('level', '=', '2')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Intermedi ⭐" name="level_1" domain="[('level', '=', '1')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Inicial" name="level_0" domain="[('level', '=', '0')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
                     <separator/>
                     <group expand="0" string="Group By">
-                        <filter name="group_level" string="Nivell" domain="[]" context="{'group_by':'level'}"/>
+                        <filter name="group_level" string="Nivell" domain="[]" context="{'group_by':'level'}"
+                                groups="pinya_tecnica.group_pinya_manager"/>
                         <filter name="group_count_total" string="Figures total" domain="[]" context="{'group_by':'count_total'}"/>
                         <filter name="group_count_sismesos" string="Figures 6 mesos" domain="[]" context="{'group_by':'count_sismesos'}"/>
                     </group>
@@ -183,13 +197,15 @@
                       decoration-muted="level == '0'">
                     <field name="name" invisible="1"/>
                     <field name="employee_id"/>
-                    <field name="level" widget="priority" readonly="1"/>
+                    <field name="level" widget="priority" readonly="1"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                     <field name="alsada_cap"/>
                     <field name="alsada_muscle"/>
                     <field name="alsada_bras"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
-                    <field name="employee_skill_id" string="Posició/nivell"/>
+                    <field name="employee_skill_id" string="Posició/nivell"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                 </tree>
             </field>
         </record>
@@ -206,7 +222,8 @@
                                 <field name="name" invisible="1"/>
                                 <field name="skill_id" readonly="1"/>
                                 <field name="employee_id" readonly="1"/>
-                                <field name="level" widget="priority" readonly="1"/>
+                                <field name="level" widget="priority" readonly="1"
+                                       groups="pinya_tecnica.group_pinya_manager"/>
                             </group>
                             <group name="figures" string="Figures">
                                 <field name="count_total" readonly="1"/>
@@ -225,20 +242,26 @@
                 <search string="Membres nivell">
                     <field name="employee_id"/>
                     <field name="skill_id"/>
-                    <field name="level"/>
+                    <field name="level"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                     <field name="alsada_cap"/>
                     <field name="alsada_muscle"/>
                     <field name="alsada_bras"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
                     <separator/>
-                    <filter string="Experte ⭐⭐⭐" name="level_3" domain="[('level', '=', '3')]"/>
-                    <filter string="Avançat ⭐⭐" name="level_2" domain="[('level', '=', '2')]"/>
-                    <filter string="Intermedi ⭐" name="level_1" domain="[('level', '=', '1')]"/>
-                    <filter string="Inicial" name="level_0" domain="[('level', '=', '0')]"/>
+                    <filter string="Experte ⭐⭐⭐" name="level_3" domain="[('level', '=', '3')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Avançat ⭐⭐" name="level_2" domain="[('level', '=', '2')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Intermedi ⭐" name="level_1" domain="[('level', '=', '1')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Inicial" name="level_0" domain="[('level', '=', '0')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
                     <separator/>
                     <group expand="0" string="Group By">
-                        <filter name="group_level" string="Nivell" domain="[]" context="{'group_by':'level'}"/>
+                        <filter name="group_level" string="Nivell" domain="[]" context="{'group_by':'level'}"
+                                groups="pinya_tecnica.group_pinya_manager"/>
                         <filter name="group_count_total" string="Figures total" domain="[]" context="{'group_by':'count_total'}"/>
                         <filter name="group_count_sismesos" string="Figures 6 mesos" domain="[]" context="{'group_by':'count_sismesos'}"/>
                     </group>

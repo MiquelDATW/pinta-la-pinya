@@ -12,35 +12,43 @@
                 <form string="Muixerangues">
                     <header>
                         <button string="Descarregat" name="action_descarregat"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', '|', ('actual', '=', False), ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
                                 type="object" class="btn-success"/>
                         <button string="Intent" name="action_intent"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', '|', ('actual', '=', False), ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
                                 type="object" class="btn-warning"/>
                         <button string="Caigut" name="action_caigut"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', '|', ('actual', '=', False), ('actuacio_state', '!=', 'done'), ('state', '!=', 'ready')]}"
                                 type="object" class="btn-danger"/>
                         <button string="Cancel·lat" name="action_cancel"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', ('actual', '=', False), ('state', 'not in', ['draft', 'ready'])]}"
                                 context="{'action_cancel': 1}"
                                 type="object" class="btn-danger"/>
                         <button string="Esborrany" name="action_draft"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', '|', ('actual', '=', False), ('actuacio_state', '=', 'done'), ('state', 'not in', ['cancel', 'ready'])]}"
                                 context="{'action_draft': 1}"
                                 type="object" class="btn-warning"/>
                         <button class="oe_highlight" type="object"
                                 name="calcular_muixeranga"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', '|', ('actual', '=', False), ('membre_count', '=', 0), ('state', '!=', 'draft')]}"
                                 string="Calcular muixeranga"/>
                         <button class="oe_highlight" type="object"
                                 name="reset_muixeranga"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', '|', ('actual', '=', False), ('membre_count', '=', 0), ('state', '!=', 'draft')]}"
                                 string="Reset muixeranga"/>
                         <field name="state" widget="statusbar" statusbar_visible="descarregat"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="toggle_active" type="object" groups="base.group_user"
+                            <button name="toggle_active" type="object"
+                                    groups="pinya_tecnica.group_pinya_manager"
                                     attrs="{'invisible': [('actual', '=', False)]}"
                                     class="oe_stat_button" icon="fa-archive">
                                 <field name="active" widget="boolean_button"
@@ -94,7 +102,9 @@
                                           create="false" edit="false" delete="false">
                                         <field name="pis"/>
                                         <field name="posicio_id"/>
-                                        <field name="tecnica" widget="priority" readonly="1"/>
+                                        <field name="tecnica" widget="priority"
+                                               groups="pinya_tecnica.group_pinya_manager"
+                                               readonly="1"/>
                                         <field name="membre_tronc_id"/>
                                         <field name="muixeranga_tronc_id" invisible="1"/>
                                     </tree>
@@ -109,7 +119,9 @@
                                         <field name="cordo"/>
                                         <field name="rengle"/>
                                         <field name="posicio_id"/>
-                                        <field name="tecnica" widget="priority" readonly="1"/>
+                                        <field name="tecnica" widget="priority"
+                                               groups="pinya_tecnica.group_pinya_manager"
+                                               readonly="1"/>
                                         <field name="membre_pinya_id"/>
                                         <field name="muixeranga_pinya_id" invisible="1"/>
                                     </tree>
@@ -142,6 +154,7 @@
                                 </group>
                             </page>
                             <page name="lliures" string="Lliures"
+                                  groups="pinya_tecnica.group_pinya_manager"
                                   attrs="{'invisible': [('membre_count', '=', 0)]}">
                                 <group name="lliures" string="Lliures">
                                     <field name="lliure_count"/>
@@ -272,6 +285,7 @@
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                                        domain="[('tipus', '=', 'tronc')]"/>
                                 <field name="tecnica" widget="priority"
+                                       groups="pinya_tecnica.group_pinya_manager"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
                                 <field name="membre_tronc_id" readonly="1"/>
                                 <field name="muixeranga_state" invisible="1"/>
@@ -312,8 +326,10 @@
                     <field name="plantilla_id"/>
                     <field name="pis"/>
                     <field name="posicio_id"/>
-                    <field name="tecnica" widget="priority"/>
-                    <field name="membre_tronc_id"/>
+                    <field name="tecnica" widget="priority"
+                           groups="pinya_tecnica.group_pinya_manager"/>
+                    <field name="membre_tronc_id"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                 </tree>
             </field>
         </record>
@@ -327,10 +343,12 @@
                       string="Tronc de muixeranga">
                     <field name="pis" readonly="1"/>
                     <field name="posicio_id" readonly="1"/>
-                    <field name="tecnica" widget="priority" readonly="1"/>
+                    <field name="tecnica" widget="priority" readonly="1"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                     <field name="membre_tronc_id" readonly="1"/>
                     <field name="membre_tronc_level_id"
                            options="{'no_create_edit': True}"
+                           groups="pinya_tecnica.group_pinya_manager"
                            attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                            domain="[('id', 'in', recomanats_ids)]"/>
                     <field name="muixeranga_tronc_id" invisible="1"/>
@@ -351,7 +369,8 @@
                     <field name="plantilla_id"/>
                     <field name="pis"/>
                     <field name="posicio_id"/>
-                    <field name="tecnica" widget="priority"/>
+                    <field name="tecnica" widget="priority"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                     <field name="membre_tronc_id"/>
                     <separator/>
                     <filter string="Membre no establert" name="no_establert" domain="[('membre_tronc_id', '=', False)]"/>
@@ -371,10 +390,14 @@
                     <filter string="5é pis" name="5e_pis" domain="[('pis', '=', '5')]"/>
                     <filter string="6é pis" name="6e_pis" domain="[('pis', '=', '6')]"/>
                     <separator/>
-                    <filter string="Experte ⭐⭐⭐" name="tecnica_3" domain="[('tecnica', '=', '3')]"/>
-                    <filter string="Avançat ⭐⭐" name="tecnica_2" domain="[('tecnica', '=', '2')]"/>
-                    <filter string="Intermedi ⭐" name="tecnica_1" domain="[('tecnica', '=', '1')]"/>
-                    <filter string="Inicial" name="tecnica_0" domain="[('tecnica', '=', '0')]"/>
+                    <filter string="Experte ⭐⭐⭐" name="tecnica_3" domain="[('tecnica', '=', '3')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Avançat ⭐⭐" name="tecnica_2" domain="[('tecnica', '=', '2')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Intermedi ⭐" name="tecnica_1" domain="[('tecnica', '=', '1')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Inicial" name="tecnica_0" domain="[('tecnica', '=', '0')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
                     <separator/>
                     <filter string="Any anterior" name="previous_year" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-01-01')), ('data', '&lt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-12-31'))]"/>
                     <filter string="12 mesos anteriors" name="previous_12_months" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>
@@ -390,7 +413,8 @@
                         <filter name="group_data" string="Data" domain="[]" context="{'group_by':'data'}"/>
                         <filter name="group_pis" string="Pis" domain="[]" context="{'group_by':'pis'}"/>
                         <filter name="group_posicio" string="Posició" domain="[]" context="{'group_by':'posicio_id'}"/>
-                        <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"/>
+                        <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"
+                                groups="pinya_tecnica.group_pinya_manager"/>
                         <filter name="group_membre_tronc" string="Membre Tronc" domain="[]" context="{'group_by':'membre_tronc_id'}"/>
                     </group>
                 </search>
@@ -425,6 +449,7 @@
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                                        domain="[('tipus', '=', 'pinya')]"/>
                                 <field name="tecnica" widget="priority"
+                                       groups="pinya_tecnica.group_pinya_manager"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
                                 <field name="membre_pinya_id" readonly="1"/>
                                 <field name="muixeranga_state" invisible="1"/>
@@ -466,7 +491,8 @@
                     <field name="cordo"/>
                     <field name="rengle"/>
                     <field name="posicio_id"/>
-                    <field name="tecnica" widget="priority"/>
+                    <field name="tecnica" widget="priority"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                     <field name="membre_pinya_id"/>
                 </tree>
             </field>
@@ -482,9 +508,11 @@
                     <field name="cordo" readonly="1"/>
                     <field name="rengle" readonly="1"/>
                     <field name="posicio_id" readonly="1"/>
-                    <field name="tecnica" widget="priority" readonly="1"/>
+                    <field name="tecnica" widget="priority" readonly="1"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                     <field name="membre_pinya_id" readonly="1"/>
                     <field name="membre_pinya_level_id"
+                           groups="pinya_tecnica.group_pinya_manager"
                            options="{'no_create_edit': True}"
                            attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                            domain="[('id', 'in', recomanats_ids)]"/>
@@ -507,7 +535,8 @@
                     <field name="cordo"/>
                     <field name="rengle"/>
                     <field name="posicio_id"/>
-                    <field name="tecnica" widget="priority"/>
+                    <field name="tecnica" widget="priority"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                     <field name="membre_pinya_id"/>
                     <separator/>
                     <filter string="Membre no establert" name="no_establert" domain="[('membre_pinya_id', '=', False)]"/>
@@ -528,10 +557,14 @@
                     <filter string="5é cordó" name="5e_cordo" domain="[('cordo', '=', '5')]"/>
                     <filter string="6é cordó" name="6e_cordo" domain="[('cordo', '=', '6')]"/>
                     <separator/>
-                    <filter string="Experte ⭐⭐⭐" name="tecnica_3" domain="[('tecnica', '=', '3')]"/>
-                    <filter string="Avançat ⭐⭐" name="tecnica_2" domain="[('tecnica', '=', '2')]"/>
-                    <filter string="Intermedi ⭐" name="tecnica_1" domain="[('tecnica', '=', '1')]"/>
-                    <filter string="Inicial" name="tecnica_0" domain="[('tecnica', '=', '0')]"/>
+                    <filter string="Experte ⭐⭐⭐" name="tecnica_3" domain="[('tecnica', '=', '3')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Avançat ⭐⭐" name="tecnica_2" domain="[('tecnica', '=', '2')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Intermedi ⭐" name="tecnica_1" domain="[('tecnica', '=', '1')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Inicial" name="tecnica_0" domain="[('tecnica', '=', '0')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
                     <separator/>
                     <filter string="Any anterior" name="previous_year" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-01-01')), ('data', '&lt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-12-31'))]"/>
                     <filter string="12 mesos anteriors" name="previous_12_months" domain="[('data', '&gt;=', (datetime.date.today() - relativedelta(months=12)).strftime('%Y-%m-01')), ('data', '&lt;', datetime.date.today().strftime('%Y-%m-01'))]"/>
@@ -548,7 +581,8 @@
                         <filter name="group_cordo" string="Cordó" domain="[]" context="{'group_by':'cordo'}"/>
                         <filter name="group_rengle" string="Rengle" domain="[]" context="{'group_by':'rengle'}"/>
                         <filter name="group_posicio" string="Posició" domain="[]" context="{'group_by':'posicio_id'}"/>
-                        <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"/>
+                        <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"
+                                groups="pinya_tecnica.group_pinya_manager"/>
                         <filter name="group_membre_pinya" string="Membre Pinya" domain="[]" context="{'group_by':'membre_pinya_id'}"/>
                     </group>
                 </search>

@@ -14,7 +14,8 @@
                     <header/>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="toggle_active" type="object" groups="base.group_user"
+                            <button name="toggle_active" type="object"
+                                    groups="pinya_tecnica.group_pinya_manager"
                                     class="oe_stat_button" icon="fa-archive">
                                 <field name="active" widget="boolean_button"
                                     options='{"terminology": "archive"}'/>
@@ -159,7 +160,8 @@
                             <field name="tipus" invisible="0"/>
                             <field name="posicio_id" domain="[('tipus', '=', tipus)]"/>
                             <field name="rengle"/>
-                            <field name="tecnica"/>
+                            <field name="tecnica"
+                                   groups="pinya_tecnica.group_pinya_manager"/>
                         </group>
                     </sheet>
                 </form>
@@ -175,7 +177,8 @@
                     <field name="tipus" invisible="0"/>
                     <field name="posicio_id" domain="[('tipus', '=', tipus)]"/>
                     <field name="rengle"/>
-                    <field name="tecnica"/>
+                    <field name="tecnica"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                 </tree>
             </field>
         </record>
@@ -188,16 +191,21 @@
                     <filter string="Tronc" name="tronc" domain="[('tipus', '=', 'tronc')]"/>
                     <filter string="Pinya" name="pinya" domain="[('tipus', '=', 'pinya')]"/>
                     <separator/>
-                    <filter string="Inicial" name="inicial" domain="[('tecnica', '=', '0')]"/>
-                    <filter string="Intermedia" name="intermedia" domain="[('tecnica', '=', '1')]"/>
-                    <filter string="Avançada" name="avansada" domain="[('tecnica', '=', '2')]"/>
-                    <filter string="Experta" name="experta" domain="[('tecnica', '=', '3')]"/>
+                    <filter string="Inicial" name="inicial" domain="[('tecnica', '=', '0')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Intermedia" name="intermedia" domain="[('tecnica', '=', '1')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Avançada" name="avansada" domain="[('tecnica', '=', '2')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Experta" name="experta" domain="[('tecnica', '=', '3')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
                     <separator/>
                     <group expand="0" string="Group By">
                         <filter name="group_tipus" string="Tipus" domain="[]" context="{'group_by':'tipus'}"/>
                         <filter name="group_posicio" string="Posició" domain="[]" context="{'group_by':'posicio_id'}"/>
                         <filter name="group_rengle" string="Rengle" domain="[]" context="{'group_by':'rengle'}"/>
-                        <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"/>
+                        <filter name="group_tecnica" string="Tècnica" domain="[]" context="{'group_by':'tecnica'}"
+                                groups="pinya_tecnica.group_pinya_manager"/>
                     </group>
                 </search>
             </field>

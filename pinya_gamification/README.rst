@@ -10,7 +10,7 @@ Installation
 ============
 
 * hr_gamification
-* pinya_tecnica
+* pinya_administracio
 
 Configuration
 =============

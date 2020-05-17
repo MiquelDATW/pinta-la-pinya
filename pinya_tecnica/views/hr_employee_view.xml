@@ -145,7 +145,8 @@
                                         <tree default_order="skill_id"
                                               decoration-muted="level == '0'">
                                             <field name="skill_id" string="Posició"/>
-                                            <field name="level" widget="priority" string="Nivell"/>
+                                            <field name="level" widget="priority" string="Nivell"
+                                                   groups="pinya_tecnica.group_pinya_manager"/>
                                             <field name="count_total"/>
                                             <field name="count_sismesos"/>
                                         </tree>
@@ -156,7 +157,8 @@
                                                     <group>
                                                         <field name="employee_id"/>
                                                         <field name="skill_id"/>
-                                                        <field name="level"/>
+                                                        <field name="level"
+                                                               groups="pinya_tecnica.group_pinya_manager"/>
                                                     </group>
                                                     <group>
                                                         <field name="count_total"/>
@@ -203,9 +205,12 @@
                     <field name="anys_inscrit"/>
                     <field name="membre_at" string="AT"/>
                     <field name="membre_jd" string="JD"/>
-                    <field name="posicions_3stars" string="Pos. expertes"/>
-                    <field name="posicions_2stars" string="Pos. avançades"/>
-                    <field name="posicions_1star" string="Pos. intermedies"/>
+                    <field name="posicions_3stars" string="Pos. expertes"
+                           groups="pinya_tecnica.group_pinya_manager"/>
+                    <field name="posicions_2stars" string="Pos. avançades"
+                           groups="pinya_tecnica.group_pinya_manager"/>
+                    <field name="posicions_1star" string="Pos. intermedies"
+                           groups="pinya_tecnica.group_pinya_manager"/>
                     <field name="count_total"/>
                     <field name="count_sismesos"/>
                     <field name="count_pinya" invisible="1"/>
@@ -248,9 +253,12 @@
                     <filter string="Pinyes" name="count_pinya" domain="[('count_pinya', '!=', 0)]"/>
                     <filter string="Buit" name="count_buit" domain="['&amp;', ('count_tronc', '=', 0), ('count_pinya', '=', 0)]"/>
                     <separator/>
-                    <filter string="Posicions expertes" name="posicions_3stars" domain="[('posicions_3stars', '!=', '')]"/>
-                    <filter string="Posicions avançades" name="posicions_2stars" domain="[('posicions_2stars', '!=', '')]"/>
-                    <filter string="Posicions intermedies" name="posicions_1star" domain="[('posicions_1star', '!=', '')]"/>
+                    <filter string="Posicions expertes" name="posicions_3stars" domain="[('posicions_3stars', '!=', '')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Posicions avançades" name="posicions_2stars" domain="[('posicions_2stars', '!=', '')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
+                    <filter string="Posicions intermedies" name="posicions_1star" domain="[('posicions_1star', '!=', '')]"
+                            groups="pinya_tecnica.group_pinya_manager"/>
                     <separator/>
                     <filter string="Alçada 190+" name="alsada_190" domain="[('height', '&gt;=', 190)]"/>
                     <filter string="Alçada 180, 190" name="alsada_180" domain="[('height', '&gt;=', 180), ('height', '&lt;', 190)]"/>
@@ -259,9 +267,12 @@
                     <filter string="Alçada 159-" name="alsada_150" domain="[('height', '&lt;', 160)]"/>
                     <separator/>
                     <group expand="0" string="Group By">
-                        <filter string="Posicions expertes" name="group_posicions_3stars" domain="[]" context="{'group_by':'posicions_3stars'}"/>
-                        <filter string="Posicions avançades" name="group_posicions_2stars" domain="[]" context="{'group_by':'posicions_2stars'}"/>
-                        <filter string="Posicions intermedies" name="group_posicions_1star" domain="[]" context="{'group_by':'posicions_1star'}"/>
+                        <filter string="Posicions expertes" name="group_posicions_3stars" domain="[]" context="{'group_by':'posicions_3stars'}"
+                                groups="pinya_tecnica.group_pinya_manager"/>
+                        <filter string="Posicions avançades" name="group_posicions_2stars" domain="[]" context="{'group_by':'posicions_2stars'}"
+                                groups="pinya_tecnica.group_pinya_manager"/>
+                        <filter string="Posicions intermedies" name="group_posicions_1star" domain="[]" context="{'group_by':'posicions_1star'}"
+                                groups="pinya_tecnica.group_pinya_manager"/>
                     </group>
                 </search>
             </field>

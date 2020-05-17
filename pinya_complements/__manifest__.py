@@ -13,8 +13,10 @@
     "installable": True,
     'application': False,
     "depends": [
+        "app_addons_view",
         "base_location_geonames_import",
         "database_cleanup",
+        "developer_mode",
         "web_no_bubble",
         "web_sheet_full_width"
     ],

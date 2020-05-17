@@ -10,8 +10,10 @@ Mòduls complementaris a "Pinya Tècnica"
 Installation
 ============
 
+* app_addons_view
 * base_location_geonames_import
 * database_cleanup
+* developer_mode
 * web_no_bubble
 * web_sheet_full_width
 

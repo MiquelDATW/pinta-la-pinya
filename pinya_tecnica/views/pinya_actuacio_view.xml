@@ -13,26 +13,33 @@
                 <form string="Actuació">
                     <header>
                         <button string="Preparar" name="action_ready"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', '|', '|', ('actual', '=', False), ('membres_count', '=', 0), ('muixerangues_count', '=', 0), ('state', '!=', 'draft')]}"
                                 type="object" class="btn-success"/>
                         <button string="Fer" name="action_done"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', '|', ('actual', '=', False), ('membres_count', '=', 0), ('state', '!=', 'ready')]}"
                                 type="object" class="btn-success"/>
                         <button string="Cancel·lar" name="action_cancel"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', ('actual', '=', False), ('state', 'not in', ['draft', 'ready'])]}"
                                 type="object" class="btn-danger"/>
                         <button string="Esborrany" name="action_draft"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', ('actual', '=', False), ('state', 'not in', ['cancel', 'ready'])]}"
                                 type="object" class="btn-warning"/>
                         <button string="Importar membres" name="action_membres_import"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', ('actual', '=', False), ('state', '!=', 'draft')]}"
                                 context="{'actuacio': id}"
                                 type="object" class="oe_highlight"/>
                         <button class="oe_highlight" type="object"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 name="calcular_muixerangues"
                                 attrs="{'invisible': ['|', '|', '|', ('actual', '=', False), ('state', '!=', 'draft'), ('muixerangues_count', '=', 0), ('membres_count', '=', 0)]}"
                                 string="Calcular muixerangues"/>
                         <button class="oe_highlight" type="object"
+                                groups="pinya_tecnica.group_pinya_manager"
                                 name="reset_muixerangues"
                                 attrs="{'invisible': ['|', '|', '|', ('actual', '=', False), ('state', '!=', 'draft'), ('muixerangues_count', '=', 0), ('membres_count', '=', 0)]}"
                                 string="Reset muixerangues"/>
@@ -42,10 +49,12 @@
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_stat_button" type="object"
                                     context="{'actuacio_id': id}"
+                                    groups="pinya_tecnica.group_pinya_manager"
                                     name="pinya_muixeranga_wizard" icon="fas fa-plus-square"
                                     attrs="{'invisible': ['|', ('actual', '=', False), ('state', '!=', 'draft')]}"
                                     string="Afegir muixerangues"/>
-                            <button name="toggle_active" type="object" groups="base.group_user"
+                            <button name="toggle_active" type="object"
+                                    groups="pinya_tecnica.group_pinya_manager"
                                     attrs="{'invisible': [('actual', '=', False)]}"
                                     class="oe_stat_button" icon="fa-archive">
                                 <field name="active" widget="boolean_button"
@@ -54,11 +63,13 @@
                             <br/>
                             <button class="oe_stat_button" type="object"
                                     name="mostrar_muixerangues" icon="fas fa-list-ol"
+                                    groups="pinya_tecnica.group_pinya_user"
                                     attrs="{'invisible': [('muixerangues_count', '=', 0)]}">
                                 <field string="Muixerangues" name="muixerangues_count" widget="statinfo"/>
                             </button>
                             <button class="oe_stat_button" type="object"
                                     name="mostrar_membres" icon="fas fa-users"
+                                    groups="pinya_tecnica.group_pinya_user"
                                     attrs="{'invisible': [('membres_count', '=', 0)]}">
                                 <field string="Membres" name="membres_count" widget="statinfo"/>
                             </button>

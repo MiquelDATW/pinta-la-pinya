@@ -13,9 +13,8 @@
     "installable": True,
     'application': False,
     "depends": [
-        "hr_employee_display_own_info",
         "hr_gamification",
-        "pinya_tecnica",
+        "pinya_administracio",
     ],
     "data": [
         "views/hr_employee_view.xml",

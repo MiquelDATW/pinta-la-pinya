@@ -204,7 +204,7 @@
             id="menu_pinya_tecnica_plantilla"
             action="action_pinya_tecnica_plantilla"
             parent="menu_pinya_tecnica_enfaixat"
-            groups="group_pinya_manager"
+            groups="group_pinya_user"
             sequence="15"/>
 
         <menuitem
