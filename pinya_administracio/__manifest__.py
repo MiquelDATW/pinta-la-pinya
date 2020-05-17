@@ -13,9 +13,15 @@
     "installable": True,
     'application': True,
     "depends": [
+        "association",
+        "membership_extension",
+        "membership_withdrawal",
         "pinya_tecnica",
     ],
     "data": [
         "views/hr_employee_view.xml",
+        "data/membership_category_data.xml",
+        "data/product_template_data.xml",
     ],
+    "post_init_hook": "post_init_hook",
 }

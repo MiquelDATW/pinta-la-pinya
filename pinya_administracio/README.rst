@@ -9,11 +9,10 @@ Aquesta aplicació permet fer una gestió administrativa completa d'una colla mu
 Installation
 ============
 
-* contacts
-* event
-* hr_skill
-* hr_team
-* pinya_complements
+* association
+* membership_extension
+* membership_withdrawal
+* pinya_tecnica
 
 Configuration
 =============

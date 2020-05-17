@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data noupdate="1">
+
+        <record id="product.membership_quota_inicial"
+                model="product.template">
+            <field name="membership_category_id"
+                   ref="membership_extension.membership_category_member"/>
+            <field name="type">service</field>
+            <field name="name">Quota inicial</field>
+            <field name="list_price">10.0</field>
+            <field name="membership">True</field>
+            <field name="description">Quota d'inscripció a la colla. Es paga una vegada en la vida.</field>
+        </record>
+
+        <record id="product.membership_anual_quota_member"
+                model="product.template">
+            <field name="membership_category_id"
+                   ref="membership_extension.membership_category_member"/>
+            <field name="type">service</field>
+            <field name="name">Quota completa anual</field>
+            <field name="list_price">20.0</field>
+            <field name="membership">True</field>
+            <field name="description">Quota anual membre complet de la colla.</field>
+        </record>
+
+        <record id="product.membership_collaborator_quota_anual"
+                model="product.template">
+            <field name="membership_category_id"
+                   ref="pinya_administracio.membership_category_collaborator"/>
+            <field name="type">service</field>
+            <field name="name">Quota col·laborador anual</field>
+            <field name="list_price">10.0</field>
+            <field name="membership">True</field>
+            <field name="description">Quota anual membre col·laborador de la colla.</field>
+        </record>
+    </data>
+</odoo>

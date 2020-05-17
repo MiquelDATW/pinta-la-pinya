@@ -13,6 +13,12 @@ class ResPartner(models.Model):
 
     muixeranguera = fields.Boolean(string="Muixeranguera")
     colla = fields.Boolean(string="Colla muixeranguera")
+    colla_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Colla',
+        domain=[('colla', '=', True)],
+        help='Colla muixeranguera del contacte.',
+    )
 
     assaig_dia = fields.Selection([
         ('0', 'Dilluns'),
