@@ -91,6 +91,10 @@
                                        attrs="{'readonly': ['|', ('state', '!=', 'draft'), ('event_id', '!=', False)]}"/>
                                 <field name="data_final"
                                        attrs="{'readonly': ['|', ('state', '!=', 'draft'), ('event_id', '!=', False)]}"/>
+                                <field name="data_xicalla"
+                                       attrs="{'invisible': [('tipus', '=', 'actuacio')], 'readonly': ['|', ('state', '!=', 'draft'), ('event_id', '!=', False)]}"/>
+                                <field name="data_general"
+                                       attrs="{'invisible': [('tipus', '=', 'actuacio')], 'readonly': ['|', ('state', '!=', 'draft'), ('event_id', '!=', False)]}"/>
                                 <field name="tipus"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="actual" invisible="1"/>

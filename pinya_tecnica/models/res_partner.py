@@ -31,6 +31,8 @@ class ResPartner(models.Model):
     ], string="Dia d'assaig")
 
     assaig_hora_inici = fields.Float(string="Hora d'inici d'assaig")
+    assaig_hora_xicalla = fields.Float(string="Hora d'assaig xicalla")
+    assaig_hora_general = fields.Float(string="Hora d'assaig general")
     assaig_hora_final = fields.Float(string="Hora de final d'assaig")
 
     temporada_inici = fields.Selection([

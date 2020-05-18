@@ -14,6 +14,12 @@
                 <xpath expr="//field[@name='email']" position="after">
                     <field name="bot_token"/>
                 </xpath>
+                <xpath expr="//field[@name='report_header']" position="after">
+                    <field name="msg_assaig"
+                           placeholder="Missatge per defecte al convocar els assajos"/>
+                    <field name="msg_actuac"
+                           placeholder="Missatge per defecte al convocar les actuacions"/>
+                </xpath>
             </field>
         </record>
 

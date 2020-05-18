@@ -13,6 +13,7 @@
     "installable": True,
     'application': True,
     "depends": [
+        "l10n_es",
         "association",
         "membership_extension",
         "membership_withdrawal",

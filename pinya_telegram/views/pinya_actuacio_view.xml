@@ -13,9 +13,18 @@
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='pinya_muixeranga_wizard']" position="after">
                     <button class="oe_stat_button" type="object"
+                            style="font-weight: bold;color: #7c7bad;"
+                            attrs="{'invisible': ['|', '|', ('missatge_enviat', '=', True), ('actual', '=', False), ('state', '!=', 'draft')]}"
+                            string="Convocar per Telegram"
+                            context="{'convocar': tipus}"
+                            name="telegram_msg" icon="fab fa-telegram"/>
+                    <button class="oe_stat_button" type="object"
                             attrs="{'invisible': ['|', ('actual', '=', False), ('state', '!=', 'ready')]}"
                             string="Enviar Telegram"
                             name="telegram_msg" icon="fab fa-telegram"/>
+                </xpath>
+                <xpath expr="//field[@name='temporada_id']" position="after">
+                    <field name="missatge_enviat" invisible="1"/>
                 </xpath>
             </field>
         </record>

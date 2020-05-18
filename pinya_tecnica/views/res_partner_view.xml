@@ -27,6 +27,8 @@
                             <group name="assaig" string="Assaig">
                                 <field name="assaig_dia"/>
                                 <field name="assaig_hora_inici" widget="float_time"/>
+                                <field name="assaig_hora_xicalla" widget="float_time"/>
+                                <field name="assaig_hora_general" widget="float_time"/>
                                 <field name="assaig_hora_final" widget="float_time"/>
                             </group>
                             <group name="temporada" string="Temporada">

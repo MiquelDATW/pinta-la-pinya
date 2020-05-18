@@ -48,6 +48,8 @@ class PinyaActuacio(models.Model):
     active = fields.Boolean(string="Actiu", default=True)
     data_inici = fields.Datetime(string="Data inicial")
     data_final = fields.Datetime(string="Data final")
+    data_xicalla = fields.Datetime(string="Assaig xicalla")
+    data_general = fields.Datetime(string="Assaig general")
     notes = fields.Text(string="Altra informació")
     organizer_id = fields.Many2one(string="Organitzador", comodel_name="res.partner",
                                       related="event_id.organizer_id", store=True)
@@ -115,6 +117,8 @@ class PinyaActuacio(models.Model):
                 assaig_dia = int(partner.assaig_dia)
                 hora_inici = partner.assaig_hora_inici
                 hora_final = partner.assaig_hora_final
+                hora_xicalla = partner.assaig_hora_xicalla
+                hora_general = partner.assaig_hora_general
                 today = datetime.today()
                 today_day = today.weekday()
                 dies_que_falten = assaig_dia - today_day
@@ -122,9 +126,13 @@ class PinyaActuacio(models.Model):
                 dia_assaig = (today + dies_fins_assaig).date()
                 inici = dia_assaig + relativedelta(hours=int(hora_inici), minutes=int((hora_inici - int(hora_inici))*60))
                 final = dia_assaig + relativedelta(hours=int(hora_final), minutes=int((hora_final - int(hora_final))*60))
+                xicalla = dia_assaig + relativedelta(hours=int(hora_xicalla), minutes=int((hora_xicalla - int(hora_xicalla))*60))
+                general = dia_assaig + relativedelta(hours=int(hora_general), minutes=int((hora_general - int(hora_general))*60))
 
                 res['data_inici'] = self._tz_to_utc(str(inici))
                 res['data_final'] = self._tz_to_utc(str(final))
+                res['data_xicalla'] = self._tz_to_utc(str(xicalla))
+                res['data_general'] = self._tz_to_utc(str(general))
                 res['name'] = tipus.capitalize()
                 res['zip_id'] = partner.zip_id.id
         return res
@@ -294,7 +302,8 @@ class PinyaActuacio(models.Model):
     def _tz_to_utc(self, date):
         date_dt1 = datetime.strptime(date, DEFAULT_SERVER_DATETIME_FORMAT)
         tz_info = fields.Datetime.context_timestamp(self, date_dt1).tzinfo
-        date_dt2 = tz_info.localize(date_dt1, is_dst=None)
+        tz = pytz.timezone('Europe/Madrid')
+        date_dt2 = tz.localize(date_dt1, is_dst=None)
         date_dt3 = date_dt2.astimezone(pytz.utc)
         return date_dt3.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 

@@ -28,6 +28,9 @@ class ResCompany(models.Model):
 
     bot_token = fields.Char(string='Bot id', required=True)
 
+    msg_assaig = fields.Text(string="Missatge assaig")
+    msg_actuac = fields.Text(string="Missatge actuació")
+
 
 class ResPartner(models.Model):
     _inherit = "res.partner"

@@ -21,6 +21,8 @@ def _get_wizard(view_form_id, name, model, ctx):
 class PinyaActuacio(models.Model):
     _inherit = "pinya.actuacio"
 
+    missatge_enviat = fields.Boolean(string="Missatge enviat")
+
     def telegram_msg(self):
         view_form_id = self.env.ref('pinya_telegram.view_telegram_wizard_form').id
         partner = self.env.user.company_id.partner_id
