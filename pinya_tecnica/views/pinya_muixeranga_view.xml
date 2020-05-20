@@ -90,8 +90,26 @@
                                 <field name="pinya_count"/>
                                 <field name="total_count"/>
                             </group>
+                            <group name="altra" string="Altra informació">
+                                <field name="alineacio"/>
+                                <field name="mestra_id"
+                                       options="{'no_create_edit': True}"
+                                       domain="[('id', 'in', lliure_ids), ('membre_at', '=', True)]"/>
+                                <field name="passadora_id"
+                                       attrs="{'invisible': [('tipus', '=', 'aixecat')]}"
+                                       options="{'no_create_edit': True}"
+                                       domain="[('id', 'in', lliure_ids)]"/>
+                                <field name="estiradora_id"
+                                       attrs="{'invisible': [('tipus', '!=', 'aixecat')]}"
+                                       options="{'no_create_edit': True}"
+                                       domain="[('id', 'in', lliure_ids)]"/>
+                                <field name="resp_xicalla_ids" string="Resp. xicalla"
+                                       options="{'no_create_edit': True}"
+                                       domain="[('id', 'in', lliure_ids)]"
+                                       widget="many2many_tags"/>
+                            </group>
                         </group>
-                        <group name="notes" string="Altra informació">
+                        <group name="notes">
                             <field name="notes" placeholder="Altra informació..."/>
                         </group>
                         <notebook>
@@ -126,27 +144,6 @@
                                         <field name="muixeranga_pinya_id" invisible="1"/>
                                     </tree>
                                 </field>
-                            </page>
-                            <page name="altra" string="Altra Informació">
-                                <group>
-                                    <group name="altra" string="Altra Informació">
-                                        <field name="mestra_id"
-                                               options="{'no_create_edit': True}"
-                                               domain="[('id', 'in', lliure_ids), ('membre_at', '=', True)]"/>
-                                        <field name="passadora_id"
-                                               attrs="{'invisible': [('tipus', '=', 'aixecat')]}"
-                                               options="{'no_create_edit': True}"
-                                               domain="[('id', 'in', lliure_ids)]"/>
-                                        <field name="estiradora_id"
-                                               attrs="{'invisible': [('tipus', '!=', 'aixecat')]}"
-                                               options="{'no_create_edit': True}"
-                                               domain="[('id', 'in', lliure_ids)]"/>
-                                        <field name="resp_xicalla_ids" string="Resp. xicalla"
-                                               options="{'no_create_edit': True}"
-                                               domain="[('id', 'in', lliure_ids)]"
-                                               widget="many2many_tags"/>
-                                    </group>
-                                </group>
                             </page>
                             <page name="membres" string="Membres">
                                 <group name="membres" string="Membres">

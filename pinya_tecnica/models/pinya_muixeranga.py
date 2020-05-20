@@ -61,6 +61,14 @@ class PinyaMuixeranga(models.Model):
     lliure_ids = fields.Many2many('hr.employee', string="Lliures", compute="_compute_lliures")
     lliure_count = fields.Integer(compute='_compute_lliures', string='Total Lliures')
 
+    alineacio = fields.Selection([
+        ('0', 'Tothom nou'),
+        ('25', 'Mantindre alguna posició'),
+        ('50', 'Meitat'),
+        ('75', 'Probar alguna posició'),
+        ('100', 'Millor alineació')
+    ], string='Alineació', required=True, default='75')
+
     state = fields.Selection([
         ('cancel', 'Cancel·lat'),
         ('draft', 'Esborrany'),
@@ -139,155 +147,85 @@ class PinyaMuixeranga(models.Model):
         for pinya in pinyes:
             pinya.membre_pinya_level_id = False
 
-    def calcular_tronc(self, tronc, aptes):
-        return False
-
-    def calcular_pinya(self, pinya, aptes):
-        return False
-
     def calcular_muixeranga(self):
-        self.state = 'ready'
-        tronc_obj = self.env['pinya.muixeranga.tronc']
-        pinya_obj = self.env['pinya.muixeranga.pinya']
-        emp_act_obj = self.env['hr.employee.actuacio']
-        ocupats = self.env['hr.employee']
+        def _calcular_membre(tipus, muixe, ocupats):
+            def _calcular_tronc(tronc):
+                i = random.randint(0, len(tronc) - 1)
+                res = tronc[i]
+                return res
 
-        troncs = self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id).sorted('tecnica', reverse=True)
-        for tronc in troncs:
-            if bool(tronc.membre_tronc_id):
-                continue
+            def _calcular_pinya(pinya):
+                pinya = pinya.sorted('alsada_bras', reverse=True)
+                res = pinya[0]
+                return res
 
-            recomanats = tronc.recomanats_ids.filtered(lambda x: x.employee_id.id not in ocupats.ids)
-            aptes = recomanats.filtered(lambda x: x.level >= tronc.tecnica)
+            recomanats = muixe.recomanats_ids.filtered(lambda x: x.employee_id.id not in ocupats.ids)
+            aptes = recomanats.filtered(lambda x: x.level >= muixe.tecnica)
             if not bool(aptes):
                 aptes = recomanats
             if not bool(aptes):
                 print(fields.Datetime.now() + ": No es pot omplir!!")
-                continue
+                return False
 
-            uniq_posicio = tronc.quisocjo.split('__')[0]
-            people = tronc_obj.search(
-                [('muixeranga_tronc_id', '!=', tronc.muixeranga_tronc_id.id), ('quisocjo', 'ilike', uniq_posicio)]).mapped(
-                'membre_tronc_id')
-
-            sabuts = aptes.filtered(lambda x: x.employee_id.id in people.ids)
-            posicions = troncs.filtered(lambda x: x.posicio_id.id == tronc.posicio_id.id)
-
-            if bool(sabuts) and len(sabuts) >= len(posicions):
-                sequence = [i for i in range(len(sabuts))]
-                lista = random.sample(sequence, len(posicions))
-                for i in range(len(posicions)):
-                    membre = sabuts[lista[i]]
-                    posicions[i].membre_tronc_level_id = membre.id
-                    ocupats += membre.employee_id
-            elif bool(sabuts):
-                i = random.randint(0, len(sabuts)-1)
-                membre = sabuts[i]
-                tronc.membre_tronc_level_id = membre.id
-                ocupats += membre.employee_id
+            uniq_posicio = muixe.quisocjo.split('__')[0]
+            if tipus == "tronc":
+                people = tronc.search([('muixeranga_tronc_id', '!=', tronc.muixeranga_tronc_id.id),
+                                       ('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_tronc_id')
+            elif tipus == "pinya":
+                people = pinya.search([('muixeranga_pinya_id', '!=', pinya.muixeranga_pinya_id.id),
+                                       ('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_pinya_id')
             else:
-                self.calcular_tronc(tronc, aptes)
+                people = False
 
-                companyes = posicions.mapped('membre_tronc_id')
-                if bool(companyes) and len(posicions) > 1:
-                    alsada = round(statistics.mean(companyes.mapped('alsada_muscle')))
-                    alsada_aptes = False
-                    for i in range(5):
-                        alsada_range = range(alsada-i, alsada+i+1)
-                        alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_muscle in alsada_range)
-                        if bool(alsada_aptes):
-                            break
-                    if not bool(alsada_aptes):
-                        alsada_aptes = aptes
+            sabuts = aptes.filtered(lambda x: x.employee_id.id in people.ids) if bool(people) else aptes
 
-                    i = random.randint(0, len(alsada_aptes) - 1)
-                    membre = alsada_aptes[i]
-                elif not bool(companyes) and len(posicions) > 1:
-                    aptes_best = aptes.filtered(lambda x: x.level in ['2', '3'])
-                    alsada_best = round(statistics.mean(aptes_best.mapped('employee_id.alsada_muscle')))
-                    alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_muscle == alsada_best)
-                    if not bool(alsada_aptes):
-                        for i in range(5):
-                            alsada_range = range(alsada_best-i, alsada_best+i+1)
-                            alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_muscle in alsada_range)
-                            if bool(alsada_aptes):
-                                break
-                    if not bool(alsada_aptes):
-                        alsada_aptes = aptes
-
-                    i = random.randint(0, len(alsada_aptes) - 1)
-                    membre = alsada_aptes[i]
+            seguretat = random.randint(0, 100)
+            if seguretat <= alineacio and bool(sabuts):
+                if tipus == "tronc":
+                    membre = _calcular_tronc(sabuts)
+                elif tipus == "pinya":
+                    membre = _calcular_pinya(sabuts)
                 else:
-                    aptes_emp = aptes.filtered(lambda x: x.level in ['3', '2']).mapped('employee_id')
-                    data = [('employee_id', 'in', aptes_emp.ids), ('actuacio_id', '=', self.actuacio_id.id)]
-                    emp_act_ids = emp_act_obj.search(data)
-                    emp_act_void = emp_act_ids.filtered(lambda x: x.count_actuacio_tronc == '')
-                    emp_ok = emp_act_void[random.randint(0, len(emp_act_void)-1)].employee_id
-                    membre = aptes.filtered(lambda x: x.employee_id.id == emp_ok.id)
+                    membre = False
 
-                ocupats += membre.employee_id
+            else:
+                equilibris = aptes.filtered(lambda x: x.employee_id.id not in muixe_readies.ids)
+                if not bool(equilibris):
+                    equilibris = recomanats.filtered(lambda x: x.employee_id.id not in muixe_readies.ids)
+                    if not bool(equilibris):
+                        equilibris = aptes
+                if tipus == "tronc":
+                    membre = _calcular_tronc(equilibris)
+                elif tipus == "pinya":
+                    membre = _calcular_pinya(equilibris)
+                else:
+                    membre = False
+            return membre
+
+        ocupats = self.env['hr.employee']
+        alineacio = int(self.alineacio)
+        readies = self.actuacio_id.muixeranga_ids.filtered(lambda x: x.state == 'ready')
+
+        muixe_readies = readies.mapped('tronc_line_ids.employee_actuacio_id.employee_id')
+        troncs = self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id).sorted('tecnica', reverse=True)
+        for tronc in troncs:
+            membre = _calcular_membre("tronc", tronc, ocupats)
+            if membre:
                 tronc.membre_tronc_level_id = membre.id
+                ocupats += membre.employee_id
 
+        muixe_readies = readies.mapped('pinya_line_ids.employee_actuacio_id.employee_id')
         pinyes = self.pinya_line_ids.filtered(lambda x: not x.membre_pinya_id).sorted('tecnica', reverse=True)
         tecniques = ['3', '2', '1', '0']
         for tecnica in tecniques:
             pinyes_ = pinyes.filtered(lambda x: x.tecnica == tecnica).sorted(lambda x: x.posicio_id.prioritat, reverse=True)
             for pinya in pinyes_:
-                if bool(pinya.membre_pinya_id):
-                    continue
-
-                recomanats = pinya.recomanats_ids.filtered(lambda x: x.employee_id.id not in ocupats.ids)
-                aptes = recomanats.filtered(lambda x: x.level >= tecnica)
-                if not bool(aptes):
-                    aptes = recomanats
-                if not bool(aptes):
-                    print(fields.Datetime.now() + ": No es pot omplir!!")
-                    continue
-
-                uniq_posicio = pinya.quisocjo.split('__')[0]
-                people = pinya_obj.search(
-                    [('muixeranga_pinya_id', '!=', pinya.muixeranga_pinya_id.id), ('quisocjo', 'ilike', uniq_posicio)]).mapped(
-                    'membre_pinya_id')
-
-                sabuts = aptes.filtered(lambda x: x.employee_id.id in people.ids)
-                posicions = pinyes.filtered(lambda x: x.posicio_id.id == pinya.posicio_id.id)
-
-                if bool(sabuts) and len(sabuts) >= len(posicions):
-                    sequence = [i for i in range(len(sabuts))]
-                    lista = random.sample(sequence, len(posicions))
-                    for i in range(len(posicions)):
-                        membre = sabuts[lista[i]]
-                        posicions[i].membre_pinya_level_id = membre.id
-                        ocupats += membre.employee_id
-                elif bool(sabuts):
-                    i = random.randint(0, len(sabuts) - 1)
-                    membre = sabuts[i]
+                membre = _calcular_membre("pinya", pinya, ocupats)
+                if membre:
                     pinya.membre_pinya_level_id = membre.id
                     ocupats += membre.employee_id
-                else:
-                    self.calcular_pinya(pinya, aptes)
 
-                    companyes = posicions.mapped('membre_pinya_id')
-                    if bool(companyes) and len(posicions) > 1:
-                        alsada = min(companyes.mapped('alsada_bras'))
-                        alsada_aptes = False
-                        for i in range(5):
-                            alsada_range = range(alsada-(5*(i+1)), alsada)
-                            alsada_aptes = aptes.filtered(lambda x: x.employee_id.alsada_bras in alsada_range)
-                            if bool(alsada_aptes):
-                                break
-                        if not bool(alsada_aptes):
-                            alsada_aptes = aptes
-
-                        membre = alsada_aptes.sorted(lambda x: x.employee_id.alsada_bras, reverse=True)[0]
-                    elif not bool(companyes) and len(posicions) > 1:
-                        aptes_best = aptes.filtered(lambda x: x.level in ['2', '3'])
-                        membre = aptes_best.sorted(lambda x: x.employee_id.alsada_bras, reverse=True)[0]
-                    else:
-                        membre = aptes.sorted(lambda x: x.employee_id.alsada_bras, reverse=True)[0]
-
-                    ocupats += membre.employee_id
-                    pinya.membre_pinya_level_id = membre.id
+        self.state = 'ready'
 
     def tronc_muixeranga(self):
         view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_tronc_tree_selected').id

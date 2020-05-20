@@ -90,10 +90,16 @@ class PinyaActuacio(models.Model):
             #membres = actuacio.membre_actuacio_ids.filtered(lambda x: x.assistencia)
             membres = actuacio.membre_actuacio_ids
             actives = membres.filtered(lambda x: bool(x.count_actuacio_total))
-            # actuacio.write({'membres_count': len(membres), 'actives_count': len(actives)})
-            actuacio.membres_count = len(membres)
-            actuacio.actives_count = len(actives)
-            actuacio.membres_count_calc = len(membres)
+            len_actives = len(actives)
+            len_membres = len(membres)
+            data = {}
+            if len_actives != actuacio.actives_count:
+                data.update({'actives_count': len_actives})
+            if len_membres != actuacio.membres_count:
+                data.update({'membres_count': len_membres})
+            if bool(data):
+                actuacio.sudo().write(data)
+            actuacio.membres_count_calc = len_membres
 
     @api.multi
     @api.constrains('data_inici', 'data_final')
@@ -287,10 +293,10 @@ class PinyaActuacio(models.Model):
         self.state = 'draft'
 
     def calcular_muixerangues(self):
-        self.state = 'ready'
         muixes = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')
         for muix in muixes:
             muix.calcular_muixeranga()
+        self.state = 'ready'
 
     def reset_muixerangues(self):
         self.state = 'draft'
