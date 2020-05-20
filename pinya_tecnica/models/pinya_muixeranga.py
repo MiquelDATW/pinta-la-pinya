@@ -3,9 +3,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import statistics
+import logging
 import random
 from odoo import models, fields, api, exceptions, _
 from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
 
 
 def _get_action(view_tree_id, view_form_id, name, model, domain):
@@ -159,12 +162,15 @@ class PinyaMuixeranga(models.Model):
                 res = pinya[0]
                 return res
 
-            recomanats = muixe.recomanats_ids.filtered(lambda x: x.employee_id.id not in ocupats.ids)
+            recomanats = muixe.recomanats_ids.filtered(lambda x: x.employee_id.id not in ocupats)
             aptes = recomanats.filtered(lambda x: x.level >= muixe.tecnica)
             if not bool(aptes):
                 aptes = recomanats
             if not bool(aptes):
-                print(fields.Datetime.now() + ": No es pot omplir!!")
+                muixeranga = muixe.muixeranga_pinya_id.name if tipus == "pinya" else \
+                    (muixe.muixeranga_tronc_id.name if tipus == "tronc" else "")
+                _logger.error("No es pot omplir la posició <{}> de la figura <{}>❗".format(
+                    muixe.posicio_id.name, muixeranga))
                 return False
 
             uniq_posicio = muixe.quisocjo.split('__')[0]
@@ -187,7 +193,6 @@ class PinyaMuixeranga(models.Model):
                     membre = _calcular_pinya(sabuts)
                 else:
                     membre = False
-
             else:
                 equilibris = aptes.filtered(lambda x: x.employee_id.id not in muixe_readies.ids)
                 if not bool(equilibris):
@@ -202,7 +207,7 @@ class PinyaMuixeranga(models.Model):
                     membre = False
             return membre
 
-        ocupats = self.env['hr.employee']
+        ocupats = []
         alineacio = int(self.alineacio)
         readies = self.actuacio_id.muixeranga_ids.filtered(lambda x: x.state == 'ready')
 
@@ -210,9 +215,9 @@ class PinyaMuixeranga(models.Model):
         troncs = self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id).sorted('tecnica', reverse=True)
         for tronc in troncs:
             membre = _calcular_membre("tronc", tronc, ocupats)
-            if membre:
+            if membre and membre.employee_id:
                 tronc.membre_tronc_level_id = membre.id
-                ocupats += membre.employee_id
+                ocupats.append(membre.employee_id.id)
 
         muixe_readies = readies.mapped('pinya_line_ids.employee_actuacio_id.employee_id')
         pinyes = self.pinya_line_ids.filtered(lambda x: not x.membre_pinya_id).sorted('tecnica', reverse=True)
@@ -221,9 +226,9 @@ class PinyaMuixeranga(models.Model):
             pinyes_ = pinyes.filtered(lambda x: x.tecnica == tecnica).sorted(lambda x: x.posicio_id.prioritat, reverse=True)
             for pinya in pinyes_:
                 membre = _calcular_membre("pinya", pinya, ocupats)
-                if membre:
+                if membre and membre.employee_id:
                     pinya.membre_pinya_level_id = membre.id
-                    ocupats += membre.employee_id
+                    ocupats.append(membre.employee_id.id)
 
         self.state = 'ready'
 
