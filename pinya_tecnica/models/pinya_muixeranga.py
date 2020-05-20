@@ -152,9 +152,13 @@ class PinyaMuixeranga(models.Model):
 
     def calcular_muixeranga(self):
         def _calcular_membre(tipus, muixe, ocupats):
-            def _calcular_tronc(tronc):
-                i = random.randint(0, len(tronc) - 1)
-                res = tronc[i]
+            def _calcular_tronc(tronc, alsada_best):
+                if alsada_best:
+                    alsades = tronc.sorted(lambda x: abs(x.alsada_muscle - alsada_best))
+                else:
+                    i = random.randint(0, len(tronc) - 1)
+                    alsades = tronc[i]
+                res = alsades[0]
                 return res
 
             def _calcular_pinya(pinya):
@@ -177,18 +181,22 @@ class PinyaMuixeranga(models.Model):
             if tipus == "tronc":
                 people = tronc.search([('muixeranga_tronc_id', '!=', tronc.muixeranga_tronc_id.id),
                                        ('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_tronc_id')
+                all_time = tronc.search([('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_tronc_id')
+                alsada_best = round(statistics.mean(all_time.mapped('alsada_muscle')))
             elif tipus == "pinya":
                 people = pinya.search([('muixeranga_pinya_id', '!=', pinya.muixeranga_pinya_id.id),
                                        ('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_pinya_id')
+                all_time = pinya.search([('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_pinya_id')
+                alsada_best = max(all_time.mapped('alsada_bras'))
             else:
-                people = False
+                alsada_best = people = False
 
             sabuts = aptes.filtered(lambda x: x.employee_id.id in people.ids) if bool(people) else aptes
 
             seguretat = random.randint(0, 100)
             if seguretat <= alineacio and bool(sabuts):
                 if tipus == "tronc":
-                    membre = _calcular_tronc(sabuts)
+                    membre = _calcular_tronc(sabuts, alsada_best)
                 elif tipus == "pinya":
                     membre = _calcular_pinya(sabuts)
                 else:
@@ -200,7 +208,7 @@ class PinyaMuixeranga(models.Model):
                     if not bool(equilibris):
                         equilibris = aptes
                 if tipus == "tronc":
-                    membre = _calcular_tronc(equilibris)
+                    membre = _calcular_tronc(equilibris, alsada_best)
                 elif tipus == "pinya":
                     membre = _calcular_pinya(equilibris)
                 else:
