@@ -16,6 +16,9 @@
                         <field name="alsada_bras"/>
                     </group>
                 </xpath>
+                <xpath expr="//field[@name='employee_id']" position="attributes">
+                    <attribute name="context">{'form_view_ref': 'pinya_tecnica.hr_employee_membre_form'}</attribute>
+                </xpath>
             </field>
         </record>
 

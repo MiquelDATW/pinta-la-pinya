@@ -48,6 +48,16 @@
             </field>
         </record>
 
+        <record id="view_hr_employee_membre_skill_form" model="ir.ui.view">
+            <field name="name">hr.employee.membre.skill.form</field>
+            <field name="model">hr.employee.skill</field>
+            <field name="inherit_id" ref="hr_skill.view_hr_employee_skill_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='employee_id']" position="attributes">
+                    <attribute name="context">{'form_view_ref': 'pinya_tecnica.hr_employee_membre_form'}</attribute>
+                </xpath>
+            </field>
+        </record>
 
         <record id="hr_employee_membre_form" model="ir.ui.view">
             <field name="name">hr.employee.membre.form</field>
@@ -161,7 +171,8 @@
                                             <sheet>
                                                 <group>
                                                     <group>
-                                                        <field name="employee_id"/>
+                                                        <field name="employee_id"
+                                                               context="{'form_view_ref': 'pinya_tecnica.hr_employee_membre_form'}"/>
                                                         <field name="skill_id"/>
                                                         <field name="level"
                                                                groups="pinya_tecnica.group_pinya_manager"/>
@@ -311,7 +322,8 @@
                         <group name="membres">
                             <group name="info" string="Info">
                                 <field name="name" invisible="1"/>
-                                <field name="employee_id"/>
+                                <field name="employee_id"
+                                       context="{'form_view_ref': 'pinya_tecnica.hr_employee_membre_form'}"/>
                                 <!--<field name="assistencia"/>-->
                                 <field name="membre_at"/>
                                 <field name="actuacio_id"/>
