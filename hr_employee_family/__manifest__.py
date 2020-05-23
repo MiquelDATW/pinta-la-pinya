@@ -14,7 +14,6 @@
     'application': False,
     "depends": [
         "hr",
-        "hr_employee_age"
     ],
     'data': [
         "views/hr_family_views.xml",

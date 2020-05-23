@@ -19,7 +19,6 @@
                             </group>
                             <group name="birth_age" string="Edat">
                                 <field name="birthday"/>
-                                <field name="age"/>
                             </group>
                         </group>
                         <group name="familia" string="Família">
