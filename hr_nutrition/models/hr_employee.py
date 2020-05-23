@@ -7,21 +7,33 @@
 from odoo import models, fields, api, exceptions, _
 
 
+def _get_action(view_tree_id, view_form_id, name, model, domain):
+    action = {
+        'type': 'ir.actions.act_window',
+        'views': [(view_tree_id, 'tree'), (view_form_id, 'form')],
+        'view_mode': 'form',
+        'name': name,
+        'target': 'current',
+        'res_model': model,
+        'context': {},
+        'domain': domain,
+    }
+    return action
+
+
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    height = fields.Integer("Height")
-    weight = fields.Float("Weight", digits=(4, 1))
-    bmi = fields.Float(string="Body mass index (BMI)", digits=(4, 1),
-                       compute='_compute_bmi', store=True)
-    bmi_type = fields.Selection(
-        [('18.5', 'Underweight'),
-         ('25', 'Normal weight'),
-         ('30', 'Overweight'),
-         ('35', 'Obese'),
-         ('40', 'Severily obese')],
-        string="BMI type",
-        compute='_compute_bmi_type', store=True)
+    anthropometry_id = fields.Many2one(
+        'hr.employee.anthropometry', 'Anthropometry',
+        compute="_get_anthropometry", store=True)
+    anthropometry_ids = fields.One2many(
+        'hr.employee.anthropometry', 'employee_id', 'Anthropometry history')
+
+    height = fields.Integer("Height", related="anthropometry_id.height", store=True)
+    weight = fields.Float("Weight", related="anthropometry_id.weight", store=True)
+    bmi = fields.Float(string="Body mass index (BMI)", related="anthropometry_id.bmi", store=True)
+    bmi_type = fields.Selection(string="BMI type", related="anthropometry_id.bmi_type", store=True)
 
     activity_level = fields.Selection(
         [('sedentary', 'Sedentary'),
@@ -54,28 +66,41 @@ class HrEmployee(models.Model):
     nutrition_diet_id = fields.Many2one('nutrition.diet', 'Diet')
 
     @api.multi
-    @api.depends('height', 'weight')
-    def _compute_bmi(self):
-        emps = self.filtered(lambda x: bool(x.height) and bool(x.weight))
+    @api.depends('anthropometry_ids')
+    def _get_anthropometry(self):
+        emps = self.filtered(lambda x: bool(x.anthropometry_ids))
         for emp in emps:
-            bmi = emp.weight/((emp.height/100)**2)
-            emp.bmi = bmi
+            anthropometry = emp.anthropometry_ids.sorted('data', reverse=True)
+            emp.anthropometry_id = anthropometry[0].id
 
-    @api.multi
-    @api.depends('bmi')
-    def _compute_bmi_type(self):
-        emps = self.filtered(lambda x: bool(x.bmi))
-        for emp in emps:
-            bmi = emp.bmi
-            bmi_type = "18.5"
-            if 18.5 <= bmi < 25:
-                bmi_type = "25"
-            elif 25 <= bmi < 30:
-                bmi_type = "30"
-            elif 30 <= bmi < 35:
-                bmi_type = "35"
-            elif 35 <= bmi:
-                bmi_type = "40"
-            emp.bmi_type = bmi_type
+    def anthropometry_new(self):
+        view_form_id = self.env.ref('hr_nutrition.view_anthropometry_form').id
+        name = "New Weight & Height"
+        model = "hr.employee.anthropometry"
+        ctx = self.env.context.copy()
+        ctx.update({
+            'default_employee_id': self.id,
+            'default_height': self.height,
+            'default_data': fields.Date.today(),
+            'default_name': self.name + ". " + str(fields.Date.today()).replace("-", "/"),
+        })
+        action = {
+            'type': 'ir.actions.act_window',
+            'views': [(view_form_id, 'form')],
+            'view_mode': 'form',
+            'name': name,
+            'target': 'current',
+            'res_model': model,
+            'context': ctx,
+        }
+        return action
 
+    def anthropometry_history(self):
+        view_tree_id = self.env.ref('hr_nutrition.view_anthropometry_tree').id
+        view_form_id = self.env.ref('hr_nutrition.view_anthropometry_form').id
+        name = "Weight & Height history of {}".format(self.name)
+        model = "hr.employee.anthropometry"
+        domain = [('id', 'in', self.anthropometry_ids.ids)]
+        action = _get_action(view_tree_id, view_form_id, name, model, domain)
+        return action
 

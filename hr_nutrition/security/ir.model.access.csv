@@ -5,3 +5,4 @@
 "access_nutrition_diet","nutrition_diet_group_public","model_nutrition_diet","base.group_user",1,1,0,0
 "access_nutrition_food","nutrition_food_group_public","model_nutrition_food","base.group_user",1,1,0,0
 "access_nutrition_food_category","nutrition_food_category_group_public","model_nutrition_food_category","base.group_user",1,1,0,0
+"access_anthropometry","nutrition_anthropometry_group_public","model_hr_employee_anthropometry","base.group_user",1,1,1,1

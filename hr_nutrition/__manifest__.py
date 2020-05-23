@@ -5,7 +5,7 @@
 {
     "name": "HR Nutrition",
     "summary": "Manage your employees' nutrition",
-    "version": "11.0.1.0.3",
+    "version": "11.0.1.0.4",
     "category": "Health",
     "website": "http://www.enfaixat.cat/",
     "author": "Ursa Information Systems, Miquel March",
@@ -19,6 +19,7 @@
         "security/ir.model.access.csv",
         "data/nutrition_diet.xml",
         "data/nutrition_food.xml",
+        "views/anthropometry_view.xml",
         "views/hr_employee_view.xml",
         "views/nutrition_view.xml",
     ],

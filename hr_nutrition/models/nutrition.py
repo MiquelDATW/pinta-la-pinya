@@ -8,7 +8,7 @@ from odoo import models, fields, api, exceptions, _
 
 
 class NutritionDiet(models.Model):
-    _name = 'nutrition.diet'
+    _name = "nutrition.diet"
     _description = "Diet"
     _order = "name"
 
