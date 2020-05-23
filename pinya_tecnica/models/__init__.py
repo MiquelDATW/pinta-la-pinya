@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import event
+from . import hr_anthropometry
 from . import hr_employee
 from . import hr_family
 from . import hr_skill

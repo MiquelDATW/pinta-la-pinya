@@ -4,6 +4,7 @@
 
 
 from odoo import models, fields, api, exceptions, _
+from odoo.exceptions import ValidationError
 
 
 class HrEmployeeAnthropometry(models.Model):
@@ -16,9 +17,9 @@ class HrEmployeeAnthropometry(models.Model):
     employee_id = fields.Many2one('hr.employee', 'Employee', required=True)
     data = fields.Date(string="Date", required=True)
 
-    height = fields.Integer("Height")
+    height = fields.Integer("Height", required=True)
     height_diff = fields.Float(string="Height difference", digits=(4, 1), readonly=True)
-    weight = fields.Float(string="Weight", digits=(4, 1))
+    weight = fields.Float(string="Weight", digits=(4, 1), required=True)
     weight_diff = fields.Float(string="Weight difference", digits=(4, 1), readonly=True)
     bmi = fields.Float(string="Body mass index", digits=(4, 1),
                        compute='_compute_bmi', store=True)
@@ -95,6 +96,18 @@ class HrEmployeeAnthropometry(models.Model):
 
     @api.model
     def create(self, vals):
+        height = vals.get("height", False)
+        weight = vals.get("weight", False)
+        height = (height > 0) if height else False
+        weight = (weight > 0.0) if weight else False
+        if not height or not weight:
+            error = "Height and Weight"
+            if height and not weight:
+                error = "Weight"
+            elif not height and weight:
+                error = "Height"
+            raise ValidationError("{} must be positive and not zero❗".format(error))
+
         emp = vals.get('employee_id', False)
         data = vals.get('data', False)
         if emp and data:

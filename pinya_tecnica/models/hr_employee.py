@@ -37,8 +37,8 @@ class HrEmployee(models.Model):
 
     edat = fields.Integer(string='Edat', readonly=True)
 
-    alsada_muscle = fields.Integer(string="Alçada muscle")
-    alsada_bras = fields.Integer(string="Alçada braços")
+    alsada_muscle = fields.Integer("Alçada muscle", related="anthropometry_id.alsada_muscle", store=True)
+    alsada_bras = fields.Integer("Alçada braços", related="anthropometry_id.alsada_bras", store=True)
 
     muixeranga_tronc_ids = fields.One2many("pinya.muixeranga.tronc", "membre_tronc_id", string="Muixeranga")
     muixeranga_pinya_ids = fields.One2many("pinya.muixeranga.pinya", "membre_pinya_id", string="Muixeranga")
@@ -195,6 +195,16 @@ class HrEmployee(models.Model):
         model = "hr.team"
         domain = [('id', 'in', self.team_ids.ids)]
         action = _get_action(view_tree_id, view_form_id, name, model, domain)
+        return action
+
+    def anthropometry_new(self):
+        action = super(HrEmployee, self).anthropometry_new()
+        ctx = action.get('context')
+        ctx.update({
+            'default_alsada_muscle': self.alsada_muscle,
+            'default_alsada_bras': self.alsada_bras,
+        })
+        action.update({'context': ctx})
         return action
 
     @api.model

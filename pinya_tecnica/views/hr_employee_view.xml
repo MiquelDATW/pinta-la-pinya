@@ -61,6 +61,9 @@
                                     attrs="{'invisible': [('count_teams', '=', 0)]}">
                                 <field string="Equips" name="count_teams" widget="statinfo"/>
                             </button>
+                            <button class="oe_stat_button" type="object"
+                                    name="anthropometry_history" icon="fas fa-balance-scale"
+                                    string="Weight &amp; Height history"/>
                             <button name="toggle_active" type="object" groups="hr.group_hr_user"
                                     class="oe_stat_button" icon="fa-archive">
                                 <field name="active" widget="boolean_button"
@@ -105,25 +108,28 @@
                                            attrs="{'invisible': [('muixeranguera', '=', False)]}">
                                         <label for="height" string="Alçada"/>
                                         <div>
-                                            <field name="height" nolabel="1" class="oe_inline"/> cm
+                                            <field name="height" nolabel="1" readonly="1" class="oe_inline"/> cm
                                         </div>
                                         <label for="alsada_muscle" string="Alçada del muscle"/>
                                         <div>
-                                            <field name="alsada_muscle" nolabel="1" class="oe_inline"/> cm
+                                            <field name="alsada_muscle" nolabel="1" readonly="1" class="oe_inline"/> cm
                                         </div>
                                         <label for="alsada_bras" string="Alçada dels braços"/>
                                         <div>
-                                            <field name="alsada_bras" nolabel="1" class="oe_inline"/> cm
+                                            <field name="alsada_bras" nolabel="1" readonly="1" class="oe_inline"/> cm
                                         </div>
                                         <label for="weight" string="Pes"/>
                                         <div>
-                                            <field name="weight" nolabel="1" class="oe_inline"/> kg
+                                            <field name="weight" nolabel="1" readonly="1" class="oe_inline"/> kg
                                         </div>
                                         <label for="bmi" string="IMC"/>
                                         <div>
-                                            <field name="bmi" nolabel="1" class="oe_inline"/> kg/m²
+                                            <field name="bmi" nolabel="1" readonly="1" class="oe_inline"/> kg/m²
                                         </div>
-                                        <field name='bmi_type' readonly="True"/>
+                                        <field name='bmi_type' readonly="1"/>
+                                        <div>
+                                            <button string="Update Weight &amp; Height" name="anthropometry_new" type="object" class="btn-primary"/>
+                                        </div>
                                     </group>
                                 </group>
                                 <group name="notes" string="Altra informació">

@@ -5,7 +5,7 @@
 {
     "name": "Pinya Tècnica",
     "summary": "Permet fer una gestió tècnica completa d'una colla muixeranguera",
-    "version": "11.0.1.0.8",
+    "version": "11.0.1.0.9",
     "category": "Custom",
     "website": "http://www.enfaixat.cat/",
     "author": "Miquel March",
@@ -26,6 +26,7 @@
         'data/cron.xml',
         'data/event_templates.xml',
         'data/hr_skill_templates.xml',
+        "views/anthropometry_view.xml",
         "views/event_view.xml",
         "views/hr_employee_view.xml",
         "views/hr_family_view.xml",
