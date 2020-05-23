@@ -3,7 +3,6 @@ access_hr_employee_actuacio_user,hr.employee.actuacio.user,model_hr_employee_act
 access_hr_skill_user,hr.skill.user,model_hr_skill,group_pinya_manager,1,1,1,1
 access_hr_employee_skill_user,hr.employee.skill.user,model_hr_employee_skill,group_pinya_manager,1,1,1,1
 access_hr_employee_level_user,hr.employee.level.user,model_hr_employee_level,group_pinya_manager,1,1,1,1
-access_hr_employee_family_user,hr.employee.family.user,model_hr_employee_family,group_pinya_manager,1,1,1,1
 access_hr_team_user,hr.team.user,model_hr_team,group_pinya_manager,1,1,1,1
 access_pinya_muixeranga_user,pinya.muixeranga.user,model_pinya_muixeranga,group_pinya_manager,1,1,1,1
 access_pinya_muixeranga_pinya_user,pinya.muixeranga.pinya.user,model_pinya_muixeranga_pinya,group_pinya_manager,1,1,1,1
@@ -16,7 +15,6 @@ access_pinya_temporada_user,pinya.temporada.user,model_pinya_temporada,group_pin
 access_hr_employee_actuacio_base,hr.employee.actuacio.base,model_hr_employee_actuacio,group_pinya_user,1,0,0,0
 access_hr_employee_skill_base,hr.employee.skill.base,model_hr_employee_skill,group_pinya_user,1,0,0,0
 access_hr_employee_level_base,hr.employee.level.base,model_hr_employee_level,group_pinya_user,1,0,0,0
-access_hr_employee_family_base,hr.employee.family.base,model_hr_employee_family,group_pinya_user,1,0,0,0
 access_pinya_muixeranga_base,pinya.muixeranga.base,model_pinya_muixeranga,group_pinya_user,1,0,0,0
 access_pinya_muixeranga_pinya_base,pinya.muixeranga.pinya.base,model_pinya_muixeranga_pinya,group_pinya_user,1,0,0,0
 access_pinya_muixeranga_tronc_base,pinya.muixeranga.tronc.base,model_pinya_muixeranga_tronc,group_pinya_user,1,0,0,0

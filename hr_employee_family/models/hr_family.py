@@ -183,4 +183,3 @@ class HrEmployeeFamily(models.Model):
                 new_res = is_inverse.write(new_vals)
         return res
 
-

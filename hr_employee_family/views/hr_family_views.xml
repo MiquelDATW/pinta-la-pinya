@@ -19,7 +19,7 @@
                             </group>
                             <group name="birth_age" string="Edat">
                                 <field name="birthday"/>
-                                <field name="edat"/>
+                                <field name="age"/>
                             </group>
                         </group>
                         <group name="familia" string="Família">
@@ -69,20 +69,5 @@
                 </tree>
             </field>
         </record>
-
-        <!--
-        <record id="hr_employee_family_tree" model="ir.ui.view">
-            <field name="name">hr.employee.family.tree</field>
-            <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr.hr_employee_membre_tree"/>
-            <field name="arch" type="xml"/>
-        </record>
-
-        <record id="hr_employee_family_search" model="ir.ui.view">
-            <field name="name">hr.employee.family.search</field>
-            <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr.hr_employee_membre_search"/>
-            <field name="arch" type="xml"/>
-        </record>-->
     </data>
 </odoo>
