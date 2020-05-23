@@ -50,16 +50,6 @@ class HrEmployee(models.Model):
     count_total = fields.Integer(string="Figures total", compute="_compute_count_total", store=True)
     count_sismesos = fields.Integer(string="Figures 6 mesos", compute="_compute_count_sismesos", store=True)
 
-    count_teams = fields.Integer(string="Equips total", compute="_compute_count_teams", store=True)
-    teams = fields.Char(string="Teams", compute='_compute_teams', store=True)
-
-    @api.depends('team_ids')
-    def _compute_teams(self):
-        teams = self.filtered(lambda x: bool(x.team_ids))
-        for team in teams:
-            names = team.team_ids.sorted('name').mapped('name')
-            team.teams = ", ".join(names)
-
     @api.multi
     @api.depends('team_ids', 'team_ids.at_actual', 'team_ids.jd_actual')
     def _compute_at_jd(self):
@@ -86,14 +76,6 @@ class HrEmployee(models.Model):
         for muixeranguer in muixeranguers:
             troncs = muixeranguer.muixeranga_tronc_ids
             muixeranguer.count_tronc = len(troncs.ids)
-
-    @api.multi
-    @api.depends('team_ids')
-    def _compute_count_teams(self):
-        muixeranguers = self.filtered(lambda x: bool(x.team_ids))
-        for muixeranguer in muixeranguers:
-            teams = muixeranguer.team_ids
-            muixeranguer.count_teams = len(teams.ids)
 
     @api.multi
     @api.depends('employee_skill_ids', 'employee_skill_ids.count_total')
@@ -181,15 +163,6 @@ class HrEmployee(models.Model):
         name = "Pinya de {}".format(self.name)
         model = "pinya.muixeranga.pinya"
         domain = [('id', 'in', self.muixeranga_pinya_ids.ids)]
-        action = _get_action(view_tree_id, view_form_id, name, model, domain)
-        return action
-
-    def pinya_teams(self):
-        view_tree_id = self.env.ref('hr_team.view_hr_team_tree').id
-        view_form_id = self.env.ref('hr_team.view_hr_team_form').id
-        name = "Equips de {}".format(self.name)
-        model = "hr.team"
-        domain = [('id', 'in', self.team_ids.ids)]
         action = _get_action(view_tree_id, view_form_id, name, model, domain)
         return action
 

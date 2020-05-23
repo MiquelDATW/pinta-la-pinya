@@ -26,20 +26,21 @@
                             </h1>
                         </div>
                         <group>
-                            <group name="info" string="Info">
+                            <group name="info" string="Team Info">
                                 <field name="manager_id"
                                        options="{'no_create_edit': True}"
-                                       domain="[('id','in',member_ids)]"/>
+                                       domain="[('id','in',team_member_ids)]"/>
                                 <field name="date_from"/>
                                 <field name="date_to"/>
                             </group>
                             <group name="notes" string="Other information">
-                                <field name="department_id"/>
+                                <field name="department_id" string="Manager dept."/>
+                                <field name="team_department_ids" widget="many2many_tags"/>
                                 <field name="notes" placeholder="Other information..."/>
                             </group>
                         </group>
                         <group name="members" string="Members">
-                            <field name="member_ids" nolabel="1"/>
+                            <field name="team_member_ids" nolabel="1"/>
                         </group>
                     </sheet>
                 </form>
@@ -55,6 +56,7 @@
                     <field name="date_from"/>
                     <field name="date_to"/>
                     <field name="manager_id"/>
+                    <field name="team_department_ids" widget="many2many_tags"/>
                     <field name="member_count"/>
                 </tree>
             </field>
@@ -67,11 +69,17 @@
                 <search string="Team">
                     <field name="name"/>
                     <field name="manager_id"/>
-                    <field name="member_ids"/>
+                    <field name="team_member_ids"/>
                     <field name="department_id"/>
+                    <field name="team_department_ids"/>
                     <filter string="Archived" name="active" domain="[('active', '=', False)]"/>
                     <group expand="0" string="Group By">
                         <filter name="group_manager" string="Manager" domain="[]" context="{'group_by':'manager_id'}"/>
+                        <filter name="group_department" string="Department" domain="[]" context="{'group_by':'department_id'}"/>
+                        <filter name="group_date_from_month" string="Start Month" domain="[]" context="{'group_by':'date_from:month'}"/>
+                        <filter name="group_date_from_year" string="Start Year" domain="[]" context="{'group_by':'date_from:year'}"/>
+                        <filter name="group_date_to_month" string="End Month" domain="[]" context="{'group_by':'date_to:month'}"/>
+                        <filter name="group_date_to_year" string="End Year" domain="[]" context="{'group_by':'date_to:year'}"/>
                     </group>
                 </search>
             </field>

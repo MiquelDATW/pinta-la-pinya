@@ -8,26 +8,14 @@
         <record id="view_hr_team_form" model="ir.ui.view">
             <field name="name">hr.team.form</field>
             <field name="model">hr.team</field>
-            <field name="inherit_id" ref="hr_team.view_hr_team_form"/>
+            <field name="inherit_id" ref="mm_hr_team.view_hr_team_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='date_to']" position="after">
                     <field name="at_actual"/>
                     <field name="jd_actual"/>
                 </xpath>
-                <xpath expr="//field[@name='member_ids']" position="replace">
-                    <field name="member_ids" nolabel="1"
-                           domain="[('muixeranguera', '=', True)]">
-                        <tree editable="bottom">
-                            <field name="name"/>
-                            <field name="birthday"/>
-                            <field name="age"/>
-                            <field name="data_inscripcio"/>
-                            <field name="anys_inscrit"/>
-                            <field name="membre_at"/>
-                            <field name="membre_jd"/>
-                            <field name="teams"/>
-                        </tree>
-                    </field>
+                <xpath expr="//field[@name='team_member_ids']" position="attributes">
+                    <attribute name="domain">[('muixeranguera', '=', True)]</attribute>
                 </xpath>
             </field>
         </record>
@@ -35,7 +23,7 @@
         <record id="view_hr_team_tree" model="ir.ui.view">
             <field name="name">hr.team.tree</field>
             <field name="model">hr.team</field>
-            <field name="inherit_id" ref="hr_team.view_hr_team_tree"/>
+            <field name="inherit_id" ref="mm_hr_team.view_hr_team_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='date_to']" position="after">
                     <field name="at_actual"/>
@@ -47,7 +35,7 @@
         <record id="view_hr_team_search" model="ir.ui.view">
             <field name="name">hr.team.search</field>
             <field name="model">hr.team</field>
-            <field name="inherit_id" ref="hr_team.view_hr_team_search"/>
+            <field name="inherit_id" ref="mm_hr_team.view_hr_team_search"/>
             <field name="arch" type="xml">
                 <xpath expr="//filter[@name='active']" position="before">
                     <filter string="AT actual" name="at_actual" domain="[('at_actual', '=', True)]"/>

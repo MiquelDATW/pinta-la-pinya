@@ -12,7 +12,7 @@ Installation
 * contacts
 * event
 * hr_skill
-* hr_team
+* mm_hr_team
 * mm_hr_nutrition
 * pinya_complements
 

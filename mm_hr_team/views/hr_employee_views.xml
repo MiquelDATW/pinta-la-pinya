@@ -16,6 +16,13 @@
                                widget="many2many_tags"/>
                     </group>
                 </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" type="object"
+                            name="pinya_teams" icon="fas fa-sitemap"
+                            attrs="{'invisible': [('count_teams', '=', 0)]}">
+                        <field string="Equips" name="count_teams" widget="statinfo"/>
+                    </button>
+                </xpath>
             </field>
         </record>
 
@@ -29,6 +36,16 @@
                 </xpath>
             </field>
         </record>
-    </data>
 
+        <record id="view_employee_hr_team_search" model="ir.ui.view">
+            <field name="name">hr.employee.hr.team.search</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="team_ids"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
 </odoo>
