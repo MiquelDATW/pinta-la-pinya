@@ -94,10 +94,7 @@ class HrEmployeeAnthropometry(models.Model):
                 res = res and res_n
         return res
 
-    @api.model
-    def create(self, vals):
-        height = vals.get("height", False)
-        weight = vals.get("weight", False)
+    def _check_weight_height(self, height, weight):
         height = (height > 0) if height else False
         weight = (weight > 0.0) if weight else False
         if not height or not weight:
@@ -107,6 +104,12 @@ class HrEmployeeAnthropometry(models.Model):
             elif not height and weight:
                 error = "Height"
             raise ValidationError("{} must be positive and not zero❗".format(error))
+
+    @api.model
+    def create(self, vals):
+        height = vals.get("height", False)
+        weight = vals.get("weight", False)
+        self._check_weight_height(height, weight)
 
         emp = vals.get('employee_id', False)
         data = vals.get('data', False)
@@ -123,6 +126,11 @@ class HrEmployeeAnthropometry(models.Model):
 
     @api.multi
     def write(self, vals):
+        height = vals.get("height") if "height" in vals else self.height
+        weight = vals.get("weight") if "weight" in vals else self.weight
+        if "height" in vals or "weight" in vals:
+            self._check_weight_height(height, weight)
+
         emp = vals.get('employee_id', False) or self.employee_id.id
         data = vals.get('data', False) or self.data
         if emp and data:
