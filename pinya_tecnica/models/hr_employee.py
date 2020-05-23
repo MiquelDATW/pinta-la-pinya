@@ -28,14 +28,12 @@ class HrEmployee(models.Model):
     membre_at = fields.Boolean(string="Membre AT", compute='_compute_at_jd', store=True, help="Membre Àrea Tècnica")
     membre_jd = fields.Boolean(string="Membre JD", compute='_compute_at_jd', store=True, help="Membre Junta Directiva")
     muixeranguera = fields.Boolean(string="Muixeranguera", default=True)
-    xicalla = fields.Boolean(string="Xicalla", default=False, readonly=True)
+    xicalla = fields.Boolean(string="Xicalla", compute="_compute_xicalla", store=True)
     data_inscripcio = fields.Date(string="Data inscripció")
     anys_inscrit = fields.Integer(string="Anys inscrit", readonly=True)
     nom_croquis = fields.Char(string="Nom del croquis", help="Nom que apareix en els croquis")
     nom_altres = fields.Char(string="Altres noms", help="Altres noms pels que es coneix la persona")
     posicions = fields.Char(string="Posicions", help="Posicions de la muixeranguera", compute='_compute_posicions', store=True)
-
-    edat = fields.Integer(string='Edat', readonly=True)
 
     alsada_muscle = fields.Integer("Alçada muscle", related="anthropometry_id.alsada_muscle", store=True)
     alsada_bras = fields.Integer("Alçada braços", related="anthropometry_id.alsada_bras", store=True)
@@ -144,14 +142,12 @@ class HrEmployee(models.Model):
             muixeranguer.anys_inscrit = anys
 
     @api.multi
-    def _compute_edat(self):
-        date_now = fields.Date.from_string(fields.Date.today())
-        muixeranguers = self.search([('muixeranguera', '=', True), ('birthday', '!=', False)])
+    @api.depends("age")
+    def _compute_xicalla(self):
+        muixeranguers = self.search([('muixeranguera', '=', True), ('edat', '<', 16)])
         for muixeranguer in muixeranguers:
-            from_dt = fields.Date.from_string(muixeranguer.birthday)
-            edat = relativedelta(date_now, from_dt).years
+            edat = muixeranguer.age
             muixeranguer.xicalla = edat < 16
-            muixeranguer.edat = edat
 
     @api.multi
     @api.constrains('birthday', 'data_inscripcio')
@@ -225,15 +221,6 @@ class HrEmployee(models.Model):
                 vals.update({'anys_inscrit': anys})
             else:
                 vals.update({'anys_inscrit': 0})
-        if 'birthday' in vals:
-            data = vals.get('birthday', False)
-            if data:
-                date_now = fields.Date.from_string(fields.Date.today())
-                from_dt = fields.Date.from_string(data)
-                anys = relativedelta(date_now, from_dt).years
-                vals.update({'edat': anys, 'xicalla': anys < 16})
-            else:
-                vals.update({'edat': 0})
         res = super(HrEmployee, self).create(vals)
         return res
 
@@ -256,15 +243,6 @@ class HrEmployee(models.Model):
                 vals.update({'anys_inscrit': anys})
             else:
                 vals.update({'anys_inscrit': 0})
-        if 'birthday' in vals:
-            data = vals.get('birthday', False)
-            if data:
-                date_now = fields.Date.from_string(fields.Date.today())
-                from_dt = fields.Date.from_string(data)
-                anys = relativedelta(date_now, from_dt).years
-                vals.update({'edat': anys, 'xicalla': anys < 16})
-            else:
-                vals.update({'edat': 0})
         res = super(HrEmployee, self).write(vals)
         return res
 

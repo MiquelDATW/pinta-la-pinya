@@ -20,7 +20,7 @@
                         <tree editable="bottom">
                             <field name="name"/>
                             <field name="birthday"/>
-                            <field name="edat"/>
+                            <field name="age"/>
                             <field name="data_inscripcio"/>
                             <field name="anys_inscrit"/>
                             <field name="membre_at"/>

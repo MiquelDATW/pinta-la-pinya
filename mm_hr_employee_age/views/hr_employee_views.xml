@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="view_employee_age_form" model="ir.ui.view">
+            <field name="name">hr.employee.age.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='birthday']" position="after">
+                    <field name="age"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_employee_age_tree" model="ir.ui.view">
+            <field name="name">hr.employee.age.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="age"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_employee_age_search" model="ir.ui.view">
+            <field name="name">hr.employee.age.search</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="age"/>
+                </xpath>
+                <xpath expr="//group" position="inside">
+                    <filter name="group_age" string="Age" domain="[]" context="{'group_by':'age'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

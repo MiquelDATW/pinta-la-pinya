@@ -18,6 +18,7 @@
         "hr_skill",
         "hr_team",
         "hr_nutrition",
+        "mm_hr_employee_age",
         "pinya_complements",
     ],
     "data": [

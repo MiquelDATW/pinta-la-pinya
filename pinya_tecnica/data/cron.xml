@@ -15,16 +15,6 @@
             <field name="state">code</field>
             <field name="code">model._compute_anys_inscrit()</field>
         </record>
-        <record id="ir_cron_code_compute_edat" model="ir.cron">
-            <field name="name">Calcula edat membres</field>
-            <field name="user_id" ref="base.user_root"/>
-            <field name="interval_number">1</field>
-            <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
-            <field name="model_id" ref="model_hr_employee"/>
-            <field name="state">code</field>
-            <field name="code">model._compute_edat()</field>
-        </record>
         <record id="ir_cron_code_compute_anys_colla" model="ir.cron">
             <field name="name">Calcula anys de la colla</field>
             <field name="user_id" ref="base.user_root"/>

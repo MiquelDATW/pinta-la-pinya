@@ -248,7 +248,7 @@
                     <field name="name"/>
                     <field name="posicions"/>
                     <field name="anys_inscrit"/>
-                    <field name="edat"/>
+                    <field name="age"/>
                     <field name="xicalla"/>
                     <field name="membre_at"/>
                     <field name="membre_jd"/>

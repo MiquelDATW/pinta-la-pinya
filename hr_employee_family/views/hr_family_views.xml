@@ -12,15 +12,6 @@
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='personal_information']" position="after">
                     <page name="familia" string="Informació personal">
-                        <group>
-                            <group name="status" string="Estat">
-                                <field name="gender"/>
-                                <field name="marital"/>
-                            </group>
-                            <group name="birth_age" string="Edat">
-                                <field name="birthday"/>
-                            </group>
-                        </group>
                         <group name="familia" string="Família">
                             <field name="family_ids" context="{'employee_id': id}" nolabel="1"/>
                         </group>
