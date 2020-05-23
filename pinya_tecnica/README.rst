@@ -13,7 +13,7 @@ Installation
 * event
 * hr_skill
 * hr_team
-* hr_nutrition
+* mm_hr_nutrition
 * pinya_complements
 
 Configuration

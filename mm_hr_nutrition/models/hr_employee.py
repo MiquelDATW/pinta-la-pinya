@@ -74,7 +74,7 @@ class HrEmployee(models.Model):
             emp.anthropometry_id = anthropometry[0].id
 
     def anthropometry_new(self):
-        view_form_id = self.env.ref('hr_nutrition.view_anthropometry_form').id
+        view_form_id = self.env.ref('mm_hr_nutrition.view_anthropometry_form').id
         name = "New Weight & Height"
         model = "hr.employee.anthropometry"
         ctx = self.env.context.copy()
@@ -96,8 +96,8 @@ class HrEmployee(models.Model):
         return action
 
     def anthropometry_history(self):
-        view_tree_id = self.env.ref('hr_nutrition.view_anthropometry_tree').id
-        view_form_id = self.env.ref('hr_nutrition.view_anthropometry_form').id
+        view_tree_id = self.env.ref('mm_hr_nutrition.view_anthropometry_tree').id
+        view_form_id = self.env.ref('mm_hr_nutrition.view_anthropometry_form').id
         name = "Weight & Height history of {}".format(self.name)
         model = "hr.employee.anthropometry"
         domain = [('id', 'in', self.anthropometry_ids.ids)]

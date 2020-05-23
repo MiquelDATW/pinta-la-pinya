@@ -144,7 +144,7 @@ class HrEmployee(models.Model):
     @api.multi
     @api.depends("age")
     def _compute_xicalla(self):
-        muixeranguers = self.search([('muixeranguera', '=', True), ('edat', '<', 16)])
+        muixeranguers = self.search([('muixeranguera', '=', True), ('age', '<', 16)])
         for muixeranguer in muixeranguers:
             edat = muixeranguer.age
             muixeranguer.xicalla = edat < 16

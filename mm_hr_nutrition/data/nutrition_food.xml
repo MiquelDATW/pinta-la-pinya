@@ -56,158 +56,158 @@
     <record id="nutrition_allergen_molluscs" model="nutrition.food">
         <field name="name">Molluscs</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_seafood')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_seafood')"/>
     </record>
     <record id="nutrition_allergen_lupin" model="nutrition.food">
         <field name="name">Lupin</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_legumes')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_legumes')"/>
     </record>
     <record id="nutrition_allergen_sulphites" model="nutrition.food">
         <field name="name">Sulphites</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_chemicals')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_chemicals')"/>
     </record>
     <record id="nutrition_allergen_sesame" model="nutrition.food">
         <field name="name">Sesame seeds</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_nuts')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_nuts')"/>
     </record>
     <record id="nutrition_allergen_mustard" model="nutrition.food">
         <field name="name">Mustard</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_nuts')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_nuts')"/>
     </record>
     <record id="nutrition_allergen_celery" model="nutrition.food">
         <field name="name">Celery</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_vegetables')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_vegetables')"/>
     </record>
     <record id="nutrition_allergen_nuts" model="nutrition.food">
         <field name="name">Nuts</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_nuts')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_nuts')"/>
     </record>
     <record id="nutrition_allergen_milk" model="nutrition.food">
         <field name="name">Milk</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_milk')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_milk')"/>
     </record>
     <record id="nutrition_allergen_soybeans" model="nutrition.food">
         <field name="name">Soybeans</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_legumes')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_legumes')"/>
     </record>
     <record id="nutrition_allergen_peanuts" model="nutrition.food">
         <field name="name">Peanuts</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_nuts')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_nuts')"/>
     </record>
     <record id="nutrition_allergen_fish" model="nutrition.food">
         <field name="name">Fish</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_fish')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_fish')"/>
     </record>
     <record id="nutrition_allergen_eggs" model="nutrition.food">
         <field name="name">Eggs</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_eggs')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_eggs')"/>
     </record>
     <record id="nutrition_allergen_crustaceans" model="nutrition.food">
         <field name="name">Crustaceans</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_seafood')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_seafood')"/>
     </record>
     <record id="nutrition_allergen_gluten" model="nutrition.food">
         <field name="name">Gluten</field>
         <field name="allergen">True</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_cereals')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_cereals')"/>
     </record>
 
     <!-- Foods -->
     <record id="nutrition_food_sheep" model="nutrition.food">
         <field name="name">Sheep</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_meat')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_meat')"/>
     </record>
     <record id="nutrition_food_goat" model="nutrition.food">
         <field name="name">Goat</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_meat')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_meat')"/>
     </record>
     <record id="nutrition_food_cattle" model="nutrition.food">
         <field name="name">Cattle</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_meat')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_meat')"/>
     </record>
     <record id="nutrition_food_pork" model="nutrition.food">
         <field name="name">Pork</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_meat')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_meat')"/>
     </record>
     <record id="nutrition_food_rabbit" model="nutrition.food">
         <field name="name">Rabbit</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_meat')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_meat')"/>
     </record>
     <record id="nutrition_food_chicken" model="nutrition.food">
         <field name="name">Chicken</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_poultry')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_poultry')"/>
     </record>
     <record id="nutrition_food_turkey" model="nutrition.food">
         <field name="name">Turkey</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_poultry')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_poultry')"/>
     </record>
     <record id="nutrition_food_duck" model="nutrition.food">
         <field name="name">Duck</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_poultry')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_poultry')"/>
     </record>
     <record id="nutrition_allergen_cheese" model="nutrition.food">
         <field name="name">Cheese</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_milk')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_milk')"/>
     </record>
     <record id="nutrition_allergen_yoghurt" model="nutrition.food">
         <field name="name">Yoghurt</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_milk')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_milk')"/>
     </record>
     <record id="nutrition_food_fungi" model="nutrition.food">
         <field name="name">Fungi</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_fungi')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_fungi')"/>
     </record>
     <record id="nutrition_food_bread" model="nutrition.food">
         <field name="name">Bread</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_cereals')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_cereals')"/>
     </record>
     <record id="nutrition_food_pasta" model="nutrition.food">
         <field name="name">Pasta</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_cereals')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_cereals')"/>
     </record>
     <record id="nutrition_food_rice" model="nutrition.food">
         <field name="name">Rice</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_cereals')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_cereals')"/>
     </record>
     <record id="nutrition_food_beer" model="nutrition.food">
         <field name="name">Beer</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_alcohol')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_alcohol')"/>
     </record>
     <record id="nutrition_food_wine" model="nutrition.food">
         <field name="name">Wine</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_alcohol')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_alcohol')"/>
     </record>
     <record id="nutrition_food_spirits" model="nutrition.food">
         <field name="name">Distilled spirit</field>
         <field name="allergen">False</field>
-        <field name="category_id" eval="ref('hr_nutrition.nutrition_category_alcohol')"/>
+        <field name="category_id" eval="ref('mm_hr_nutrition.nutrition_category_alcohol')"/>
     </record>
  </odoo>
