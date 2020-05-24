@@ -5,7 +5,7 @@
 {
     "name": "Pinya Random",
     "summary": "Crea muixeranguers aleatoris per fer probes",
-    "version": "11.0.1.0.1",
+    "version": "11.0.1.0.2",
     "category": "Custom",
     "website": "http://www.enfaixat.cat/",
     "author": "Miquel March",
@@ -14,6 +14,7 @@
     'application': False,
     "depends": [
         "pinya_tecnica",
+        "mm_hr_nutrition",
     ],
     "data": [
     ],
