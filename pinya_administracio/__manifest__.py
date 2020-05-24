@@ -17,7 +17,7 @@
         "association",
         "membership_extension",
         "membership_withdrawal",
-        "hr_employee_family",
+        "mm_hr_employee_family",
         "pinya_tecnica",
     ],
     "data": [
