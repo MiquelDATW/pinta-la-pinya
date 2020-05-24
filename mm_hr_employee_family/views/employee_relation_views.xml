@@ -4,33 +4,47 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 -->
 <odoo>
-
-    <record id="hr_employee_relation_view_form" model="ir.ui.view">
-        <field name="name">hr.employee.relation.view.form</field>
-        <field name="model">hr.employee.relation</field>
-        <field name="arch" type="xml">
-            <form string="Employee Relation">
-                <group>
+    <data>
+        <record id="hr_employee_relation_view_form" model="ir.ui.view">
+            <field name="name">hr.employee.relation.view.form</field>
+            <field name="model">hr.employee.relation</field>
+            <field name="arch" type="xml">
+                <form string="Employee Relation">
                     <group>
-                        <field name="name"/>
-                        <field name="kinship_degree"/>
-                        <field name="inverse_relation_id"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="kinship_degree"/>
+                            <field name="inverse_relation_id"/>
+                        </group>
                     </group>
-                </group>
-            </form>
-        </field>
-    </record>
+                </form>
+            </field>
+        </record>
 
-    <record id="hr_employee_relation_view_tree" model="ir.ui.view">
-        <field name="name">hr.employee.relation.view.tree</field>
-        <field name="model">hr.employee.relation</field>
-        <field name="arch" type="xml">
-            <tree string="Employee Relation">
-                <field name="name"/>
-                <field name="kinship_degree"/>
-                <field name="inverse_relation_id"/>
-            </tree>
-        </field>
-    </record>
+        <record id="hr_employee_relation_view_tree" model="ir.ui.view">
+            <field name="name">hr.employee.relation.view.tree</field>
+            <field name="model">hr.employee.relation</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Relation">
+                    <field name="name"/>
+                    <field name="kinship_degree"/>
+                    <field name="inverse_relation_id"/>
+                </tree>
+            </field>
+        </record>
 
+        <record id="hr_employee_relation_view_search" model="ir.ui.view">
+            <field name="name">hr.employee.relation.view.search</field>
+            <field name="model">hr.employee.relation</field>
+            <field name="arch" type="xml">
+                <search string="Employee Relation">
+                    <field name="name"/>
+                    <field name="kinship_degree"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Degree of kinship" name="group_kinship_degree" domain="[]" context="{'group_by':'kinship_degree'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+    </data>
 </odoo>

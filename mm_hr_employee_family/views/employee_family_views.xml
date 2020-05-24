@@ -12,9 +12,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='personal_information']" position="after">
                     <page name="family" string="Family information">
-                        <group name="family" string="Family">
-                            <field name="family_ids" context="{'default_employee_id': id}" nolabel="1"/>
-                        </group>
+                        <field name="family_ids" context="{'default_employee_id': id}" nolabel="1"/>
                     </page>
                 </xpath>
             </field>
@@ -70,7 +68,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="name" invisible="1"/>
-                    <field name="employee_id" invisible="1"/>
+                    <field name="employee_id"/>
                     <field name="relation_id"/>
                     <field name="family_name"/>
                     <field name="family_id" invisible="1"/>
@@ -81,6 +79,28 @@
                     <field name="family_job"/>
                     <field name="family_phone_number"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_employee_family_search" model="ir.ui.view">
+            <field name="name">hr.employee.family.search</field>
+            <field name="model">hr.employee.family</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="employee_id"/>
+                    <field name="relation_id"/>
+                    <field name="family_name"/>
+                    <field name="family_country_id"/>
+                    <field name="family_gender"/>
+                    <field name="family_marital"/>
+                    <field name="family_job"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Employee" name="group_employee" domain="[]" context="{'group_by':'employee_id'}"/>
+                        <filter string="Relation" name="group_relation" domain="[]" context="{'group_by':'relation_id'}"/>
+                        <filter string="Family" name="group_family" domain="[]" context="{'group_by':'family_name'}"/>
+                    </group>
+                </search>
             </field>
         </record>
     </data>
