@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# Copyright (C) 2018 Brainbean Apps (https://brainbeanapps.com)
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data noupdate="1">
+        <!-- hr.employee.relation -->
+        <record model="hr.employee.relation" id="relation_significant_other">
+          <field name="name">Significant Other</field>
+          <field name="kinship_degree">1</field>
+        </record>
+        <record model="hr.employee.relation" id="relation_parent">
+          <field name="name">Parent</field>
+          <field name="kinship_degree">1</field>
+        </record>
+        <record model="hr.employee.relation" id="relation_child">
+          <field name="name">Child</field>
+          <field name="kinship_degree">1</field>
+        </record>
+        <record model="hr.employee.relation" id="relation_sibling">
+          <field name="name">Sibling</field>
+          <field name="kinship_degree">2</field>
+        </record>
+        <record model="hr.employee.relation" id="relation_grandparent">
+          <field name="name">Grandparent</field>
+          <field name="kinship_degree">2</field>
+        </record>
+        <record model="hr.employee.relation" id="relation_grandchild">
+          <field name="name">Grandchild</field>
+          <field name="kinship_degree">2</field>
+        </record>
+        <record model="hr.employee.relation" id="relation_uncle_aunt">
+          <field name="name">Uncle/Aunt</field>
+          <field name="kinship_degree">3</field>
+        </record>
+        <record model="hr.employee.relation" id="relation_nephew_niece">
+          <field name="name">Nephew/Niece</field>
+          <field name="kinship_degree">3</field>
+        </record>
+        <record model="hr.employee.relation" id="relation_cousin">
+          <field name="name">Cousin</field>
+          <field name="kinship_degree">4</field>
+        </record>
+        <record model="hr.employee.relation" id="relation_cousin_2nd">
+          <field name="name">Cousin (2nd)</field>
+          <field name="kinship_degree">6</field>
+        </record>
+
+    </data>
+</odoo>

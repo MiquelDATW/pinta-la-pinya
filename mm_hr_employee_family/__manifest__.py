@@ -16,7 +16,10 @@
         "hr",
     ],
     'data': [
-        "views/hr_family_views.xml",
+        "data/data_relation.xml",
+        "views/employee_family_views.xml",
+        "views/employee_relation_views.xml",
         "security/ir.model.access.csv",
     ],
+    "post_init_hook": "post_init_hook",
 }
