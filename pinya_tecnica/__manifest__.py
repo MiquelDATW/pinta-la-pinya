@@ -37,6 +37,7 @@
         "views/pinya_plantilla_view.xml",
         "views/pinya_temporada_view.xml",
         "views/res_partner_view.xml",
+        "wizard/create_partner_employee_wizard_view.xml",
         "wizard/import_pinya_wizard_view.xml",
         "wizard/import_muixeranga_wizard_view.xml",
         "views/menus_views.xml",

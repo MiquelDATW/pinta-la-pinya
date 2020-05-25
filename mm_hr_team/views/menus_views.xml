@@ -25,10 +25,22 @@
         </record>
 
         <menuitem
+            id="hr.menu_open_view_employee_list_my"
+            parent="hr.menu_hr_root"
+            name="Employees"
+            sequence="3"/>
+
+        <menuitem
+            id="menu_hr_employee_list"
+            action="hr.open_view_employee_list_my"
+            parent="hr.menu_open_view_employee_list_my"
+            sequence="10"/>
+
+        <menuitem
             id="menu_hr_team"
             action="action_hr_team_teams"
-            parent="hr.menu_hr_root"
-            sequence="10"/>
+            parent="hr.menu_open_view_employee_list_my"
+            sequence="20"/>
 
     </data>
 </odoo>

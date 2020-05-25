@@ -219,6 +219,14 @@ class HrEmployee(models.Model):
         res = super(HrEmployee, self).write(vals)
         return res
 
+    @api.multi
+    def toggle_active(self):
+        res = super(HrEmployee, self).toggle_active()
+        employee = self.env.context.get('toggle_active_employee', False)
+        if self.address_home_id and employee:
+            self.address_home_id.toggle_active()
+        return res
+
 
 class HrEmployeeActuacio(models.Model):
     _name = 'hr.employee.actuacio'

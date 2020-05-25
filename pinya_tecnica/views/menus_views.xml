@@ -363,5 +363,28 @@
             parent="menu_pinya_tecnica_anterior"
             groups="group_pinya_manager"
             sequence="45"/>
+
+        <record id="action_wizard_create_partner_employee" model="ir.actions.act_window">
+            <field name="name">Crear Membre</field>
+            <field name="res_model">partner.employee.create.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="target">new</field>
+            <field name="view_id" eval="partner_employee_create_wizard_form_view"/>
+        </record>
+
+        <menuitem
+            id="menu_wizard_create_partner"
+            action="action_wizard_create_partner_employee"
+            parent="contacts.res_partner_menu_contacts"
+            sequence="101"/>
+
+        <menuitem
+            id="menu_wizard_create_employee"
+            action="action_wizard_create_partner_employee"
+            parent="hr.menu_open_view_employee_list_my"
+            sequence="30"/>
     </data>
 </odoo>

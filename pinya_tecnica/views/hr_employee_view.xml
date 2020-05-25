@@ -11,6 +11,9 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//button[@name='toggle_active']" position="attributes">
+                    <attribute name="context">{'toggle_active_employee': True}</attribute>
+                </xpath>
                 <xpath expr="//field[@name='category_ids']" position="after">
                     <field name="muixeranguera" invisible="1"/>
                     <group name="notes" string="Altra informació">
@@ -75,6 +78,7 @@
                                     name="anthropometry_history" icon="fas fa-balance-scale"
                                     string="Weight &amp; Height history"/>
                             <button name="toggle_active" type="object" groups="hr.group_hr_user"
+                                    context="{'toggle_active_employee': True}"
                                     class="oe_stat_button" icon="fa-archive">
                                 <field name="active" widget="boolean_button"
                                     options='{"terminology": "archive"}'/>

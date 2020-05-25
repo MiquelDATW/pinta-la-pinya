@@ -12,6 +12,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     muixeranguera = fields.Boolean(string="Muixeranguera")
+    membre_id = fields.Many2one('hr.employee', string="Membre", domain=[('muixeranguera', '=', True)])
     colla = fields.Boolean(string="Colla muixeranguera")
     colla_id = fields.Many2one(
         comodel_name='res.partner',
@@ -201,3 +202,10 @@ class ResPartner(models.Model):
         res = super(ResPartner, self).write(vals)
         return res
 
+    @api.multi
+    def toggle_active(self):
+        res = super(ResPartner, self).toggle_active()
+        partner = self.env.context.get('toggle_active_partner', False)
+        if self.membre_id and partner:
+            self.membre_id.toggle_active()
+        return res
