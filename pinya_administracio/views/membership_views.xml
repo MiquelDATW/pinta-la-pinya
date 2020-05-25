@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="view_res_partner_member_kanban" model="ir.ui.view">
+            <field name="name">res.partner.member.kanban</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <kanban class="o_res_partner_kanban">
+                    <field name="id"/>
+                    <field name="color"/>
+                    <field name="display_name"/>
+                    <field name="parent_id"/>
+                    <field name="is_company"/>
+                    <field name="category_id"/>
+                    <field name="image_small"/>
+                    <field name="type"/>
+                    <field name="membership_state"/>
+                    <field name="membership_category_ids"/>
+                    <field name="membership_start"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_res_partner_kanban">
+                                <div class="o_kanban_image">
+                                    <t t-if="record.image_small.raw_value">
+                                        <img t-att-src="kanban_image('res.partner', 'image_small', record.id.raw_value)"/>
+                                    </t>
+                                    <t t-if="!record.image_small.raw_value">
+                                        <t t-if="record.is_company.raw_value === true">
+                                            <img t-att-src='_s + "/base/static/src/img/company_image.png"'/>
+                                        </t>
+                                        <t t-if="record.is_company.raw_value === false">
+                                            <img t-att-src='_s + "/base/static/src/img/avatar.png"'/>
+                                        </t>
+                                    </t>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title oe_partner_heading">
+                                        <field name="display_name"/>
+                                    </strong>
+                                    <ul>
+                                        <li t-if="record.membership_start.raw_value">
+                                            <field name="membership_start"/>
+                                        </li>
+                                        <li t-if="record.membership_state.raw_value">
+                                            <field name="membership_state"/>
+                                        </li>
+                                        <li t-if="record.membership_category_ids.raw_value">
+                                            <field name="membership_category_ids"/>
+                                        </li>
+                                    </ul>
+                                    <div class="oe_kanban_partner_links"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_res_partner_member_search" model="ir.ui.view">
+            <field name="name">res.partner.member.search</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="membership.view_res_partner_member_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='customer']" position="replace"/>
+                <xpath expr="//filter[@name='supplier']" position="replace"/>
+                <xpath expr="//field[@name='membership_stop']" position="after">
+                    <field name="membership_state"/>
+                    <field name="membership_category_ids"/>
+                </xpath>
+                <xpath expr="//filter[@name='all_members']" position="after">
+                    <separator/>
+                    <filter string="No soci" domain="[('membership_state', '=', 'none')]" name="none"/>
+                    <filter string="Cancel·lat" domain="[('membership_state', '=', 'canceled')]" name="canceled"/>
+                    <filter string="Antic" domain="[('membership_state', '=', 'old')]" name="old"/>
+                    <filter string="En espera" domain="[('membership_state', '=', 'waiting')]" name="waiting"/>
+                    <filter string="Facturat" domain="[('membership_state', '=', 'invoiced')]" name="invoiced"/>
+                    <filter string="Pagat" domain="[('membership_state', '=', 'paid')]" name="paid"/>
+                    <filter string="Gratis" domain="[('membership_state', '=', 'free')]" name="free"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="membership.action_membership_members">
+            <field name="domain">['&amp;', ('muixeranguera', '=', True), ('colla_id', '=', 1)]</field>
+            <field name="context">{}</field>
+        </record>
+
+         <record model="ir.actions.act_window.view" id="membership.action_membership_members_view_kanban">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="view_res_partner_member_kanban"/>
+            <field name="act_window_id" ref="membership.action_membership_members"/>
+        </record>
+    </data>
+</odoo>

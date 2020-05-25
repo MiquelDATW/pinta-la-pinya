@@ -22,6 +22,7 @@
     ],
     "data": [
         "views/hr_employee_view.xml",
+        "views/membership_views.xml",
         "data/membership_category_data.xml",
         "data/product_template_data.xml",
     ],
