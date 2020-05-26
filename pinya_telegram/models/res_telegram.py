@@ -9,6 +9,16 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+ASSAIG_DEFAULT = "Bon dia colla,\n" \
+                 "Vos convoquem a l'assaig del {dia} {data}, " \
+                 "en el lloc i hora habituals; {xicalla} xicalla, " \
+                 "{general} general.\n" \
+                 "Fins {dia}, colla!"
+
+ACTUACIO_DEFAULT = "Bon dia colla,\n" \
+                   "Vos convoquem a l'actuació {actuacio} del {dia} {data}.\n" \
+                   "Salut i muixerangues!"
+
 
 def _get_wizard(view_form_id, name, model, ctx):
     action = {
@@ -28,8 +38,8 @@ class ResCompany(models.Model):
 
     bot_token = fields.Char(string='Bot id', required=True)
 
-    msg_assaig = fields.Text(string="Missatge assaig")
-    msg_actuac = fields.Text(string="Missatge actuació")
+    msg_assaig = fields.Text(string="Missatge assaig", default=ASSAIG_DEFAULT)
+    msg_actuac = fields.Text(string="Missatge actuació", default=ACTUACIO_DEFAULT)
 
 
 class ResPartner(models.Model):

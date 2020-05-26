@@ -49,6 +49,10 @@ class TelegramWizard(models.TransientModel):
                 h_general = fields.Datetime.from_string(self._utc_to_tz(str(general))).strftime("%H:%M")
                 msg_text = msg_text.replace("{general}", h_general)
 
+            if convocar == 'actuacio':
+                actuacio = pinya.name
+                msg_text = msg_text.replace("{actuacio}", actuacio)
+
             data = fields.Datetime.from_string(pinya.data_inici)
             if bool(data):
                 d_data = data.strftime("%d/%m/%Y")
