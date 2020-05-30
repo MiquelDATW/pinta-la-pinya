@@ -131,14 +131,16 @@ class PinyaActuacio(models.Model):
                 dies_fins_assaig = relativedelta(days=(dies_que_falten)) if dies_que_falten > 0 else relativedelta(days=(dies_que_falten+7))
                 dia_assaig = (today + dies_fins_assaig).date()
                 inici = dia_assaig + relativedelta(hours=int(hora_inici), minutes=int((hora_inici - int(hora_inici))*60))
-                final = dia_assaig + relativedelta(hours=int(hora_final), minutes=int((hora_final - int(hora_final))*60))
-                xicalla = dia_assaig + relativedelta(hours=int(hora_xicalla), minutes=int((hora_xicalla - int(hora_xicalla))*60))
-                general = dia_assaig + relativedelta(hours=int(hora_general), minutes=int((hora_general - int(hora_general))*60))
-
                 res['data_inici'] = self._tz_to_utc(str(inici))
+                final = dia_assaig + relativedelta(hours=int(hora_final), minutes=int((hora_final - int(hora_final))*60))
                 res['data_final'] = self._tz_to_utc(str(final))
-                res['data_xicalla'] = self._tz_to_utc(str(xicalla))
-                res['data_general'] = self._tz_to_utc(str(general))
+                if bool(hora_xicalla):
+                    xicalla = dia_assaig + relativedelta(hours=int(hora_xicalla), minutes=int((hora_xicalla - int(hora_xicalla))*60))
+                    res['data_xicalla'] = self._tz_to_utc(str(xicalla))
+                if bool(hora_general):
+                    general = dia_assaig + relativedelta(hours=int(hora_general), minutes=int((hora_general - int(hora_general))*60))
+                    res['data_general'] = self._tz_to_utc(str(general))
+
                 res['name'] = tipus.capitalize()
                 res['zip_id'] = partner.zip_id.id
         return res

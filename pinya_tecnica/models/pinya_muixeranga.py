@@ -70,7 +70,8 @@ class PinyaMuixeranga(models.Model):
         ('50', 'Meitat'),
         ('75', 'Probar alguna posició'),
         ('100', 'Millor alineació')
-    ], string='Alineació', required=True, default='75')
+    ], string='Alineació', required=True, default='75',
+    help="Permet incloure persones noves amb menys experiència en les figures")
 
     state = fields.Selection([
         ('cancel', 'Cancel·lat'),

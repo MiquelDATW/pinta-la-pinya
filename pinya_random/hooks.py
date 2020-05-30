@@ -22,8 +22,9 @@ def post_init_hook(cr, registry):
         anthropometry = env['hr.employee.anthropometry']
 
         sequence = [i for i in range(len(skills))]
+        total = 80
 
-        for i in range(80):
+        for i in range(total):
             name = ''.join([random.choice(string.ascii_lowercase) for n in range(12)]).capitalize()
             als = random.randint(145, 201)
             pes = random.randint(45, 110)
@@ -56,6 +57,7 @@ def post_init_hook(cr, registry):
                 }
                 aux += emp_skill.create(data)
 
+            _logger.info("Creant {}, {} de {}...".format(muixo.name, str(i), str(total)))
 
 
 

@@ -17,7 +17,7 @@ class PinyaImportWizard(models.TransientModel):
 
     file_type = fields.Selection(
         selection=[
-            ('csv', 'Archivo CSV'),
+            ('csv', 'Arxiu CSV'),
         ],
         default="csv",
         required=True,

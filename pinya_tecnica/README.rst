@@ -19,7 +19,7 @@ Installation
 Configuration
 =============
 
-Cap
+Una vegada instalat el mòdul només cal donar permisos als usuaris de l'àrea tècnica.
 
 Usage
 =======
