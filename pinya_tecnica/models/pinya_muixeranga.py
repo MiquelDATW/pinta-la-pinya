@@ -182,12 +182,12 @@ class PinyaMuixeranga(models.Model):
                 people = tronc.search([('muixeranga_tronc_id', '!=', tronc.muixeranga_tronc_id.id),
                                        ('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_tronc_id')
                 all_time = tronc.search([('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_tronc_id')
-                alsada_best = round(statistics.mean(all_time.mapped('alsada_muscle')))
+                alsada_best = round(statistics.mean(all_time.mapped('alsada_muscle'))) if bool(all_time) else False
             elif tipus == "pinya":
                 people = pinya.search([('muixeranga_pinya_id', '!=', pinya.muixeranga_pinya_id.id),
                                        ('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_pinya_id')
                 all_time = pinya.search([('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_pinya_id')
-                alsada_best = max(all_time.mapped('alsada_bras'))
+                alsada_best = max(all_time.mapped('alsada_bras')) if bool(all_time) else False
             else:
                 alsada_best = people = False
 
@@ -221,22 +221,28 @@ class PinyaMuixeranga(models.Model):
 
         muixe_readies = readies.mapped('tronc_line_ids.employee_actuacio_id.employee_id')
         troncs = self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id).sorted('tecnica', reverse=True)
+        i = 0
         for tronc in troncs:
+            i += 1
             membre = _calcular_membre("tronc", tronc, ocupats)
             if membre and membre.employee_id:
                 tronc.membre_tronc_level_id = membre.id
                 ocupats.append(membre.employee_id.id)
+                _logger.info("Calculant tronc {} de {}...".format(str(i), len(troncs)))
 
         muixe_readies = readies.mapped('pinya_line_ids.employee_actuacio_id.employee_id')
         pinyes = self.pinya_line_ids.filtered(lambda x: not x.membre_pinya_id).sorted('tecnica', reverse=True)
         tecniques = ['3', '2', '1', '0']
+        i = 0
         for tecnica in tecniques:
             pinyes_ = pinyes.filtered(lambda x: x.tecnica == tecnica).sorted(lambda x: x.posicio_id.prioritat, reverse=True)
             for pinya in pinyes_:
+                i += 1
                 membre = _calcular_membre("pinya", pinya, ocupats)
                 if membre and membre.employee_id:
                     pinya.membre_pinya_level_id = membre.id
                     ocupats.append(membre.employee_id.id)
+                    _logger.info("Calculant pinya {} de {}...".format(str(i), len(pinyes)))
 
         self.state = 'ready'
 
