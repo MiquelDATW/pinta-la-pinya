@@ -333,15 +333,15 @@ class PinyaActuacio(models.Model):
             vals['zip_id'] = event.address_id.zip_id.id
         res = super(PinyaActuacio, self).create(vals)
 
-        # empls = self.env['hr.employee'].search([('muixeranguera', '=', True)])
-        # muix_act_obj = self.env['hr.employee.actuacio']
-        # data = {
-        #     'actuacio_id': res.id,
-        # }
-        # for membre in empls:
-        #     data['employee_id'] = membre.id
-        #     data['name'] = membre.name
-        #     muix_act_obj.create(data)
+        empls = self.env['hr.employee'].search([('muixeranguera', '=', True)])
+        muix_act_obj = self.env['hr.employee.actuacio']
+        data = {
+            'actuacio_id': res.id,
+        }
+        for membre in empls:
+            data['employee_id'] = membre.id
+            data['name'] = membre.name
+            muix_act_obj.create(data)
 
         if event:
             event.actuacio_id = res.id

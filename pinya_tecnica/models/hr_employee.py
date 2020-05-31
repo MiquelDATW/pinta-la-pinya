@@ -236,7 +236,7 @@ class HrEmployeeActuacio(models.Model):
     name = fields.Char(string="Nom", index=True, required=True, translate=True)
     membre_at = fields.Boolean(string="Membre AT", related="employee_id.membre_at", store=True)
 
-    #assistencia = fields.Boolean(string="Assistència")
+    assistencia = fields.Boolean(string="Assistència")
 
     employee_id = fields.Many2one('hr.employee', string="Membre")
     actuacio_id = fields.Many2one('pinya.actuacio', string="Actuació")
