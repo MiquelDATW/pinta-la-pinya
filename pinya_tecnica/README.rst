@@ -182,6 +182,8 @@ Els estats "Descarregada", "Intentada", "Caiguda" i "Canceŀlada" es gestionen d
 Credits
 =======
 
+All emojis designed by `OpenMoji <https://openmoji.org/>`__ – the open-source emoji and icon project. License: `CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0/>`__
+
 Contributors
 ------------
 
@@ -190,7 +192,9 @@ Contributors
 Maintainer
 ----------
 
-`Enfaixa't <https://www.enfaixat.org/contacte>`__
--------------------------------------------------
+`MiquelDATW <https://github.com/MiquelDATW/pinta-la-pinya>`__
+-------------------------------------------------------------
+
+
 
 
