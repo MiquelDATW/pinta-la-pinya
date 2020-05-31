@@ -134,7 +134,7 @@ Si vols editar manualment la figura, caldrà fer-ho d'alguna d'aquestes dues man
 * Apretar el botó "Editar" i anar a la pestanya de "Tronc" o de "Pinya" de la mateixa pàgina
 * Apretar el botó "Tronc" o "Pinya" de la banda dreta i anar a una altra pàgina
 
-El que recomanem és gastar els botons amb les icones:  pel Tronc i  per la Pinya
+El que recomanem és gastar els botons de la caixa d'icones de la banda dreta: Tronc i Pinya
 
 * Cadascun dels botons ens durà a una nova pàgina com es mostra en la imatge
 * Polsant l'última columna "Membre Tronc Level" s'ens obrirà un desplegable
@@ -156,7 +156,7 @@ Pots omplir el camp "Mestra" amb la persona de l'àrea tècnica que s'encarregar
 Acaba de preparar la muixeranga
 -------------------------------
 
-Quan les posicions de la figura s'ha omplit, cal que hi passe d'estat
+Quan les posicions de la figura s'han omplit, cal que hi passe d'estat
 
 Què vol dir passar d'estat?
 
@@ -190,4 +190,7 @@ Contributors
 Maintainer
 ----------
 
-* Miquel March <m.marchpuig@gmail.com>
+`Enfaixa't <https://www.enfaixat.org/contacte>`__
+-------------------------------------------------
+
+
