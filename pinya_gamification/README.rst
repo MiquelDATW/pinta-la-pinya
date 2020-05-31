@@ -19,8 +19,13 @@ Cap
 
 Usage
 =======
+
+Cap
+
 Credits
 =======
+
+All emojis designed by `OpenMoji <https://openmoji.org/>`__ – the open-source emoji and icon project. License: `CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0/>`__
 
 Contributors
 ------------
@@ -30,4 +35,6 @@ Contributors
 Maintainer
 ----------
 
-* Miquel March <m.marchpuig@gmail.com>
+`MiquelDATW <https://github.com/MiquelDATW/pinta-la-pinya>`__
+-------------------------------------------------------------
+

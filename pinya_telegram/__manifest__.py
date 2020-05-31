@@ -7,7 +7,7 @@
     "summary": "Permet la comunicació amb el servei de missatgeria Telegram",
     "version": "11.0.1.0.1",
     "category": "Custom",
-    "website": "http://www.enfaixat.cat/",
+    "website": "https://github.com/MiquelDATW/pinta-la-pinya",
     "author": "Miquel March",
     "license": "AGPL-3",
     "installable": True,

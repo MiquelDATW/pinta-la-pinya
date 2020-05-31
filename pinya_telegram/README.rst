@@ -18,6 +18,9 @@ Cap
 
 Usage
 =======
+
+Cap
+
 Credits
 =======
 
@@ -29,4 +32,7 @@ Contributors
 Maintainer
 ----------
 
-* Miquel March <m.marchpuig@gmail.com>
+`MiquelDATW <https://github.com/MiquelDATW/pinta-la-pinya>`__
+-------------------------------------------------------------
+
+

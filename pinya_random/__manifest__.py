@@ -7,7 +7,7 @@
     "summary": "Crea muixeranguers aleatoris per fer probes",
     "version": "11.0.1.0.2",
     "category": "Custom",
-    "website": "http://www.enfaixat.cat/",
+    "website": "https://github.com/MiquelDATW/pinta-la-pinya",
     "author": "Miquel March",
     "license": "AGPL-3",
     "installable": True,

@@ -7,7 +7,7 @@
     "summary": "Permet fer una gestió administrativa completa d'una colla muixeranguera",
     "version": "11.0.1.0.1",
     "category": "Custom",
-    "website": "http://www.enfaixat.cat/",
+    "website": "https://github.com/MiquelDATW/pinta-la-pinya",
     "author": "Miquel March",
     "license": "AGPL-3",
     "installable": True,

@@ -1,31 +1,25 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
-   :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
-   :alt: License: AGPL-3
+    :alt: License: AGPL-3
 
-Pinya Complements
-=================
+HR Nutrition
+=============
 
-Mòduls complementaris a "Pinya Tècnica"
+Manage your employees' nutrition
 
 Installation
 ============
 
-* app_addons_view
-* base_location_geonames_import
-* database_cleanup
-* developer_mode
-* web_no_bubble
-* web_sheet_full_width
+* hr
 
 Configuration
 =============
 
-Cap
+ToDo
 
 Usage
 =======
 
-Cap
+ToDo
 
 Credits
 =======
@@ -42,5 +36,4 @@ Maintainer
 
 `MiquelDATW <https://github.com/MiquelDATW/pinta-la-pinya>`__
 -------------------------------------------------------------
-
 

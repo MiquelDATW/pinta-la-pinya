@@ -7,10 +7,10 @@
     "summary": "Manage your employees' nutrition",
     "version": "11.0.1.0.4",
     "category": "Health",
-    "website": "http://www.enfaixat.cat/",
+    "website": "https://github.com/MiquelDATW/pinta-la-pinya",
     "author": "Ursa Information Systems, Miquel March",
     "license": "AGPL-3",
-    "application": True,
+    "application": False,
     "installable": True,
     "depends": [
         "hr"

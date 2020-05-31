@@ -8,7 +8,7 @@
     "summary": "Manage your employees' family information",
     "version": "11.0.1.0.1",
     "category": "Human Resources",
-    "website": "http://www.enfaixat.cat/",
+    "website": "https://github.com/MiquelDATW/pinta-la-pinya",
     "author": "Miquel March, Brainbean Apps",
     "license": "AGPL-3",
     "installable": True,
