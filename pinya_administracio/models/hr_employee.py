@@ -17,7 +17,7 @@ class HrEmployee(models.Model):
                 employee.employee_display_data = True
             elif employee.user_id == self.env.user:
                 employee.employee_display_data = True
-            elif self.env.user.id in employee.family_ids.mapped('relation_id.user_id').ids:
+            elif self.env.user.id in employee.family_ids.mapped('family_id.user_id').ids:
                 employee.employee_display_data = True
 
     employee_display_data = fields.Boolean(
