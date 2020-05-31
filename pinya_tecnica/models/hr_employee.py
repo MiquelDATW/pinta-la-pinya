@@ -129,7 +129,7 @@ class HrEmployee(models.Model):
         muixeranguers = self.search([('muixeranguera', '=', True), ('age', '<', 16)])
         for muixeranguer in muixeranguers:
             edat = muixeranguer.age
-            muixeranguer.xicalla = edat < 16
+            muixeranguer.xicalla = edat < 16 if bool(edat) else False
 
     @api.multi
     @api.constrains('birthday', 'data_inscripcio')
