@@ -35,10 +35,9 @@ class PinyaActuacio(models.Model):
 
     @api.multi
     def write(self, vals):
-        if 'missatge_enviat' in vals:
-            obert = vals.get('missatge_enviat', False)
-            if bool(obert):
-                vals.update({'obert': True})
+        obert = vals.get('missatge_enviat', False)
+        if bool(obert):
+            vals.update({'obert': True})
 
         res = super(PinyaActuacio, self).write(vals)
         return res
