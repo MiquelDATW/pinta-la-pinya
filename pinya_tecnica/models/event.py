@@ -8,6 +8,10 @@ from dateutil.relativedelta import relativedelta
 
 
 class EventEvent(models.Model):
+    """
+    Faig herència d'esta classe per gastar-la com a actuació de tipus Trobada o Aplec
+    amb més colles muixerangueres, castelleres, etc.
+    """
     _inherit = 'event.event'
 
     actuacio_id = fields.Many2one(string="Actuació", comodel_name="pinya.actuacio")
@@ -15,6 +19,9 @@ class EventEvent(models.Model):
 
     @api.model
     def create(self, vals):
+        """
+        Quan es crea un esdeveniment amb una actuació associada, l'esdeveniment també es guarda a l'actuació
+        """
         res = super(EventEvent, self).create(vals)
         actuacio = vals.get('actuacio_id', False)
         if actuacio:
@@ -24,6 +31,9 @@ class EventEvent(models.Model):
 
     @api.multi
     def write(self, vals):
+        """
+        Quan es guarda un esdeveniment amb una actuació associada, l'esdeveniment també es guarda a l'actuació
+        """
         res = super(EventEvent, self).write(vals)
         if 'actuacio_id' in vals:
             actuacio = vals.get('actuacio_id', False)

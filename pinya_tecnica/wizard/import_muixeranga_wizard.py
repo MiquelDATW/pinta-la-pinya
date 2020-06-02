@@ -7,6 +7,9 @@ from odoo import api, models, fields
 
 
 class PinyaMuixerangaWizard(models.TransientModel):
+    """
+    Assistent per importar i crear les muixerangues
+    """
     _name = "pinya.muixeranga.wizard"
 
     lines = fields.One2many(comodel_name='pinya.muixeranga.line.wizard', inverse_name='wizard_id', string='Líneas')

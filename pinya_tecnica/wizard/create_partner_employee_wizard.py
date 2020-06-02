@@ -8,6 +8,9 @@ from odoo import api, models, fields
 
 
 class PartnerEmployeeCreateWizard(models.TransientModel):
+    """
+    Assistent per crear al mateix temps: l'empleat i el contacte
+    """
     _name = "partner.employee.create.wizard"
 
     image = fields.Binary("Image", attachment=True, help="Limitat a 1024x1024px.")
@@ -47,11 +50,17 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
 
     @api.model
     def default_get(self, fields_list):
+        """
+        Alguns valors per defecte
+        """
         res = super(PartnerEmployeeCreateWizard, self).default_get(fields_list)
         res.update({'data_inscripcio': datetime.today().date()})
         return res
 
     def create_partner_employee(self):
+        """
+        Crea al mateix temps: l'empleat i el contacte
+        """
         partner_obj = self.env['res.partner']
         employee_obj = self.env['hr.employee']
         emp_skill_obj = self.env['hr.employee.skill']

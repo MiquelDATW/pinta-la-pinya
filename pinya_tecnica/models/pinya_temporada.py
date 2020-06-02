@@ -21,6 +21,9 @@ def _get_action(view_tree_id, view_form_id, name, model, domain):
 
 
 class PinyaTemporada(models.Model):
+    """
+    Cree esta classe com a base de les temporades muixerangueres.
+    """
     _name = "pinya.temporada"
     _description = "Temporada muixeranguera"
     _order = "temp_inici desc"
@@ -45,6 +48,9 @@ class PinyaTemporada(models.Model):
     @api.multi
     @api.depends('muixeranga_ids')
     def _compute_muixerangues_count(self):
+        """
+        Calcula el total de muixerangues de la temporada
+        """
         for temporada in self:
             muixeranga = temporada.muixeranga_ids
             no_oficials = muixeranga.filtered(lambda x: x.actuacio_id.tipus == 'assaig')
@@ -56,6 +62,9 @@ class PinyaTemporada(models.Model):
     @api.multi
     @api.depends('actuacio_ids')
     def _compute_actuacions_count(self):
+        """
+        Calcula el total d'actuacions de la temporada
+        """
         for temporada in self:
             actuacio = temporada.actuacio_ids.filtered(lambda x: x.tipus == 'actuacio')
             assaig = temporada.actuacio_ids.filtered(lambda x: x.tipus == 'assaig')
@@ -65,20 +74,32 @@ class PinyaTemporada(models.Model):
     @api.multi
     @api.depends('muixeranga_ids', 'muixeranga_ids.plantilla_id')
     def _compute_figures(self):
+        """
+        Calcula les plantilles que s'han gastat en la temporada
+        """
         for temporada in self:
             actuacio = temporada.muixeranga_ids.filtered(lambda x: x.actuacio_id.tipus == 'actuacio')
             figures = actuacio.mapped('plantilla_id')
             temporada.figura_ids = [(6, 0, figures.sorted('name').ids)]
 
     def mostrar_oficials(self):
+        """
+        Funció per mostrar les muixerangues fetes en actuacions
+        """
         res = self.mostrar_pinya_muixeranga('actuacio')
         return res
 
     def mostrar_no_oficials(self):
+        """
+        Funció per mostrar les muixerangues fetes en assajos
+        """
         res = self.mostrar_pinya_muixeranga('assaig')
         return res
 
     def mostrar_pinya_muixeranga(self, tipus):
+        """
+        Funció per mostrar muixerangues fetes en actuacions o en assajos
+        """
         view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_tree_all').id
         view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_form').id
         pinya_muixeranga = self.muixeranga_ids.filtered(lambda x: x.actuacio_id.tipus == tipus)
@@ -89,14 +110,23 @@ class PinyaTemporada(models.Model):
         return action
 
     def mostrar_actuacions(self):
+        """
+        Funció per mostrar les actuacions
+        """
         res = self.mostrar_pinya_actuacio('actuacio')
         return res
 
     def mostrar_assajos(self):
+        """
+        Funció per mostrar els assajos
+        """
         res = self.mostrar_pinya_actuacio('assaig')
         return res
 
     def mostrar_pinya_actuacio(self, tipus):
+        """
+        Funció per mostrar actuacions o assajos
+        """
         view_tree_id = self.env.ref('pinya_tecnica.view_actuacio_tree').id
         view_form_id = self.env.ref('pinya_tecnica.view_actuacio_form').id
         actuacions = self.actuacio_ids.filtered(lambda x: x.tipus == tipus)
@@ -108,6 +138,9 @@ class PinyaTemporada(models.Model):
 
     @api.model
     def create(self, vals):
+        """
+        No poden haver 2 temporades actuals
+        """
         if 'actual' in vals and vals.get('actual', False):
             altra_actual = self.env['pinya.temporada'].search([('actual', '=', True)])
             if bool(altra_actual):
@@ -122,6 +155,9 @@ class PinyaTemporada(models.Model):
 
     @api.multi
     def write(self, vals):
+        """
+        No poden haver 2 temporades actuals
+        """
         if 'actual' in vals and vals.get('actual', False):
             altra_actual = self.env['pinya.temporada'].search([('actual', '=', True)])
             if bool(altra_actual) and self.id != altra_actual.id:

@@ -23,6 +23,10 @@ def _get_action(view_tree_id, view_form_id, name, model, domain):
 
 
 class HrSkill(models.Model):
+    """
+    Faig herència d'esta classe per fer-la servir com a les posicions que es poden ocupar
+    en una figura.
+    """
     _inherit = 'hr.skill'
     _order = 'tipus desc, name asc'
 

@@ -222,8 +222,7 @@ class HrEmployee(models.Model):
     @api.model
     def create(self, vals):
         """
-        Calcula els anys de d'inscripió a la colla
-        en el moment de crear-se el registre
+        Calcula els anys de d'inscripió a la colla en el moment de crear-se el registre
         """
         croquis = vals.get('nom_croquis', False)
         name = vals.get('name', False)
@@ -247,8 +246,7 @@ class HrEmployee(models.Model):
     @api.multi
     def write(self, vals):
         """
-        Calcula els anys de d'inscripió a la colla
-        en el moment de modificar-se el registre
+        Calcula els anys d'inscripió a la colla en el moment de modificar-se el registre
         """
         if 'nom_croquis' in vals:
             nom = vals.get('nom_croquis', False)
@@ -283,6 +281,9 @@ class HrEmployee(models.Model):
 
 
 class HrEmployeeActuacio(models.Model):
+    """
+    Cree esta classe per relacionar la informació de cada muixeranguer en cada actuació.
+    """
     _name = 'hr.employee.actuacio'
     _order = 'employee_id'
 
@@ -313,6 +314,10 @@ class HrEmployeeActuacio(models.Model):
     @api.multi
     @api.depends('pinya_line_ids.employee_actuacio_id', 'tronc_line_ids.employee_actuacio_id')
     def _compute_actuacio(self):
+        """
+        Excessivament complicada funció per descriure les figures en les que participa el muixeranguer
+        amb distinció de la prioritat de la posició
+        """
         muix_act = self.filtered(lambda x: x)
         for m in muix_act:
             pinyes = m.pinya_line_ids
@@ -362,6 +367,9 @@ class HrEmployeeActuacio(models.Model):
 
     @api.onchange("employee_id")
     def _onchange_employee_id(self):
+        """
+        Omplir (temporalment) el camp del nom
+        """
         if self.employee_id:
             self.name = self.employee_id.name
         else:
@@ -369,6 +377,10 @@ class HrEmployeeActuacio(models.Model):
 
     @api.model
     def create(self, vals):
+        """
+        Si no té nom, li asignem el del muixeranguer
+        Si ja existeix, però sense assistència, en compte de crear-lo, li fiquen assistència = True
+        """
         if not vals.get('name', False):
             muix = vals.get('employee_id')
             name = self.env['hr.employee'].browse(muix).name
@@ -387,6 +399,10 @@ class HrEmployeeActuacio(models.Model):
 
     @api.multi
     def unlink(self):
+        """
+        Si s'elimina el muixeranguer de l'actuació, ens assegurem que les posicions que puguera estar, tb s'eliminen
+        Compobrar si funciona més senzill amb: ondelete="cascade"
+        """
         muixerangues = self.mapped('actuacio_id').muixeranga_ids
         troncs = muixerangues.mapped('tronc_line_ids').filtered(lambda x: x.employee_actuacio_id.id in self.ids)
         for tronc in troncs:

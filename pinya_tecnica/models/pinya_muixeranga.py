@@ -26,6 +26,9 @@ def _get_action(view_tree_id, view_form_id, name, model, domain):
 
 
 class PinyaMuixeranga(models.Model):
+    """
+    Cree esta classe com a base de les figures muixerangueres
+    """
     _name = "pinya.muixeranga"
     _description = "Muixeranga"
     _order = "id desc"
@@ -86,8 +89,10 @@ class PinyaMuixeranga(models.Model):
 
     @api.multi
     def _compute_lliures(self):
+        """
+        Calcula els membres que estan lliures (no tenen assignada encara una posició)
+        """
         membres = self.actuacio_id.membre_actuacio_ids.filtered(lambda x: x.assistencia).mapped('employee_id')
-        #membres = self.actuacio_id.membre_actuacio_ids.mapped('employee_id')
         troncs = self.tronc_line_ids.mapped('membre_tronc_id')
         pinyes = self.pinya_line_ids.mapped('membre_pinya_id')
         altres = self.mestra_id + self.passadora_id + self.estiradora_id
@@ -100,6 +105,9 @@ class PinyaMuixeranga(models.Model):
     @api.multi
     @api.depends('pinya_line_ids')
     def _compute_cordons(self):
+        """
+        Calcula els cordons de la muixeranga
+        """
         muixs = self.filtered(lambda x: not x.neta)
         for muix in muixs:
             c = max(muix.pinya_line_ids.mapped('cordo') or [0])
@@ -108,6 +116,9 @@ class PinyaMuixeranga(models.Model):
     @api.multi
     @api.depends('tronc_line_ids', 'pinya_line_ids')
     def _compute_total_count(self):
+        """
+        Calcula els totals de pinya i tronc
+        """
         for muix in self:
             t = len(muix.tronc_line_ids)
             p = len(muix.pinya_line_ids)
@@ -118,15 +129,27 @@ class PinyaMuixeranga(models.Model):
             muix.pinya_count2 = p
 
     def action_descarregat(self):
+        """
+        Canvia l'estat de la figura
+        """
         self.state = 'descarregat'
 
     def action_intent(self):
+        """
+        Canvia l'estat de la figura
+        """
         self.state = 'intent'
 
     def action_caigut(self):
+        """
+        Canvia l'estat de la figura
+        """
         self.state = 'caigut'
 
     def action_cancel(self):
+        """
+        Canvia l'estat de la figura
+        """
         action_cancel = self.env.context.get('action_cancel', False)
         actuacio_state = self.actuacio_state
         if bool(action_cancel) and actuacio_state == 'done':
@@ -139,9 +162,15 @@ class PinyaMuixeranga(models.Model):
         self.state = 'cancel'
 
     def action_draft(self):
+        """
+        Canvia l'estat de la figura
+        """
         self.state = 'draft'
 
     def reset_muixeranga(self):
+        """
+        Reinicialitzem la muixeranga
+        """
         self.state = 'draft'
         self.actuacio_id.state = 'draft'
         troncs = self.tronc_line_ids
@@ -152,6 +181,9 @@ class PinyaMuixeranga(models.Model):
             pinya.membre_pinya_level_id = False
 
     def calcular_muixeranga(self):
+        """
+        Calculem la muixeranga
+        """
         def _calcular_membre(tipus, muixe, ocupats):
             def _calcular_tronc(tronc, alsada_best):
                 if alsada_best:
@@ -248,6 +280,9 @@ class PinyaMuixeranga(models.Model):
         self.state = 'ready'
 
     def tronc_muixeranga(self):
+        """
+        Funció per mostrar els troncs
+        """
         view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_tronc_tree_selected').id
         view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_tronc_form').id
         name = "Tronc de {}".format(self.name)
@@ -257,6 +292,9 @@ class PinyaMuixeranga(models.Model):
         return action
 
     def pinya_muixeranga(self):
+        """
+        Funció per mostrar les pinyes
+        """
         view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_pinya_tree_selected').id
         view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_pinya_form').id
         name = "Pinya de {}".format(self.name)
@@ -267,6 +305,10 @@ class PinyaMuixeranga(models.Model):
 
     @api.multi
     def unlink(self):
+        """
+        Si s'elimina la muixeranga, ens assegurem que les pìnyes i els troncs, tb s'eliminen
+        Compobrar si funciona més senzill amb: ondelete="cascade"
+        """
         for muixe in self:
             muixe.pinya_line_ids.unlink()
             muixe.tronc_line_ids.unlink()
@@ -275,6 +317,9 @@ class PinyaMuixeranga(models.Model):
 
 
 class PinyaMuixerangaPinya(models.Model):
+    """
+    Cree esta classe com a base de les figures muixerangueres
+    """
     _name = "pinya.muixeranga.pinya"
     _description = "Pinya de muixeranga"
     _order = "data desc, muixeranga_pinya_id, cordo, rengle, posicio_id asc"
@@ -318,6 +363,9 @@ class PinyaMuixerangaPinya(models.Model):
     @api.multi
     @api.depends('membre_pinya_id', 'actuacio_id')
     def _compute_employee_actuacio(self):
+        """
+        Calcula cada muixeranguer que està en l'actuació
+        """
         emp_act_obj = self.env['hr.employee.actuacio']
         pinyes = self.filtered(lambda x: x.membre_pinya_id and x.actuacio_id)
         for pinya in pinyes:
@@ -328,6 +376,9 @@ class PinyaMuixerangaPinya(models.Model):
 
     @api.multi
     def _compute_recomanats(self):
+        """
+        Calcula els muixeranguers recomanats per a una posició
+        """
         if not bool(self.ids):
             return False
         muixeranga = self.mapped('muixeranga_pinya_id')
@@ -343,6 +394,9 @@ class PinyaMuixerangaPinya(models.Model):
 
     @api.onchange('posicio_id', 'cordo')
     def _onchange_make_name(self):
+        """
+        Ens assegurem que el nom de la pinya no queda buit
+        """
         if not bool(self.posicio_id) and not self.cordo:
             name = ''
         elif not bool(self.posicio_id) and self.cordo:

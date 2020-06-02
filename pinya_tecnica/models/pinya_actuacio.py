@@ -39,6 +39,9 @@ def _get_wizard(view_form_id, name, model):
 
 
 class PinyaActuacio(models.Model):
+    """
+    Cree esta classe com a base de les actuacions o assajos.
+    """
     _name = "pinya.actuacio"
     _description = "Actuació o Assaig muixeranguer"
     _order = "id desc"
@@ -81,15 +84,20 @@ class PinyaActuacio(models.Model):
     @api.multi
     @api.depends('muixeranga_ids')
     def _compute_muixerangues_count(self):
+        """
+        Calcula el total de muixerangues de l'actuació
+        """
         for actuacio in self:
             muixeranga = actuacio.muixeranga_ids
             actuacio.muixerangues_count = len(muixeranga)
 
     @api.multi
     def _compute_assistencia(self):
+        """
+        Calcula el total de persones de l'actuació
+        """
         for actuacio in self:
             membres = actuacio.membre_actuacio_ids.filtered(lambda x: x.assistencia)
-            #membres = actuacio.membre_actuacio_ids
             actives = membres.filtered(lambda x: bool(x.count_actuacio_total))
             len_actives = len(actives)
             len_membres = len(membres)
@@ -105,6 +113,9 @@ class PinyaActuacio(models.Model):
     @api.multi
     @api.constrains('data_inici', 'data_final')
     def _check_future_dates(self):
+        """
+        Ens assegurem que les dates d'inici i de final siguen coherents
+        """
         actuacions = self.filtered(lambda x: bool(x.data_inici) and bool(x.data_final))
         for actuacio in actuacions:
             inici = fields.Datetime.from_string(actuacio.data_inici)
@@ -114,6 +125,9 @@ class PinyaActuacio(models.Model):
 
     @api.model
     def default_get(self, fields_list):
+        """
+        Alguns valors per defecte
+        """
         res = super(PinyaActuacio, self).default_get(fields_list)
         res['temporada_id'] = self.env['pinya.temporada'].search([('actual', '=', True)]).id
         tipus = self.env.context.get('tipus', False)
@@ -148,6 +162,9 @@ class PinyaActuacio(models.Model):
 
     @api.onchange('event_id')
     def onchange_event(self):
+        """
+        Alguns valors els prenem de l'esdeveniment
+        """
         event = self.event_id
         if bool(event):
             self.data_inici = event.date_begin
@@ -160,6 +177,9 @@ class PinyaActuacio(models.Model):
 
     @api.onchange('data_inici')
     def onchange_data(self):
+        """
+        El nom dels assajos depén de la data
+        """
         tipus = self.tipus
         if tipus != 'assaig':
             return False
@@ -170,6 +190,9 @@ class PinyaActuacio(models.Model):
         self.name = tipus.capitalize() + ' ' + data_str
 
     def action_membres_import(self):
+        """
+        Funció per importar membres
+        """
         view_form_id = self.env.ref('pinya_tecnica.pinya_import_wizard_form_view').id
         name = "Importar membres per a l'actuació"
         model = "pinya.import.wizard"
@@ -177,6 +200,9 @@ class PinyaActuacio(models.Model):
         return action
 
     def pinya_muixeranga_wizard(self):
+        """
+        Funció per importar muixerangues
+        """
         view_form_id = self.env.ref('pinya_tecnica.pinya_muixeranga_wizard_form_view').id
         name = "Afegir figures a l'{}".format(self.tipus.replace("actuacio", "actuació"))
         model = "pinya.muixeranga.wizard"
@@ -184,6 +210,9 @@ class PinyaActuacio(models.Model):
         return action
 
     def mostrar_muixerangues(self):
+        """
+        Funció per mostrar muixerangues
+        """
         view_search_id = self.env.ref('pinya_tecnica.view_muixeranga_search').id
         view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_tree_all').id
         view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_form').id
@@ -195,13 +224,15 @@ class PinyaActuacio(models.Model):
         return action
 
     def mostrar_membres(self):
+        """
+        Funció per mostrar membres
+        """
         view_search_id = self.env.ref('pinya_tecnica.hr_employee_actuacio_search').id
         view_tree_id = self.env.ref('pinya_tecnica.hr_employee_actuacio_tree').id
         view_form_id = self.env.ref('pinya_tecnica.hr_employee_actuacio_form').id
         name = "Membres"
         model = "hr.employee.actuacio"
         people = self.membre_actuacio_ids.filtered(lambda x: x.assistencia)
-        #people = self.membre_actuacio_ids
         domain = [('id', 'in', people.ids)]
         ctx = dict(self.env.context)
         ctx.update({'actuacio_id': self.id})
@@ -209,6 +240,9 @@ class PinyaActuacio(models.Model):
         return action
 
     def action_ready(self):
+        """
+        Comproba que totes les muixerangues estan preparades per passar a "Preparat"
+        """
         muixerangues = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')
         if not bool(muixerangues):
             error_msg = "Cal que hi hagen muixerangues actives❗"
@@ -271,6 +305,9 @@ class PinyaActuacio(models.Model):
         self.state = 'ready'
 
     def action_done(self):
+        """
+        Comproba que totes les muixerangues estan preparades per passar a "Fet"
+        """
         not_ready = self.muixeranga_ids.filtered(lambda x: x.state != 'ready')
         if bool(not_ready):
             names = not_ready.mapped('name')
@@ -284,30 +321,48 @@ class PinyaActuacio(models.Model):
         self.state = 'done'
 
     def action_obrir_assaig(self):
+        """
+        Obrim l'assaig per a que s'apunte la gent
+        """
         self.obert = True
 
     def action_tancar_assaig(self):
+        """
+        Tanquem l'assaig per a que no s'apunte la gent
+        """
         self.obert = False
 
     def action_cancel(self):
+        """
+        Cancelem l'actuació
+        """
         muixes = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')
         for muix in muixes:
             muix.action_cancel()
         self.state = 'cancel'
 
     def action_draft(self):
+        """
+        Passem a esborrany l'actuació
+        """
         muixes = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')
         for muix in muixes:
             muix.action_draft()
         self.state = 'draft'
 
     def calcular_muixerangues(self):
+        """
+        Calculem totes les muixerangues de l'actuació
+        """
         muixes = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')
         for muix in muixes:
             muix.calcular_muixeranga()
         self.state = 'ready'
 
     def reset_muixerangues(self):
+        """
+        Reinicialitzem totes les muixerangues de l'actuació
+        """
         self.state = 'draft'
         muixes = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')
         for muix in muixes:
@@ -315,6 +370,9 @@ class PinyaActuacio(models.Model):
 
     @api.model
     def _tz_to_utc(self, date):
+        """
+        Funció auxiliar per passar de tz a utc
+        """
         date_dt1 = datetime.strptime(date, DEFAULT_SERVER_DATETIME_FORMAT)
         tz_info = fields.Datetime.context_timestamp(self, date_dt1).tzinfo
         tz = pytz.timezone('Europe/Madrid')
@@ -324,6 +382,10 @@ class PinyaActuacio(models.Model):
 
     @api.multi
     def unlink(self):
+        """
+        Si s'elimina l'actuació, ens assegurem que les muixerangues i els membres, tb s'eliminen
+        Compobrar si funciona més senzill amb: ondelete="cascade"
+        """
         for actuacio in self:
             actuacio.muixeranga_ids.unlink()
             actuacio.membre_actuacio_ids.unlink()
@@ -332,6 +394,10 @@ class PinyaActuacio(models.Model):
 
     @api.model
     def create(self, vals):
+        """
+        Afegim els valors de l'esdeveniment i
+        Creem els membres en estat assistencia = False
+        """
         event = vals.get('event_id', False)
         if event:
             event = self.env['event.event'].browse(event)
@@ -356,6 +422,9 @@ class PinyaActuacio(models.Model):
 
     @api.multi
     def write(self, vals):
+        """
+        Modifiquem els valors de l'esdeveniment si hi ha canvis
+        """
         event = False
         if 'event_id' in vals:
             event = vals.get('event_id', False)

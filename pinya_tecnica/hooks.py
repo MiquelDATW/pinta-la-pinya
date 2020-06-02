@@ -11,6 +11,9 @@ _logger = logging.getLogger(__name__)
 
 
 def post_init_hook(cr, registry):
+    """
+    S'executa quan s'instal·la el mòdul
+    """
 
     with api.Environment.manage():
         env = api.Environment(cr, SUPERUSER_ID, {})

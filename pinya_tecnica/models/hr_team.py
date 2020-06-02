@@ -7,6 +7,9 @@ from odoo.exceptions import ValidationError
 
 
 class HrTeam(models.Model):
+    """
+    Faig herència d'esta classe afegir control d'equips d'AT i de JD
+    """
     _inherit = 'hr.team'
 
     at_actual = fields.Boolean(string="Àrea Tècnica", help="Àrea Tècnica actual")
@@ -14,6 +17,9 @@ class HrTeam(models.Model):
 
     @api.model
     def create(self, vals):
+        """
+        Control·la que només hi haja una AT o JD activa
+        """
         if 'at_actual' in vals and vals.get('at_actual', False):
             altra_at = self.env['hr.team'].search([('at_actual', '=', True)])
             if bool(altra_at):
@@ -27,6 +33,9 @@ class HrTeam(models.Model):
 
     @api.multi
     def write(self, vals):
+        """
+        Control·la que només hi haja una AT o JD activa
+        """
         if 'at_actual' in vals and vals.get('at_actual', False):
             altra_at = self.env['hr.team'].search([('at_actual', '=', True)])
             if bool(altra_at):

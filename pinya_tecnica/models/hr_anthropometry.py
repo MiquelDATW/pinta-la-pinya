@@ -7,6 +7,9 @@ from odoo import models, fields, api, exceptions, _
 
 
 class HrEmployeeAnthropometry(models.Model):
+    """
+    Faig herència d'esta classe afegir alçades de muscle i de braços
+    """
     _inherit = 'hr.employee.anthropometry'
 
     alsada_muscle = fields.Integer(string="Alçada muscle")

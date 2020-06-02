@@ -9,6 +9,11 @@ from datetime import datetime
 
 
 class ResPartner(models.Model):
+    """
+    Faig herència d'esta classe per afegir camps útils per a:
+        - persones muixerangures
+        - colles muixerangures
+    """
     _inherit = 'res.partner'
 
     muixeranguera = fields.Boolean(string="Muixeranguera")
@@ -126,6 +131,10 @@ class ResPartner(models.Model):
 
     @api.multi
     def _compute_anys_colla(self):
+        """
+        Calcula els anys de (1) fundació i (2) pertànyer a la FCM de la colla
+        Serà cridada cada dia per el cron: ir_cron_code_compute_anys_colla
+        """
         date_now = fields.Date.from_string(fields.Date.today())
         colles = self.search([('colla', '=', True)])
 
@@ -142,6 +151,9 @@ class ResPartner(models.Model):
     @api.multi
     @api.constrains('fundacio_data', 'federacio_data')
     def _check_future_dates(self):
+        """
+        Ens assegurem que les dates de fundació i de federació siguen coherents
+        """
         today = datetime.today().date()
         colles = self.filtered(lambda x: bool(x.fundacio_data) or bool(x.federacio_data))
         for colla in colles:
@@ -158,6 +170,10 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, vals):
+        """
+        Calcula els anys de (1) fundació i (2) pertànyer a la FCM de la colla
+        en el moment de crear-se el registre
+        """
         if 'fundacio_data' in vals:
             data = vals.get('fundacio_data', False)
             if data:
@@ -181,6 +197,10 @@ class ResPartner(models.Model):
 
     @api.multi
     def write(self, vals):
+        """
+        Calcula els anys de (1) fundació i (2) pertànyer a la FCM de la colla
+        en el moment de modificar-se el registre
+        """
         if 'fundacio_data' in vals:
             data = vals.get('fundacio_data', False)
             if data:
@@ -204,6 +224,9 @@ class ResPartner(models.Model):
 
     @api.multi
     def toggle_active(self):
+        """
+        Si arxivem el partner, arxivem també l'empleat
+        """
         res = super(ResPartner, self).toggle_active()
         partner = self.env.context.get('toggle_active_partner', False)
         if self.membre_id and partner:

@@ -13,6 +13,9 @@ _logger = logging.getLogger(__name__)
 
 
 class PinyaImportWizard(models.TransientModel):
+    """
+    Assistent per importar els muixeranguers a l'actuació
+    """
     _name = "pinya.import.wizard"
 
     file_type = fields.Selection(
@@ -27,6 +30,9 @@ class PinyaImportWizard(models.TransientModel):
     file_data = fields.Binary('Arxiu', required=True)
 
     def import_pinya_btn(self):
+        """
+        Crea els participants de l'actuació
+        """
         actuacio = self.env.context.get('actuacio')
         if not bool(actuacio):
             error_msg = "No hi ha un assaig o actuació guardat❗"
@@ -62,6 +68,9 @@ class PinyaImportWizard(models.TransientModel):
         return False
 
     def import_pinya(self, decoded_data):
+        """
+        Importa les dades del csv
+        """
         csv_file = io.TextIOWrapper(io.BytesIO(decoded_data), encoding='utf-8')
         csv_raw = csv.DictReader(csv_file, delimiter=',')
 

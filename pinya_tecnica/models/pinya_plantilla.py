@@ -21,6 +21,9 @@ def _get_action(view_tree_id, view_form_id, name, model, domain):
 
 
 class PinyaPlantilla(models.Model):
+    """
+    Cree esta classe com a base de les plantilles de les figures
+    """
     _name = "pinya.plantilla"
     _description = "Plantilla"
     _order = "name asc"
@@ -63,6 +66,9 @@ class PinyaPlantilla(models.Model):
     @api.multi
     @api.depends('plantilla_line_ids', 'plantilla_line_ids.rengles')
     def _compute_total_count(self):
+        """
+        Calcula el total de muixeranguers en pinya, tronc i totals
+        """
         for plantilla in self:
             tronc = plantilla.plantilla_line_ids.filtered(lambda x: x.tipus == 'tronc')
             pinya = plantilla.plantilla_line_ids.filtered(lambda x: x.tipus == 'pinya')
@@ -75,6 +81,9 @@ class PinyaPlantilla(models.Model):
     @api.multi
     @api.depends('muixeranga_ids', 'muixeranga_ids.state')
     def _compute_muixeranga_count(self):
+        """
+        Calcula el total de muixerangues fetes des de la plantilla
+        """
         for plantilla in self:
             draft = plantilla.muixeranga_ids.filtered(lambda x: x.state == 'draft')
             desca = plantilla.muixeranga_ids.filtered(lambda x: x.state == 'descarregat')
@@ -89,6 +98,10 @@ class PinyaPlantilla(models.Model):
 
     @api.multi
     def unlink(self):
+        """
+        Si s'elimina la plantilla, ens assegurem que les muixerangues, tb s'eliminen
+        Compobrar si funciona més senzill amb: ondelete="cascade"
+        """
         for plantilla in self:
             lines = plantilla.plantilla_line_ids
             for line in lines:
@@ -100,6 +113,9 @@ class PinyaPlantilla(models.Model):
         return res
 
     def crear_muixeranga(self, actuacio):
+        """
+        Crea una muixeranga a partir de la plantilla
+        """
         obj_actua = self.env['pinya.actuacio']
         obj_muixe = self.env['pinya.muixeranga']
         obj_tronc = self.env['pinya.muixeranga.tronc']
@@ -158,9 +174,6 @@ class PinyaPlantilla(models.Model):
                 qty = len(posicions.filtered(lambda x: x.posicio_id.id == pos.posicio_id.id).ids)
                 line_vals['name'] = pos.posicio_id.name + ' / ' + cordo
                 line_vals['rengle'] = pos.rengle
-                #line_vals['rengle'] = str(pos.rengle).zfill(2)
-                #line_vals['rengle'] = str(round(((pos.rengle - 1) / rengles) * 60)).zfill(2) + "'"
-                #line_vals['rengle'] = str(round(((pos.rengle - 1) / rengles) * 360)).zfill(3) + "º"
                 line_vals['tecnica'] = pos.tecnica
                 line_vals['posicio_id'] = pos.posicio_id.id
                 jo = str(self.id).zfill(2) + '_' + str(pos.posicio_id.id).zfill(2)
@@ -177,6 +190,9 @@ class PinyaPlantilla(models.Model):
         return res
 
     def mostrar_muixerangues(self):
+        """
+        Funció per mostrar muixerangues
+        """
         view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_tree_selected').id
         view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_form').id
         name = "Muixerangues"
@@ -187,6 +203,9 @@ class PinyaPlantilla(models.Model):
 
 
 class PinyaPlantillaLine(models.Model):
+    """
+    Cree esta classe com a base de les plantilles de les figures
+    """
     _name = "pinya.plantilla.line"
     _description = "Línea de plantilla"
     _order = "tipus desc, name, rengles asc"
@@ -209,12 +228,18 @@ class PinyaPlantillaLine(models.Model):
     @api.multi
     @api.depends('posicio_ids')
     def _compute_rengles(self):
+        """
+        Calcula els rengles de la plantilla
+        """
         for line in self:
             posicions = line.posicio_ids
             line.rengles = len(list(set(posicions.mapped('rengle'))))
 
 
 class PinyaPlantillaSkill(models.Model):
+    """
+    Cree esta classe com a base de les plantilles de les figures
+    """
     _name = "pinya.plantilla.skill"
     _description = "Posicions de línea de plantilla"
     _order = "tipus desc, rengle asc, posicio_id asc"
@@ -235,3 +260,4 @@ class PinyaPlantillaSkill(models.Model):
         ('2', 'Avançada'),
         ('3', 'Experta'),
     ], string='Tècnica', default="1", required=True)
+
