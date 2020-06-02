@@ -41,9 +41,9 @@ class PinyaImportWizard(models.TransientModel):
         actuacio = self.env['pinya.actuacio'].browse(actuacio)
 
         actuals = actuacio.membre_actuacio_ids.mapped('employee_id')
-        eliminats = actuacio.membre_actuacio_ids.filtered(lambda x: x.employee_id.id not in membres.ids)
-        if bool(eliminats):
-            eliminats.unlink()
+        # eliminats = actuacio.membre_actuacio_ids.filtered(lambda x: x.employee_id.id not in membres.ids)
+        # if bool(eliminats):
+        #     eliminats.unlink()
 
         muix_act_obj = self.env['hr.employee.actuacio']
         data = {
@@ -54,6 +54,10 @@ class PinyaImportWizard(models.TransientModel):
             data['employee_id'] = membre.id
             data['name'] = membre.name
             muix_act_obj.create(data)
+
+        confirmats = actuacio.membre_actuacio_ids.filtered(lambda x: x.employee_id.id in membres.ids)
+        for membre in confirmats:
+            membre.write({'assistencia': True})
 
         return False
 

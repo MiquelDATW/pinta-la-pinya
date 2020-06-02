@@ -23,6 +23,9 @@ def _get_action(view_tree_id, view_form_id, name, model, domain):
 
 
 class HrEmployee(models.Model):
+    """
+    Faig herència d'esta classe per gastar-la com a persona muixeranguera.
+    """
     _inherit = 'hr.employee'
 
     membre_at = fields.Boolean(string="Membre AT", compute='_compute_at_jd', store=True, help="Membre Àrea Tècnica")
@@ -53,6 +56,9 @@ class HrEmployee(models.Model):
     @api.multi
     @api.depends('team_ids', 'team_ids.at_actual', 'team_ids.jd_actual')
     def _compute_at_jd(self):
+        """
+        Calcula si el muixeranguer forma part de l'AT o JD actual
+        """
         muixeranguers = self.filtered(lambda x: bool(x.team_ids))
         for muixeranguer in muixeranguers:
             teams = muixeranguer.team_ids
@@ -64,6 +70,9 @@ class HrEmployee(models.Model):
     @api.multi
     @api.depends('muixeranga_pinya_ids')
     def _compute_count_pinya(self):
+        """
+        Calcula el número de pinyes que forma part el muixeranguer
+        """
         muixeranguers = self.filtered(lambda x: bool(x.muixeranga_pinya_ids))
         for muixeranguer in muixeranguers:
             pinyes = muixeranguer.muixeranga_pinya_ids
@@ -72,6 +81,9 @@ class HrEmployee(models.Model):
     @api.multi
     @api.depends('muixeranga_tronc_ids')
     def _compute_count_tronc(self):
+        """
+        Calcula el número de troncs que forma part el muixeranguer
+        """
         muixeranguers = self.filtered(lambda x: bool(x.muixeranga_tronc_ids))
         for muixeranguer in muixeranguers:
             troncs = muixeranguer.muixeranga_tronc_ids
@@ -80,6 +92,9 @@ class HrEmployee(models.Model):
     @api.multi
     @api.depends('employee_skill_ids', 'employee_skill_ids.count_total')
     def _compute_count_total(self):
+        """
+        Calcula el número de figures que ha format part el muixeranguer
+        """
         muixeranguers = self.filtered(lambda x: x.muixeranguera)
         for muixeranguer in muixeranguers:
             total = muixeranguer.employee_skill_ids.mapped('count_total')
@@ -88,6 +103,9 @@ class HrEmployee(models.Model):
     @api.multi
     @api.depends('employee_skill_ids', 'employee_skill_ids.count_sismesos')
     def _compute_count_sismesos(self):
+        """
+        Calcula el número de figures que ha format part els darres 6 mesos el muixeranguer
+        """
         muixeranguers = self.filtered(lambda x: x.muixeranguera)
         for muixeranguer in muixeranguers:
             total = muixeranguer.employee_skill_ids.mapped('count_sismesos')
@@ -96,6 +114,9 @@ class HrEmployee(models.Model):
     @api.multi
     @api.depends('employee_skill_ids', 'employee_skill_ids.skill_id', 'employee_skill_ids.level')
     def _compute_millors(self):
+        """
+        Calcula en format caràcter la tècnica de les posicions del muixeranguer
+        """
         muixeranguers = self.filtered(lambda x: x.muixeranguera)
         for muixeranguer in muixeranguers:
             levels = muixeranguer.employee_skill_ids
@@ -109,6 +130,9 @@ class HrEmployee(models.Model):
     @api.multi
     @api.depends('employee_skill_ids', 'employee_skill_ids.skill_id')
     def _compute_posicions(self):
+        """
+        Calcula en format caràcter les posicions del muixeranguer
+        """
         muixeranguers = self.filtered(lambda x: bool(x.employee_skill_ids))
         for muixeranguer in muixeranguers:
             skills = muixeranguer.employee_skill_ids.mapped('skill_id').sorted('name').mapped('name')
@@ -116,6 +140,10 @@ class HrEmployee(models.Model):
 
     @api.multi
     def _compute_anys_inscrit(self):
+        """
+        Calcula els anys de pertànyer a la colla
+        Serà cridada cada dia per el cron: ir_cron_code_compute_anys_inscrit
+        """
         date_now = fields.Date.from_string(fields.Date.today())
         muixeranguers = self.search([('muixeranguera', '=', True), ('data_inscripcio', '!=', False)])
         for muixeranguer in muixeranguers:
@@ -126,6 +154,9 @@ class HrEmployee(models.Model):
     @api.multi
     @api.depends("age")
     def _compute_xicalla(self):
+        """
+        Calcula si el muixeranguer és menor de 16 anys i, per tant, xicalla
+        """
         muixeranguers = self.search([('muixeranguera', '=', True), ('age', '<', 16)])
         for muixeranguer in muixeranguers:
             edat = muixeranguer.age
@@ -134,6 +165,9 @@ class HrEmployee(models.Model):
     @api.multi
     @api.constrains('birthday', 'data_inscripcio')
     def _check_future_dates(self):
+        """
+        Ens assegurem que les dates de naixement i d'inscripció siguen coherents
+        """
         today = datetime.today().date()
         employees = self.filtered(lambda x: bool(x.birthday) or bool(x.data_inscripcio))
         for employee in employees:
@@ -149,6 +183,9 @@ class HrEmployee(models.Model):
                 raise ValidationError("No és possible una data d'inscripció anterior a la colla: {}❗".format(colla_str))
 
     def tronc_muixeranga(self):
+        """
+        Funció per mostrar els troncs del muixeranguer
+        """
         view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_tronc_tree_all').id
         view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_tronc_form').id
         name = "Tronc de {}".format(self.name)
@@ -158,6 +195,9 @@ class HrEmployee(models.Model):
         return action
 
     def pinya_muixeranga(self):
+        """
+        Funció per mostrar les pinyes del muixeranguer
+        """
         view_tree_id = self.env.ref('pinya_tecnica.view_muixeranga_pinya_tree_all').id
         view_form_id = self.env.ref('pinya_tecnica.view_muixeranga_pinya_form').id
         name = "Pinya de {}".format(self.name)
@@ -167,6 +207,9 @@ class HrEmployee(models.Model):
         return action
 
     def anthropometry_new(self):
+        """
+        Funció per mostrar els pesos i les alçades del muixeranguer
+        """
         action = super(HrEmployee, self).anthropometry_new()
         ctx = action.get('context')
         ctx.update({
@@ -178,6 +221,10 @@ class HrEmployee(models.Model):
 
     @api.model
     def create(self, vals):
+        """
+        Calcula els anys de d'inscripió a la colla
+        en el moment de crear-se el registre
+        """
         croquis = vals.get('nom_croquis', False)
         name = vals.get('name', False)
         if croquis:
@@ -199,6 +246,10 @@ class HrEmployee(models.Model):
 
     @api.multi
     def write(self, vals):
+        """
+        Calcula els anys de d'inscripió a la colla
+        en el moment de modificar-se el registre
+        """
         if 'nom_croquis' in vals:
             nom = vals.get('nom_croquis', False)
             name = vals.get('name', False) or self.name
@@ -221,6 +272,9 @@ class HrEmployee(models.Model):
 
     @api.multi
     def toggle_active(self):
+        """
+        Si arxivem l'empleat, arxivem també el partner
+        """
         res = super(HrEmployee, self).toggle_active()
         employee = self.env.context.get('toggle_active_employee', False)
         if self.address_home_id and employee:
@@ -306,13 +360,24 @@ class HrEmployeeActuacio(models.Model):
             suma_c = ", ".join(suma_n)
             m.count_actuacio_total = suma_c
 
+    @api.onchange("employee_id")
+    def _onchange_employee_id(self):
+        if self.employee_id:
+            self.name = self.employee_id.name
+        else:
+            self.name = False
+
     @api.model
     def create(self, vals):
         if not vals.get('name', False):
             muix = vals.get('employee_id')
             name = self.env['hr.employee'].browse(muix).name
             vals['name'] = name
-        res = super(HrEmployeeActuacio, self).create(vals)
+        res = self.search([('employee_id', '=', vals.get('employee_id')), ('actuacio_id', '=', vals.get('actuacio_id'))])
+        if bool(res) and not bool(res.assistencia):
+            res.write({'assistencia': True})
+        else:
+            res = super(HrEmployeeActuacio, self).create(vals)
         return res
 
     @api.multi

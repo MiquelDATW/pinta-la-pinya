@@ -303,9 +303,10 @@
             <field name="name">hr.employee.actuacio.tree</field>
             <field name="model">hr.employee.actuacio</field>
             <field name="arch" type="xml">
-                <tree string="Membres" decoration-muted="count_actuacio_total == ''">
+                <tree string="Membres" edit="false"
+                      decoration-muted="count_actuacio_total == ''">
                     <field name="name"/>
-                    <field name="assistencia"/>
+                    <field name="assistencia" invisible="1"/>
                     <field name="membre_at"/>
                     <field name="count_actuacio_total"/>
                     <field name="count_actuacio_pinya"/>
@@ -323,12 +324,17 @@
                 <form string="Membres">
                     <header/>
                     <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
                         <group name="membres">
                             <group name="info" string="Info">
-                                <field name="name" invisible="1"/>
                                 <field name="employee_id"
                                        context="{'form_view_ref': 'pinya_tecnica.hr_employee_membre_form'}"/>
-                                <field name="assistencia"/>
+                                <field name="assistencia" invisible="1"/>
                                 <field name="membre_at"/>
                                 <field name="actuacio_id"/>
                                 <field name="count_actuacio_total"/>
