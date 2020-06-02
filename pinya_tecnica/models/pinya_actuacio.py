@@ -68,6 +68,7 @@ class PinyaActuacio(models.Model):
         ('ready', 'Preparat'),
         ('done', 'Fet')
     ], string='Estat', required=True, default='draft')
+    obert = fields.Boolean(string="Encara obert", readonly=True)
 
     mestra_id = fields.Many2one('hr.employee.actuacio', string="Mestra")
     membre_actuacio_ids = fields.One2many('hr.employee.actuacio', 'actuacio_id', string="Membres")
@@ -281,6 +282,12 @@ class PinyaActuacio(models.Model):
                 error_msg = "Les muixerangues {} no estan 'Preparades'❗".format(names)
             raise ValidationError(error_msg)
         self.state = 'done'
+
+    def action_obrir_assaig(self):
+        self.obert = True
+
+    def action_tancar_assaig(self):
+        self.obert = False
 
     def action_cancel(self):
         muixes = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')

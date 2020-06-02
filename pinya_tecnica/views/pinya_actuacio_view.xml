@@ -28,6 +28,14 @@
                                 groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', ('actual', '=', False), ('state', 'not in', ['cancel', 'ready'])]}"
                                 type="object" class="btn-warning"/>
+                        <button string="Obrir assaig" name="action_obrir_assaig"
+                                groups="pinya_tecnica.group_pinya_manager"
+                                attrs="{'invisible': ['|', ('obert', '=', True), ('state', '!=', 'draft')]}"
+                                type="object" class="oe_highlight"/>
+                        <button string="Tancar assaig" name="action_tancar_assaig"
+                                groups="pinya_tecnica.group_pinya_manager"
+                                attrs="{'invisible': ['|', ('obert', '=', False), ('state', '!=', 'draft')]}"
+                                type="object" class="oe_highlight"/>
                         <button string="Importar membres" name="action_membres_import"
                                 groups="pinya_tecnica.group_pinya_manager"
                                 attrs="{'invisible': ['|', ('actual', '=', False), ('state', '!=', 'draft')]}"
@@ -97,10 +105,11 @@
                                        attrs="{'invisible': ['|', ('data_general', '=', False), ('tipus', '=', 'actuacio')], 'readonly': ['|', ('state', '!=', 'draft'), ('event_id', '!=', False)]}"/>
                                 <field name="tipus"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="actual" invisible="1"/>
                                 <field name="temporada_id"
                                        options="{'no_create_edit': True}"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="actual" invisible="1"/>
+                                <field name="obert" invisible="1"/>
                                 <field name="event_id"
                                        options="{'no_create_edit': True}"
                                        domain="[('actuacio_id', '=', False)]"
