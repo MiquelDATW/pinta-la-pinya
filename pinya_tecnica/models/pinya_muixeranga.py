@@ -248,35 +248,57 @@ class PinyaMuixeranga(models.Model):
                     membre = False
             return membre
 
+        # Iniciem el càlcul de la muixeranga
+        # ---------------------------------------------------------
         ocupats = []
+        # alineació és el % de posicions que són "noves"
         alineacio = int(self.alineacio)
+        # readies són la resta de figures de l'actuació que ja estan en estat preparat
         readies = self.actuacio_id.muixeranga_ids.filtered(lambda x: x.state == 'ready')
-
+        # muixe_readies són les persones que ocupen posicions en les altres troncs de l'actuació
         muixe_readies = readies.mapped('tronc_line_ids.employee_actuacio_id.employee_id')
+        # troncs són les posicions de tronc no ocupades ordenades per nivel de tècnica
         troncs = self.tronc_line_ids.filtered(lambda x: not x.membre_tronc_id).sorted('tecnica', reverse=True)
         i = 0
         for tronc in troncs:
             i += 1
+            # subfunció que calcula quina persona ocuparà aquesta posició
             membre = _calcular_membre("tronc", tronc, ocupats)
             if membre and membre.employee_id:
+                # Assignem la persona calculada a la posició
                 tronc.membre_tronc_level_id = membre.id
+                # Afegim la persona a la llista de persones que ocupen una posició en la figura
                 ocupats.append(membre.employee_id.id)
+                # Fem anotació en el log
                 _logger.info("Calculant tronc {} de {}...".format(str(i), len(troncs)))
 
+        # muixe_readies són les persones que ocupen posicions en les altres pinyes de l'actuació
         muixe_readies = readies.mapped('pinya_line_ids.employee_actuacio_id.employee_id')
+        # pinyes són les posicions de pinya no ocupades ordenades per nivel de tècnica
         pinyes = self.pinya_line_ids.filtered(lambda x: not x.membre_pinya_id).sorted('tecnica', reverse=True)
         tecniques = ['3', '2', '1', '0']
         i = 0
         for tecnica in tecniques:
+            # el procediment en les pinyes serà un poc diferent als troncs
+            # xq les pinyes són molt més nombroses en persones que els troncs
+            # començarem a omplir les posicions segons la tècnica que necessiten i
+            # ordenades per la seua prioritat
+            # ❗ tècnica és el nivell de coneixement per ocupar la posició
+            # ❗ prioritat és la urgència en ocupar eixa posició respecta una altra
             pinyes_ = pinyes.filtered(lambda x: x.tecnica == tecnica).sorted(lambda x: x.posicio_id.prioritat, reverse=True)
             for pinya in pinyes_:
                 i += 1
+                # subfunció que calcula quina persona ocuparà aquesta posició
                 membre = _calcular_membre("pinya", pinya, ocupats)
                 if membre and membre.employee_id:
+                    # Assignem la persona calculada a la posició
                     pinya.membre_pinya_level_id = membre.id
+                    # Afegim la persona a la llista de persones que ocupen una posició en la figura
                     ocupats.append(membre.employee_id.id)
+                    # Fem anotació en el log
                     _logger.info("Calculant pinya {} de {}...".format(str(i), len(pinyes)))
 
+        # Una vegada calculada la muixeranga, li canviem l'estat a "Preparada"
         self.state = 'ready'
 
     def tronc_muixeranga(self):
