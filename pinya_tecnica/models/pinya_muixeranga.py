@@ -401,10 +401,8 @@ class PinyaMuixerangaPinya(models.Model):
         """
         Calcula els muixeranguers recomanats per a una posició
         """
-        if not bool(self.ids):
-            return False
         muixeranga = self.mapped('muixeranga_pinya_id')
-        if len(muixeranga) > 1:
+        if len(muixeranga) > 1 or not bool(self.ids):
             return False
         muixers = muixeranga.lliure_ids
         pinyes = muixeranga.pinya_line_ids
@@ -492,10 +490,8 @@ class PinyaMuixerangaTronc(models.Model):
 
     @api.multi
     def _compute_recomanats(self):
-        if not bool(self.ids):
-            return False
         muixeranga = self.mapped('muixeranga_tronc_id')
-        if len(muixeranga) > 1:
+        if len(muixeranga) > 1 or not bool(self.ids):
             return False
         muixers = muixeranga.lliure_ids
         troncs = muixeranga.tronc_line_ids

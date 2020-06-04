@@ -13,11 +13,9 @@ class HrEmployee(models.Model):
     def _compute_display_data(self):
         for employee in self:
             employee.employee_display_personal_data = False
-            if self.user_has_groups('hr.group_hr_user'):
-                employee.employee_display_data = True
-            elif employee.user_id == self.env.user:
-                employee.employee_display_data = True
-            elif self.env.user.id in employee.family_ids.mapped('family_id.user_id').ids:
+            if self.user_has_groups('hr.group_hr_user') or \
+                    employee.user_id == self.env.user or \
+                    self.env.user.id in employee.family_ids.mapped('family_id.user_id').ids:
                 employee.employee_display_data = True
 
     employee_display_data = fields.Boolean(

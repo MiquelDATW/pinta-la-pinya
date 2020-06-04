@@ -39,7 +39,7 @@ class TelegramWizard(models.TransientModel):
             active_id = self.env.context.get('active_id')
             pinya = self.env[model_id].browse(active_id)
 
-            weekDays = ("dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge")
+            week_days = ("dilluns", "dimarts", "dimecres", "dijous", "divendres", "dissabte", "diumenge")
             xicalla = fields.Datetime.from_string(pinya.data_xicalla)
             general = fields.Datetime.from_string(pinya.data_general)
             if bool(xicalla):
@@ -56,7 +56,7 @@ class TelegramWizard(models.TransientModel):
             data = fields.Datetime.from_string(pinya.data_inici)
             if bool(data):
                 d_data = data.strftime("%d/%m/%Y")
-                d_dia = weekDays[data.weekday()]
+                d_dia = week_days[data.weekday()]
                 msg_text = msg_text.replace("{data}", d_data).replace("{dia}", d_dia)
                 if not bool(xicalla) and not bool(general):
                     h_hora = fields.Datetime.from_string(self._utc_to_tz(str(data))).strftime("%H:%M")
@@ -67,7 +67,7 @@ class TelegramWizard(models.TransientModel):
                 d2 = general if bool(general) else False
                 inici = (d1 if d1 <= d2 else d2) if d1 and d2 else (d1 if d1 else d2)
                 d_data = inici.strftime("%d/%m/%Y")
-                d_dia = weekDays[inici.weekday()]
+                d_dia = week_days[inici.weekday()]
                 msg_text = msg_text.replace("en el lloc i hora habituals;", "a les")
                 msg_text = msg_text.replace("{data}", d_data).replace("{dia}", d_dia)
 
@@ -89,31 +89,11 @@ class TelegramWizard(models.TransientModel):
             pinya = self.env[model_id].browse(active_id)
             pinya.missatge_enviat = True
 
-        # headers = {
-        #     'content-type': 'application/x-www-form-urlencoded',
-        #     'charset': 'utf-8'
-        # }
-        #
-        # data = {
-        #     'login': 'admin',
-        #     'password': '1234',
-        #     'db': 'pinya_0428'
-        # }
-        # base_url = 'http://localhost:8069'
-        #
-        # req = requests.get('{}/api/auth/token'.format(base_url), data=data, headers=headers)
-        #
-        # content = json.loads(req.content.decode('utf-8'))
-        #
-        # headers['access-token'] = content.get('access_token')  # add the access token to the header
-        # print(headers)
-
         return res
 
     @api.model
     def _utc_to_tz(self, date):
         date_dt = datetime.strptime(date, DEFAULT_SERVER_DATETIME_FORMAT)
-        tz_info = fields.Datetime.context_timestamp(self, date_dt).tzinfo
         tz = pytz.timezone('Europe/Madrid')
         date_dt = date_dt.replace(tzinfo=pytz.UTC).astimezone(tz).replace(tzinfo=None)
         return date_dt.strftime(DEFAULT_SERVER_DATETIME_FORMAT)

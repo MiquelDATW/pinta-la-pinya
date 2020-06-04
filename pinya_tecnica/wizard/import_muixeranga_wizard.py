@@ -29,7 +29,7 @@ class PinyaMuixerangaWizard(models.TransientModel):
             return False
         for line in lines:
             for i in range(line.numero):
-                new_muixeranga = line.plantilla_id.crear_muixeranga(actuacio)
+                line.plantilla_id.crear_muixeranga(actuacio)
         return True
 
 

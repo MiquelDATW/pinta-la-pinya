@@ -243,6 +243,7 @@ class PinyaActuacio(models.Model):
         """
         Comproba que totes les muixerangues estan preparades per passar a "Preparat"
         """
+        i = "' i '"
         muixerangues = self.muixeranga_ids.filtered(lambda x: x.state != 'cancel')
         if not bool(muixerangues):
             error_msg = "Cal que hi hagen muixerangues actives❗"
@@ -254,7 +255,7 @@ class PinyaActuacio(models.Model):
                 names = names[0]
                 error_msg = "La muixeranga '{}' no està 'Preparada'❗".format(names)
             else:
-                names = "'" + "', '".join(names[0:-1]) + "' i '" + names[-1] + "'"
+                names = "'" + "', '".join(names[0:-1]) + i + names[-1] + "'"
                 error_msg = "Les muixerangues {} no estan 'Preparades'❗".format(names)
             raise ValidationError(error_msg)
         draft = muixerangues.filtered(lambda x: x.state == 'draft')
@@ -276,25 +277,25 @@ class PinyaActuacio(models.Model):
                     error_msg = "La muixeranga '{}' {} i la muixeranga '{}' {}❗".format(names_t, falta_t, names_p, falta_p)
                 elif len(names_t) > 1 and len(names_p) > 1 and names_p == names_t:
                     falta_t = "els falten preparar els troncs i les pinyes"
-                    names_t = "'" + "', '".join(names_t[0:-1]) + "' i '" + names_t[-1] + "'"
+                    names_t = "'" + "', '".join(names_t[0:-1]) + i + names_t[-1] + "'"
                     error_msg = "Les muixerangues {} {}❗".format(names_t, falta_t)
                 elif len(names_t) > 1 and len(names_p) > 1 and names_p != names_t:
                     falta_t = "els falta preparar els troncs"
                     falta_p = "els falta preparar les pinyes"
-                    names_t = "'" + "', '".join(names_t[0:-1]) + "' i '" + names_t[-1] + "'"
-                    names_p = "'" + "', '".join(names_p[0:-1]) + "' i '" + names_p[-1] + "'"
+                    names_t = "'" + "', '".join(names_t[0:-1]) + i + names_t[-1] + "'"
+                    names_p = "'" + "', '".join(names_p[0:-1]) + i + names_p[-1] + "'"
                     error_msg = "Les muixerangues {} {} i les muixerangues {} {}❗".format(names_t, falta_t, names_p, falta_p)
                 elif len(names_t) > 1 and len(names_p) == 1 and names_p != names_t:
                     falta_t = "els falta preparar els troncs"
                     falta_p = "li falta preparar la pinya"
-                    names_t = "'" + "', '".join(names_t[0:-1]) + "' i '" + names_t[-1] + "'"
+                    names_t = "'" + "', '".join(names_t[0:-1]) + i + names_t[-1] + "'"
                     names_p = names_p[0]
                     error_msg = "Les muixerangues {} {} i la muixeranga '{}' {}❗".format(names_t, falta_t, names_p, falta_p)
                 elif len(names_t) == 1 and len(names_p) > 1 and names_p != names_t:
                     falta_t = "li falta preparar el tronc"
                     falta_p = "els falta preparar les pinyes"
                     names_t = names_t[0]
-                    names_p = "'" + "', '".join(names_p[0:-1]) + "' i '" + names_p[-1] + "'"
+                    names_p = "'" + "', '".join(names_p[0:-1]) + i + names_p[-1] + "'"
                     error_msg = "La muixeranga '{}' {} i les muixerangues {} {}❗".format(names_t, falta_t, names_p, falta_p)
                 else:
                     error_msg = "Error❗"
@@ -308,6 +309,7 @@ class PinyaActuacio(models.Model):
         """
         Comproba que totes les muixerangues estan preparades per passar a "Fet"
         """
+        i = "' i '"
         not_ready = self.muixeranga_ids.filtered(lambda x: x.state != 'ready')
         if bool(not_ready):
             names = not_ready.mapped('name')
@@ -315,7 +317,7 @@ class PinyaActuacio(models.Model):
                 names = names[0]
                 error_msg = "La muixeranga '{}' no està 'Preparada'❗".format(names)
             else:
-                names = "'" + "', '".join(names[0:-1]) + "' i '" + names[-1] + "'"
+                names = "'" + "', '".join(names[0:-1]) + i + names[-1] + "'"
                 error_msg = "Les muixerangues {} no estan 'Preparades'❗".format(names)
             raise ValidationError(error_msg)
         self.state = 'done'
@@ -374,7 +376,6 @@ class PinyaActuacio(models.Model):
         Funció auxiliar per passar de tz a utc
         """
         date_dt1 = datetime.strptime(date, DEFAULT_SERVER_DATETIME_FORMAT)
-        tz_info = fields.Datetime.context_timestamp(self, date_dt1).tzinfo
         tz = pytz.timezone('Europe/Madrid')
         date_dt2 = tz.localize(date_dt1, is_dst=None)
         date_dt3 = date_dt2.astimezone(pytz.utc)
