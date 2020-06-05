@@ -2,9 +2,12 @@
 # (c) 2020 Miquel March <m.marchpuig@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
 from odoo.exceptions import ValidationError
 from datetime import datetime
 from odoo import api, models, fields
+
+_logger = logging.getLogger(__name__)
 
 
 class PartnerEmployeeCreateWizard(models.TransientModel):
@@ -59,18 +62,31 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
 
     def create_partner_employee(self):
         """
-        Crea al mateix temps: l'empleat i el contacte
+        Crea al mateix temps: l'empleat, el contacte i l'usuari
         """
-        partner_obj = self.env['res.partner']
+        users_obj = self.env['res.users']
         employee_obj = self.env['hr.employee']
         emp_skill_obj = self.env['hr.employee.skill']
         anthropometry_obj = self.env['hr.employee.anthropometry']
 
         data = {
-            'image': self.image,
+            'active': True,
+            'company_ids': [[6, False, [1]]],
+            'company_id': 1,
+            'lang': "ca_ES",
+            'tz': "Europe/Madrid",
             'name': self.nom,
-            'is_company': False,
-            'type': 'contact',
+            'login': self.nom,
+            'image': self.image,
+        }
+        user = users_obj.create(data)
+        pinya_user = self.env.ref("pinya_tecnica.group_pinya_user")
+        user.groups_id = [(6, 0, (user.groups_id | pinya_user).ids)]
+        _logger.info("Creant usuari: {}❗".format(user.name))
+
+        partner = user.partner_id
+
+        data = {
             'muixeranguera': True,
             'colla_id': self.colla_id.id,
             'email': self.email,
@@ -84,7 +100,8 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
             'state_id': self.zip_id.state_id.id,
             'comment': self.notes,
         }
-        partner = partner_obj.create(data)
+        partner.write(data)
+        _logger.info("Creant contacte: {}❗".format(partner.name))
 
         data = {
             'image': partner.image,
@@ -92,13 +109,14 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
             'nom_croquis': self.nom_croquis,
             'address_home_id': partner.id,
             'gender': self.gender,
-            'marital_status': self.marital_status,
+            'marital': self.marital_status,
             'birthday': self.data_naixement,
             'data_inscripcio': self.data_inscripcio,
             'notes': self.notes,
         }
         employee = employee_obj.create(data)
         partner.membre_id = employee.id
+        _logger.info("Creant empleat: {}❗".format(employee.name))
 
         lines = self.employee_skill_ids
         skills = emp_skill_obj
