@@ -53,7 +53,7 @@ class PinyaActuacio(models.Model):
     data_final = fields.Datetime(string="Data final")
     data_xicalla = fields.Datetime(string="Assaig xicalla")
     data_general = fields.Datetime(string="Assaig general")
-    notes = fields.Text(string="Altra informació")
+    notes = fields.Html(string="Altra informació")
     organizer_id = fields.Many2one(string="Organitzador", comodel_name="res.partner",
                                       related="event_id.organizer_id", store=True)
     event_id = fields.Many2one(string="Esdeveniment", comodel_name="event.event")
