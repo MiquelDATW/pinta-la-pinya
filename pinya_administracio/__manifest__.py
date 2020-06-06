@@ -29,6 +29,7 @@
         "views/hr_employee_views.xml",
         "views/membership_views.xml",
         "views/pinya_actuacio_views.xml",
+        "views/sale_views.xml",
         "data/membership_data.xml",
         "data/products_data.xml",
     ],

@@ -9,6 +9,8 @@ from odoo.exceptions import ValidationError
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    event_id = fields.Many2one(string="Esdeveniment", comodel_name="event.event")
+
     @api.multi
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
@@ -24,6 +26,8 @@ class SaleOrder(models.Model):
                 'date_end': self.opportunity_id.data_final,
             }
             event = event_obj.create(data)
+            self.event_id = event.id
+
             actuacio_obj = self.env['pinya.actuacio']
             data = {
                 'name': self.opportunity_id.name,
