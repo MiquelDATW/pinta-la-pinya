@@ -33,8 +33,8 @@ def post_init_hook(cr, registry):
         quota_anual.write({
             'name': "Quota col·laborador {}".format(year),
             'description': "Quota de l'any {} membre col·laborador de la colla.".format(year),
-            'membership_date_from': "01/01/{}".format(year),
-            'membership_date_to': "31/12/{}".format(year),
+            'membership_date_from': "{}/01/01".format(year),
+            'membership_date_to': "{}/12/31".format(year),
         })
 
 

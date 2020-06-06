@@ -18,6 +18,4 @@ class HrEmployee(models.Model):
                     self.env.user.id in employee.family_ids.mapped('family_id.user_id').ids:
                 employee.employee_display_data = True
 
-    employee_display_data = fields.Boolean(
-        compute='_compute_display_data'
-    )
+    employee_display_data = fields.Boolean('Display data', compute='_compute_display_data')

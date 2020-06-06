@@ -10,9 +10,14 @@ Installation
 ============
 
 * association
+* crm
+* l10n_es
 * membership_extension
 * membership_withdrawal
 * pinya_tecnica
+* purchase
+* sale_management
+* stock
 
 Configuration
 =============

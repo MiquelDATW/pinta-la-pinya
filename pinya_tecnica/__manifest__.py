@@ -16,9 +16,11 @@
         "contacts",
         "event",
         "hr_skill",
+        "hr_attendance",
         "mm_hr_team",
         "mm_hr_nutrition",
         "mm_hr_employee_age",
+        "mm_hr_employee_family",
         "pinya_complements",
     ],
     "data": [

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+
+        <record id="view_actuacio_prepara_form" model="ir.ui.view">
+            <field name="name">pinya.actuacio.prepara.form</field>
+            <field name="model">pinya.actuacio</field>
+            <field name="inherit_id" ref="pinya_tecnica.view_actuacio_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='event_id']" position="after">
+                    <field name="preparatori_id"
+                           attrs="{'invisible': [('tipus', '=', 'actuacio')]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

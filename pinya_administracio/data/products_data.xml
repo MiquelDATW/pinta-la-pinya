@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data noupdate="1">
+
+        <record id="cat_muixeranga_actuacions" model="product.category">
+            <field name="parent_id" ref="product.product_category_1"/>
+            <field name="name">Actuacions de muixeranga</field>
+        </record>
+
+        <record id="product.muixeranga_actuacio_cercavila" model="product.template">
+            <field name="type">service</field>
+            <field name="name">Actuació muixeranga (cercavila)</field>
+            <field name="categ_id" ref="cat_muixeranga_actuacions"/>
+            <field name="list_price">500.0</field>
+            <field name="description">Actuació muixeranguera en cercavila (2h), entre 15 i 20 figures.</field>
+        </record>
+
+        <!--
+        <record id="product.service_insercion" model="product.template">
+            <field name="name">Inserción</field>
+            <field name="sale_ok">True</field>
+            <field name="type">service</field>
+            <field name="gedsa_servicio">insercion</field>
+            <field name="service_policy">ordered_timesheet</field>
+            <field name="service_tracking">create_template_project</field>
+            <field name="project_template_id" ref="project.project_template_insercion"/>
+            <field name="categ_id" ref="product.product_category_1"/>
+        </record>-->
+
+        <record id="product.muixeranga_actuacio_estatica" model="product.template">
+            <field name="type">service</field>
+            <field name="name">Actuació muixeranga (estàtica)</field>
+            <field name="categ_id" ref="cat_muixeranga_actuacions"/>
+            <field name="list_price">300.0</field>
+            <field name="description">Actuació muixeranguera en plaça (30'), entre 5 i 8 figures.</field>
+        </record>
+
+        <record id="product.muixeranga_taller" model="product.template">
+            <field name="type">service</field>
+            <field name="name">Taller de muixeranga</field>
+            <field name="categ_id" ref="cat_muixeranga_actuacions"/>
+            <field name="list_price">200.0</field>
+            <field name="description">Taller de muixeranguera (30').</field>
+        </record>
+
+        <record id="product.muixeranga_xarrada" model="product.template">
+            <field name="type">service</field>
+            <field name="name">Xarrada de muixeranga</field>
+            <field name="categ_id" ref="cat_muixeranga_actuacions"/>
+            <field name="list_price">200.0</field>
+            <field name="description">Xarrada de muixeranguera (1h).</field>
+        </record>
+
+    </data>
+</odoo>

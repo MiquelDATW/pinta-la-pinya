@@ -6,12 +6,23 @@
 <odoo>
     <data noupdate="1">
 
+        <record id="cat_muixeranga_internal" model="product.category">
+            <field name="parent_id" ref="product.product_category_1"/>
+            <field name="name">Quotes internes</field>
+        </record>
+
+        <record id="membership_category_collaborator"
+                model="membership.membership_category">
+            <field name="name">Col·laborador/a</field>
+        </record>
+
         <record id="product.membership_quota_inicial"
                 model="product.template">
             <field name="membership_category_id"
                    ref="membership_extension.membership_category_member"/>
             <field name="type">service</field>
             <field name="name">Quota inicial</field>
+            <field name="categ_id" ref="cat_muixeranga_internal"/>
             <field name="list_price">10.0</field>
             <field name="membership">True</field>
             <field name="description">Quota d'inscripció a la colla. Es paga una vegada en la vida.</field>
@@ -23,6 +34,7 @@
                    ref="membership_extension.membership_category_member"/>
             <field name="type">service</field>
             <field name="name">Quota completa anual</field>
+            <field name="categ_id" ref="cat_muixeranga_internal"/>
             <field name="list_price">20.0</field>
             <field name="membership">True</field>
             <field name="description">Quota anual membre complet de la colla.</field>
@@ -34,9 +46,11 @@
                    ref="pinya_administracio.membership_category_collaborator"/>
             <field name="type">service</field>
             <field name="name">Quota col·laborador anual</field>
+            <field name="categ_id" ref="cat_muixeranga_internal"/>
             <field name="list_price">10.0</field>
             <field name="membership">True</field>
             <field name="description">Quota anual membre col·laborador de la colla.</field>
         </record>
+
     </data>
 </odoo>

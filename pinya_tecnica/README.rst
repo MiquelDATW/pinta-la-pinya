@@ -11,9 +11,12 @@ Installation
 
 * contacts
 * event
+* hr_attendance
 * hr_skill
-* mm_hr_team
+* mm_hr_employee_age
+* mm_hr_employee_family
 * mm_hr_nutrition
+* mm_hr_team
 * pinya_complements
 
 Configuration
