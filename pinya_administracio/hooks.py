@@ -26,8 +26,8 @@ def post_init_hook(cr, registry):
         quota_anual.write({
             'name': "Quota completa {}".format(year),
             'description': "Quota de l'any {} membre complet de la colla.".format(year),
-            'membership_date_from': "01/01/{}".format(year),
-            'membership_date_to': "31/12/{}".format(year),
+            'membership_date_from': "{}/01/01".format(year),
+            'membership_date_to': "{}/12/31".format(year),
         })
         quota_anual = env.ref('product.membership_collaborator_quota_anual')
         quota_anual.write({
