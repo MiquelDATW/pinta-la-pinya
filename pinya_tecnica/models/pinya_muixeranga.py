@@ -435,7 +435,15 @@ class PinyaMuixerangaPinya(models.Model):
     @api.multi
     def write(self, vals):
         res = super(PinyaMuixerangaPinya, self).write(vals)
-        return res
+        reload = {
+            'view_id': self.env.ref('pinya_tecnica.view_muixeranga_pinya_tree_selected').id,
+            'view_type': 'tree',
+            'view_mode': 'tree',
+            'res_model': 'pinya.muixeranga.pinya',
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+        }
+        return reload
 
 
 class PinyaMuixerangaTronc(models.Model):
@@ -521,5 +529,14 @@ class PinyaMuixerangaTronc(models.Model):
     @api.multi
     def write(self, vals):
         res = super(PinyaMuixerangaTronc, self).write(vals)
-        return res
+        reload = {
+            'view_id': self.env.ref('pinya_tecnica.view_muixeranga_tronc_tree_selected').id,
+            'view_type': 'tree',
+            'view_mode': 'tree',
+            'res_model': 'pinya.muixeranga.tronc',
+            'type': 'ir.actions.act_window',
+            'target': 'current',
+        }
+        return reload
+
 
