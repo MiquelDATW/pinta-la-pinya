@@ -23,7 +23,7 @@
                 </xpath>
                 <xpath expr="//field[@name='date_begin']" position="before">
                     <field name="actuacio_id"
-                           options="{'no_create_edit': True}"
+                           options="{'no_create': True}"
                            domain="['&amp;', ('event_id', '=', False), ('tipus', '=', 'actuacio')]"/>
                 </xpath>
             </field>

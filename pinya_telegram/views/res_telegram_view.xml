@@ -64,7 +64,7 @@
                         <group>
                             <group name="info" string="Info">
                                 <field name="partner_id"
-                                       options="{'no_create_edit': True}"/>
+                                       options="{'no_create': True}"/>
                                 <field name="tipus"/>
                                 <field name="identificador"/>
                             </group>

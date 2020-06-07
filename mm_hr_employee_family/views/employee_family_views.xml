@@ -37,11 +37,11 @@
                         </group>
                         <group>
                             <group name="family">
-                                <field name="employee_id" options="{'no_create_edit': True}"/>
+                                <field name="employee_id" options="{'no_create': True}"/>
                                 <field name="relation_id"/>
                                 <field name="family_name"
                                        attrs="{'invisible': [('is_relation', '=', True)], 'required': [('is_relation', '=', False)]}"/>
-                                <field name="family_id" options="{'no_create_edit': True}"
+                                <field name="family_id" options="{'no_create': True}"
                                        attrs="{'invisible': [('is_relation', '=', False)], 'required': [('is_relation', '=', True)]}"/>
                             </group>
                             <group>

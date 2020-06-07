@@ -46,27 +46,27 @@
                             <group name="junta" string="Junta Directiva">
                                 <field name="jd_presidencia_ids"
                                        widget="many2many_tags"
-                                       options="{'no_create_edit': True}"/>
+                                       options="{'no_create': True}"/>
                                 <field name="jd_secretaria_ids"
                                        widget="many2many_tags"
-                                       options="{'no_create_edit': True}"/>
+                                       options="{'no_create': True}"/>
                                 <field name="jd_tresoreria_ids"
                                        widget="many2many_tags"
-                                       options="{'no_create_edit': True}"/>
+                                       options="{'no_create': True}"/>
                             </group>
                             <group name="area_tecnica" string="Àrea Tècnica">
                                 <field name="at_mestra_ids"
                                        widget="many2many_tags"
-                                       options="{'no_create_edit': True}"/>
+                                       options="{'no_create': True}"/>
                                 <field name="at_cap_de_pinya_ids"
                                        widget="many2many_tags"
-                                       options="{'no_create_edit': True}"/>
+                                       options="{'no_create': True}"/>
                                 <field name="at_cap_de_tronc_ids"
                                        widget="many2many_tags"
-                                       options="{'no_create_edit': True}"/>
+                                       options="{'no_create': True}"/>
                                 <field name="at_cap_de_xicalla_ids"
                                        widget="many2many_tags"
-                                       options="{'no_create_edit': True}"/>
+                                       options="{'no_create': True}"/>
                             </group>
                             <group name="federacio" string="Federació">
                                 <field name="federacio"/>

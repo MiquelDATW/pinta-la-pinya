@@ -106,12 +106,12 @@
                                 <field name="tipus"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="temporada_id"
-                                       options="{'no_create_edit': True}"
+                                       options="{'no_create': True}"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="actual" invisible="1"/>
                                 <field name="obert" invisible="1"/>
                                 <field name="event_id"
-                                       options="{'no_create_edit': True}"
+                                       options="{'no_create': True}"
                                        domain="[('actuacio_id', '=', False)]"
                                        attrs="{'readonly': [('state', '!=', 'draft')], 'invisible': [('tipus', '=', 'assaig')]}"/>
                                 <field name="organizer_id"
@@ -120,7 +120,7 @@
                             </group>
                             <group name="persones" string="Persones">
                                 <field name="mestra_id"
-                                       options="{'no_create_edit': True}"
+                                       options="{'no_create': True}"
                                        attrs="{'readonly': [('state', '!=', 'draft')]}"
                                        domain="[('id', 'in', membre_actuacio_ids), ('membre_at', '=', True)]"/>
                                 <field name="membres_count_calc"/>

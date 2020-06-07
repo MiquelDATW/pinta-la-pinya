@@ -93,22 +93,22 @@
                             <group name="altra" string="Altra informació">
                                 <field name="alineacio"/>
                                 <field name="mestra_id"
-                                       options="{'no_create_edit': True}"
+                                       options="{'no_create': True}"
                                        context="{'form_view_ref': 'pinya_tecnica.hr_employee_membre_form'}"
                                        domain="[('id', 'in', lliure_ids), ('membre_at', '=', True)]"/>
                                 <field name="passadora_id"
                                        attrs="{'invisible': [('tipus', '=', 'aixecat')]}"
-                                       options="{'no_create_edit': True}"
+                                       options="{'no_create': True}"
                                        context="{'form_view_ref': 'pinya_tecnica.hr_employee_membre_form'}"
                                        domain="[('id', 'in', lliure_ids)]"/>
                                 <field name="estiradora_id"
                                        attrs="{'invisible': [('tipus', '!=', 'aixecat')]}"
-                                       options="{'no_create_edit': True}"
+                                       options="{'no_create': True}"
                                        context="{'form_view_ref': 'pinya_tecnica.hr_employee_membre_form'}"
                                        domain="[('id', 'in', lliure_ids)]"/>
                                 <field name="resp_xicalla_ids" string="Resp. xicalla"
                                        context="{'form_view_ref': 'pinya_tecnica.hr_employee_membre_form'}"
-                                       options="{'no_create_edit': True}"
+                                       options="{'no_create': True}"
                                        domain="[('id', 'in', lliure_ids)]"
                                        widget="many2many_tags"/>
                             </group>
@@ -285,7 +285,7 @@
                                 <field name="pis"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
                                 <field name="posicio_id"
-                                       options="{'no_create_edit': True}"
+                                       options="{'no_create': True}"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                                        domain="[('tipus', '=', 'tronc')]"/>
                                 <field name="tecnica" widget="priority"
@@ -298,14 +298,14 @@
                             <group name="muixeranga_dades">
                                 <field name="muixeranga_tronc_id"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
-                                       options="{'no_create_edit': True}"/>
+                                       options="{'no_create': True}"/>
                                 <field name="actuacio_id"/>
                                 <field name="data" widget="date"/>
                             </group>
                             <group class="oe_edit_only"
                                    attrs="{'invisible': ['|', ('muixeranga_state', '!=', 'draft'), ('muixeranga_tronc_id', '=', False)]}">
                                 <field name="membre_tronc_level_id"
-                                       options="{'no_create_edit': True}"
+                                       options="{'no_create': True}"
                                        domain="[('id', 'in', recomanats_ids)]"/>
                                 <field name="recomanats_ids" invisible="1"/>
                             </group>
@@ -354,7 +354,7 @@
                     <field name="membre_tronc_id" readonly="1"
                            context="{'form_view_ref': 'pinya_tecnica.hr_employee_membre_form'}"/>
                     <field name="membre_tronc_level_id"
-                           options="{'no_create_edit': True}"
+                           options="{'no_create': True}"
                            groups="pinya_tecnica.group_pinya_manager"
                            attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                            domain="[('id', 'in', recomanats_ids)]"/>
@@ -452,7 +452,7 @@
                                 <field name="rengle"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"/>
                                 <field name="posicio_id"
-                                       options="{'no_create_edit': True}"
+                                       options="{'no_create': True}"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                                        domain="[('tipus', '=', 'pinya')]"/>
                                 <field name="tecnica" widget="priority"
@@ -465,14 +465,14 @@
                             <group name="muixeranga_dades">
                                 <field name="muixeranga_pinya_id"
                                        attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
-                                       options="{'no_create_edit': True}"/>
+                                       options="{'no_create': True}"/>
                                 <field name="actuacio_id"/>
                                 <field name="data" widget="date"/>
                             </group>
                             <group class="oe_edit_only"
                                    attrs="{'invisible': ['|', ('muixeranga_state', '!=', 'draft'), ('muixeranga_pinya_id', '=', False)]}">
                                 <field name="membre_pinya_level_id"
-                                       options="{'no_create_edit': True}"
+                                       options="{'no_create': True}"
                                        domain="[('id', 'in', recomanats_ids)]"/>
                                 <field name="recomanats_ids" invisible="1"/>
                             </group>
@@ -523,7 +523,7 @@
                            context="{'form_view_ref': 'pinya_tecnica.hr_employee_membre_form'}"/>
                     <field name="membre_pinya_level_id"
                            groups="pinya_tecnica.group_pinya_manager"
-                           options="{'no_create_edit': True}"
+                           options="{'no_create': True}"
                            attrs="{'readonly': [('muixeranga_state', '!=', 'draft')]}"
                            domain="[('id', 'in', recomanats_ids)]"/>
                     <field name="muixeranga_pinya_id" invisible="1"/>
