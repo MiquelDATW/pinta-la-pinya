@@ -180,79 +180,89 @@ class PinyaMuixeranga(models.Model):
         for pinya in pinyes:
             pinya.membre_pinya_level_id = False
 
+    def calcular_membre(self, tipus, muixe, ocupats, muixe_readies):
+        """
+        Calculem una membre
+        """
+        def _calcular_tronc(tronc, alsada_best):
+            if alsada_best:
+                alsades = tronc.sorted(lambda x: abs(x.alsada_muscle - alsada_best))
+            else:
+                i = random.randint(0, len(tronc) - 1)
+                alsades = tronc[i]
+            res = alsades[0]
+            return res
+
+        def _calcular_pinya(pinya):
+            pinya = pinya.sorted('alsada_bras', reverse=True)
+            res = pinya[0]
+            return res
+
+        # alineació és el % de posicions que són "noves"
+        alineacio = int(self.alineacio)
+
+        recomanats = muixe.recomanats_ids.filtered(lambda x: x.employee_id.id not in ocupats)
+        aptes = recomanats.filtered(lambda x: x.level >= muixe.tecnica)
+        if not bool(aptes):
+            aptes = recomanats
+        if not bool(aptes):
+            muixeranga = muixe.muixeranga_pinya_id.name if tipus == "pinya" else muixe.muixeranga_tronc_id.name
+            _logger.info("No es pot omplir la posició <{}> de la figura <{}>❗".format(
+                muixe.posicio_id.name, muixeranga))
+            return False
+
+        uniq_posicio = muixe.quisocjo.split('__')[0]
+        if tipus == "tronc":
+            t1 = map(lambda x: x.membre_tronc_id,
+                     muixe.search([('quisocjo', 'ilike', uniq_posicio), ('membre_tronc_id', '!=', False)]))
+            t2 = list(t1)
+            t3 = self.env['hr.employee']
+            for t in t2:
+                t3 += t
+            alsada_best = round(statistics.mean(t3.mapped('alsada_muscle'))) if bool(t3) else False
+            people = t3.filtered(lambda x: x.id not in ocupats) if bool(t3) else False
+        elif tipus == "pinya":
+            people = muixe.search([('muixeranga_pinya_id', '!=', muixe.muixeranga_pinya_id.id),
+                                   ('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_pinya_id')
+            all_time = muixe.search([('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_pinya_id')
+            alsada_best = max(all_time.mapped('alsada_bras')) if bool(all_time) else False
+        else:
+            alsada_best = people = False
+
+        sabuts = aptes.filtered(lambda x: x.employee_id.id in people.ids) if bool(people) else aptes
+        sabuts2 = sabuts.filtered(lambda x: x.employee_id.id not in muixe_readies.ids)
+        if not bool(sabuts2):
+            sabuts2 = sabuts
+            
+        seguretat = random.randint(0, 100)
+        if seguretat <= alineacio and bool(sabuts2):
+            if tipus == "tronc":
+                membre = _calcular_tronc(sabuts2, alsada_best)
+            elif tipus == "pinya":
+                membre = _calcular_pinya(sabuts2)
+            else:
+                membre = False
+        else:
+            equilibris = aptes.filtered(lambda x: x.employee_id.id not in muixe_readies.ids)
+            if not bool(equilibris):
+                equilibris = recomanats.filtered(lambda x: x.employee_id.id not in muixe_readies.ids)
+                if not bool(equilibris):
+                    equilibris = aptes
+            if tipus == "tronc":
+                membre = _calcular_tronc(equilibris, alsada_best)
+            elif tipus == "pinya":
+                membre = _calcular_pinya(equilibris)
+            else:
+                membre = False
+        return membre
+
     def calcular_muixeranga(self):
         """
         Calculem la muixeranga
         """
-        def _calcular_membre(tipus, muixe, ocupats):
-            def _calcular_tronc(tronc, alsada_best):
-                if alsada_best:
-                    alsades = tronc.sorted(lambda x: abs(x.alsada_muscle - alsada_best))
-                else:
-                    i = random.randint(0, len(tronc) - 1)
-                    alsades = tronc[i]
-                res = alsades[0]
-                return res
-
-            def _calcular_pinya(pinya):
-                pinya = pinya.sorted('alsada_bras', reverse=True)
-                res = pinya[0]
-                return res
-
-            recomanats = muixe.recomanats_ids.filtered(lambda x: x.employee_id.id not in ocupats)
-            aptes = recomanats.filtered(lambda x: x.level >= muixe.tecnica)
-            if not bool(aptes):
-                aptes = recomanats
-            if not bool(aptes):
-                muixeranga = muixe.muixeranga_pinya_id.name if tipus == "pinya" else \
-                    (muixe.muixeranga_tronc_id.name if tipus == "tronc" else "")
-                _logger.error("No es pot omplir la posició <{}> de la figura <{}>❗".format(
-                    muixe.posicio_id.name, muixeranga))
-                return False
-
-            uniq_posicio = muixe.quisocjo.split('__')[0]
-            if tipus == "tronc":
-                people = tronc.search([('muixeranga_tronc_id', '!=', tronc.muixeranga_tronc_id.id),
-                                       ('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_tronc_id')
-                all_time = tronc.search([('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_tronc_id')
-                alsada_best = round(statistics.mean(all_time.mapped('alsada_muscle'))) if bool(all_time) else False
-            elif tipus == "pinya":
-                people = pinya.search([('muixeranga_pinya_id', '!=', pinya.muixeranga_pinya_id.id),
-                                       ('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_pinya_id')
-                all_time = pinya.search([('quisocjo', 'ilike', uniq_posicio)]).mapped('membre_pinya_id')
-                alsada_best = max(all_time.mapped('alsada_bras')) if bool(all_time) else False
-            else:
-                alsada_best = people = False
-
-            sabuts = aptes.filtered(lambda x: x.employee_id.id in people.ids) if bool(people) else aptes
-
-            seguretat = random.randint(0, 100)
-            if seguretat <= alineacio and bool(sabuts):
-                if tipus == "tronc":
-                    membre = _calcular_tronc(sabuts, alsada_best)
-                elif tipus == "pinya":
-                    membre = _calcular_pinya(sabuts)
-                else:
-                    membre = False
-            else:
-                equilibris = aptes.filtered(lambda x: x.employee_id.id not in muixe_readies.ids)
-                if not bool(equilibris):
-                    equilibris = recomanats.filtered(lambda x: x.employee_id.id not in muixe_readies.ids)
-                    if not bool(equilibris):
-                        equilibris = aptes
-                if tipus == "tronc":
-                    membre = _calcular_tronc(equilibris, alsada_best)
-                elif tipus == "pinya":
-                    membre = _calcular_pinya(equilibris)
-                else:
-                    membre = False
-            return membre
-
         # Iniciem el càlcul de la muixeranga
         # ---------------------------------------------------------
         ocupats = []
-        # alineació és el % de posicions que són "noves"
-        alineacio = int(self.alineacio)
         # readies són la resta de figures de l'actuació que ja estan en estat preparat
         readies = self.actuacio_id.muixeranga_ids.filtered(lambda x: x.state == 'ready')
         # muixe_readies són les persones que ocupen posicions en les altres troncs de l'actuació
@@ -263,7 +273,7 @@ class PinyaMuixeranga(models.Model):
         for tronc in troncs:
             i += 1
             # subfunció que calcula quina persona ocuparà aquesta posició
-            membre = _calcular_membre("tronc", tronc, ocupats)
+            membre = self.calcular_membre("tronc", tronc, ocupats, muixe_readies)
             if membre and membre.employee_id:
                 # Assignem la persona calculada a la posició
                 tronc.membre_tronc_level_id = membre.id
@@ -289,7 +299,7 @@ class PinyaMuixeranga(models.Model):
             for pinya in pinyes_:
                 i += 1
                 # subfunció que calcula quina persona ocuparà aquesta posició
-                membre = _calcular_membre("pinya", pinya, ocupats)
+                membre = self.calcular_membre("pinya", pinya, ocupats, muixe_readies)
                 if membre and membre.employee_id:
                     # Assignem la persona calculada a la posició
                     pinya.membre_pinya_level_id = membre.id
