@@ -5,7 +5,7 @@
 {
     "name": "HR Nutrition",
     "summary": "Manage your employees' nutrition",
-    "version": "11.0.1.0.4",
+    "version": "11.0.1.0.5",
     "category": "Health",
     "website": "https://github.com/MiquelDATW/pinta-la-pinya",
     "author": "Ursa Information Systems, Miquel March",
@@ -22,5 +22,6 @@
         "views/anthropometry_view.xml",
         "views/hr_employee_view.xml",
         "views/nutrition_view.xml",
+        "views/menus.xml",
     ],
 }

@@ -5,6 +5,45 @@
 -->
 <odoo>
     <data>
+        <record id="view_nutrition_food_category_form" model="ir.ui.view">
+            <field name="name">nutrition.food.category.form</field>
+            <field name="model">nutrition.food.category</field>
+            <field name="arch" type="xml">
+                <form string="Food category">
+                    <header/>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" required="True"/>
+                            </h1>
+                        </div>
+                        <group name="description" string="Description">
+                            <field name="description"/>
+                        </group>
+                        <group name="foods" string="List of foods">
+                            <field name="food_ids"
+                                   widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_nutrition_food_category_tree" model="ir.ui.view">
+            <field name="name">nutrition.food.category.tree</field>
+            <field name="model">nutrition.food.category</field>
+            <field name="arch" type="xml">
+                <tree string="Food category">
+                    <field name="name" string="Category"/>
+                    <field name="food_ids"
+                           widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
         <record id="view_nutrition_diet_form" model="ir.ui.view">
             <field name="name">nutrition.diet.form</field>
             <field name="model">nutrition.diet</field>
@@ -23,8 +62,24 @@
                         <group name="description" string="Description">
                             <field name="description"/>
                         </group>
+                        <group name="employees" string="List of employees">
+                            <field name="employee_ids"
+                                   widget="many2many_tags"/>
+                        </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <record id="view_nutrition_diet_tree" model="ir.ui.view">
+            <field name="name">nutrition.diet.tree</field>
+            <field name="model">nutrition.diet</field>
+            <field name="arch" type="xml">
+                <tree string="Diet">
+                    <field name="name" string="Diet"/>
+                    <field name="employee_ids"
+                           widget="many2many_tags"/>
+                </tree>
             </field>
         </record>
 
@@ -47,19 +102,43 @@
                             <field name="category_id" required="True"/>
                             <field name="allergen"/>
                         </group>
+                        <group>
+                            <field name="employee_allergen_ids"
+                                   widget="many2many_tags"
+                                   attrs="{'invisible': [('allergen', '=', False)]}"/>
+                        </group>
+                        <group>
+                            <field name="employee_exclusion_ids"
+                                   widget="many2many_tags"/>
+                        </group>
                     </sheet>
                 </form>
             </field>
         </record>
 
-        <record id="view_nutrition_food_tree" model="ir.ui.view">
-            <field name="name">nutrition.food.tree</field>
+        <record id="view_nutrition_food_tree_allergen" model="ir.ui.view">
+            <field name="name">nutrition.food.tree.allergen</field>
             <field name="model">nutrition.food</field>
             <field name="arch" type="xml">
                 <tree string="Food">
                     <field name="name"/>
-                    <field name="allergen"/>
                     <field name="category_id"/>
+                    <field name="employee_allergen_ids"
+                           widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_nutrition_food_tree_exclusion" model="ir.ui.view">
+            <field name="name">nutrition.food.tree.exclusion</field>
+            <field name="model">nutrition.food</field>
+            <field name="arch" type="xml">
+                <tree string="Food">
+                    <field name="name"/>
+                    <field name="category_id"/>
+                    <field name="allergen"/>
+                    <field name="employee_exclusion_ids"
+                           widget="many2many_tags"/>
                 </tree>
             </field>
         </record>
@@ -72,9 +151,9 @@
                     <field name="name"/>
                     <field name="category_id"/>
                     <filter name="not_allergen" string="Not allergen"
-                        domain="[('allergen', '=', False)]" />
+                            domain="[('allergen', '=', False)]" />
                     <filter name="allergen" string="Allergen"
-                        domain="[('allergen', '=', True)]" />
+                            domain="[('allergen', '=', True)]" />
                     <group expand="0" string="Group By">
                         <filter name="group_by_category_id" string="Category" context="{'group_by':'category_id'}"/>
                         <filter name="group_by_allergen" string="Allergen" context="{'group_by':'allergen'}"/>

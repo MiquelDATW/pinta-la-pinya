@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+# (c) 2020 Miquel March <m.marchpuig@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="action_hr_diet" model="ir.actions.act_window">
+            <field name="name">Diet</field>
+            <field name="res_model">nutrition.diet</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <record id="action_hr_category" model="ir.actions.act_window">
+            <field name="name">Food Category</field>
+            <field name="res_model">nutrition.food.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <record id="action_hr_allergen" model="ir.actions.act_window">
+            <field name="name">Allergens</field>
+            <field name="res_model">nutrition.food</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('allergen', '=', True)]</field>
+            <field name="context">{}</field>
+        </record>
+        <record id="action_hr_allergen_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_hr_allergen"/>
+            <field name="view_id" ref="view_nutrition_food_tree_allergen"/>
+        </record>
+        <record id="action_hr_allergen_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">form</field>
+            <field name="act_window_id" ref="action_hr_allergen"/>
+            <field name="view_id" ref="view_nutrition_food_form"/>
+        </record>
+
+        <record id="action_hr_exclusion" model="ir.actions.act_window">
+            <field name="name">Exclusions</field>
+            <field name="res_model">nutrition.food</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+        <record id="action_hr_exclusion_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_hr_exclusion"/>
+            <field name="view_id" ref="view_nutrition_food_tree_exclusion"/>
+        </record>
+        <record id="action_hr_exclusion_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">form</field>
+            <field name="act_window_id" ref="action_hr_exclusion"/>
+            <field name="view_id" ref="view_nutrition_food_form"/>
+        </record>
+
+        <menuitem
+                id="menu_hr_nutrition"
+                parent="hr.menu_hr_root"
+                name="Nutrition"
+                sequence="10"
+                groups="hr.group_hr_user"
+        />
+
+        <menuitem id="menu_hr_diet"
+                  parent="menu_hr_nutrition"
+                  sequence="10"
+                  action="action_hr_diet"/>
+        <menuitem id="menu_hr_allergen"
+                  parent="menu_hr_nutrition"
+                  sequence="20"
+                  action="action_hr_allergen"/>
+        <menuitem id="menu_hr_exclusion"
+                  parent="menu_hr_nutrition"
+                  sequence="25"
+                  action="action_hr_exclusion"/>
+        <menuitem id="menu_hr_category"
+                  parent="menu_hr_nutrition"
+                  sequence="30"
+                  action="action_hr_category"/>
+    </data>
+</odoo>

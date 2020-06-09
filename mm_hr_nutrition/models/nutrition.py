@@ -14,6 +14,7 @@ class NutritionDiet(models.Model):
 
     name = fields.Char("Name", required=True)
     description = fields.Char("Description")
+    employee_ids = fields.One2many('hr.employee', 'nutrition_diet_id', string="Employees")
 
 
 class NutritionFood(models.Model):
@@ -25,6 +26,20 @@ class NutritionFood(models.Model):
     allergen = fields.Boolean("Allergen")
     category_id = fields.Many2one('nutrition.food.category', 'Category', required=True)
 
+    employee_allergen_ids = fields.Many2many(
+        comodel_name='hr.employee',
+        relation='employee_allergen_rel',
+        column1='allergen_id',
+        column2='employee_id',
+        string='Employees Allergens')
+
+    employee_exclusion_ids = fields.Many2many(
+        comodel_name='hr.employee',
+        relation='employee_exclusion_rel',
+        column1='exclusion_id',
+        column2='employee_id',
+        string='Employees Exclusions')
+
 
 class NutritionFoodCategory(models.Model):
     _name = 'nutrition.food.category'
@@ -32,4 +47,6 @@ class NutritionFoodCategory(models.Model):
     _order = "name"
 
     name = fields.Char("Name", required=True)
+    description = fields.Char("Description")
+    food_ids = fields.One2many('nutrition.food', 'category_id', string="Foods")
 
