@@ -29,6 +29,7 @@ All emojis designed by `OpenMoji <https://openmoji.org/>`__ – the open-source 
 Contributors
 ------------
 
+* Brainbean Apps
 * Miquel March <m.marchpuig@gmail.com>
 
 Maintainer

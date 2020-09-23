@@ -9,7 +9,7 @@
     "version": "11.0.1.0.1",
     "category": "Human Resources",
     "website": "https://github.com/MiquelDATW/pinta-la-pinya",
-    "author": "Miquel March, Brainbean Apps",
+    "author": "Brainbean Apps, Miquel March",
     "license": "AGPL-3",
     "installable": True,
     'application': False,
