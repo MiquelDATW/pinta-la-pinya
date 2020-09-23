@@ -1,10 +1,10 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
     :alt: License: AGPL-3
 
-HR Employee Nutrition
-=====================
+HR Anthropometry
+================
 
-Manage your employees' nutrition
+Manage your employees' height and weight
 
 Installation
 ============
@@ -29,7 +29,6 @@ All emojis designed by `OpenMoji <https://openmoji.org/>`__ – the open-source 
 Contributors
 ------------
 
-* Ursa Information Systems
 * Miquel March <m.marchpuig@gmail.com>
 
 Maintainer

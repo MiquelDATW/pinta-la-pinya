@@ -12,24 +12,9 @@
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='hr_settings']" position="before">
-                    <page name="nutrition" string="Health &amp; Nutrition">
+                    <page name="nutrition" string="Diet &amp; Nutrition">
                         <group name="nutrition">
-                            <group name="height_and_weight" string="Height and Weight">
-                                <field name="height" string="Height (cm)" readonly="1"/>
-                                <field name="weight" string="Weight (kg)" readonly="1"/>
-                                <field name="bmi" string="BMI (kg/m²)" readonly="1"/>
-                                <field name="bmi_type" readonly="1"/>
-                                <field name="anthropometry_id" invisible="1"/>
-                                <div>
-                                    <button string="Update Weight &amp; Height" name="anthropometry_new" type="object" class="btn-primary"/>
-                                </div>
-                                <div>
-                                    <button string="Weight &amp; Height history" name="anthropometry_history" type="object"/>
-                                </div>
-                            </group>
-                            <group name="other_info" string="Other info">
-                                <field name="activity_level"/>
-                                <field name="weight_goal"/>
+                            <group name="diet" string="Diet">
                                 <field name="nutrition_diet_id"/>
                             </group>
                             <group name="allergen" string="Allergens">

@@ -19,8 +19,10 @@ class HrEmployeeAnthropometry(models.Model):
 
     height = fields.Integer("Height", required=True)
     height_diff = fields.Float(string="Height difference", digits=(4, 1), readonly=True)
+
     weight = fields.Float(string="Weight", digits=(4, 1), required=True)
     weight_diff = fields.Float(string="Weight difference", digits=(4, 1), readonly=True)
+
     bmi = fields.Float(string="Body mass index", digits=(4, 1),
                        compute='_compute_bmi', store=True)
     bmi_diff = fields.Float(string="BMI difference", digits=(4, 1), readonly=True)
