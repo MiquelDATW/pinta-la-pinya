@@ -59,7 +59,7 @@
                             <page name="info3" string="Posicions">
                                 <field name="employee_skill_ids" nolabel="1">
                                     <tree editable="bottom">
-                                        <field name="skill_id"/>
+                                        <field name="skill_id" options="{'no_create': True}"/>
                                         <field name="level"/>
                                     </tree>
                                 </field>

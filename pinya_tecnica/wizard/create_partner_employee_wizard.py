@@ -29,7 +29,7 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
     data_inscripcio = fields.Date(string="Data inscripció")
     data_naixement = fields.Date(string="Data de naixement")
     notes = fields.Text(string="Notes")
-    colla_id = fields.Many2one('res.partner', 'Colla', default=1, readonly=True)
+    colla_id = fields.Many2one("res.partner", "Colla", default=1, readonly=True)
 
     gender = fields.Selection([
         ('male', 'Male'),
@@ -42,7 +42,7 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
         ('cohabitant', 'Legal Cohabitant'),
         ('widower', 'Widower'),
         ('divorced', 'Divorced')
-    ], string='Estat civil')
+    ], string="Estat civil")
 
     employee_skill_ids = fields.One2many("partner.employee.create.wizard.line", "wizard_id", string="Posicions")
 
@@ -62,31 +62,16 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
 
     def create_partner_employee(self):
         """
-        Crea al mateix temps: l'empleat, el contacte i l'usuari
+        Crea al mateix temps: el contacte i l'empleat
         """
-        users_obj = self.env['res.users']
+        partner_obj = self.env['res.partner']
         employee_obj = self.env['hr.employee']
         emp_skill_obj = self.env['hr.employee.skill']
         anthropometry_obj = self.env['hr.employee.anthropometry']
 
         data = {
-            'active': True,
-            'company_ids': [[6, False, [1]]],
-            'company_id': 1,
-            'lang': "ca_ES",
-            'tz': "Europe/Madrid",
             'name': self.nom,
-            'login': self.nom,
             'image': self.image,
-        }
-        user = users_obj.create(data)
-        pinya_user = self.env.ref("pinya_tecnica.group_pinya_user")
-        user.groups_id = [(6, 0, (user.groups_id | pinya_user).ids)]
-        _logger.info("Creant usuari: {}❗".format(user.name))
-
-        partner = user.partner_id
-
-        data = {
             'muixeranguera': True,
             'colla_id': self.colla_id.id,
             'email': self.email,
@@ -100,12 +85,12 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
             'state_id': self.zip_id.state_id.id,
             'comment': self.notes,
         }
-        partner.write(data)
+        partner = partner_obj.create(data)
         _logger.info("Creant contacte: {}❗".format(partner.name))
 
         data = {
-            'image': partner.image,
             'name': self.nom,
+            'image': self.image,
             'nom_croquis': self.nom_croquis,
             'address_home_id': partner.id,
             'gender': self.gender,
@@ -147,8 +132,8 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
 class PartnerEmployeeCreateWizardLine(models.TransientModel):
     _name = "partner.employee.create.wizard.line"
 
-    wizard_id = fields.Many2one('partner.employee.create.wizard', 'Wizard')
-    skill_id = fields.Many2one('hr.skill', string="Posició")
+    wizard_id = fields.Many2one("partner.employee.create.wizard", "Wizard")
+    skill_id = fields.Many2one("hr.skill", string="Posició")
     level = fields.Selection(
         [('0', 'Junior'),
          ('1', 'Intermediate'),
