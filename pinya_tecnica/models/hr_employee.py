@@ -179,7 +179,7 @@ class HrEmployee(models.Model):
                 raise ValidationError("No és possible una data d'inscripció en el futur❗")
             colla_str = self.env.user.company_id.partner_id.fundacio_data
             colla_data = fields.Date.from_string(colla_str)
-            if bool(inscripcio) and inscripcio < colla_data:
+            if bool(inscripcio) and bool(colla_data) and inscripcio < colla_data:
                 raise ValidationError("No és possible una data d'inscripció anterior a la colla: {}❗".format(colla_str))
 
     def tronc_muixeranga(self):
