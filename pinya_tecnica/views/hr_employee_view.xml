@@ -68,6 +68,9 @@
             <field name="model">hr.employee</field>
             <field name="arch" type="xml">
                 <form string="Employee">
+                    <header>
+                        <button string="Update Weight &amp; Height" name="anthropometry_new" type="object" class="btn-primary"/>
+                    </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button class="oe_stat_button" type="object"
@@ -142,9 +145,6 @@
                                             <field name="bmi" nolabel="1" readonly="1" class="oe_inline"/> kg/m²
                                         </div>
                                         <field name='bmi_type' readonly="1"/>
-                                        <div>
-                                            <button string="Update Weight &amp; Height" name="anthropometry_new" type="object" class="btn-primary"/>
-                                        </div>
                                     </group>
                                 </group>
                                 <group name="notes" string="Altra informació">
