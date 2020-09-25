@@ -5,7 +5,7 @@
 {
     "name": "Pinya Tècnica",
     "summary": "Permet fer una gestió tècnica completa d'una colla muixeranguera",
-    "version": "11.0.1.0.12",
+    "version": "11.0.1.0.13",
     "category": "Custom",
     "website": "https://github.com/MiquelDATW/pinta-la-pinya",
     "author": "Miquel March",
