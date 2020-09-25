@@ -22,5 +22,11 @@
                 </xpath>
             </field>
         </record>
+
+        <menuitem
+            id="utm.menu_link_tracker_root"
+            parent="crm.crm_menu_root"
+            name="Link Tracker" groups="base.group_no_one" sequence="30"
+        />
     </data>
 </odoo>
