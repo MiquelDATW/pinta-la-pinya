@@ -8,7 +8,7 @@
         <record id="view_anthropometry_pinya_form" model="ir.ui.view">
             <field name="name">hr.employee.anthropometry.pinya.form</field>
             <field name="model">hr.employee.anthropometry</field>
-            <field name="inherit_id" ref="mm_hr_nutrition.view_anthropometry_form"/>
+            <field name="inherit_id" ref="mm_hr_anthropometry.view_anthropometry_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='height']" position="after">
                     <group name="pinya" string="Alçades">
@@ -25,7 +25,7 @@
         <record id="view_anthropometry_pinya_tree" model="ir.ui.view">
             <field name="name">hr.employee.anthropometry.pinya.tree</field>
             <field name="model">hr.employee.anthropometry</field>
-            <field name="inherit_id" ref="mm_hr_nutrition.view_anthropometry_tree"/>
+            <field name="inherit_id" ref="mm_hr_anthropometry.view_anthropometry_tree"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='height_diff']" position="after">
                     <field name="alsada_muscle"/>
@@ -37,7 +37,7 @@
         <record id="view_anthropometry_pinya_search" model="ir.ui.view">
             <field name="name">hr.employee.anthropometry.pinya.search</field>
             <field name="model">hr.employee.anthropometry</field>
-            <field name="inherit_id" ref="mm_hr_nutrition.view_anthropometry_search"/>
+            <field name="inherit_id" ref="mm_hr_anthropometry.view_anthropometry_search"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='height_diff']" position="after">
                     <field name="alsada_muscle"/>

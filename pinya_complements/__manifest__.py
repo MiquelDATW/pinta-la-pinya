@@ -17,7 +17,6 @@
         "base_location_geonames_import",
         "database_cleanup",
         "developer_mode",
-        #"enterprise_theme",
         "web_no_bubble",
         "web_sheet_full_width"
     ],
