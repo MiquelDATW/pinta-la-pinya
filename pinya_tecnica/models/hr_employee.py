@@ -269,6 +269,23 @@ class HrEmployee(models.Model):
         return res
 
     @api.multi
+    def unlink(self):
+        """
+        Si s'elimina el muixeranguer, eliminem més coses:
+        - el seu historial de pes i alçada
+        - la seua informació familiar
+        """
+        anthropometrys = self.anthropometry_ids
+        anthropometrys.unlink()
+        familys = self.family_ids
+        familys.unlink()
+        res = super(HrEmployee, self).unlink()
+
+        skills = self.env['hr.skill'].search([])
+        skills._compute_millors()
+        return res
+
+    @api.multi
     def toggle_active(self):
         """
         Si arxivem l'empleat, arxivem també el partner

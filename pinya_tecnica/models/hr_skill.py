@@ -209,6 +209,11 @@ class HrEmployeeSkill(models.Model):
         res = super(HrEmployeeSkill, self).write(vals)
         return res
 
+    @api.multi
+    def unlink(self):
+        res = super(HrEmployeeSkill, self).unlink()
+        return res
+
 
 class HrEmployeeLevel(models.Model):
     _name = 'hr.employee.level'
@@ -241,5 +246,10 @@ class HrEmployeeLevel(models.Model):
     @api.multi
     def write(self, vals):
         res = super(HrEmployeeLevel, self).write(vals)
+        return res
+
+    @api.multi
+    def unlink(self):
+        res = super(HrEmployeeLevel, self).unlink()
         return res
 

@@ -70,6 +70,7 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
         anthropometry_obj = self.env['hr.employee.anthropometry']
 
         data = {
+            'company_type': 'person',
             'name': self.nom,
             'image': self.image,
             'muixeranguera': True,
@@ -79,6 +80,7 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
             'vat': self.vat,
             'street': self.carrer,
             'street2': self.carrer2,
+            'zip': self.zip_id.name,
             'zip_id': self.zip_id.id,
             'city': self.zip_id.city,
             'country_id': self.zip_id.country_id.id,
@@ -88,15 +90,17 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
         partner = partner_obj.create(data)
         _logger.info("Creant contacte: {}❗".format(partner.name))
 
+        data_inscripcio = self.data_inscripcio or datetime.today().date().__str__()
+
         data = {
             'name': self.nom,
-            'image': self.image,
+            'image': partner.image,
             'nom_croquis': self.nom_croquis,
             'address_home_id': partner.id,
             'gender': self.gender,
             'marital': self.marital_status,
             'birthday': self.data_naixement,
-            'data_inscripcio': self.data_inscripcio,
+            'data_inscripcio': data_inscripcio,
             'notes': self.notes,
         }
         employee = employee_obj.create(data)
@@ -116,7 +120,7 @@ class PartnerEmployeeCreateWizard(models.TransientModel):
         mesura = True
         if bool(self.height) and bool(self.weight):
             data = {
-                'data': self.data_inscripcio,
+                'data': data_inscripcio,
                 'employee_id': employee.id,
                 'height': self.height,
                 'weight': self.weight,
